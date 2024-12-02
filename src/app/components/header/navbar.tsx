@@ -2,17 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import Drawer from "@/components/drawer";
-import IconButton from "@/components/iconButton";
 import {
-  ArrowNextIcon,
+  ArrowDownIcon,
   CallIcon,
   CancelIcon,
+  CartIcon,
   DoctorIcon,
   LanguageIcon,
   LoginIcon,
   MenuIcon,
   OutlineHomeIcon,
-  RegisterIcon,
+  ProductIcon,
+  SearchIcon,
+  ShopIcon,
 } from "@/icons/page";
 import Link from "next/link";
 import React from "react";
@@ -77,43 +79,31 @@ export default function Navbar() {
           ref={headerRef}
           className="container mx-auto flex items-center justify-between bg-secondary"
         >
-          <Link href="/">
-            <Image
-              className="rounded-full"
-              src="/images/okardcare-hori-logo-white.png"
-              alt=""
-              width={150}
-              height={120}
-            />
-          </Link>
-          <div className="hidden lg:flex items-center justify-around gap-8 text-white cursor-pointer">
-            <Link
-              href="/"
-              className="flex items-start justify-end text-sm hover:font-bold gap-2"
-            >
-              <OutlineHomeIcon size={16} />
-              Home
-            </Link>
-            <Link
-              href="/doctor"
-              className="flex items-center justify-start text-sm hover:font-bold gap-1"
-            >
-              <DoctorIcon size={14} />
-              &nbsp;Doctor
-            </Link>
-            <Link
-              href="/contact-us"
-              className="flex items-center justify-start text-sm hover:font-bold gap-1"
-            >
-              <CallIcon size={16} />
-              &nbsp;Contact us
+          <div className="flex items-start justify-center gap-6">
+            <div className="border border-white rounded p-1 animate-bounce">
+              <MenuIcon size={20} className="text-white" />
+            </div>
+            <Link href="/">
+              <Image
+                className="rounded-full"
+                src="/images/tiktokshop-logo.png"
+                alt=""
+                width={150}
+                height={100}
+              />
             </Link>
           </div>
-          <div className="flex items-center justify-around gap-6">
+          <div className="hidden lg:flex items-center justify-around gap-4 text-white cursor-pointer">
             <DropdownComponent
-              className="w-56"
+              className="w-56 cursor-pointer"
               head={
-                <LanguageIcon size={24} className="cursor-pointer text-white" />
+                <div className="flex items-start justify-start gap-1 text-white text-sm rounded px-2 py-1 cursor-pointer">
+                  <p>Product</p>
+                  <ArrowDownIcon
+                    size={16}
+                    className="cursor-pointer text-white"
+                  />
+                </div>
               }
             >
               <div
@@ -122,7 +112,65 @@ export default function Navbar() {
               >
                 <div className="w-full flex items-start gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
-                    // href={pathname}
+                    href="#"
+                    locale="en"
+                    className="w-full text-sm flex items-center text-xs justify-start gap-2"
+                  >
+                    <ProductIcon size={18} className="text-second_black" />
+                    Products
+                  </Link>
+                </div>
+                <div className="w-full flex items-start text-xs gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <Link
+                    href="#"
+                    locale="la"
+                    className="w-full text-sm flex items-center justify-start gap-2"
+                  >
+                    <ShopIcon size={18} className="text-second_black" />
+                    Shops
+                  </Link>
+                </div>
+              </div>
+            </DropdownComponent>
+            <div>
+              <label htmlFor="simple-search" className="sr-only">
+                Search
+              </label>
+              <div className="relative w-full">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <SearchIcon size={16} className="text-neon_pink" />
+                </div>
+                <input
+                  type="text"
+                  id="simple-search"
+                  className="h-8 bg-white text-base border text-xs rounded block w-96 ps-10 p-2 focus:outline-none focus:ring-1"
+                  placeholder="Search.."
+                  required
+                  // value={searchTerm}
+                  // onChange={handleSearch}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-around gap-6">
+            <DropdownComponent
+              className="w-56 cursor-pointer"
+              head={
+                <div className="flex items-start justify-start gap-1 text-white text-sm cursor-pointer hover:text-neon_pink">
+                  <LanguageIcon
+                    size={16}
+                    className="cursor-pointer text-white hover:text-neon_pink"
+                  />
+                  <p>Languages</p>
+                </div>
+              }
+            >
+              <div
+                id="dropdownDivider"
+                className="py-4 flex items-start gap-2 flex-col"
+              >
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <Link
                     href="#"
                     locale="en"
                     className="w-full text-sm flex items-center justify-start gap-2"
@@ -154,21 +202,22 @@ export default function Navbar() {
               </div>
             </DropdownComponent>
             <div className="hidden md:block">
-              <IconButton
-                className="rounded bg-white text-base px-2 bg-base text-xs"
-                icon={<IoLogInOutline size={16} />}
-                title="Log in"
-                isFront={true}
-                onClick={() => router.push("/signin")}
-              />
+              <Link
+                href="/signin"
+                className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
+              >
+                <IoLogInOutline size={16} />
+                &nbsp;Log in
+              </Link>
             </div>
             <div className="hidden md:block">
-              <IconButton
-                className="rounded bg-base text-white py-1 px-2 bg-base text-xs"
-                icon={<RegisterIcon size={16} />}
-                title="Register"
-                onClick={() => router.push("/signup")}
-              />
+              <Link
+                href="/signin"
+                className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
+              >
+                <CartIcon size={16} />
+                &nbsp;My cart
+              </Link>
             </div>
             <div
               className="block lg:hidden cursor-pointer"

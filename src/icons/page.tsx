@@ -70,6 +70,10 @@ import { FaListUl } from "react-icons/fa6";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { IoLanguageSharp } from "react-icons/io5";
 import { BsPersonPlus } from "react-icons/bs";
+import { GiShoppingCart } from "react-icons/gi";
+import { CiShop } from "react-icons/ci";
+import { CiApple } from "react-icons/ci";
+
 
 interface IconProps {
   size?: number;
@@ -78,6 +82,15 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const ProductIcon = (props: IconProps) => {
+  return <CiApple {...props} />;
+};
+export const ShopIcon = (props: IconProps) => {
+  return <CiShop {...props} />;
+};
+export const CartIcon = (props: IconProps) => {
+  return <GiShoppingCart {...props} />;
+};
 export const RegisterIcon = (props: IconProps) => {
   return <BsPersonPlus {...props} />;
 };

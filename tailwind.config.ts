@@ -15,9 +15,10 @@ const config: Config = {
       },
       colors: {
         neon_blue: "#69C9D0",
-        neon_pink: "#69C9D0",
-        black: "#69C9D0",
-        white: "#69C9D0",
+        neon_pink: "#EE1D52",
+        black: "#000000",
+        white: "#FFFFFF",
+        second_black: "rgb(29, 33, 41)",
       },
       fontFamily: {
         heebo: ["Heebo", "sans-serif"],
