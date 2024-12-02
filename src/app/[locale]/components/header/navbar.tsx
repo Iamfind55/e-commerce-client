@@ -22,9 +22,13 @@ import { FaUserPlus } from "react-icons/fa";
 import Image from "next/image";
 import DropdownComponent from "@/components/dropdown";
 import { IoLogInOutline } from "react-icons/io5";
+import { useTranslations } from "next-intl";
+import { usePathname } from "@/navigation";
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
+  const t = useTranslations("langingPage");
   const [openDrawer, setIsOpenDrawer] = React.useState(false);
   const toggleOpenDrawer = () => {
     setIsOpenDrawer(!openDrawer);
@@ -171,7 +175,7 @@ export default function Navbar() {
               >
                 <div className="w-full flex items-start gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
-                    href="#"
+                    href={pathname}
                     locale="en"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
@@ -186,7 +190,7 @@ export default function Navbar() {
                 </div>
                 <div className="w-full flex items-start gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
-                    href="#"
+                    href={pathname}
                     locale="la"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
@@ -207,7 +211,7 @@ export default function Navbar() {
                 className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <IoLogInOutline size={16} />
-                &nbsp;Log in
+                &nbsp;Log in {t("_text")}
               </Link>
             </div>
             <div className="hidden md:block">

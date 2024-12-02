@@ -1,22 +1,38 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
 
+// Protected paths for which authentication is required
 const protectedPaths = ["/client"];
+const intlMiddleware = createMiddleware({
+  locales: ["en", "la"],
+  defaultLocale: "en",
+});
 
 export function middleware(req: NextRequest) {
   const { cookies } = req;
   const userCookie = cookies.get("auth_token");
-  console.log("userCookie:", userCookie);
+  const getLocale = cookies.get("NEXT_LOCALE");
+  const { pathname } = req.nextUrl;
+  const locale = getLocale?.value;
 
-  if (protectedPaths.some((path) => req.nextUrl.pathname.startsWith(path))) {
+  if (pathname.startsWith("/_next/") || pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
+  const normalizedPathname = pathname.startsWith(`/${locale}`)
+    ? pathname.replace(`/${locale}`, "")
+    : pathname;
+
+  if (protectedPaths.some((path) => normalizedPathname.startsWith(path))) {
     if (!userCookie) {
-      return NextResponse.redirect(new URL("/signin", req.url));
+      return NextResponse.redirect(new URL(`/${locale}/signin`, req.url));
     }
   }
 
-  return NextResponse.next();
+  return intlMiddleware(req);
 }
 
 export const config = {
-  matcher: ["/client/:path*"],
+  matcher: ["/", "/:locale(en|la)?/:path*", "/doctor/:path*"],
 };

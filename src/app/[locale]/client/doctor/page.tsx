@@ -18,7 +18,7 @@ import useFilter from "@/lib/useFilter";
 import { countries, doctorColumns, gender, page_limits } from "@/utils/option";
 import Image from "next/image";
 import Select from "@/components/select";
-import GridComponent from "@/app/(pages)/doctor/components/gridComponent";
+import GridComponent from "@/app/[locale]/(pages)/doctor/components/gridComponent";
 
 export default function Doctor() {
   const { state: filter, dispatch: filterDispatch, ACTION_TYPE } = useFilter();
