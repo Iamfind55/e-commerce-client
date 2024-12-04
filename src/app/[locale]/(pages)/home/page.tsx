@@ -20,10 +20,8 @@ import bannerImage03 from "/public/images/banner03.webp";
 import bannerImage04 from "/public/images/banner04.webp";
 import bannerImage05 from "/public/images/banner05.webp";
 import bannerImage06 from "/public/images/banner06.webp";
-import { Link } from "@/navigation";
+import { Link, usePathname } from "@/navigation";
 import { NextIcon } from "@/icons/page";
-import Accordion from "@/components/accordion";
-import { accordionItems } from "@/constants/about-us";
 
 export default function Home() {
   const categoryImages = [
