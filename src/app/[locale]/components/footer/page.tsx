@@ -11,34 +11,33 @@ export default function page() {
         <div className="container mx-auto px-4 flex items-center justify-between flex-col gap-8 pt-6 pb-6">
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 pt-2 pb-2 mb-2 sm:pt-4 sm:pb-4 sm:mt-4 sm:mb-4">
             <div className="mb-4 flex items-start justify-center gap-4 flex-col">
-              <Image
-                className="rounded-full"
-                src="/images/tiktokshop-logo.png"
-                alt=""
-                width={150}
-                height={100}
-              />
+              <Link href="/">
+                <Image
+                  className="rounded-full"
+                  src="/images/tiktokshop-logo.png"
+                  alt=""
+                  width={150}
+                  height={100}
+                />
+              </Link>
               <p className="text-sm text-white">
                 If you are a retailer, brand or business with products to sell,
                 you can sell on TikTok without fans threshold.
               </p>
             </div>
             <div className="mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
-              <h1 className="text-white text-sm font-bold">Service</h1>
+              <h1 className="text-white text-sm font-bold">Details:</h1>
               <Link href="" className="text-white text-xs hover:underline">
-                Therapiya
+                Terms & conditions
               </Link>
               <Link href="" className="text-white text-xs hover:underline">
-                Dentistry
+                Refund policy
               </Link>
               <Link href="" className="text-white text-xs hover:underline">
-                Virusology
+                Support policy
               </Link>
               <Link href="" className="text-white text-xs hover:underline">
-                Pharmocology
-              </Link>
-              <Link href="" className="text-white text-xs hover:underline">
-                Cardiology
+                Privacy and policy
               </Link>
             </div>
             <div className="mb-4 mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
@@ -52,7 +51,7 @@ export default function page() {
               />
               <div>
                 <IconButton
-                  className="text-xs rounded bg-base text-white p-2 bg-base"
+                  className="text-xs rounded bg-base text-white p-2 bg-neon_pink"
                   icon={<NotiIcon size={18} />}
                   title="Subscribe"
                 />
@@ -67,26 +66,9 @@ export default function page() {
       <div className="w-full text-white bg-black">
         <div className="container mx-auto flex flex-col sm:flex-row gap-3 items-center justify-between p-4">
           <p className="text-white text-xs">
-            © Okardcare <strong className="text-white text-bold">2024</strong> |
+            © Tiktokshop <strong className="text-white text-bold">2015</strong>|
             All Rights Reserved
           </p>
-          <div className="flex items-center justify-around gap-4">
-            <p className="text-white cursor-pointer hover:text-bold text-xs">
-              Privacy
-            </p>
-            <div className="border border-r-white h-4"></div>
-            <p className="text-white cursor-pointer hover:text-bold text-xs">
-              Terms
-            </p>
-            <div className="border border-r-white h-4"></div>
-            <p className="text-white cursor-pointer hover:text-bold text-xs">
-              Sitemap
-            </p>
-            <div className="border border-r-white h-4"></div>
-            <p className="text-white cursor-pointer hover:text-bold text-xs">
-              Help
-            </p>
-          </div>
         </div>
       </div>
     </>

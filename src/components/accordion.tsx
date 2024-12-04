@@ -34,11 +34,11 @@ export default function Accordion({ items }: AccordionProps) {
               aria-expanded={activeIndex === index}
               aria-controls={`accordion-collapse-body-${index + 1}`}
             >
-              <span>{item.title}</span>
+              <span className="text-second_black">{item.title}</span>
               {activeIndex === index ? (
-                <ArrowDownIcon size={18} />
+                <ArrowDownIcon size={18} className="text-second_black" />
               ) : (
-                <NextIcon size={18} />
+                <NextIcon size={18} className="text-second_black" />
               )}
             </button>
           </div>
@@ -47,7 +47,7 @@ export default function Accordion({ items }: AccordionProps) {
             className={`${activeIndex === index ? "block" : "hidden"} rounded`}
             aria-labelledby={`accordion-collapse-heading-${index + 1}`}
           >
-            <div className="border p-5 rounded">
+            <div className="border p-5 rounded flex items-start justify-start gap-4">
               <p
                 className="mb-2 text-gray-500 p-2 text-xs sm:text-sm"
                 dangerouslySetInnerHTML={{ __html: item.content }}

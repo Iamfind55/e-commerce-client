@@ -38,7 +38,7 @@ export default () => {
       onSlideChange={() => console.log("slide change")}
     >
       <SwiperSlide>
-        <div className="w-full h-96 text-black relative">
+        <div className="w-full h-36 sm:h-96 text-black relative">
           <Image
             className="w-full h-full object-cover rounded"
             src={sliderImage01}
@@ -49,7 +49,7 @@ export default () => {
         </div>
       </SwiperSlide>
       <SwiperSlide>
-        <div className="w-full h-96 text-black">
+        <div className="w-full h-36 sm:h-96 text-black">
           <Image
             className="w-full h-full object-cover rounded"
             src={sliderImage02}
@@ -60,7 +60,7 @@ export default () => {
         </div>
       </SwiperSlide>
       <SwiperSlide>
-        <div className="w-full h-96 text-black">
+        <div className="w-full h-36 sm:h-96 text-black">
           <Image
             className="w-full h-full object-cover rounded"
             src={sliderImage03}

@@ -26,16 +26,8 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "@/navigation";
 
 export default function Navbar() {
-  const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("langingPage");
-  const [openDrawer, setIsOpenDrawer] = React.useState(false);
-  const toggleOpenDrawer = () => {
-    setIsOpenDrawer(!openDrawer);
-  };
-  const toggleCloseDrawer = () => {
-    setIsOpenDrawer(false);
-  };
 
   const headerRef = React.useRef<HTMLDivElement>(null);
   const [isSticky, setIsSticky] = React.useState(false);
@@ -84,7 +76,7 @@ export default function Navbar() {
           className="container mx-auto flex items-center justify-between bg-second_black px-4"
         >
           <div className="flex items-start justify-center gap-6">
-            <div className="border border-white rounded p-1">
+            <div className="hidden sm:block border border-white rounded p-1">
               <MenuIcon size={20} className="text-white" />
             </div>
             <Link href="/">
@@ -162,10 +154,10 @@ export default function Navbar() {
               head={
                 <div className="flex items-start justify-start gap-1 text-white text-sm cursor-pointer hover:text-neon_pink">
                   <LanguageIcon
-                    size={16}
+                    size={18}
                     className="cursor-pointer text-white hover:text-neon_pink"
                   />
-                  <p>Languages</p>
+                  <p className="hidden sm:block">Languages</p>
                 </div>
               }
             >
@@ -225,62 +217,13 @@ export default function Navbar() {
             </div>
             <div
               className="block lg:hidden cursor-pointer"
-              onClick={toggleOpenDrawer}
+              // onClick={toggleOpenDrawer}
             >
-              {openDrawer ? (
-                <CancelIcon size={24} color="white" />
-              ) : (
-                <MenuIcon size={24} color="white" />
-              )}
+              <SearchIcon size={24} className="text-white" />
             </div>
           </div>
         </div>
       </div>
-      <Drawer
-        isOpen={openDrawer}
-        onClose={toggleCloseDrawer}
-        title="OKARDCARE"
-        icon={<CancelIcon size={24} />}
-        className="w-full md:w-96"
-      >
-        <div className="w-full flex items-center justify-center flex-col overflow-scroll">
-          <Link
-            href="/home"
-            className="text-b_text border-b w-full p-2 curso-pointer flex items-center justify-start text-xs gap-1"
-          >
-            <OutlineHomeIcon size={16} />
-            &nbsp; Home
-          </Link>
-          <Link
-            href="/doctor"
-            className="text-b_text border-b w-full p-2 curso-pointer flex items-center justify-start text-xs gap-1"
-          >
-            <DoctorIcon size={16} />
-            &nbsp;Doctor
-          </Link>
-          <Link
-            href="/contact-us"
-            className="text-b_text border-b w-full p-2 curso-pointer flex items-center justify-start text-xs gap-1"
-          >
-            <CallIcon size={16} />
-            &nbsp;Contact us
-          </Link>
-          <Link
-            href="/signin"
-            className="text-b_text border-b w-full p-2 curso-pointer flex items-center justify-start text-xs gap-1"
-          >
-            <LoginIcon size={16} />
-            &nbsp;Sign in
-          </Link>
-          <Link
-            href="/signup"
-            className="text-b_text border-b w-full p-2 curso-pointer flex items-center justify-start text-xs gap-1"
-          >
-            <FaUserPlus size={16} />
-            &nbsp;Sign up
-          </Link>
-        </div>
-      </Drawer>
     </>
   );
 }
