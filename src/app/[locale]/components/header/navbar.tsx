@@ -65,13 +65,13 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`bg-secondary
+        className={`bg-second_black
       ${
         isSticky
           ? "fixed top-0 left-0 right-0 mx-auto px-4 z-50"
           : "mx-auto px-4 z-50"
       }
-      flex items-center justify-between bg-secondary p-4
+      flex items-center justify-between bg-second_black p-4
     `}
         style={
           isSticky
@@ -81,10 +81,10 @@ export default function Navbar() {
       >
         <div
           ref={headerRef}
-          className="container mx-auto flex items-center justify-between bg-secondary"
+          className="container mx-auto flex items-center justify-between bg-second_black px-4"
         >
           <div className="flex items-start justify-center gap-6">
-            <div className="border border-white rounded p-1 animate-bounce">
+            <div className="border border-white rounded p-1">
               <MenuIcon size={20} className="text-white" />
             </div>
             <Link href="/">
@@ -114,7 +114,7 @@ export default function Navbar() {
                 id="dropdownDivider"
                 className="py-4 flex items-start gap-2 flex-col"
               >
-                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
                     href="#"
                     locale="en"
@@ -124,7 +124,7 @@ export default function Navbar() {
                     Products
                   </Link>
                 </div>
-                <div className="w-full flex items-start text-xs gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
+                <div className="w-full flex items-start text-xs gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
                     href="#"
                     locale="la"
@@ -173,7 +173,7 @@ export default function Navbar() {
                 id="dropdownDivider"
                 className="py-4 flex items-start gap-2 flex-col"
               >
-                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
                     href={pathname}
                     locale="en"
@@ -188,7 +188,7 @@ export default function Navbar() {
                     English
                   </Link>
                 </div>
-                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-secondary cursor-pointer hover:bg-gray-200 py-2 px-4">
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
                     href={pathname}
                     locale="la"

@@ -9,10 +9,10 @@ interface RatingStarProps {
 
 const RatingStar: React.FC<RatingStarProps> = ({ rating, maxRating = 5 }) => {
   return (
-    <div className="flex items-center justify-start gap-1">
+    <div className="flex items-center justify-center gap-1">
       {Array.from({ length: maxRating }, (_, index) => (
         <div key={index}>
-          <FullStarIcon size={14} className="text-secondary" />
+          <FullStarIcon size={12} className="text-neon_pink" />
         </div>
       ))}
     </div>

@@ -3,9 +3,9 @@ import Footer from "../components/footer/page";
 import "../globals.css";
 
 export const metadata = {
-  title: "Okardcare",
+  title: "Tiktokshop",
   description:
-    "We are the first online health consultant plate form in the world.",
+    "We are the represent of tiktok for selling best product to you.",
 };
 
 export default function RootLayout({
