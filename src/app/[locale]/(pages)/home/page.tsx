@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
-import MySwiper from "./slider";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
+import { Link } from "@/navigation";
+import { NextIcon } from "@/icons/page";
+import GlobalSlider from "./slider";
 
 // images
 import category01 from "/public/images/category01.webp";
@@ -20,8 +22,9 @@ import bannerImage03 from "/public/images/banner03.webp";
 import bannerImage04 from "/public/images/banner04.webp";
 import bannerImage05 from "/public/images/banner05.webp";
 import bannerImage06 from "/public/images/banner06.webp";
-import { Link, usePathname } from "@/navigation";
-import { NextIcon } from "@/icons/page";
+import sliderImage01 from "/public/images/slider01.jpg";
+import sliderImage02 from "/public/images/slider02.jpg";
+import sliderImage03 from "/public/images/slider03.jpg";
 
 export default function Home() {
   const categoryImages = [
@@ -164,14 +167,19 @@ export default function Home() {
     },
   ];
 
+  const sliderImages = [
+    { src: sliderImage01, alt: "Slider Image 1" },
+    { src: sliderImage02, alt: "Slider Image 2" },
+    { src: sliderImage03, alt: "Slider Image 3" },
+  ];
+
   return (
     <div className="my-4 sm:my-6">
       <div className="flex items-center justify-center flex-col gap-6">
         <div className="container flex flex-col gap-6 px-2 sm:px-0">
           <div className="h-auto w-full">
-            <MySwiper />
+            <GlobalSlider images={sliderImages} height={96} slidePerview={1} />
           </div>
-
           <div className="flex flex-col items-start justify-start gap-2">
             <p className="text-second_black text-sm sm:text-md">Categories:</p>
             <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
@@ -187,7 +195,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-
           <div className="flex flex-col items-start justify-start gap-2">
             <p className="text-second_black text-sm sm:text-md">
               Best seller products:
@@ -204,8 +211,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          <div className="w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+          <div className="hidden sm:block w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannerImages01.map((image, index) => (
               <Image
                 key={index + 1}
@@ -217,7 +223,13 @@ export default function Home() {
               />
             ))}
           </div>
-
+          <div className="block sm:hidden h-auto w-full">
+            <GlobalSlider
+              images={bannerImages01}
+              height={96}
+              slidePerview={1}
+            />
+          </div>
           <div className="flex flex-col items-start justify-start gap-2">
             <p className="text-second_black text-sm sm:text-md">
               Popular products:
@@ -234,8 +246,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          <div className="w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+          <div className="hidden sm:block w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannerImages02.map((image, index) => (
               <Image
                 key={index + 1}
@@ -247,7 +258,13 @@ export default function Home() {
               />
             ))}
           </div>
-
+          <div className="block sm:hidden h-auto w-full">
+            <GlobalSlider
+              images={bannerImages02}
+              height={96}
+              slidePerview={1}
+            />
+          </div>
           <div className="flex flex-col items-start justify-start gap-2">
             <div className="flex items-center justify-between w-full">
               <p className="text-second_black text-sm sm:text-md">
@@ -273,8 +290,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          <div className="w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+          <div className="hidden sm:block w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannerImages03.map((image, index) => (
               <Image
                 key={index + 1}
@@ -286,7 +302,13 @@ export default function Home() {
               />
             ))}
           </div>
-
+          <div className="block sm:hidden h-auto w-full">
+            <GlobalSlider
+              images={bannerImages03}
+              height={96}
+              slidePerview={1}
+            />
+          </div>
           <div className="hidden sm:block text-second_black flex items-start justify-start flex-col gap-6">
             <h3 className="text-second_black text-md sm:text-lg uppercase">
               about us:
