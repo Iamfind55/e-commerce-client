@@ -61,7 +61,7 @@ export default function RootLayout({
       <Header />
       {children}
       <Footer />
-      <div className="block sm:hidden sticky bottom-0 z-10 bg-white">
+      <div className="block sm:hidden sticky bottom-0 z-10 bg-white border">
         <div className="bg-white pt-4 pb-4 block lg:hidden w-full">
           <div className="w-full flex items-center justify-around">
             {mobileMenuItems.map((item, index) => {

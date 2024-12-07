@@ -44,7 +44,7 @@ const BottomDrawer = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-99 bg-white bg-opacity-50 backdrop-blur-sm"></div>
+      <div className="fixed inset-0 z-99 bg-white bg-opacity-50 backdrop-blur-sm border"></div>
       <div ref={drawerRef} className={`${className}`}>
         <div
           id="drawer-bottom-example"

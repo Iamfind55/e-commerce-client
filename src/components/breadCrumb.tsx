@@ -1,41 +1,36 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowNextIcon, NextIcon } from "@/icons/page";
+import { NextIcon } from "@/icons/page";
 
-interface BreadcrumbProps {
-  path: string; // Home/Projects/Flowbite
+interface BreadcrumbItem {
+  label: string;
+  value: string;
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({ path }) => {
-  const segments = path.split("/");
+interface BreadcrumbProps {
+  items: BreadcrumbItem[];
+}
 
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
     <nav className="flex items-center space-x-1 text-gray-400 text-sm">
-      {segments.map((segment, index) => {
-        const isLast = index === segments.length - 1;
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+
         return (
           <React.Fragment key={index}>
-            {index === 0 && (
-              <Link href="/" className="flex items-center text-b_text">
-                {segment}
-              </Link>
-            )}
-            {index > 0 && !isLast && (
+            {!isLast ? (
               <>
-                <NextIcon className="text-b_text font-bold" size={20} />
-                <Link
-                  href={`/${segments.slice(0, index + 1).join("/")}`}
-                  className="text-b_text"
-                >
-                  {segment}
+                <Link href={item.value} className="text-gray-500 text-sm">
+                  {item.label}
                 </Link>
+                <NextIcon
+                  className="text-gray-500 text-sm font-bold"
+                  size={20}
+                />
               </>
-            )}
-            {isLast && (
-              <>
-                <NextIcon className="text-b_text font-bold" size={20} />
-                <span className="text-b_text">{segment}</span>
-              </>
+            ) : (
+              <span className="text-gray-500 text-sm">{item.label}</span>
             )}
           </React.Fragment>
         );

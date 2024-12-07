@@ -41,10 +41,10 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
       <ul className="flex space-x-2 bg-white">
         <li className="flex items-center ">
           <button
-            className={`bg-gray  hover:${
-              currentPage === 1 ? "" : "bg-primary"
-            } rounded-full  px-4 py-1 hover:${
-              currentPage === 1 ? "" : "text-b_text"
+            className={`border hover:${
+              currentPage === 1 ? "" : "border"
+            } rounded  px-4 py-1 hover:${
+              currentPage === 1 ? "" : "text-white"
             } ${currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}`}
             onClick={handlePreviousClick}
             disabled={currentPage == 1}
@@ -55,7 +55,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
         {startPage > 1 && (
           <li>
             <button
-              className="bg-gray  hover:bg-gray rounded-full px-4 py-1"
+              className="border rounded-full px-4 py-1 hover:bg-neon_pink"
               onClick={() => onPageChange && onPageChange(1)}
             >
               1
@@ -70,10 +70,10 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
         {pages.map((page) => (
           <li key={page}>
             <button
-              className={`rounded-full px-3 py-1 ${
+              className={`rounded px-3 py-1 ${
                 currentPage === page
-                  ? "bg-primary text-b_text"
-                  : " bg-white hover:bg-primary hover:text-b_text"
+                  ? "border text-neon_pink hover:bg-neon_pink hover:text-white"
+                  : "border text-neon_pink hover:bg-neon_pink hover:text-white"
               }`}
               onClick={() => onPageChange && onPageChange(page)}
             >
@@ -89,7 +89,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
         {endPage < totalPages && (
           <li>
             <button
-              className=" rounded-full bg-white px-4 py-1 hover:bg-primary hover:text-b_text"
+              className=" rounded-full bg-white px-4 py-1 hover:bg-neon_blue hover:text-b_text"
               onClick={() => onPageChange && onPageChange(totalPages)}
             >
               {totalPages}
@@ -98,11 +98,11 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
         )}
         <li className="flex items-center bg-white">
           <button
-            className={`bg-gray  hover:${
-              currentPage === totalPages ? "" : "text-b_text"
+            className={`border  hover:${
+              currentPage === totalPages ? "" : "text-white"
             } hover:${
-              currentPage === totalPages ? "" : "bg-primary"
-            } rounded-full px-3 py-1 ${
+              currentPage === totalPages ? "" : "bg-neon_pink border"
+            } rounded text-neon_pink px-3 py-1 ${
               currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""
             }`}
             onClick={handleNextClick}

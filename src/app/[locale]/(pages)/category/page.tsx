@@ -1,9 +1,14 @@
 "use client";
 
 import ProductCard from "@/components/ProductCard";
+import RangeMultiSlider from "@/components/RangeMultiSlider";
 import BottomDrawer from "@/components/bottomDrawer";
+import Breadcrumb from "@/components/breadCrumb";
+import IconButton from "@/components/iconButton";
+import Pagination from "@/components/pagination";
 import Select from "@/components/select";
 import { CancelIcon, FilterIcon } from "@/icons/page";
+import useFilter from "@/lib/useFilter";
 import React from "react";
 
 const categories = [
@@ -95,6 +100,12 @@ export default function Category() {
   const toggleOpenDrawer = () => {
     setIsOpenDrawer(!openDrawer);
   };
+  const { state: filter, dispatch: filterDispatch, ACTION_TYPE } = useFilter();
+  //   const { data, total, loading } = useFetchDoctors(filter);
+  const handlePageChange = (newPage: number) => {
+    filterDispatch({ type: ACTION_TYPE.PAGE, payload: newPage });
+  };
+
   return (
     <>
       <div className="flex items-center justify-center">
@@ -116,13 +127,39 @@ export default function Category() {
               </ul>
             </div>
             <div className="w-full">
-              <div className="w-full border-y border-gray-200 py-2">
-                <h1 className="text-sm">Price range</h1>
+              <div className="border rounded w-full p-2">
+                <div className="bg-white rounded">
+                  <h1 className="text-sm">Price range</h1>
+                </div>
+                <div className="p-4">
+                  <div className="relative mb-6">
+                    <RangeMultiSlider
+                      onChange={(min, max) => {
+                        // filterDispatch({
+                        //   type: ACTION_TYPE.MIN,
+                        //   payload: min,
+                        // });
+                        // filterDispatch({
+                        //   type: ACTION_TYPE.MAX,
+                        //   payload: max,
+                        // });
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div className="p-2 shadow w-full sm:w-3/4 flex items-start justify-start flex-col gap-4">
-            <div className="w-full">Breadcrumb</div>
+            <div className="w-full">
+              <Breadcrumb
+                items={[
+                  { label: "Home", value: "/" },
+                  { label: "Bank Accounts", value: "/banks" },
+                  { label: "Create", value: "/banks/create" },
+                ]}
+              />
+            </div>
             <div className="w-full flex sm:hidden items-center justify-between">
               <p className="text-sm">Home</p>
               <button
@@ -160,6 +197,13 @@ export default function Category() {
                 />
               ))}
             </div>
+            <div className="w-full flex items-center justify-center mb-4">
+              <Pagination
+                filter={filter}
+                totalPage={20}
+                onPageChange={handlePageChange}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -187,9 +231,24 @@ export default function Category() {
             </ul>
           </div>
           <div className="w-full">
-            <div className="w-full border-y border-gray-200 py-2">
-              <h1 className="text-sm">Price range</h1>
+            <div className="border rounded w-full p-2">
+              <div className="bg-white rounded">
+                <h1 className="text-sm">Price range</h1>
+              </div>
+              <div className="p-4">
+                <div className="relative mb-6">
+                  <RangeMultiSlider onChange={(min, max) => {}} />
+                </div>
+              </div>
             </div>
+          </div>
+          <div className="mb-4">
+            <IconButton
+              className="rounded text-base p-2 w-full mt-4 mb-6 italic text-sm bg-neon_pink"
+              type="button"
+              title="Apply now"
+              //   onClick={() => router.push("/signin")}
+            />
           </div>
         </div>
       </BottomDrawer>

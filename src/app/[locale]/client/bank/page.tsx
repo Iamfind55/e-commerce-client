@@ -126,7 +126,7 @@ export default function BankAccounts() {
 
   return (
     <div className="flex items-start justify-start flex-col gap-4">
-      <Breadcrumb path="Bank-accounts" />
+      {/* <Breadcrumb path="Bank-accounts" /> */}
       <div className="bg-white rounded text-b_text p-4 w-full shadow-md">
         <div className="flex items-start justify-between">
           <h4 className="text-b_text text-sm mb-3 font-bold">
