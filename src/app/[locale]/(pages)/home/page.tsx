@@ -184,14 +184,15 @@ export default function Home() {
             <p className="text-second_black text-sm sm:text-md">Categories:</p>
             <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
               {categoryImages.map((image, index) => (
-                <Image
-                  key={index + 1}
-                  className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
-                  src={image.src}
-                  alt={image.alt}
-                  width={image.width}
-                  height={image.height}
-                />
+                <Link href="/category" key={index + 1}>
+                  <Image
+                    className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                  />
+                </Link>
               ))}
             </div>
           </div>
@@ -211,7 +212,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="hidden sm:block w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+          <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannerImages01.map((image, index) => (
               <Image
                 key={index + 1}
@@ -246,7 +247,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="hidden sm:block w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+          <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannerImages02.map((image, index) => (
               <Image
                 key={index + 1}
@@ -290,7 +291,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="hidden sm:block w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+          <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannerImages03.map((image, index) => (
               <Image
                 key={index + 1}

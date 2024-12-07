@@ -56,7 +56,7 @@ const BottomDrawer = ({
             className="flex items-end justify-end p-2 bg-gray-100 w-full"
             onClick={onClose}
           >
-            <CancelIcon size={22} className="text-error" />
+            <CancelIcon size={22} className="text-neon_pink" />
           </button>
           {children}
         </div>
