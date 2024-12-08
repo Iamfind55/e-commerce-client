@@ -73,7 +73,8 @@ import { BsPersonPlus } from "react-icons/bs";
 import { GiShoppingCart } from "react-icons/gi";
 import { CiShop } from "react-icons/ci";
 import { CiApple } from "react-icons/ci";
-
+import { HiMinusSmall } from "react-icons/hi2";
+import { TbAwardFilled } from "react-icons/tb";
 
 interface IconProps {
   size?: number;
@@ -82,6 +83,12 @@ interface IconProps {
   onClick?: () => void;
 }
 
+// export const AwardIcon = (props: IconProps) => {
+//   return <TbAwardFilled {...props} />;
+// };
+export const MinusIcon = (props: IconProps) => {
+  return <HiMinusSmall {...props} />;
+};
 export const ProductIcon = (props: IconProps) => {
   return <CiApple {...props} />;
 };

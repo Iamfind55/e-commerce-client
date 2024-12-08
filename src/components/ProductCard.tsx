@@ -31,7 +31,7 @@ export default function ProductCard(props: IproductTypes) {
           </p>
           <div className="w-full flex flex-col sm:flex-row md:flex-row items-center justify-around gap-2">
             <Link
-              href={`${props?.link}/${props.id}/book`}
+              href="/product/sdfgsdfgsdfgsdgfs"
               className="w-full sm:w-auto bg-neon_pink text-white flex items-center justify-center px-3 py-1 text-xs text-center rounded focus:outline-none"
             >
               View

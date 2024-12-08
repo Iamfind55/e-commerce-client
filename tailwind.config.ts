@@ -18,6 +18,7 @@ const config: Config = {
         neon_pink: "#EE1D52",
         black: "#000000",
         white: "#FFFFFF",
+        bg_color: "rgb(241 245 249)",
         second_black: "rgb(29, 33, 41)",
       },
       fontFamily: {
