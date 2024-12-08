@@ -47,38 +47,38 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }: Props) => {
             <div className="relative bg-white rounded-lg shadow border">
               <button
                 type="button"
-                className="absolute right-0 top-3 end-2.5 text-b_text bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center p-2"
+                className="absolute right-0 top-3 end-2.5 text-neon_pink bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center p-2"
                 onClick={onClose}
               >
-                <CancelIcon size={20} className="text-b_text" />
+                <CancelIcon size={24} className="text-neon_pink" />
                 <span className="sr-only">Close modal</span>
               </button>
               <div className="px-6 py-4 md:p-5 flex items-center justify-center flex-col gap-4">
                 <div className="mx-auto mb-4 text-error w-12 h-12">
                   <div className="text-secondary ">
-                    <WarningIcon className="rounded" size={36} />
+                    <WarningIcon className="rounded" size={24} />
                   </div>
                 </div>
                 <h3 className="mb-5 text-md font-normal text-gray-500">
                   Are you sure you want to delete these items?
                 </h3>
-                <div className="flex items-center justify-center gap-4 mt-2">
+                <div className="flex items-center justify-center gap-4">
                   <button
                     type="button"
-                    className="text-white bg-base focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded py-2 text-xs inline-flex items-center px-5 py-2.5 text-center"
+                    className="py-2.5 px-5 ms-3 text-xs font-medium text-white focus:outline-none bg-neon_pink rounded py-2 focus:z-10 focus:ring-4"
+                    onClick={onClose}
+                  >
+                    No, cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="text-white bg-neon_blue focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded py-2 text-xs inline-flex items-center px-5 py-2.5 text-center"
                     onClick={() => {
                       onConfirm();
                       onClose();
                     }}
                   >
                     Yes, I am sure
-                  </button>
-                  <button
-                    type="button"
-                    className="py-2.5 px-5 ms-3 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded py-2 border border-gray-200 hover:bg-gray-100 hover:text-secondary focus:z-10 focus:ring-4"
-                    onClick={onClose}
-                  >
-                    No, cancel
                   </button>
                 </div>
               </div>

@@ -37,10 +37,10 @@ const MyModal = ({ isOpen, onClose, children, className }: Props) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-999999 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm"></div>
       )}
       {isOpen && (
-        <div className="fixed inset-0 z-999999 flex justify-center items-center">
+        <div className="fixed inset-0 z-50 flex justify-center items-center">
           <div
             className={`
               transition-all relative duration-200 bg-white max-h-[90vh] text-info my-2 sm:my-5 overflow-y-auto p-0 sm:p-5 rounded ${

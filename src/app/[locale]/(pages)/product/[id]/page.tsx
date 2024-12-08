@@ -4,16 +4,9 @@ import React, { useState, useEffect } from "react";
 import RatingStar from "@/components/ratingStar";
 import Image from "next/image";
 import category01 from "/public/images/category01.webp";
-import {
-  AwardIcon,
-  CartIcon,
-  MinusIcon,
-  NextIcon,
-  PlusIcon,
-} from "@/icons/page";
+import { AwardIcon, CartIcon, MinusIcon, PlusIcon } from "@/icons/page";
 import IconButton from "@/components/iconButton";
 import ThumbnailSwiper from "@/components/thumbnailSwiper";
-import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 
 const products = [

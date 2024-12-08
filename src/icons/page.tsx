@@ -74,7 +74,7 @@ import { GiShoppingCart } from "react-icons/gi";
 import { CiShop } from "react-icons/ci";
 import { CiApple } from "react-icons/ci";
 import { HiMinusSmall } from "react-icons/hi2";
-import { TbAwardFilled } from "react-icons/tb";
+import { CiDeliveryTruck } from "react-icons/ci";
 
 interface IconProps {
   size?: number;
@@ -83,9 +83,9 @@ interface IconProps {
   onClick?: () => void;
 }
 
-// export const AwardIcon = (props: IconProps) => {
-//   return <TbAwardFilled {...props} />;
-// };
+export const DeliveryIcon = (props: IconProps) => {
+  return <CiDeliveryTruck {...props} />;
+};
 export const MinusIcon = (props: IconProps) => {
   return <HiMinusSmall {...props} />;
 };

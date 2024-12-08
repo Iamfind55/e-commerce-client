@@ -34,7 +34,7 @@ export default function Textfield(props: TextfieldProps) {
       {multiline ? (
         <textarea
           id={id}
-          className={`text-xs p-2 rounded w-full border pr-[50px] border focus:border-b_text focus:bg-white focus:ring-1 focus:ring-base ${color} outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-rubik`}
+          className={`-mt-2 text-xs p-2 rounded w-full border pr-[50px] border focus:border-b_text focus:bg-white focus:ring-1 focus:ring-base ${color} outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-rubik`}
           rows={rows || 4}
           readOnly={readOnly}
           required={required}
@@ -44,7 +44,7 @@ export default function Textfield(props: TextfieldProps) {
         <input
           type="text"
           id={id}
-          className={`text-xs p-2 rounded w-full border pr-[50px] border focus:border-b_text focus:bg-white focus:ring-1 focus:ring-base ${color} outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-rubik`}
+          className={`-mt-2 text-xs p-2 rounded w-full border pr-[50px] border focus:border-b_text focus:bg-white focus:ring-1 focus:ring-base ${color} outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-rubik h-8`}
           readOnly={readOnly}
           required={required}
           {...otherProps}

@@ -4,21 +4,15 @@ import { useRouter } from "next/navigation";
 import Drawer from "@/components/drawer";
 import {
   ArrowDownIcon,
-  CallIcon,
-  CancelIcon,
   CartIcon,
-  DoctorIcon,
   LanguageIcon,
-  LoginIcon,
   MenuIcon,
-  OutlineHomeIcon,
   ProductIcon,
   SearchIcon,
   ShopIcon,
 } from "@/icons/page";
 import Link from "next/link";
 import React from "react";
-import { FaUserPlus } from "react-icons/fa";
 import Image from "next/image";
 import DropdownComponent from "@/components/dropdown";
 import { IoLogInOutline } from "react-icons/io5";
@@ -60,15 +54,15 @@ export default function Navbar() {
         className={`bg-second_black
       ${
         isSticky
-          ? "fixed top-0 left-0 right-0 mx-auto px-4 z-50"
+          ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
           : "mx-auto px-4 z-50"
       }
       flex items-center justify-between bg-second_black p-4
     `}
         style={
           isSticky
-            ? { position: "fixed", zIndex: 50 }
-            : { position: "relative", zIndex: 50 }
+            ? { position: "fixed", zIndex: 49 }
+            : { position: "relative", zIndex: 49 }
         }
       >
         <div
@@ -208,7 +202,7 @@ export default function Navbar() {
             </div>
             <div className="hidden md:block">
               <Link
-                href="/signin"
+                href="/cart"
                 className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <CartIcon size={16} />
