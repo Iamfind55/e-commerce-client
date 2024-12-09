@@ -24,7 +24,7 @@ export default function TransactionDetail() {
   const { user } = useSelector((state: any) => state.auth);
   return (
     <div className="flex items-start justify-start flex-col gap-4 mb-0 sm:mb-6">
-      <Breadcrumb path="Transaction/transaction-detail" />
+      {/* <Breadcrumb path="Transaction/transaction-detail" /> */}
       <div className="bg-white rounded text-b_text p-4 w-full shadow-md text-sm flex items-start justify-start flex-col gap-4">
         <div className="w-full flex items-start justify-between">
           <h1 className="text-secondary text-xl">OKARDCARE LOGO</h1>

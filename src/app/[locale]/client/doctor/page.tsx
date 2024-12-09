@@ -18,7 +18,7 @@ import useFilter from "@/lib/useFilter";
 import { countries, doctorColumns, gender, page_limits } from "@/utils/option";
 import Image from "next/image";
 import Select from "@/components/select";
-import GridComponent from "@/app/[locale]/(pages)/doctor/components/gridComponent";
+// import GridComponent from "@/app/[locale]/(pages)/doctor/components/gridComponent";
 
 export default function Doctor() {
   const { state: filter, dispatch: filterDispatch, ACTION_TYPE } = useFilter();
@@ -53,7 +53,7 @@ export default function Doctor() {
   return (
     <div>
       <div className="flex items-center justify-between px-4">
-        <Breadcrumb path="Doctor/doctor detail" />
+        {/* <Breadcrumb path="Doctor/doctor detail" /> */}
         <div className="hidden sm:block">
           {isGrid ? (
             <ListIcon
@@ -72,7 +72,7 @@ export default function Doctor() {
       </div>
       <div className="flex items-center justify-between">
         <div className="h-auto w-full p-0 sm:p-2 items-start justify-start flex-col gap-3 overflow-auto mt-4">
-          {loading ? "Loading...." : isGrid && <GridComponent />}
+          {/* {loading ? "Loading...." : isGrid && <GridComponent />} */}
           {!isGrid && (
             <>
               <div className="bg-white w-full relative overflow-y-auto overflow-x-auto h-auto p-3">

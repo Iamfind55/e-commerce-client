@@ -51,7 +51,7 @@ export default function CreateBankAccount() {
 
   return (
     <div className="flex items-start justify-start flex-col gap-4">
-      <Breadcrumb path="Bank-accounts/create" />
+      {/* <Breadcrumb path="Bank-accounts/create" /> */}
       <div className="rounded shadow-md bg-white w-full p-4">
         <h4 className="text-b_text text-sm mb-3 font-bold">
           Add new bank account:

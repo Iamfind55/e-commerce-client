@@ -27,7 +27,7 @@ export default async function RootLayout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       <html lang={locale}>
         <body className="bg-dark font-sans">
-          <div className="text-white h-screen">
+          <div className="justify-center text-white h-screen">
             <ReduxProvider>{children}</ReduxProvider>
           </div>
           <ToastContainer

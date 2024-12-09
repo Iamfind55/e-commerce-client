@@ -21,14 +21,14 @@ type SliderImage = {
 
 type GlobalSliderProps = {
   images: SliderImage[];
-  height?: number;
+  height?: string;
   slidePerview?: number;
 };
 
 const GlobalSlider: React.FC<GlobalSliderProps> = ({
   images,
   slidePerview,
-  height = 96,
+  height,
 }) => {
   return (
     <Swiper
@@ -44,7 +44,7 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
     >
       {images.map((image, index) => (
         <SwiperSlide key={index}>
-          <div className={`w-full h-36 sm:h-${height} text-black relative`}>
+          <div className={`w-full h-36 sm:h-[${height}] text-black relative`}>
             <Image
               className="w-full h-full object-cover rounded"
               src={image.src}

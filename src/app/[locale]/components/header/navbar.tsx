@@ -1,7 +1,4 @@
 "use client";
-
-import { useRouter } from "next/navigation";
-import Drawer from "@/components/drawer";
 import {
   ArrowDownIcon,
   CartIcon,
@@ -112,7 +109,7 @@ export default function Navbar() {
                 </div>
                 <div className="w-full flex items-start text-xs gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
-                    href="#"
+                    href="/shop"
                     locale="la"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >

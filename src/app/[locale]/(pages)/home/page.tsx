@@ -178,7 +178,11 @@ export default function Home() {
       <div className="flex items-center justify-center flex-col gap-6">
         <div className="container flex flex-col gap-6 px-2 sm:px-0">
           <div className="h-auto w-full">
-            <GlobalSlider images={sliderImages} height={96} slidePerview={1} />
+            <GlobalSlider
+              images={sliderImages}
+              height="60vh"
+              slidePerview={1}
+            />
           </div>
           <div className="flex flex-col items-start justify-start gap-2">
             <p className="text-second_black text-sm sm:text-md">Categories:</p>
@@ -227,7 +231,7 @@ export default function Home() {
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannerImages01}
-              height={96}
+              height="96"
               slidePerview={1}
             />
           </div>
@@ -262,7 +266,7 @@ export default function Home() {
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannerImages02}
-              height={96}
+              height="96"
               slidePerview={1}
             />
           </div>
@@ -306,7 +310,7 @@ export default function Home() {
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannerImages03}
-              height={96}
+              height="96"
               slidePerview={1}
             />
           </div>
@@ -365,7 +369,7 @@ export default function Home() {
                 </li>
                 <li>
                   9. The platform has specialized quality inspectors for the
-                  quality of goods, so you don't need to worry about the quality
+                  quality of goods, so you do not need to worry about the quality
                   of goods and other issues.
                 </li>
                 <li>
@@ -394,7 +398,7 @@ export default function Home() {
               </p>
               <ul className="text-sm pl-2 sm:pl-4 flex items-start justify-start gap-2 flex-col font-extralight">
                 <li>
-                  It is the Seller's responsibility to ensure that their
+                  It is the Sellers responsibility to ensure that their
                   merchandise complies with all legal requirements prior to
                   being posted on the Platform and is licensed for posting and
                   available for sale in accordance with the DHL Policy. For the
@@ -430,7 +434,7 @@ export default function Home() {
                 <li>iv). Suspension and termination of accounts</li>
                 <li>
                   v). Freezing of account funds or, if necessary, direct setoff
-                  of account funds to cover Shopee's losses
+                  of account funds to cover Shopees losses
                 </li>
                 <li>vi). Legal action</li>
               </ul>
@@ -540,7 +544,7 @@ export default function Home() {
                   4. philatelic stamps prohibited by the State and philatelic
                   products produced without the approval of the postal
                   administration, as well as postal products issued after 1949
-                  that contain the words "Republic of China"
+                  that contain the words Republic of China
                 </li>
                 <li>
                   5. Information on political activities such as campaigns,
@@ -568,7 +572,7 @@ export default function Home() {
                   3. Oral or topical aphrodisiac commodities that can cause
                   others to temporarily lose their ability to resist and blur
                   their consciousness; artificial hymens; erotic products such
-                  as "triazolam", "fly powder", "fly water" and so on. etc
+                  as triazolam, fly powder, fly water and so on. etc
                 </li>
                 <li>
                   4. Software and pictures used to disseminate pornographic
@@ -693,7 +697,7 @@ export default function Home() {
                 </li>
                 <li>
                   3. cultural relics suspected of violating the relevant
-                  provisions of the Law of the People's Republic of China on the
+                  provisions of the Law of the Peoples Republic of China on the
                   Protection of Cultural Relics
                 </li>
                 <li>4. tobacco monopolies and tobacco-specific machinery</li>
@@ -779,15 +783,15 @@ export default function Home() {
                 </li>
                 <li>
                   17. computer software and related goods, such as: software for
-                  scientific research (e.g., a bank's operating system, a
-                  network company's database program, a missile launch program);
+                  scientific research (e.g., a banks operating system, a
+                  network companys database program, a missile launch program);
                   unauthorized software (e.g., tapes or CD-ROMs without
                   registration numbers, OEM software not bundled with the
                   equipment); shareware; Beta or unpublished software;
                   decryption software (for cracking passwords of licensed
                   software); and software with serial numbers, software with
-                  serial numbers, software with words such as "crack" and
-                  "pirate"; software that can extract numbers such as Mark Six,
+                  serial numbers, software with words such as crack and
+                  pirate; software that can extract numbers such as Mark Six,
                   fortune-telling, horse-racing, etc.; upgraded and compressed
                   carriers stored in flash memory
                 </li>
@@ -827,7 +831,7 @@ export default function Home() {
                 </li>
                 <li>5. equipment and accessories related to electric traps</li>
                 <li>
-                  6. cat and dog meat, cat and dog fur, shark's fin, bear bile
+                  6. cat and dog meat, cat and dog fur, sharks fin, bear bile
                   and their manufactured products
                 </li>
               </ul>
@@ -954,12 +958,12 @@ export default function Home() {
                 restricted commodities. Sellers of merchandise that requires a
                 special license should provide DHL with documentation in
                 advance, and DHL assumes no responsibility or liability for
-                reviewing the buyer's qualifications.
+                reviewing the buyers qualifications.
               </p>
               <p className="text-sm pl-2 font-extralight">
                 If you see a listing that violates DHL policies, please report
-                it to DHL by clicking the "Report this product" or "Report this
-                user" button in the drop-down menu on the product or user page.
+                it to DHL by clicking the Report this product or Report this
+                user button in the drop-down menu on the product or user page.
                 In the event of a violation of this policy, DHL will send an
                 email, system message, and push notification to the seller
                 informing them that their listing has been removed from the

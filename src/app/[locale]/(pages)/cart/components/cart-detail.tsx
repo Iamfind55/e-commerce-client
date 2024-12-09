@@ -179,7 +179,10 @@ export default function MyCartDetails() {
       </div>
       <div className="block sm:hidden">
         {products?.map((val, index: number) => (
-          <div className="w-full flex items-start justify-start flex-col gap-2 border-b pb-2 my-2">
+          <div
+            key={index + 1}
+            className="w-full flex items-start justify-start flex-col gap-2 border-b pb-2 my-2"
+          >
             <div className="w-full flex items-start justify-start gap-4">
               <Image
                 className="rounded"

@@ -149,7 +149,7 @@ export default function BookingPage() {
 
   return (
     <div>
-      <Breadcrumb path="Doctor/appointment" />
+      {/* <Breadcrumb path="Doctor/appointment" /> */}
       <div className="bg-white rounded p-4 shadow-md text-b_text mt-2">
         <h4 className="text-b_text text-sm mb-3 font-bold">
           Fill in information for making appointment:

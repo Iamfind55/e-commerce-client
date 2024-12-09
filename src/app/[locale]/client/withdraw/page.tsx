@@ -116,7 +116,7 @@ export default function Withdraw() {
 
   return (
     <div className="flex items-start justify-center flex-col gap-4">
-      <Breadcrumb path="Payment/withdraw" />
+      {/* <Breadcrumb path="Payment/withdraw" /> */}
       <div className="py-6 px-4 shadow-md w-full text-b_text bg-white">
         <h4 className="text-b_text text-sm mb-3 font-bold">
           Looking to add funds to your account:

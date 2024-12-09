@@ -18,7 +18,7 @@ export default function DashboardPage() {
   const router = useRouter();
   return (
     <div className="text-b_text flex items-start justify-start flex-col gap-4">
-      <Breadcrumb path="Dashboard" />
+      {/* <Breadcrumb path="Dashboard" /> */}
       <div className="w-full flex items-start justify-between">
         <ReportCard
           title="Total patients"

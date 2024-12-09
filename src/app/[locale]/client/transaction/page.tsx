@@ -55,7 +55,7 @@ export default function TransactionPage() {
   };
   return (
     <div className="flex items-start justify-start flex-col gap-4">
-      <Breadcrumb path="Transaction/details" />
+      {/* <Breadcrumb path="Transaction/details" /> */}
       <div className="bg-white rounded text-b_text p-4 w-full shadow-md">
         <h4 className="text-b_text text-sm mb-3 font-bold">
           List of all transactions:

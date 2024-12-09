@@ -73,7 +73,7 @@ export default function AppointmentBill() {
 
   return (
     <>
-      <Breadcrumb path="Doctor/appointment/bill" />
+      {/* <Breadcrumb path="Doctor/appointment/bill" /> */}
       <div
         ref={ref}
         className="relative bg-white rounded p-4 shadow-md text-b_text mt-2"

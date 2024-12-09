@@ -223,10 +223,10 @@ export default function ProductDetails() {
                   <div>
                     <p>
                       One less distraction. This adidas running tank helps make
-                      sure heat and sweat don't get to your head, thanks to
+                      sure heat and sweat do not get to your head, thanks to
                       moisture-absorbing AEROREADY and its light, breathable
                       feel. Push for your first 10k or set a new speed goal.
-                      There's nothing holding you back.
+                      There is nothing holding you back.
                     </p>
                   </div>
                 )}
