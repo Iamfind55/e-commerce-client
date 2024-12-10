@@ -1,6 +1,7 @@
 "use client";
 import {
   ArrowDownIcon,
+  CancelIcon,
   CartIcon,
   LanguageIcon,
   MenuIcon,
@@ -15,10 +16,15 @@ import DropdownComponent from "@/components/dropdown";
 import { IoLogInOutline } from "react-icons/io5";
 import { useTranslations } from "next-intl";
 import { usePathname } from "@/navigation";
+import Drawer from "@/components/drawer";
 
 export default function Navbar() {
   const pathname = usePathname();
   const t = useTranslations("langingPage");
+  const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
+  const toggleOpenDrawer = () => {
+    setIsOpenDrawer(!openDrawer);
+  };
 
   const headerRef = React.useRef<HTMLDivElement>(null);
   const [isSticky, setIsSticky] = React.useState(false);
@@ -67,9 +73,12 @@ export default function Navbar() {
           className="container mx-auto flex items-center justify-between bg-second_black px-4"
         >
           <div className="flex items-start justify-center gap-6">
-            <div className="hidden sm:block border border-white rounded p-1">
+            <button
+              onClick={() => toggleOpenDrawer()}
+              className="hidden sm:block border border-white rounded p-1"
+            >
               <MenuIcon size={20} className="text-white" />
-            </div>
+            </button>
             <Link href="/">
               <Image
                 className="rounded-full"
@@ -213,6 +222,36 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      <Drawer
+        isOpen={openDrawer}
+        onClose={toggleOpenDrawer}
+        title="TIKTOKSHOP"
+        icon={<CancelIcon size={24} />}
+      >
+        <ul className="flex items-start justify-start gap-2 flex-col py-2">
+          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
+            <ShopIcon />
+            <span className="text-xs">Women</span>
+          </li>
+          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
+            <ShopIcon />
+            <span className="text-xs">Clothing</span>
+          </li>
+          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
+            <ShopIcon />
+            <span className="text-xs">Shoes</span>
+          </li>
+          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
+            <ShopIcon />
+            <span className="text-xs">Kitchen</span>
+          </li>
+          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
+            <ShopIcon />
+            <span className="text-xs">Flower</span>
+          </li>
+        </ul>
+      </Drawer>
     </>
   );
 }

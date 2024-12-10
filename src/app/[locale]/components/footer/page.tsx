@@ -10,7 +10,7 @@ export default function page() {
       <div className="bg-second_black">
         <div className="container mx-auto px-4 flex items-center justify-between flex-col gap-8 pt-6 pb-6">
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 pt-2 pb-2 mb-2 sm:pt-4 sm:pb-4 sm:mt-4 sm:mb-4">
-            <div className="mb-4 flex items-start justify-center gap-4 flex-col">
+            <div className="mb-4 flex items-start justify-start gap-4 flex-col">
               <Link href="/">
                 <Image
                   className="rounded-full"
@@ -76,7 +76,7 @@ export default function page() {
         </div>
       </div>
       <div className="w-full text-white bg-black">
-        <div className="container mx-auto flex flex-col sm:flex-row gap-3 items-center justify-between p-4">
+        <div className="container mx-auto flex flex-col sm:flex-row gap-3 items-center justify-center p-4">
           <p className="text-white text-xs">
             © Tiktokshop <strong className="text-white text-bold">2015</strong>|
             All Rights Reserved
