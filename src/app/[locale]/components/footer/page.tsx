@@ -27,16 +27,28 @@ export default function page() {
             </div>
             <div className="mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
               <h1 className="text-white text-sm font-bold">Details:</h1>
-              <Link href="" className="text-white text-xs hover:underline">
+              <Link
+                href="/terms-condition"
+                className="text-white text-xs hover:underline"
+              >
                 Terms & conditions
               </Link>
-              <Link href="" className="text-white text-xs hover:underline">
+              <Link
+                href="/refund-policy"
+                className="text-white text-xs hover:underline"
+              >
                 Refund policy
               </Link>
-              <Link href="" className="text-white text-xs hover:underline">
+              <Link
+                href="/support-policy"
+                className="text-white text-xs hover:underline"
+              >
                 Support policy
               </Link>
-              <Link href="" className="text-white text-xs hover:underline">
+              <Link
+                href="/privacy-policy"
+                className="text-white text-xs hover:underline"
+              >
                 Privacy and policy
               </Link>
             </div>
