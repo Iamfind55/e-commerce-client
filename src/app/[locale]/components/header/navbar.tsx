@@ -99,8 +99,7 @@ export default function Navbar() {
               >
                 <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
-                    href="#"
-                    locale="en"
+                    href="/"
                     className="w-full text-sm flex items-center text-xs justify-start gap-2"
                   >
                     <ProductIcon size={18} className="text-second_black" />
@@ -110,7 +109,6 @@ export default function Navbar() {
                 <div className="w-full flex items-start text-xs gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
                     href="/shop"
-                    locale="la"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <ShopIcon size={18} className="text-second_black" />

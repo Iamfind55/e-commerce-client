@@ -180,7 +180,7 @@ export default function Home() {
           <div className="h-auto w-full">
             <GlobalSlider
               images={sliderImages}
-              height="60vh"
+              height="80vh"
               slidePerview={1}
             />
           </div>
@@ -369,8 +369,8 @@ export default function Home() {
                 </li>
                 <li>
                   9. The platform has specialized quality inspectors for the
-                  quality of goods, so you do not need to worry about the quality
-                  of goods and other issues.
+                  quality of goods, so you do not need to worry about the
+                  quality of goods and other issues.
                 </li>
                 <li>
                   10. The variety of goods, the platform will have specialized
@@ -783,15 +783,15 @@ export default function Home() {
                 </li>
                 <li>
                   17. computer software and related goods, such as: software for
-                  scientific research (e.g., a banks operating system, a
-                  network companys database program, a missile launch program);
+                  scientific research (e.g., a banks operating system, a network
+                  companys database program, a missile launch program);
                   unauthorized software (e.g., tapes or CD-ROMs without
                   registration numbers, OEM software not bundled with the
                   equipment); shareware; Beta or unpublished software;
                   decryption software (for cracking passwords of licensed
                   software); and software with serial numbers, software with
-                  serial numbers, software with words such as crack and
-                  pirate; software that can extract numbers such as Mark Six,
+                  serial numbers, software with words such as crack and pirate;
+                  software that can extract numbers such as Mark Six,
                   fortune-telling, horse-racing, etc.; upgraded and compressed
                   carriers stored in flash memory
                 </li>

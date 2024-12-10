@@ -3,6 +3,71 @@ import Breadcrumb from "@/components/breadCrumb";
 import DropdownComponent from "@/components/dropdown";
 import ShopCard from "@/components/shopCard";
 import { FilterIcon, SearchIcon } from "@/icons/page";
+const shops = [
+  {
+    href: "/shop/shop-2",
+    altText: "Shop 2 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-2",
+    altText: "Shop 2 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-3",
+    altText: "Shop 3 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-4",
+    altText: "Shop 4 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-5",
+    altText: "Shop 5 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-6",
+    altText: "Shop 6 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-7",
+    altText: "Shop 7 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-8",
+    altText: "Shop 8 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+  {
+    href: "/shop/shop-9",
+    altText: "Shop 9 Image",
+    shopName: "Shop Two",
+    description: "This is the second shop",
+    rating: 4.8,
+  },
+];
 
 export default function Shop() {
   return (
@@ -15,9 +80,9 @@ export default function Shop() {
               { label: "shops", value: "/shop" },
             ]}
           />
-          <div className="pt-4 pb-4">
+          <div className="py-4">
             <div className="flex items-center justify-between p-2">
-              <p className="text-gray-500">List of all shops (12394):</p>
+              <p className="text-gray-500 text-sm sm:text-xs">(12394) Shops</p>
               <div className="flex items-start justify-start gap-4">
                 <div>
                   <label htmlFor="simple-search" className="sr-only">
@@ -70,27 +135,21 @@ export default function Shop() {
                 </DropdownComponent>
               </div>
             </div>
-            <div>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                <div className="col-span-1 flex items-center justify-center">
-                  <ShopCard />
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+              {shops.map((shop, index) => (
+                <div
+                  key={index + 1}
+                  className="flex items-center justify-center"
+                >
+                  <ShopCard
+                    href={shop.href}
+                    altText={shop.altText}
+                    shopName={shop.shopName}
+                    description={shop.description}
+                    rating={shop.rating}
+                  />
                 </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <ShopCard />
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <ShopCard />
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <ShopCard />
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <ShopCard />
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <ShopCard />
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

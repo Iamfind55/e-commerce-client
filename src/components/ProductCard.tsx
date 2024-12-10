@@ -40,7 +40,7 @@ export default function ProductCard(props: IproductTypes) {
               href={`${props?.link}/${props.id}`}
               className="w-full sm:w-auto text-second_black border border-neon_blue rounded flex items-center justify-center px-3 py-1 mt-0 text-xs text-center text-base rounded focus:outline-none"
             >
-              Add to{" "}
+              Add to
               <CartIcon
                 size={16}
                 className="text-second_black animate-bounce"

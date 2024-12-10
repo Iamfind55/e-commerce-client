@@ -44,7 +44,8 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
     >
       {images.map((image, index) => (
         <SwiperSlide key={index}>
-          <div className={`w-full h-36 sm:h-[${height}] text-black relative`}>
+          {/* <div className={`w-full h-36 sm:h-[${height}] text-black relative`}> */}
+          <div className={`w-full h-36 sm:h-[50vh] text-black relative`}>
             <Image
               className="w-full h-full object-cover rounded"
               src={image.src}
