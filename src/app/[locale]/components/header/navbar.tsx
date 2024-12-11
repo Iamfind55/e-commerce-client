@@ -1,7 +1,7 @@
 "use client";
+
 import {
   ArrowDownIcon,
-  CancelIcon,
   CartIcon,
   LanguageIcon,
   MenuIcon,
@@ -22,6 +22,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const t = useTranslations("langingPage");
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
+
   const toggleOpenDrawer = () => {
     setIsOpenDrawer(!openDrawer);
   };
@@ -54,14 +55,11 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`bg-second_black
-      ${
-        isSticky
-          ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
-          : "mx-auto px-4 z-50"
-      }
-      flex items-center justify-between bg-second_black p-4
-    `}
+        className={`bg-second_black ${
+          isSticky
+            ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
+            : "mx-auto px-4 z-50"
+        } flex items-center justify-between bg-second_black p-4`}
         style={
           isSticky
             ? { position: "fixed", zIndex: 49 }
@@ -74,7 +72,9 @@ export default function Navbar() {
         >
           <div className="flex items-start justify-center gap-6">
             <button
-              onClick={() => toggleOpenDrawer()}
+              // onClick={toggleOpenDrawer}
+              onMouseEnter={toggleOpenDrawer}
+              // onMouseLeave={toggleOpenDrawer}
               className="hidden sm:block border border-white rounded p-1"
             >
               <MenuIcon size={20} className="text-white" />
@@ -140,8 +140,6 @@ export default function Navbar() {
                   className="h-8 bg-white text-base border text-xs rounded block w-96 ps-10 p-2 focus:outline-none focus:ring-1"
                   placeholder="Search.."
                   required
-                  // value={searchTerm}
-                  // onChange={handleSearch}
                 />
               </div>
             </div>
@@ -213,45 +211,13 @@ export default function Navbar() {
                 &nbsp;My cart
               </Link>
             </div>
-            <div
-              className="block lg:hidden cursor-pointer"
-              // onClick={toggleOpenDrawer}
-            >
+            <div className="block lg:hidden cursor-pointer">
               <SearchIcon size={24} className="text-white" />
             </div>
           </div>
         </div>
       </div>
-
-      <Drawer
-        isOpen={openDrawer}
-        onClose={toggleOpenDrawer}
-        title="TIKTOKSHOP"
-        icon={<CancelIcon size={24} />}
-      >
-        <ul className="flex items-start justify-start gap-2 flex-col py-2">
-          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
-            <ShopIcon />
-            <span className="text-xs">Women</span>
-          </li>
-          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
-            <ShopIcon />
-            <span className="text-xs">Clothing</span>
-          </li>
-          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
-            <ShopIcon />
-            <span className="text-xs">Shoes</span>
-          </li>
-          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
-            <ShopIcon />
-            <span className="text-xs">Kitchen</span>
-          </li>
-          <li className="text-gray-500 w-full flex items-center justify-start gap-2 p-2 hover:bg-gray-200 rounded border-b border-gray-200">
-            <ShopIcon />
-            <span className="text-xs">Flower</span>
-          </li>
-        </ul>
-      </Drawer>
+      <Drawer isOpen={openDrawer} onClose={toggleOpenDrawer} />
     </>
   );
 }
