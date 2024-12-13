@@ -5,7 +5,7 @@ import createMiddleware from "next-intl/middleware";
 // Protected paths for which authentication is required
 const protectedPaths = ["/client"];
 const intlMiddleware = createMiddleware({
-  locales: ["en", "la"],
+  locales: ["en", "th", "vi", "zh", "ms"],
   defaultLocale: "en",
 });
 
@@ -34,5 +34,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/:locale(en|la)?/:path*", "/doctor/:path*"],
+  matcher: ["/", "/:locale(en|th|vi|zh|ms)?/:path*", "/doctor/:path*"],
 };

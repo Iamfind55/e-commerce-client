@@ -20,7 +20,7 @@ import Drawer from "@/components/drawer";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const t = useTranslations("langingPage");
+  const t = useTranslations("homePage");
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
 
   const toggleOpenDrawer = () => {
@@ -72,9 +72,7 @@ export default function Navbar() {
         >
           <div className="flex items-start justify-center gap-6">
             <button
-              // onClick={toggleOpenDrawer}
               onMouseEnter={toggleOpenDrawer}
-              // onMouseLeave={toggleOpenDrawer}
               className="hidden sm:block border border-white rounded p-1"
             >
               <MenuIcon size={20} className="text-white" />
@@ -94,7 +92,7 @@ export default function Navbar() {
               className="w-56 cursor-pointer"
               head={
                 <div className="flex items-start justify-start gap-1 text-white text-sm rounded px-2 py-1 cursor-pointer">
-                  <p>Product</p>
+                  <p>{t("_products")}</p>
                   <ArrowDownIcon
                     size={16}
                     className="cursor-pointer text-white"
@@ -112,7 +110,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center text-xs justify-start gap-2"
                   >
                     <ProductIcon size={18} className="text-second_black" />
-                    Products
+                    {t("_products")}
                   </Link>
                 </div>
                 <div className="w-full flex items-start text-xs gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
@@ -121,14 +119,14 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <ShopIcon size={18} className="text-second_black" />
-                    Shops
+                    {t("_shops")}
                   </Link>
                 </div>
               </div>
             </DropdownComponent>
             <div>
               <label htmlFor="simple-search" className="sr-only">
-                Search
+                {t("_search")}
               </label>
               <div className="relative w-full">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -138,7 +136,7 @@ export default function Navbar() {
                   type="text"
                   id="simple-search"
                   className="h-8 bg-white text-base border text-xs rounded block w-96 ps-10 p-2 focus:outline-none focus:ring-1"
-                  placeholder="Search.."
+                  placeholder={t("_search_placeholder")}
                   required
                 />
               </div>
@@ -153,7 +151,7 @@ export default function Navbar() {
                     size={18}
                     className="cursor-pointer text-white hover:text-neon_pink"
                   />
-                  <p className="hidden sm:block">Languages</p>
+                  <p className="hidden sm:block">{t("_languages")}</p>
                 </div>
               }
             >
@@ -173,13 +171,13 @@ export default function Navbar() {
                       height={20}
                       width={20}
                     />
-                    English
+                    {t("_english")}
                   </Link>
                 </div>
                 <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                   <Link
                     href={pathname}
-                    locale="la"
+                    locale="th"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
@@ -188,7 +186,52 @@ export default function Navbar() {
                       height={20}
                       width={20}
                     />
-                    Laos
+                    {t("_thai")}
+                  </Link>
+                </div>
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <Link
+                    href={pathname}
+                    locale="vi"
+                    className="w-full text-sm flex items-center justify-start gap-2"
+                  >
+                    <Image
+                      src="/images/lao-flag.png"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    {t("_vietnam")}
+                  </Link>
+                </div>
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <Link
+                    href={pathname}
+                    locale="zh"
+                    className="w-full text-sm flex items-center justify-start gap-2"
+                  >
+                    <Image
+                      src="/images/lao-flag.png"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    {t("_china")}
+                  </Link>
+                </div>
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <Link
+                    href={pathname}
+                    locale="ms"
+                    className="w-full text-sm flex items-center justify-start gap-2"
+                  >
+                    <Image
+                      src="/images/lao-flag.png"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    {t("_malaysia")}
                   </Link>
                 </div>
               </div>
@@ -199,7 +242,7 @@ export default function Navbar() {
                 className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <IoLogInOutline size={16} />
-                &nbsp;Log in {t("_text")}
+                &nbsp;{t("_login_button")}
               </Link>
             </div>
             <div className="hidden md:block">
@@ -208,7 +251,7 @@ export default function Navbar() {
                 className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <CartIcon size={16} />
-                &nbsp;My cart
+                &nbsp;{t("_my_cart")}
               </Link>
             </div>
             <div className="block lg:hidden cursor-pointer">

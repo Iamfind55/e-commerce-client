@@ -1,10 +1,12 @@
 import IconButton from "@/components/iconButton";
 import Textfield from "@/components/textField";
 import { NotiIcon } from "@/icons/page";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function page() {
+  const t = useTranslations("homePage");
   return (
     <>
       <div className="bg-second_black">
@@ -20,45 +22,44 @@ export default function page() {
                   height={100}
                 />
               </Link>
-              <p className="text-sm text-white">
-                If you are a retailer, brand or business with products to sell,
-                you can sell on TikTok without fans threshold.
-              </p>
+              <p className="text-sm text-white">{t("_footer_title")}</p>
             </div>
             <div className="mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
-              <h1 className="text-white text-sm font-bold">Details:</h1>
+              <h1 className="text-white text-sm font-bold">{t("_details")}:</h1>
               <Link
                 href="/terms-condition"
                 className="text-white text-xs hover:underline"
               >
-                Terms & conditions
+                {t("_terms_conditions")}
               </Link>
               <Link
                 href="/refund-policy"
                 className="text-white text-xs hover:underline"
               >
-                Refund policy
+                {t("_refund_policy")}
               </Link>
               <Link
                 href="/support-policy"
                 className="text-white text-xs hover:underline"
               >
-                Support policy
+                {t("_support_policy")}
               </Link>
               <Link
                 href="/privacy-policy"
                 className="text-white text-xs hover:underline"
               >
-                Privacy and policy
+                {t("_privacy_policy")}
               </Link>
             </div>
             <div className="mb-4 mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
-              <h1 className="text-white text-sm font-bold">Subscribe</h1>
+              <h1 className="text-white text-sm font-bold">
+                {t("_subscribe")}
+              </h1>
               <Textfield
                 name="email"
-                placeholder="Email address..."
+                placeholder={t("_email_placeholder")}
                 id="email"
-                title="Email"
+                title={t("_email")}
                 required
               />
               <div>
@@ -69,7 +70,7 @@ export default function page() {
                 />
               </div>
               <p className="text-white text-xs">
-                Get The Latest Updates via email. Any time you may unsubscribe
+                {t("_subscribe_description")}
               </p>
             </div>
           </div>
