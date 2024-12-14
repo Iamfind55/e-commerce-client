@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 
 import category01 from "/public/images/category01.webp";
+import { useTranslations } from "next-intl";
 
 interface Product {
   id: number;
@@ -15,6 +16,7 @@ interface Product {
 }
 
 export default function MyCartDetails() {
+  const t = useTranslations("myCartPage");
   const [products, setProducts] = React.useState<Product[]>([
     {
       id: 1,
@@ -90,25 +92,25 @@ export default function MyCartDetails() {
           <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
             <tr className="border-b border-gray text-left">
               <th scope="col" className="py-3 pl-1">
-                ID
+                {t("_id")}
               </th>
               <th scope="col" className="py-3 pl-1">
-                Product
+                {t("_product")}
               </th>
               <th scope="col" className="py-3 pl-1">
-                Price
+                {t("_price")}
               </th>
               <th scope="col" className="py-3 pl-1">
-                Quantity
+                {t("_quantity")}
               </th>
               <th scope="col" className="py-3 pl-1">
-                Total
+                {t("_sub_total")}
               </th>
               <th
                 scope="col"
                 className="py-3 pl-1 flex items-center justify-center"
               >
-                Actions
+                {t("_actions")}
               </th>
             </tr>
           </thead>
@@ -131,7 +133,8 @@ export default function MyCartDetails() {
                     <div className="flex items-start justify-start flex-col">
                       <p className="text-sm">{product.name}</p>
                       <p className="text-xs text-gray-400">
-                        Available ({product.availableStock} items)
+                        {t("_available")} ({product.availableStock}{" "}
+                        {t("_items")})
                       </p>
                     </div>
                   </div>
@@ -169,7 +172,7 @@ export default function MyCartDetails() {
             <tr>
               <td colSpan={6}>
                 <div className="flex items-start justify-end py-4 gap-4 pr-6">
-                  <p>Subtotal:</p>
+                  <p>{t("_total")}:</p>
                   <p className="font-bold">${subTotal}</p>
                 </div>
               </td>
@@ -195,7 +198,7 @@ export default function MyCartDetails() {
             </div>
             <div className="w-full flex items-center justify-between">
               <div className="flex items-start justify-start">
-                <p className="text-xs text-gray-500">Price: </p>
+                <p className="text-xs text-gray-500">{t("_price")}: </p>
                 <p className="text-sm">&nbsp;&nbsp;${val?.price}</p>
               </div>
               <div className="flex items-center justify-start gap-6 rounded py-2 px-4">
@@ -216,7 +219,7 @@ export default function MyCartDetails() {
             </div>
             <div className="w-full flex items-center justify-between">
               <div className="flex items-start justify-start">
-                <p className="text-xs text-gray-500">Sub-total: </p>
+                <p className="text-xs text-gray-500">{t("_sub_total")}: </p>
                 <p className="text-sm">&nbsp;&nbsp;${val?.total}</p>
               </div>
               <div className="flex items-center justify-start gap-6 rounded py-2 px-4">
@@ -231,7 +234,7 @@ export default function MyCartDetails() {
           </div>
         ))}
         <div className="w-full flex items-start justify-between gap-4 pr-4">
-          <p className="text-sm text-gray-500">Total:</p>
+          <p className="text-sm text-gray-500">{t("_sub_total")}:</p>
           <p className="text-md">${subTotal}</p>
         </div>
       </div>

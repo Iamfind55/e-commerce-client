@@ -189,5 +189,63 @@
     "_email": "Emel",
     "_email_placeholder": "Alamat emel....",
     "_subscribe_description": "Dapatkan kemas kini terkini melalui emel. Anda boleh berhenti melanggan pada bila-bila masa"
+  },
+
+  "myCartPage": {
+    "_shipping_information": "Maklumat penghantaran",
+    "_delivery_information": "Maklumat penghantaran",
+    "_payment": "Bayaran",
+    "_confirmation": "Pengesahan",
+    "_back_button": "Kembali",
+    "_continue_button": "Teruskan",
+
+    "_id": "ID",
+    "_product": "Produk",
+    "_price": "Harga",
+    "_quantity": "Kuantiti",
+    "_total": "Jumlah",
+    "_actions": "Tindakan",
+    "_available": "Tersedia",
+    "_items": "Item",
+    "_sub_total": "Jumlah kecil",
+
+    "_add_new_address": "Tambah alamat baru",
+    "_add_address_title": "Cipta alamat baru",
+    "_update_address_title": "Kemaskini data alamat",
+    "_address": "Alamat",
+    "_address_placeholder": "Masukkan alamat....",
+
+    "_product_list": "Senarai produk",
+    "_delivery_type": "Pilih jenis penghantaran",
+    "_door_to_door": "Penghantaran pintu ke pintu",
+
+    "_payment_title": "Pilih kaedah pembayaran",
+    "_wallet_status": "Baki dompet anda",
+    "_i_agree": "Saya bersetuju",
+    "_abstract": "Abstrak",
+
+    "_confirmation_title": "Pembayaran Berjaya!",
+    "_confirmation_description": "Pembayaran Berjaya!",
+    "_continue_shopping_button": "Teruskan Membeli-belah"
+  },
+
+  "global": {
+    "_edit_button": "Edit",
+    "_delete_button": "Padam",
+    "_close_button": "Tutup",
+    "_save_button": "Simpan",
+    "_saving_button": "Sedang menyimpan....",
+    "_address": "Alamat",
+    "_postal_code": "Poskod",
+    "_postal_code_placeholder": "Masukkan poskod....",
+    "_city": "Bandar",
+    "_province": "Negeri",
+    "_country": "Negara",
+    "_telephone": "Telefon",
+    "_telephone_placeholder": "Masukkan nombor telefon....",
+    "_email": "E-mel",
+    "_email_placeholder": "Masukkan e-mel....",
+    "_contact_person": "Orang hubungan",
+    "_contact_person_placeholder": "Masukkan nama orang hubungan...."
   }
 }

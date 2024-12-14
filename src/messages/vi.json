@@ -189,5 +189,63 @@
     "_email": "Email",
     "_email_placeholder": "Địa chỉ email....",
     "_subscribe_description": "Nhận cập nhật mới nhất qua email. Bạn có thể hủy đăng ký bất cứ lúc nào"
+  },
+
+  "myCartPage": {
+    "_shipping_information": "Thông tin giao hàng",
+    "_delivery_information": "Thông tin vận chuyển",
+    "_payment": "Thanh toán",
+    "_confirmation": "Xác nhận",
+    "_back_button": "Quay lại",
+    "_continue_button": "Tiếp tục",
+
+    "_id": "Mã",
+    "_product": "Sản phẩm",
+    "_price": "Giá",
+    "_quantity": "Số lượng",
+    "_total": "Tổng cộng",
+    "_actions": "Hành động",
+    "_available": "Có sẵn",
+    "_items": "Mặt hàng",
+    "_sub_total": "Tổng phụ",
+
+    "_add_new_address": "Thêm địa chỉ mới",
+    "_add_address_title": "Tạo địa chỉ mới",
+    "_update_address_title": "Cập nhật địa chỉ",
+    "_address": "Địa chỉ",
+    "_address_placeholder": "Nhập địa chỉ....",
+
+    "_product_list": "Danh sách sản phẩm",
+    "_delivery_type": "Chọn loại giao hàng",
+    "_door_to_door": "Giao hàng tận nơi",
+
+    "_payment_title": "Chọn phương thức thanh toán",
+    "_wallet_status": "Số dư ví của bạn",
+    "_i_agree": "Tôi đồng ý",
+    "_abstract": "Tóm tắt",
+
+    "_confirmation_title": "Thanh toán thành công!",
+    "_confirmation_description": "Thanh toán thành công!",
+    "_continue_shopping_button": "Tiếp tục mua sắm"
+  },
+
+  "global": {
+    "_edit_button": "Chỉnh sửa",
+    "_delete_button": "Xóa",
+    "_close_button": "Đóng",
+    "_save_button": "Lưu",
+    "_saving_button": "Đang lưu....",
+    "_address": "Địa chỉ",
+    "_postal_code": "Mã bưu điện",
+    "_postal_code_placeholder": "Nhập mã bưu điện....",
+    "_city": "Thành phố",
+    "_province": "Tỉnh/Thành",
+    "_country": "Quốc gia",
+    "_telephone": "Số điện thoại",
+    "_telephone_placeholder": "Nhập số điện thoại....",
+    "_email": "Email",
+    "_email_placeholder": "Nhập email....",
+    "_contact_person": "Người liên hệ",
+    "_contact_person_placeholder": "Nhập tên người liên hệ...."
   }
 }

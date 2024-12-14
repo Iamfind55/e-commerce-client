@@ -18,6 +18,7 @@ import {
 } from "@/icons/page";
 import { countries } from "@/utils/option";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 type AddressData = {
   id: string;
@@ -57,6 +58,8 @@ const initialAddressData: AddressData[] = [
 ];
 
 export default function ShippingInformation() {
+  const t = useTranslations("myCartPage");
+  const g = useTranslations("global");
   const [addressData, setAddressData] =
     React.useState<AddressData[]>(initialAddressData);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -173,7 +176,7 @@ export default function ShippingInformation() {
                     className="w-full text-sm flex items-center justify-start text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4"
                   >
                     <EditIcon size={16} className="text-gray-500" />
-                    &nbsp; Edit
+                    &nbsp; {g("_edit_button")}
                   </button>
                   <button
                     onClick={() => {
@@ -183,7 +186,7 @@ export default function ShippingInformation() {
                     className="w-full text-sm flex items-center justify-start text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4"
                   >
                     <TrashIcon size={16} className="text-gray-500" />
-                    &nbsp; Delete
+                    &nbsp; {g("_delete_button")}
                   </button>
                 </div>
               </DropdownComponent>
@@ -191,39 +194,39 @@ export default function ShippingInformation() {
 
             {/* Address Details */}
             <p className="text-xs text-gray-500 flex items-start justify-start gap-1 mt-4">
-              Address:
+              {g("_address")}:
               <strong className="text-black font-bold">{row.address}</strong>
             </p>
             <p className="text-xs text-gray-500">
-              Postal code:
+              {g("_postal_code")}:
               <strong className="text-black font-bold">
                 {row.postal_code}
               </strong>
             </p>
             <p className="text-xs text-gray-500">
-              City:{" "}
+              {g("_city")}:
               <strong className="text-black font-bold">{row.district}</strong>
             </p>
             <p className="text-xs text-gray-500">
-              Province:
+              {g("_province")}:
               <strong className="text-black font-bold">{row.province}</strong>
             </p>
             <p className="text-xs text-gray-500">
-              Country:
+              {g("_country")}:
               <strong className="text-black font-bold">{row.country}</strong>
             </p>
             <p className="text-xs text-gray-500">
-              Telephone:
+              {g("_telephone")}:
               <strong className="text-black font-bold">
                 {row.phone_number}
               </strong>
             </p>
             <p className="text-xs text-gray-500">
-              Email:{" "}
+              {g("_email")}:
               <strong className="text-black font-bold">{row.email}</strong>
             </p>
             <p className="text-xs text-gray-500">
-              Contact person:
+              {g("_contact_person")}:
               <strong className="text-black font-bold">
                 {row.contact_person}
               </strong>
@@ -251,7 +254,7 @@ export default function ShippingInformation() {
           className="border rounded border-dotted p-4 h-56 flex items-center justify-center flex-col gap-1 text-gray-400"
         >
           <PlusIcon size={24} />
-          <p>Add new address</p>
+          <p>{t("_add_new_address")}</p>
         </button>
       </div>
 
@@ -263,7 +266,7 @@ export default function ShippingInformation() {
       >
         <div className="rounded bg-white w-full p-4">
           <h4 className="text-gray-500 text-sm mb-3 font-bold">
-            {isUpdate ? "Update address data!" : "Create new address!"}
+            {isUpdate ? t("_update_address_title") : t("_add_address_title")}
           </h4>
           <form
             className="w-full flex items-start justify-start flex-col gap-2"
@@ -271,9 +274,9 @@ export default function ShippingInformation() {
           >
             <Textfield
               name="address"
-              placeholder="Enter address..."
+              placeholder={t("_address_placeholder")}
               id="address"
-              title="Address"
+              title={t("_address")}
               value={formData.address}
               onChange={handleInputChange}
               required
@@ -283,30 +286,30 @@ export default function ShippingInformation() {
             <div className="w-full grid grid-cols-2 gap-2 lg:grid-cols-2">
               <Select
                 name="country"
-                title="Country"
+                title={g("_country")}
                 option={countries}
                 value={formData.country}
                 onChange={handleInputChange}
               />
               <Select
                 name="province"
-                title="Province"
+                title={g("_province")}
                 option={countries}
                 value={formData.province}
                 onChange={handleInputChange}
               />
               <Select
                 name="district"
-                title="City"
+                title={g("_city")}
                 option={countries}
                 value={formData.district}
                 onChange={handleInputChange}
               />
               <Textfield
                 name="postal_code"
-                placeholder="Enter postal code..."
+                placeholder={g("_postal_code_placeholder")}
                 id="postal_code"
-                title="Postal code"
+                title={g("_postal_code")}
                 value={formData.postal_code}
                 onChange={handleInputChange}
                 required
@@ -314,27 +317,27 @@ export default function ShippingInformation() {
             </div>
             <Textfield
               name="contact_person"
-              placeholder="Enter contact person..."
+              placeholder={g("_contact_person_placeholder")}
               id="contact_person"
-              title="Contact person"
+              title={g("_contact_person")}
               value={formData.contact_person}
               onChange={handleInputChange}
               required
             />
             <Textfield
               name="email"
-              placeholder="Enter email..."
+              placeholder={g("_email_placeholder")}
               id="email"
-              title="Email"
+              title={g("_email")}
               value={formData.email}
               onChange={handleInputChange}
               required
             />
             <Textfield
               name="phone_number"
-              placeholder="Enter phone number..."
+              placeholder={g("_telephone_placeholder")}
               id="phone_number"
-              title="Phone number"
+              title={g("_telephone")}
               value={formData.phone_number}
               onChange={handleInputChange}
               required
@@ -345,14 +348,14 @@ export default function ShippingInformation() {
                 icon={<CancelIcon />}
                 isFront={true}
                 type="button"
-                title="Close"
+                title={g("_close_button")}
                 onClick={handleOpenModal}
               />
               <IconButton
                 className="rounded text-white p-2 bg-neon_blue w-full text-xs"
                 icon={isLoading ? <Loading /> : <SaveIcon size={16} />}
                 isFront={true}
-                title={isLoading ? "Saving..." : "Save change"}
+                title={isLoading ? g("_saving_button") : g("_save_button")}
                 type="submit"
               />
             </div>

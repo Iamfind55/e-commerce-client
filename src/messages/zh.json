@@ -189,5 +189,63 @@
     "_email": "电子邮件",
     "_email_placeholder": "电子邮件地址....",
     "_subscribe_description": "通过电子邮件获取最新更新。您可以随时取消订阅"
+  },
+
+  "myCartPage": {
+    "_shipping_information": "配送信息",
+    "_delivery_information": "送货信息",
+    "_payment": "付款",
+    "_confirmation": "确认",
+    "_back_button": "返回",
+    "_continue_button": "继续",
+
+    "_id": "编号",
+    "_product": "产品",
+    "_price": "价格",
+    "_quantity": "数量",
+    "_total": "总计",
+    "_actions": "操作",
+    "_available": "有货",
+    "_items": "商品",
+    "_sub_total": "小计",
+
+    "_add_new_address": "添加新地址",
+    "_add_address_title": "创建新地址",
+    "_update_address_title": "更新地址信息",
+    "_address": "地址",
+    "_address_placeholder": "输入地址....",
+
+    "_product_list": "产品列表",
+    "_delivery_type": "选择配送方式",
+    "_door_to_door": "送货上门",
+
+    "_payment_title": "选择付款方式",
+    "_wallet_status": "您的钱包余额",
+    "_i_agree": "我同意",
+    "_abstract": "摘要",
+
+    "_confirmation_title": "支付成功！",
+    "_confirmation_description": "支付成功！",
+    "_continue_shopping_button": "继续购物"
+  },
+
+  "global": {
+    "_edit_button": "编辑",
+    "_delete_button": "删除",
+    "_close_button": "关闭",
+    "_save_button": "保存",
+    "_saving_button": "正在保存....",
+    "_address": "地址",
+    "_postal_code": "邮政编码",
+    "_postal_code_placeholder": "请输入邮政编码....",
+    "_city": "城市",
+    "_province": "省份",
+    "_country": "国家",
+    "_telephone": "电话",
+    "_telephone_placeholder": "请输入电话号码....",
+    "_email": "电子邮件",
+    "_email_placeholder": "请输入电子邮件....",
+    "_contact_person": "联系人",
+    "_contact_person_placeholder": "请输入联系人姓名...."
   }
 }

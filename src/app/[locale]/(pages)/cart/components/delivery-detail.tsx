@@ -1,6 +1,7 @@
 import Image from "next/image";
 import category01 from "/public/images/category01.webp";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 interface Product {
   id: number;
@@ -12,6 +13,7 @@ interface Product {
   availableStock: number;
 }
 export default function DeliveryDetails() {
+  const t = useTranslations("myCartPage");
   const [products, setProducts] = React.useState<Product[]>([
     {
       id: 1,
@@ -42,7 +44,7 @@ export default function DeliveryDetails() {
     <>
       <div className="flex items-center justify-center flex-col gap-2">
         <div className="container w-full border-b">
-          <h1 className="border-b py-2">Product lists:</h1>
+          <h1 className="border-b py-2">{t("_product_list")}:</h1>
           {products?.map((product, index: number) => (
             <div
               key={index + 1}
@@ -65,10 +67,10 @@ export default function DeliveryDetails() {
           ))}
         </div>
         <div className="w-full flex items-center justify-between">
-          <p className="text-sm">Select delivery type:</p>
+          <p className="text-sm">{t("_delivery_type")}:</p>
           <div className="flex items-center justify-center gap-2 p-2 rounded border border-neon_blue">
             <input type="radio" name="address" />
-            <p className="text-xs">Door-to-door delivery</p>
+            <p className="text-xs">{t("_door_to_door")}</p>
           </div>
         </div>
       </div>

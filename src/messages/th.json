@@ -189,5 +189,63 @@
     "_email": "อีเมล",
     "_email_placeholder": "ที่อยู่อีเมล....",
     "_subscribe_description": "รับข้อมูลอัพเดตล่าสุดทางอีเมล คุณสามารถยกเลิกการสมัครได้ทุกเมื่อ"
+  },
+
+  "myCartPage": {
+    "_shipping_information": "ข้อมูลการจัดส่ง",
+    "_delivery_information": "ข้อมูลการส่งสินค้า",
+    "_payment": "การชำระเงิน",
+    "_confirmation": "การยืนยัน",
+    "_back_button": "ย้อนกลับ",
+    "_continue_button": "ดำเนินการต่อ",
+
+    "_id": "รหัส",
+    "_product": "สินค้า",
+    "_price": "ราคา",
+    "_quantity": "จำนวน",
+    "_total": "รวม",
+    "_actions": "การดำเนินการ",
+    "_available": "มีสินค้า",
+    "_items": "รายการ",
+    "_sub_total": "ยอดรวม",
+
+    "_add_new_address": "เพิ่มที่อยู่ใหม่",
+    "_add_address_title": "สร้างที่อยู่ใหม่",
+    "_update_address_title": "อัปเดตข้อมูลที่อยู่",
+    "_address": "ที่อยู่",
+    "_address_placeholder": "กรอกที่อยู่....",
+
+    "_product_list": "รายการสินค้า",
+    "_delivery_type": "เลือกประเภทการจัดส่ง",
+    "_door_to_door": "การจัดส่งถึงบ้าน",
+
+    "_payment_title": "เลือกวิธีการชำระเงิน",
+    "_wallet_status": "ยอดเงินในกระเป๋าเงินของคุณ",
+    "_i_agree": "ฉันยอมรับ",
+    "_abstract": "สรุป",
+
+    "_confirmation_title": "ชำระเงินสำเร็จ!",
+    "_confirmation_description": "ชำระเงินสำเร็จ!",
+    "_continue_shopping_button": "ดำเนินการช้อปปิ้งต่อ"
+  },
+
+  "global": {
+    "_edit_button": "แก้ไข",
+    "_delete_button": "ลบ",
+    "_close_button": "ปิด",
+    "_save_button": "บันทึก",
+    "_saving_button": "กำลังบันทึก....",
+    "_address": "ที่อยู่",
+    "_postal_code": "รหัสไปรษณีย์",
+    "_postal_code_placeholder": "กรอกรหัสไปรษณีย์....",
+    "_city": "เมือง",
+    "_province": "จังหวัด",
+    "_country": "ประเทศ",
+    "_telephone": "โทรศัพท์",
+    "_telephone_placeholder": "กรอกหมายเลขโทรศัพท์....",
+    "_email": "อีเมล",
+    "_email_placeholder": "กรอกอีเมล....",
+    "_contact_person": "ผู้ติดต่อ",
+    "_contact_person_placeholder": "กรอกชื่อผู้ติดต่อ...."
   }
 }

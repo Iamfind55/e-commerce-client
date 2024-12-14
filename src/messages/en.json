@@ -189,5 +189,63 @@
     "_email": "Email",
     "_email_placeholder": "Email address....",
     "_subscribe_description": "Get The Latest Updates via email. Any time you may unsubscribe"
+  },
+
+  "myCartPage": {
+    "_shipping_information": "Shipping information",
+    "_delivery_information": "Delivery information",
+    "_payment": "Payment",
+    "_confirmation": "Confirmation",
+    "_back_button": "Return Back",
+    "_continue_button": "Continue",
+
+    "_id": "ID",
+    "_product": "Product",
+    "_price": "Price",
+    "_quantity": "Quantity",
+    "_total": "Total",
+    "_actions": "Actions",
+    "_available": "Available",
+    "_items": "Items",
+    "_sub_total": "Subtotal",
+
+    "_add_new_address": "Add new address",
+    "_add_address_title": "Create new address",
+    "_update_address_title": "Update address data",
+    "_address": "Address",
+    "_address_placeholder": "Enter address....",
+
+    "_product_list": "Product lists",
+    "_delivery_type": "Select delivery type",
+    "_door_to_door": "Door-to-door delivery",
+
+    "_payment_title": "Choose payment method",
+    "_wallet_status": "Your wallet balance",
+    "_i_agree": "I agree",
+    "_abstract": "Abstract",
+
+    "_confirmation_title": "Payment Successful!",
+    "_confirmation_description": "Payment Successful!",
+    "_continue_shopping_button":"Continue Shopping"
+  },
+
+  "global": {
+    "_edit_button": "Edit",
+    "_delete_button": "Delete",
+    "_close_button": "Close",
+    "_save_button": "Save",
+    "_saving_button": "Saving....",
+    "_address": "Address",
+    "_postal_code": "Postal code",
+    "_postal_code_placeholder": "Enter postal code....",
+    "_city": "City",
+    "_province": "Province",
+    "_country": "Country",
+    "_telephone": "Telephone",
+    "_telephone_placeholder": "Enter telephone....",
+    "_email": "Email",
+    "_email_placeholder": "Enter email....",
+    "_contact_person": "Contact person",
+    "_contact_person_placeholder": "Enter contact person...."
   }
 }

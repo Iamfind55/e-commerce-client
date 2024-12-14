@@ -16,7 +16,11 @@ import { useRouter } from "@/navigation";
 import ShippingInformation from "./components/shipping-detail";
 import DeliveryDetails from "./components/delivery-detail";
 import PaymentDetails from "./components/pyment-detail";
+import { useTranslations } from "next-intl";
+import Confirmation from "./components/confirmation";
 export default function MyCart() {
+  const t = useTranslations("myCartPage");
+  const u = useTranslations("homePage");
   const router = useRouter();
   const [tab, setTab] = React.useState<number>(1);
   const handleBack = () => {
@@ -45,7 +49,7 @@ export default function MyCart() {
                     }`}
                   >
                     <CartIcon size={26} />
-                    <p className="hidden sm:block text-sm">My cart</p>
+                    <p className="hidden sm:block text-sm">{u("_my_cart")}</p>
                   </div>
                 </button>
               </li>
@@ -64,7 +68,7 @@ export default function MyCart() {
                   >
                     <LocationIcon size={26} />
                     <p className="hidden sm:block text-sm">
-                      Shipping information
+                      {t("_shipping_information")}
                     </p>
                   </div>
                 </button>
@@ -84,7 +88,7 @@ export default function MyCart() {
                   >
                     <DeliveryIcon size={26} />
                     <p className="hidden sm:block text-sm">
-                      Delivery information
+                      {t("_delivery_information")}
                     </p>
                   </div>
                 </button>
@@ -103,7 +107,7 @@ export default function MyCart() {
                     }`}
                   >
                     <DollarIcon size={26} />
-                    <p className="hidden sm:block text-sm">Payment</p>
+                    <p className="hidden sm:block text-sm">{t("_payment")}</p>
                   </div>
                 </button>
               </li>
@@ -121,7 +125,9 @@ export default function MyCart() {
                     }`}
                   >
                     <CheckCircleIcon size={26} />
-                    <p className="hidden sm:block text-sm">Confirmation</p>
+                    <p className="hidden sm:block text-sm">
+                      {t("_confirmation")}
+                    </p>
                   </div>
                 </button>
               </li>
@@ -136,11 +142,11 @@ export default function MyCart() {
               {tab === 2 && <ShippingInformation />}
               {tab === 3 && <DeliveryDetails />}
               {tab === 4 && <PaymentDetails />}
-              {tab === 5 && "5"}
+              {tab === 5 && <Confirmation />}
             </div>
             <div
               className={`w-full flex items-start justify-between ${
-                tab === 4 && "hidden"
+                tab === 4 || (tab == 5 && "hidden")
               }`}
             >
               <IconButton
@@ -148,12 +154,12 @@ export default function MyCart() {
                 icon={<BackIcon />}
                 isFront={true}
                 type="button"
-                title="Return Back"
+                title={t("_back_button")}
                 onClick={() => handleBack()}
               />
               <IconButton
                 className="rounded text-white p-2 bg-neon_pink w-auto mt-4 text-xs border border-neon_pink"
-                title="Continue"
+                title={t("_continue_button")}
                 type="button"
                 onClick={() => setTab(tab + 1)}
               />
