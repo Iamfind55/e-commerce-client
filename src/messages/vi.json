@@ -359,5 +359,38 @@
     "_proof_of_purchase_08": "Địa chỉ email sử dụng để mua sản phẩm",
     "_return_without_problem_title": "Nếu không có vấn đề gì, tôi có thể trả hàng không?",
     "_return_without_problem_01": "Sản phẩm này có thể được trả lại theo chính sách trả hàng của chúng tôi tại bất kỳ cửa hàng nào."
+  },
+
+  "support_policy": {
+    "_support_policy_title": "Thông Báo và Giới Hạn Trách Nhiệm",
+    "_disclaimer_01": "Dịch vụ TikTokShop Global và tất cả thông tin, nội dung, tài liệu, sản phẩm (bao gồm phần mềm) và các dịch vụ khác có sẵn qua dịch vụ TikTokShop Global được cung cấp bởi TikTokShop Global theo dạng 'như có' và 'như có sẵn', trừ khi có thông báo khác bằng văn bản. TikTokShop Global không cam kết hay bảo đảm, dù là rõ ràng hay ngụ ý, về việc vận hành dịch vụ TikTokShop Global hoặc các thông tin, nội dung, tài liệu, sản phẩm (bao gồm phần mềm) hoặc các dịch vụ khác có trong hoặc qua dịch vụ TikTokShop Global, trừ khi có thông báo khác bằng văn bản. Bạn đồng ý rõ ràng rằng việc sử dụng dịch vụ TikTokShop Global của bạn là do rủi ro của riêng bạn.",
+    "_disclaimer_02": "Trong phạm vi tối đa được phép theo pháp luật, TikTokShop Global từ chối tất cả các bảo đảm, dù là rõ ràng hay ngụ ý, bao gồm nhưng không giới hạn bảo đảm ngụ ý về tính thương mại và sự phù hợp cho mục đích cụ thể. TikTokShop Global không bảo đảm rằng dịch vụ TikTokShop Global, thông tin, nội dung, tài liệu, sản phẩm (bao gồm phần mềm) hoặc các sản phẩm có trong hoặc qua dịch vụ TikTokShop Global, các máy chủ của TikTokShop Global, hoặc các thông tin điện tử được gửi từ TikTokShop Global cho bạn là không có virus hay các thành phần gây hại khác. Trong phạm vi tối đa được phép theo pháp luật, TikTokShop Global không chịu trách nhiệm về việc sử dụng bất kỳ dịch vụ TikTokShop Global nào hoặc bất kỳ thông tin, nội dung, tài liệu.",
+    "_website_policies": "Chính Sách Website, Sửa Đổi và Tính Tách Biệt",
+    "_website_policy_01": "Vui lòng xem lại các chính sách khác của chúng tôi được đăng trên website này, chẳng hạn như chính sách giá. Những chính sách này cũng áp dụng cho việc sử dụng dịch vụ TikTokShop Global của bạn. Chúng tôi có quyền thay đổi website, chính sách, điều khoản dịch vụ và điều kiện sử dụng này bất kỳ lúc nào.",
+    "_website_policy_02": "Nếu bất kỳ điều khoản nào trong những điều khoản này được cho là không hợp lệ, vô hiệu hoặc không thể thi hành vì lý do nào đó, điều khoản đó sẽ được coi là tách biệt và không ảnh hưởng đến tính hợp lệ và khả năng thi hành của các điều khoản còn lại.",
+    "_website_info": "Website của chúng tôi: https://tiktokshop.online",
+    "_email_info": "Email: admin@tiktokshop.online",
+    "_software_terms_title": "Điều Khoản Phần Mềm TikTokShop Global",
+    "_software_terms_01": "Các điều khoản sau đây ('Điều Khoản Phần Mềm') áp dụng cho bất kỳ phần mềm nào (bao gồm các bản cập nhật hoặc nâng cấp của phần mềm) và tài liệu liên quan mà chúng tôi cung cấp cho bạn trong bối cảnh dịch vụ TikTokShop Global ('Phần Mềm TikTokShop Global').",
+    "_software_terms_02": "1. Sử Dụng Phần Mềm TikTokShop Global. Bạn chỉ có thể sử dụng phần mềm TikTokShop để mục đích kích hoạt việc sử dụng dịch vụ TikTokShop do TikTokShop cung cấp và theo các điều khoản trong Điều Kiện Sử Dụng này và bất kỳ Điều Khoản Dịch Vụ nào. Bạn không được tích hợp bất kỳ phần nào của phần mềm DHL.PS vào một chương trình khác, biên dịch bất kỳ phần nào của nó với một chương trình khác, hoặc sao chép (ngoại trừ việc thực hiện các quyền được cấp phép trong phần này), sửa đổi, tạo các công trình phái sinh, phân phối, chuyển nhượng hoặc cấp phép bất kỳ quyền nào đối với phần mềm TikTokShop Global, dù là toàn bộ hay một phần.",
+    "_software_terms_03": "2. Sử Dụng Dịch Vụ của Bên Thứ Ba. Khi bạn sử dụng phần mềm TikTokShop, bạn cũng có thể đang sử dụng dịch vụ của một hoặc nhiều bên thứ ba, chẳng hạn như nhà cung cấp dịch vụ không dây hoặc nhà cung cấp phần mềm di động. Việc sử dụng các dịch vụ của các bên thứ ba này có thể chịu sự điều chỉnh của các chính sách, điều khoản sử dụng và phí của các bên thứ ba này.",
+    "_software_terms_04": "3. Cấm Kỹ Thuật Phá Hoại. Bạn không được tiến hành kỹ thuật đảo ngược, giải mã hoặc tháo dỡ, sửa đổi hoặc bỏ qua bất kỳ biện pháp bảo mật nào liên quan đến phần mềm TikTokShop, dù là toàn bộ hay một phần.",
+    "_software_terms_05": "4. Cập Nhật. Chúng tôi có thể cung cấp các bản cập nhật tự động hoặc thủ công cho phần mềm DHL.PS bất kỳ lúc nào mà không cần thông báo.",
+    "_software_terms_06": "5. Mâu Thuẫn. Nếu Điều Kiện Sử Dụng này mâu thuẫn với bất kỳ điều khoản nào khác của DHL.PS hoặc của bên thứ ba (ví dụ, các điều khoản cấp phép mã nguồn mở) áp dụng cho bất kỳ phần nào của phần mềm DHL.PS, thì các điều khoản khác đó sẽ điều chỉnh trong phạm vi mâu thuẫn với phần mềm TikTokShop Global.",
+    "_legal_process_title": "Cách Nộp Lệnh Truy Tố hoặc Quy Trình Pháp Lý Khác",
+    "_legal_process_01": "TikTokShop chỉ chấp nhận lệnh truy tố hoặc quy trình pháp lý khác thông qua Dịch vụ Đại Lý Đăng Ký Quốc Gia của TikTokShop (CSC). Các lệnh truy tố hoặc quy trình pháp lý khác có thể được nộp bằng cách gửi đến CSC:",
+    "_legal_process_email": "Email: info@tiktokshop.online",
+    "_legal_process_info": "Xin lưu ý rằng việc cung cấp thông tin chi tiết và chính xác ngay từ đầu sẽ giúp bạn xử lý yêu cầu một cách hiệu quả. Thông tin này bao gồm, ví dụ, số điện thoại và/hoặc số thẻ tín dụng để kiểm tra thông tin mua hàng bán lẻ; tên người bán, địa chỉ email và số sê-ri của thiết bị; và địa chỉ IP và thời gian đầy đủ.",
+    "_ip_infringement_title": "Thông Báo và Quy Trình Khiếu Nại Vi Phạm Sở Hữu Sở Hữu Trí Tuệ",
+    "_ip_infringement_01": "Nếu bạn tin rằng quyền sở hữu trí tuệ của bạn đã bị vi phạm, vui lòng gửi khiếu nại của bạn thông qua mẫu trực tuyến của chúng tôi. Mẫu này có thể được sử dụng để báo cáo tất cả các loại khiếu nại về sở hữu trí tuệ, bao gồm nhưng không giới hạn các khiếu nại về bản quyền, nhãn hiệu và bằng sáng chế.",
+    "_ip_infringement_02": "Chúng tôi sẽ phản hồi nhanh chóng các mối quan ngại của chủ sở hữu quyền về việc vi phạm sở hữu trí tuệ và sẽ chấm dứt các vi phạm tái diễn khi thích hợp.",
+    "_ip_infringement_03": "Chúng tôi cung cấp lựa chọn sau đây cho khiếu nại về bản quyền. Bạn có thể gửi khiếu nại bản quyền bằng cách gửi đến Đại Diện Bản Quyền của chúng tôi như sau:",
+    "_ip_infringement_04": "Khiếu nại về bản quyền phải bao gồm các thông tin sau:",
+    "_ip_infringement_info_01": "• Chữ ký vật lý hoặc điện tử của người được ủy quyền hành động thay mặt chủ sở hữu bản quyền;",
+    "_ip_infringement_info_02": "• Mô tả tác phẩm có bản quyền mà bạn cho rằng đã bị vi phạm;",
+    "_ip_infringement_info_03": "• Xác định vị trí mà tài liệu mà bạn cho rằng vi phạm nằm trên trang web;",
+    "_ip_infringement_info_04": "• Địa chỉ của bạn, số điện thoại và địa chỉ email;",
+    "_ip_infringement_info_05": "• Tuyên bố của bạn rằng bạn có niềm tin chính đáng rằng việc sử dụng tranh chấp không được phép bởi chủ sở hữu bản quyền, đại lý của họ, hoặc theo pháp luật;",
+    "_ip_infringement_info_06": "• Tuyên bố của bạn, dưới hình thức tuyên thệ, rằng thông tin trên trong thông báo của bạn là chính xác và bạn là chủ sở hữu bản quyền hoặc được ủy quyền hành động thay mặt chủ sở hữu bản quyền."
   }
 }

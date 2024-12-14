@@ -359,5 +359,38 @@
     "_proof_of_purchase_08": "The email address used to purchase the item.",
     "_return_without_problem_title": "If there is no problem, can I return it?",
     "_return_without_problem_01": "This product can be returned to any store under our return policy."
+  },
+
+  "support_policy": {
+    "_support_policy_title": "Disclaimer and Limitation of Liability",
+    "_disclaimer_01": "The TikTokShop Global Service and all information, content, materials, products (including software) and other services included in or otherwise made available to you through the TikTokShop Global Service are provided by TikTokShop Global on an 'as is' and 'as available' basis, unless otherwise stated in writing. TikTokShop Global makes no representations or warranties, express or implied, as to the operation of the TikTokShop Global Service or the information, content, materials, products (including software) or other services included in or otherwise made available through the DHL.PS Global Service, unless otherwise stated in writing. You expressly agree that your use of the DHL.PS Global Service is at your sole risk.",
+    "_disclaimer_02": "To the fullest extent permitted by law, TikTokShop Global disclaims all warranties, express or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. TikTokShop Global does not warrant that the TikTokShop Global Service, information, content, materials, products (including software) or products included in or through the TikTokShop Global Service, TikTokShop Global servers, or TikTokShop Global electronic communications sent to you are free of viruses or other harmful components. To the maximum extent permitted by law, TikTokShop Global does not assume any responsibility for the use of any TikTokShop Global Service or any information, content, materials.",
+    "_website_policies": "Website Policies, Modifications and Severability",
+    "_website_policy_01": "Please review our other policies posted on this website, such as our pricing policy. These policies also apply to your use of the TikTokShop Global Service. We reserve the right to change our website, policies, terms of service and these conditions of use at any time.",
+    "_website_policy_02": "If any of these conditions is deemed invalid, void or unenforceable for any reason, then that condition shall be deemed severable and shall not affect the validity and enforceability of any remaining condition.",
+    "_website_info": "Our website: https://tiktokshop.online",
+    "_email_info": "Email: admin@tiktokshop.online",
+    "_software_terms_title": "TikTokShop Global Software Additional Terms",
+    "_software_terms_01": "The following terms ('Software Terms') apply to any software (including any updates or upgrades to the software) and any related documentation we provide to you in connection with the TikTokShop Global Service ('TikTokShop Global Software').",
+    "_software_terms_02": "1. Use of TikTokShop Global Software. You may only use the TikTokShop Software for the purpose of enabling you to use the TikTokShop services provided by TikTokShop and as permitted by these Conditions of Use and any Terms of Service. You may not incorporate any part of the DHL.PS Software into another program, compile any part of it with another program, or otherwise copy (except to exercise the rights granted in this section), modify, create derivative works, distribute, transfer, or license any rights in the TikTokShop Global Software in whole or in part.",
+    "_software_terms_03": "2. Use of Third-Party Services. When you use the TikTokShop Software, you may also be using the services of one or more third parties, such as wireless carriers or mobile software providers. Your use of these third-party services may be subject to the separate policies, terms of use, and fees of these third parties.",
+    "_software_terms_04": "3. No Reverse Engineering. You may not reverse engineer, decompile or disassemble, modify or bypass any security measures associated with the TikTokShop Software, whether in whole or in part.",
+    "_software_terms_05": "4. Updates. We may provide automatic or manual updates to the DHL.PS Software at any time without notice.",
+    "_software_terms_06": "5. Conflicts. If these Conditions of Use conflict with any other DHL.PS or third-party terms (e.g., open source license terms) applicable to any portion of the DHL.PS Software, such other terms will control to the extent that portion conflicts with the DHL.PS Global Software.",
+    "_legal_process_title": "How to Serve Subpoenas or Other Legal Process",
+    "_legal_process_01": "TikTokShop accepts service of subpoenas or other legal process only through TikTokShops National Registered Agent Company Service (CSC). Subpoenas or other legal process may be served by sending them to CSC:",
+    "_legal_process_email": "Email: info@tiktokshop.online",
+    "_legal_process_info": "Please also note that providing detailed and accurate information at the outset will assist you in efficiently processing your request. This information will include, for example, email and/or credit card number for retail purchase information; the sellers name, email address, and device serial number; and IP address and full timestamp.",
+    "_ip_infringement_title": "Notice and Procedure for Intellectual Property Infringement Claims",
+    "_ip_infringement_01": "If you believe that your intellectual property rights have been infringed, please submit your complaint using our online form. This form may be used to report all types of intellectual property claims, including, but not limited to, copyright, trademark, and patent claims.",
+    "_ip_infringement_02": "We will respond promptly to rights holders concerns regarding any alleged infringement and terminate repeat infringers where appropriate.",
+    "_ip_infringement_03": "We offer the following alternative to the online form for copyright complaints only. You may submit a written claim of copyright infringement to our Copyright Agent as follows:",
+    "_ip_infringement_04": "Written claims of copyright infringement must include the following information:",
+    "_ip_infringement_info_01": "• A physical or electronic signature of a person authorized to act on behalf of the copyright owner;",
+    "_ip_infringement_info_02": "• A description of the copyrighted work that you claim has been infringed;",
+    "_ip_infringement_info_03": "• Identification of where the material that you claim is infringing is located on the Site;",
+    "_ip_infringement_info_04": "• Your address, telephone number, and email address;",
+    "_ip_infringement_info_05": "• A statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law;",
+    "_ip_infringement_info_06": "• A statement by you, made under penalty of perjury, that the above information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf."
   }
 }

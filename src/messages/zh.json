@@ -359,5 +359,38 @@
     "_proof_of_purchase_08": "用于购买商品的电子邮件地址",
     "_return_without_problem_title": "如果没有问题，我可以退货吗？",
     "_return_without_problem_01": "该商品可以根据我们的退货政策退还到任何商店。"
+  },
+
+  "support_policy": {
+    "_support_policy_title": "免责声明和责任限制",
+    "_disclaimer_01": "TikTokShop Global 服务及所有信息、内容、材料、产品（包括软件）和通过 TikTokShop Global 服务提供的其他服务均由 TikTokShop Global 提供，且按“现状”和“可用”提供，除非另有书面说明。TikTokShop Global 不对 TikTokShop Global 服务的运行或其中包含或通过 TikTokShop Global 服务提供的任何信息、内容、材料、产品（包括软件）或其他服务作出任何明示或暗示的陈述或保证，除非另有书面说明。您明确同意，您使用 TikTokShop Global 服务的风险由您自行承担。",
+    "_disclaimer_02": "在法律允许的最大范围内，TikTokShop Global 免责声明所有明示或暗示的保证，包括但不限于适销性和特定用途适用性的暗示保证。TikTokShop Global 不保证 TikTokShop Global 服务、信息、内容、材料、产品（包括软件）或通过 TikTokShop Global 服务提供的产品、TikTokShop Global 服务器或 TikTokShop Global 发送给您的电子通信中不包含病毒或其他有害组件。在法律允许的最大范围内，TikTokShop Global 不承担任何责任，亦不对使用任何 TikTokShop Global 服务或任何信息、内容、材料负责。",
+    "_website_policies": "网站政策、修改和可分割性",
+    "_website_policy_01": "请查看本网站发布的其他政策，例如我们的定价政策。这些政策同样适用于您使用 TikTokShop Global 服务。我们保留随时更改我们的网站、政策、服务条款及本使用条款的权利。",
+    "_website_policy_02": "如果其中任何一条被认为无效、无效或不可执行，则该条款应被视为可分割的，并且不会影响任何剩余条款的有效性和可执行性。",
+    "_website_info": "我们的网站：https://tiktokshop.online",
+    "_email_info": "电子邮件：admin@tiktokshop.online",
+    "_software_terms_title": "TikTokShop Global 软件附加条款",
+    "_software_terms_01": "以下条款（'软件条款'）适用于我们在与 TikTokShop Global 服务相关的任何软件（包括任何软件更新或升级）及相关文档（'TikTokShop Global 软件'）。",
+    "_software_terms_02": "1. 使用 TikTokShop Global 软件。您仅可将 TikTokShop 软件用于启用您使用 TikTokShop 提供的服务的目的，并且仅限于本使用条款及任何服务条款所允许的范围内。您不得将任何部分的 DHL.PS 软件整合到其他程序中，或与其他程序一起编译，或以其他方式复制（除非行使本条款所授予的权利）、修改、创建衍生作品、分发、转让或许可 TikTokShop Global 软件的任何部分。",
+    "_software_terms_03": "2. 使用第三方服务。当您使用 TikTokShop 软件时，您可能还在使用一个或多个第三方的服务，如无线运营商或移动软件提供商。您使用这些第三方服务时，可能会受到这些第三方的单独政策、使用条款和费用的约束。",
+    "_software_terms_04": "3. 禁止反向工程。您不得反向工程、反编译或拆解、修改或绕过与 TikTokShop 软件相关的任何安全措施，无论是全部还是部分。",
+    "_software_terms_05": "4. 更新。我们可能会随时提供 TikTokShop Global 软件的自动或手动更新，恕不另行通知。",
+    "_software_terms_06": "5. 冲突。如果本使用条款与任何其他 DHL.PS 或第三方条款（例如，开源许可条款）冲突，适用于部分 DHL.PS 软件的其他条款将适用，在冲突的部分优先适用。",
+    "_legal_process_title": "如何送达传票或其他法律程序",
+    "_legal_process_01": "TikTokShop 仅通过 TikTokShop 国家注册代理公司服务（CSC）接受传票或其他法律程序。传票或其他法律程序可以通过发送给 CSC 来送达：",
+    "_legal_process_email": "电子邮件：info@tiktokshop.online",
+    "_legal_process_info": "请注意，提供详细且准确的信息将有助于您高效处理请求。这些信息可能包括，例如，零售购买信息的电子邮件和/或信用卡号码；卖家的姓名、电子邮件地址和设备序列号；以及 IP 地址和完整时间戳。",
+    "_ip_infringement_title": "知识产权侵权声明和程序",
+    "_ip_infringement_01": "如果您认为您的知识产权受到侵犯，请通过我们的在线表单提交您的投诉。此表单可用于报告所有类型的知识产权侵权投诉，包括但不限于版权、商标和专利投诉。",
+    "_ip_infringement_02": "我们将迅速响应权利人的知识产权侵权问题，并在适当时终止重复侵权行为。",
+    "_ip_infringement_03": "我们提供以下版权投诉选项。您可以通过以下方式向我们的版权代理人提交版权投诉：",
+    "_ip_infringement_04": "版权投诉应包含以下信息：",
+    "_ip_infringement_info_01": "• 被授权代表版权拥有者签署的电子或物理签名；",
+    "_ip_infringement_info_02": "• 描述您认为被侵犯的版权作品；",
+    "_ip_infringement_info_03": "• 确认涉嫌侵权材料在网站上的位置；",
+    "_ip_infringement_info_04": "• 您的地址、电话号码和电子邮件地址；",
+    "_ip_infringement_info_05": "• 您的声明，表明您有合理的信念认为被争议的使用未经版权拥有者、其代理商或法律授权；",
+    "_ip_infringement_info_06": "• 您的声明，在宣誓下，您在通知中的信息准确无误，并且您是版权拥有者或有权代表版权拥有者行事。"
   }
 }
