@@ -19,23 +19,34 @@ type SliderImage = {
   alt: string;
 };
 
+type SlideText = {
+  title: string;
+  description: string;
+};
+
 type GlobalSliderProps = {
   images: SliderImage[];
   height?: string;
   slidePerview?: number;
+  hasText?: boolean;
+  pagination?: boolean;
+  text?: SlideText[];
 };
 
 const GlobalSlider: React.FC<GlobalSliderProps> = ({
   images,
-  slidePerview,
-  height,
+  slidePerview = 1,
+  hasText = false,
+  pagination = false,
+  text = [],
+  height = "h-[60vh]",
 }) => {
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
       spaceBetween={50}
       slidesPerView={slidePerview}
-      pagination={{ clickable: true }}
+      pagination={{ clickable: pagination }}
       loop={true}
       autoplay={{
         delay: 3000,
@@ -44,15 +55,26 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
     >
       {images.map((image, index) => (
         <SwiperSlide key={index}>
-          {/* <div className={`w-full h-36 sm:h-[${height}] text-black relative`}> */}
-          <div className={`w-full h-36 sm:h-[50vh] text-black relative`}>
-            <Image
-              className="w-full h-full object-cover rounded"
-              src={image.src}
-              alt={image.alt}
-              width={200}
-              height={250}
-            />
+          <div className="flex items-start justify-start gap-4 flex-col py-6 ">
+            <div className={`w-full h-36 sm:${height} text-black relative`}>
+              <Image
+                className="w-full h-full object-cover rounded"
+                src={image.src}
+                alt={image.alt}
+                width={200}
+                height={250}
+              />
+            </div>
+            {hasText && text[index] && (
+              <div className="p-4 flex items-center justify-center flex-col gap-2 py-4">
+                <h1 className="text-lg font-bold text-black">
+                  {text[index]?.title}
+                </h1>
+                <p className="text-sm text-gray-600 text-center">
+                  {text[index]?.description}
+                </p>
+              </div>
+            )}
           </div>
         </SwiperSlide>
       ))}

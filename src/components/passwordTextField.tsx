@@ -20,7 +20,7 @@ export default function Password(props: TextfieldProps) {
         <input
           id={props?.id}
           type={ispassword ? "password" : "text"}
-          className={`text-xs p-4 mt-2 rounded w-full border pr-[50px] border-light_gray2 focus:border-light_gray2 focus:bg-white focus:ring-1 focus:ring-secondary text-base outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-sans`}
+          className={`text-xs p-4 mt-2 rounded w-full border pr-[50px] focus:bg-white focus:ring-1 focus:ring-secondary outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-sans h-9`}
           {...props}
         />
         <button

@@ -89,47 +89,19 @@ export default function SignUp() {
   };
 
   return (
-    <div
-      className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100"
-      // style={{ backgroundImage: "url('/images/auth-bg.png')" }}
-    >
-      <div className="h-[90vh] w-full flex items-center justify-center">
-        <div className="bg-white w-11/12 sm:w-2/5 md:w-4/5 lg:w-2/5 h-auto flex items-center justify-center flex-col gap-3 border p-2 sm:p-6 rounded overflow-y-scroll max-h-screen">
-          <Link href="/">
-            <Image
-              className="rounded-full cursor-pointer"
-              src="/images/okardcare-hori-logo.png"
-              alt=""
-              width={150}
-              height={200}
-              onClick={() => router.push("/")}
-            />
-          </Link>
-          <form className="w-full" onSubmit={handleSubmitForm}>
-            <div className="w-full grid grid-cols-2 gap-2 lg:grid-cols-2">
+    <div className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100">
+      <div className="h-screen w-full flex flex-col sm:flex-row items-center justify-center">
+        <div className="w-full sm:w-2/4 bg-white text-black h-screen py-4 sm:p-6 flex items-center justify-center flex-col gap-6">
+          <h1 className="text-black text-lg sm:text-title-xl2 font-normal sm:font-bold">
+            Sign up
+          </h1>
+          <form className="w-4/5" onSubmit={handleSubmitForm}>
+            <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-1">
               <Textfield
                 name="firstName"
-                placeholder="Enter first name...."
-                id="firstName"
-                title="First name"
-                required
-                color="text-b_text"
-                onChange={handleSignUp}
-              />
-              <Textfield
-                name="lastName"
-                placeholder="Enter last name...."
-                id="lastName"
-                title="Last name"
-                required
-                color="text-b_text"
-                onChange={handleSignUp}
-              />
-              <Textfield
-                name="phone"
-                placeholder="Enter phone number...."
-                id="phone"
-                title="Phone number"
+                placeholder="Enter your full name...."
+                id="fullName"
+                title="Full name"
                 required
                 color="text-b_text"
                 onChange={handleSignUp}
@@ -161,87 +133,70 @@ export default function SignUp() {
                 color="text-b_text"
                 onChange={handleConfirmPassword}
               />
-            </div>
-            <div className="flex items-start justify-between flex-col gap-2 text-b_text mt-4">
-              <div className="flex items-start justify-start gap-2">
-                {validationResult.isLongEnough ? (
-                  <CheckCircleIcon size={14} className="text-base" />
-                ) : (
-                  <CircleIcon size={14} className="text-b_text" />
-                )}
-                <p className="text-gray_color text-xs">Minimum 8 characters</p>
-              </div>
-              <div className="flex items-start justify-start gap-2">
-                {validationResult.hasUppercase ? (
-                  <CheckCircleIcon size={14} className="text-base" />
-                ) : (
-                  <CircleIcon size={14} className="text-b_text" />
-                )}
-                <p className="text-gray_color text-xs">
-                  At least one lowercase
-                </p>
-              </div>
-              <div className="flex items-start justify-start gap-2">
-                {validationResult.hasNumberSymbolOrWhitespace ? (
-                  <CheckCircleIcon size={14} className="text-base" />
-                ) : (
-                  <CircleIcon size={14} className="text-b_text" />
-                )}
-                <p className="text-gray_color text-xs">
-                  Include a number, symbol, or space
-                </p>
+              <div className="flex items-center mt-2">
+                <input
+                  id="link-checkbox"
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-2"
+                />
+                <label
+                  htmlFor="link-checkbox"
+                  className="ms-2 text-sm text-gray-500 "
+                >
+                  By registering, you agree to our&nbsp;&nbsp;
+                  <Link
+                    href="/terms-condition"
+                    className="text-neon_pink underline"
+                  >
+                    Terms and conditions
+                  </Link>
+                  .
+                </label>
               </div>
             </div>
             <br />
-            <Textfield
-              name="address"
-              placeholder="Enter address...."
-              id="address"
-              title="Address"
-              required
-              color="text-b_text"
-              multiline={true}
-              rows={2}
-              onChange={handleSignUp}
-            />
             <IconButton
-              className={`rounded p-2 text-xs w-full mt-2 text-xs ${
-                !validationResult.isValid ||
-                signupData.password !== confirmPassword
-                  ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-base text-white cursor-pointer"
-              }`}
+              className={`rounded p-2 text-xs w-full mt-2 text-xs bg-neon_pink text-white cursor-pointer`}
               icon={<NextIcon size={22} />}
               title="REGISTER"
               type="submit"
-              disabled={
-                !validationResult.isValid ||
-                signupData.password !== confirmPassword
-              }
             />
-            <div className="flex items-center justify-center gap-6 mt-6 mb-6">
-              <div className="border rounded-full p-2 cursor-pointer hover:border-base text-b_text hover:text-base">
-                <FacebookIcon size={18} />
-              </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-base text-b_text hover:text-base">
-                <GoogleIcon size={22} />
-              </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-base text-b_text hover:text-base">
-                <AppleIcon size={18} />
-              </div>
-            </div>
             <div className="flex items-center justify-center gap-4 mt-4">
               <p className="text-b_text text-sm italic">
                 Already have an account?
               </p>
               <Link
                 href="/signin"
-                className="font-bold underline text-base text-sm italic"
+                className="font-bold underline text-neon_pink text-sm italic"
               >
                 Sign In
               </Link>
             </div>
           </form>
+        </div>
+        <div className="h-auto sm:h-screen w-full sm:w-2/4 hidden sm:flex items-center justify-center flex-col gap-4 bg-black px-2 sm:px-6 py-4">
+          <div className="w-4/5 flex items-start justify-center gap-4 sm:gap-6 flex-col">
+            <h1 className="text-lg sm:text-title-medium font-bold">
+              Drive more sales and
+            </h1>
+            <h1 className="text-lg sm:text-title-medium text-neon_pink font-bold">
+              grow with TikTok Shop.
+            </h1>
+            <p className="text-md text-white">
+              TikTok Shop is a one-stop e-commerce solution for <br /> driving
+              brand growth and sales directly on TikTok, where <br />
+              entertainment becomes shoppable.
+            </p>
+            <p className="text-sm text-neon_blue">
+              70% of TikTok users discover new brands and products on TikTok.*
+            </p>
+            <p className="text-gray-300 text-xs">
+              *Source: TikTok Marketing Science Global Retail Path to Purchase
+              (US Results) conducted by <br />
+              Material August 2020.
+            </p>
+          </div>
         </div>
       </div>
     </div>

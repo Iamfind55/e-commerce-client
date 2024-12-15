@@ -25,9 +25,9 @@ export function middleware(req: NextRequest) {
     : pathname;
 
   if (protectedPaths.some((path) => normalizedPathname.startsWith(path))) {
-    if (!userCookie) {
-      return NextResponse.redirect(new URL(`/${locale}/signin`, req.url));
-    }
+    // if (!userCookie) {
+    //   return NextResponse.redirect(new URL(`/${locale}/signin`, req.url));
+    // }
   }
 
   return intlMiddleware(req);

@@ -182,7 +182,7 @@ export default function Home() {
           <div className="h-auto w-full">
             <GlobalSlider
               images={sliderImages}
-              height="80vh"
+              height="h-[80vh]"
               slidePerview={1}
             />
           </div>
@@ -235,7 +235,7 @@ export default function Home() {
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannerImages01}
-              height="96"
+              height="h-[36vh]"
               slidePerview={1}
             />
           </div>
@@ -270,7 +270,7 @@ export default function Home() {
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannerImages02}
-              height="96"
+              height="h-[36vh]"
               slidePerview={1}
             />
           </div>
@@ -314,7 +314,7 @@ export default function Home() {
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannerImages03}
-              height="96"
+              height="h-[36vh]"
               slidePerview={1}
             />
           </div>

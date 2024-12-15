@@ -14,7 +14,10 @@ import { useDispatch } from "react-redux";
 import { login } from "@/redux/slice/authSlice";
 import Password from "@/components/passwordTextField";
 import MessageHandler from "@/components/messageHandler";
-import Image from "next/image";
+import GlobalSlider from "../../(pages)/home/slider";
+import sliderImage01 from "/public/images/login-image-01.webp";
+import sliderImage02 from "/public/images/login-image-02.webp";
+import sliderImage03 from "/public/images/login-image-03.webp";
 
 export default function Login() {
   const router = useRouter();
@@ -98,21 +101,48 @@ export default function Login() {
     }
   };
 
+  const sliderImages = [
+    { src: sliderImage01, alt: "Slider Image 1" },
+    { src: sliderImage02, alt: "Slider Image 2" },
+    { src: sliderImage03, alt: "Slider Image 3" },
+  ];
+
+  const sliderTexts = [
+    {
+      title: "Tap into a massive buyer network",
+      description:
+        "Develop a lasting relationship with an exploding community of users already talking about your products on TikTok.",
+    },
+    {
+      title: "Access to scaleable ecosystems",
+      description:
+        "Support your business no matter the size. From product upload, logistics to post-sale management, you'll find the tools you need to grow.",
+    },
+    {
+      title: "Discover real-time insights",
+      description:
+        "Get instant access to real-time insights into your store's performance, including sales data, customer behavior, and more.",
+    },
+  ];
+
   return (
     <div className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100">
-      <div className="h-[80vh] w-full flex items-center justify-center">
-        <div className="bg-white w-11/12 sm:w-2/5 md:w-4/5 lg:w-2/5 h-auto sm:h-full flex items-center justify-center flex-col gap-3 p-4 sm:p-10 rounded">
-          <Link href="/">
-            <Image
-              className="rounded-full cursor-pointer"
-              src="/images/okardcare-hori-logo.png"
-              alt=""
-              width={200}
-              height={250}
-              onClick={() => router.push("/")}
+      <div className="h-screen w-full flex items-center justify-between">
+        <div className="w-2/4 h-screen hidden sm:flex items-center justify-center px-6">
+          <div className="w-4/5">
+            <GlobalSlider
+              images={sliderImages}
+              height="h-[50vh]"
+              slidePerview={1}
+              text={sliderTexts}
+              hasText={true}
+              pagination={true}
             />
-          </Link>
-          <form action="" className="w-full" onSubmit={handleSubmitForm}>
+          </div>
+        </div>
+        <div className="w-full sm:w-2/4 bg-white text-black h-screen p-0 sm:p-6 flex items-center justify-center flex-col gap-6">
+          <h1 className="text-black text-title-xl2">Sign in</h1>
+          <form action="" className="w-4/5" onSubmit={handleSubmitForm}>
             <Textfield
               name="email"
               placeholder="Email...."
@@ -141,7 +171,7 @@ export default function Login() {
               </i>
             </Link>
             <IconButton
-              className="rounded text-white p-2 bg-base w-full mt-4 text-xs"
+              className="rounded text-white p-2 bg-neon_pink w-full mt-4 text-xs"
               icon={isLoading ? "" : <NextIcon size={22} />}
               isFront={isLoading ? true : false}
               title={isLoading ? "LOGING...." : "LOG IN"}
@@ -151,13 +181,13 @@ export default function Login() {
               ----- OR -----
             </div>
             <div className="flex items-center justify-center gap-6 mt-6 mb-6">
-              <div className="border rounded-full p-2 cursor-pointer hover:border-base text-b_text hover:text-base">
+              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
                 <FacebookIcon size={18} />
               </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-base text-b_text hover:text-base">
+              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
                 <GoogleIcon size={22} />
               </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-base text-b_text hover:text-base">
+              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
                 <AppleIcon size={18} />
               </div>
             </div>
@@ -167,9 +197,9 @@ export default function Login() {
               </p>
               <Link
                 href="/signup"
-                className="font-bold underline text-base text-sm italic"
+                className="font-bold underline text-neon_pink text-sm italic"
               >
-                Sign Up
+                Sign up now
               </Link>
             </div>
           </form>
