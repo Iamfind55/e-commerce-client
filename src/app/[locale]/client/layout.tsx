@@ -22,7 +22,7 @@ import { logout } from "@/redux/slice/authSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { menuItems, mobileMenuItems } from "./routes";
 import { ITokens } from "@/types/login";
-import { ActionLogout } from "@/api/auth";
+// import { ActionLogout } from "@/api/auth";
 import { useToast } from "@/utils/toast";
 import { persistor } from "@/redux/store";
 import Image from "next/image";
@@ -46,17 +46,6 @@ export default function RootLayout({
     try {
       if (!user?.email) {
         throw new Error("User email not available.");
-      }
-      const res: ITokens = await ActionLogout({ email: user.email });
-      if (res?.status === 200) {
-        dispatch(logout());
-        await persistor.purge();
-        router.push("/signin");
-      } else {
-        errorMessage({
-          message: "Failed to log out. Please try again.",
-          duration: 3000,
-        });
       }
     } catch (error) {
       console.log(error);

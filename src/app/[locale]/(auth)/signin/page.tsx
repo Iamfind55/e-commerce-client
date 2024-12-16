@@ -7,7 +7,6 @@ import Textfield from "@/components/textField";
 import { AppleIcon, FacebookIcon, GoogleIcon, NextIcon } from "@/icons/page";
 import Link from "next/link";
 import { ILogins, ITokens } from "@/types/login";
-import { ActionLogin } from "@/api/auth";
 import { useToast } from "@/utils/toast";
 import { queryData } from "@/api/api";
 import { useDispatch } from "react-redux";
@@ -84,20 +83,6 @@ export default function Login() {
       });
       setIsLoading(false);
       return;
-    }
-    try {
-      const res: ITokens = await ActionLogin(loginData);
-      setResponse(res);
-      if (res.status === 200) {
-        queryUserData();
-        router.push("/client");
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        errorMessage({ message: error.message, duration: 3000 });
-      }
-    } finally {
-      setIsLoading(false);
     }
   };
 

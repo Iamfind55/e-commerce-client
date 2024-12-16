@@ -1,52 +1,37 @@
 "use client";
 
+import React from "react";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+// components
+import Password from "@/components/passwordTextField";
 import IconButton from "@/components/iconButton";
 import Textfield from "@/components/textField";
-import {
-  AppleIcon,
-  CheckCircleIcon,
-  CircleIcon,
-  FacebookIcon,
-  GoogleIcon,
-  NextIcon,
-} from "@/icons/page";
-import Link from "next/link";
-import React from "react";
+import { NextIcon } from "@/icons/page";
+
+// type and untils
 import { ISignups } from "@/types/signup";
-import { ActionSignUp } from "@/api/auth";
-import { ITokens } from "@/types/login";
 import { useToast } from "@/utils/toast";
-import { validatePassword } from "@/utils/validatePassword";
-import Password from "@/components/passwordTextField";
-import Image from "next/image";
+
+// graphql API
+import { SHOP_REGISTER } from "@/api/auth";
 
 export default function SignUp() {
   const router = useRouter();
   const { successMessage, errorMessage } = useToast();
+  const [registerShop] = useMutation(SHOP_REGISTER);
   const [signupData, setSignupData] = React.useState<ISignups>({
-    firstName: "",
-    lastName: "",
-    phone: "",
+    fullname: "",
+    username: "",
     email: "",
     password: "",
-    address: "",
   });
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
 
-  const [validationResult, setValidationResult] = React.useState({
-    isValid: false,
-    hasUppercase: false,
-    hasNumberSymbolOrWhitespace: false,
-    isLongEnough: false,
-  });
-
-  const handleSignUp = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeSignUpData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
-    if (e.target.name === "password") {
-      const result = validatePassword(e.target.value);
-      setValidationResult(result);
-    }
   };
 
   const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,33 +44,39 @@ export default function SignUp() {
       errorMessage({ message: "Passwords do not match!", duration: 3000 });
       return;
     }
+    try {
+      const { data } = await registerShop({
+        variables: {
+          data: {
+            username: signupData.username,
+            fullname: signupData.fullname,
+            email: signupData.email,
+            password: signupData.password,
+          },
+        },
+      });
 
-    if (!validationResult.isValid) {
+      if (data.shopRegister.success) {
+        successMessage({
+          message: "Signup successful!",
+          duration: 3000,
+        });
+        // Store the token in cookies
+        document.cookie = `auth_token=${data.shopRegister.data.token}; path=/; max-age=3600`;
+        router.push("/client");
+      } else {
+        errorMessage({
+          message: data.shopRegister.error?.message || "Signup failed!",
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
       errorMessage({
-        message: "Password does not meet the requirements!",
+        message: "An unexpected error occurred during signup.",
         duration: 3000,
       });
-      return;
     }
-
-    ActionSignUp(signupData).then((res: ITokens) => {
-      try {
-        if (res.status === 400) {
-          errorMessage({ message: res?.message, duration: 2000 });
-        }
-        if (res.status === 408) {
-          errorMessage({ message: res?.message, duration: 2000 });
-        }
-        if (res.status === 201) {
-          successMessage({ message: "Register successful!", duration: 500 });
-          router.push("/signin");
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          errorMessage({ message: error.message, duration: 3000 });
-        }
-      }
-    });
   };
 
   return (
@@ -98,30 +89,40 @@ export default function SignUp() {
           <form className="w-4/5" onSubmit={handleSubmitForm}>
             <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-1">
               <Textfield
-                name="firstName"
+                name="fullname"
                 placeholder="Enter your full name...."
-                id="fullName"
+                id="fullname"
                 title="Full name"
                 required
-                color="text-b_text"
-                onChange={handleSignUp}
+                type="text"
+                onChange={handleChangeSignUpData}
+              />
+              <Textfield
+                name="username"
+                placeholder="Enter username...."
+                id="username"
+                title="Username"
+                required
+                type="text"
+                onChange={handleChangeSignUpData}
               />
               <Textfield
                 name="email"
-                placeholder="Enter email...."
+                placeholder="Enter email address...."
                 id="email"
                 title="Email"
                 required
+                type="email"
                 color="text-b_text"
-                onChange={handleSignUp}
+                onChange={handleChangeSignUpData}
               />
               <Password
                 name="password"
                 id="password"
                 title="Password"
                 required
-                color="text-b_text"
-                onChange={handleSignUp}
+                type="password"
+                onChange={handleChangeSignUpData}
                 placeholder="strongPassword1@"
               />
               <Password
@@ -130,7 +131,7 @@ export default function SignUp() {
                 id="confirm_password"
                 title="Confirm password"
                 required
-                color="text-b_text"
+                type="password"
                 onChange={handleConfirmPassword}
               />
               <div className="flex items-center mt-2">
@@ -142,7 +143,7 @@ export default function SignUp() {
                 />
                 <label
                   htmlFor="link-checkbox"
-                  className="ms-2 text-sm text-gray-500 "
+                  className="ms-2 text-sm text-gray-500"
                 >
                   By registering, you agree to our&nbsp;&nbsp;
                   <Link
@@ -151,7 +152,6 @@ export default function SignUp() {
                   >
                     Terms and conditions
                   </Link>
-                  .
                 </label>
               </div>
             </div>

@@ -11,7 +11,7 @@ const intlMiddleware = createMiddleware({
 
 export function middleware(req: NextRequest) {
   const { cookies } = req;
-  const userCookie = cookies.get("auth_token");
+  const token = cookies.get("auth_token");
   const getLocale = cookies.get("NEXT_LOCALE");
   const { pathname } = req.nextUrl;
   const locale = getLocale?.value;
@@ -25,9 +25,9 @@ export function middleware(req: NextRequest) {
     : pathname;
 
   if (protectedPaths.some((path) => normalizedPathname.startsWith(path))) {
-    // if (!userCookie) {
-    //   return NextResponse.redirect(new URL(`/${locale}/signin`, req.url));
-    // }
+    if (!token) {
+      return NextResponse.redirect(new URL(`/${locale}/signin`, req.url));
+    }
   }
 
   return intlMiddleware(req);
