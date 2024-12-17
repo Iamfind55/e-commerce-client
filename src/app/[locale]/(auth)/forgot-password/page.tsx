@@ -1,22 +1,27 @@
 "use client";
 
-import { postAPI } from "@/api/api";
-import IconButton from "@/components/iconButton";
-import MessageHandler from "@/components/messageHandler";
-import Textfield from "@/components/textField";
-import { BackIcon, NextIcon, RefreshIcon } from "@/icons/page";
-import { useToast } from "@/utils/toast";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useMutation } from "@apollo/client";
+
+// APIs
+import { FORGOT_PASSWORD } from "@/api/auth";
+
+// components and untils
+import { useToast } from "@/utils/toast";
+import { useRouter } from "next/navigation";
+import Textfield from "@/components/textField";
+import IconButton from "@/components/iconButton";
+import { BackIcon, NextIcon, RefreshIcon } from "@/icons/page";
+import ForgotImage from "../../../../../public/images/forgot-password.svg";
 
 export default function ForgotPasword() {
   const router = useRouter();
-  const [response, setResponse] = React.useState<any>(null);
-  const { errorMessage } = useToast();
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { successMessage, errorMessage } = useToast();
+  const [forgotPassword] = useMutation(FORGOT_PASSWORD);
   const [email, setEmail] = React.useState<string>("");
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,11 +31,18 @@ export default function ForgotPasword() {
     }
     setIsLoading(true);
     try {
-      const res = await postAPI({
-        url: "/patients/forgot-password",
-        body: { email: email },
+      const { data } = await forgotPassword({
+        variables: {
+          email: email,
+        },
       });
-      setResponse(res);
+      if (data?.shopForgotPassword?.success) {
+        successMessage({
+          message: "Please check your email for reset password!!",
+          duration: 3000,
+        });
+        router.push("/reset-password");
+      }
     } catch (error) {
       if (error instanceof Error) {
         errorMessage({ message: error.message, duration: 3000 });
@@ -41,31 +53,28 @@ export default function ForgotPasword() {
   };
 
   return (
-    <div
-      className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100"
-      // style={{ backgroundImage: "url('/images/auth-bg.png')" }}
-    >
+    <div className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100">
       <div className="h-[80vh] w-full flex items-center justify-center">
         <div className="bg-white w-11/12 sm:w-2/5 md:w-4/5 lg:w-2/5 h-auto sm:h-full flex items-center justify-start flex-col gap-3 p-4 sm:p-10 rounded">
           <Link href="/">
             <Image
               className="rounded-full"
-              src="/images/okardcare-hori-logo.png"
+              src={ForgotImage}
               alt=""
               width={200}
-              height={250}
+              height={200}
             />
           </Link>
           <div className="flex items-start justify-start flex-col gap-2 w-full">
-            <h4 className="text-b_text font-bold">Forgot Password?</h4>
-            <p className="text-b_text text-xs">
+            <h4 className="text-gray-500 font-bold">Forgot Password?</h4>
+            <p className="text-gray-500 text-xs">
               Enter you email, and we will send you instructions to reset your
               password.
             </p>
-            <p className="text-b_text text-xs">
-              Enter email account registered on okardcare.com.
+            <p className="text-gray-500 text-xs">
+              Enter email account registered on tiktokshop.online
             </p>
-            <p className="text-b_text text-xs">
+            <p className="text-gray-500 text-xs">
               Check message on your email account.
             </p>
           </div>
@@ -76,29 +85,24 @@ export default function ForgotPasword() {
               id="email"
               title="Email"
               required
-              color="text-b_text"
+              color="text-gray-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <IconButton
-              className="rounded text-white p-2 bg-base w-full mt-4 text-xs"
-              icon={
-                isLoading ? <RefreshIcon size={18} /> : <NextIcon size={22} />
-              }
-              isFront={isLoading ? true : false}
+              className="rounded text-white p-2 bg-neon_blue w-full mt-4 text-xs"
               title={isLoading ? "SUBMITING...." : "GET RESET LINK"}
               type="submit"
             />
             <IconButton
-              className="rounded text-base p-2 w-full mt-4 italic text-sm"
+              className="rounded text-neon_pink p-2 w-full mt-4 italic text-sm"
               icon={<BackIcon />}
               isFront={true}
               type="button"
-              title="Back to Log in"
+              title="Sign In"
               onClick={() => router.push("/signin")}
             />
           </form>
-          {response && <MessageHandler response={response} />}
         </div>
       </div>
     </div>

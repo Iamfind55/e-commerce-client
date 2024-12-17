@@ -55,3 +55,29 @@ export const SHOP_SIGN_IN = gql`
     }
   }
 `;
+
+export const FORGOT_PASSWORD = gql`
+  mutation ShopForgotPassword($email: String!) {
+    shopForgotPassword(email: $email) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
+
+export const RESET_PASSWORD = gql`
+  mutation ShopResetPassword($data: ShopResetPasswordInput!) {
+    shopResetPassword(data: $data) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
