@@ -1,19 +1,25 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@apollo/client";
+
+// components
+import { AppleIcon, FacebookIcon, GoogleIcon, NextIcon } from "@/icons/page";
+import Password from "@/components/passwordTextField";
+import GlobalSlider from "../../(pages)/home/slider";
 import IconButton from "@/components/iconButton";
 import Textfield from "@/components/textField";
-import { AppleIcon, FacebookIcon, GoogleIcon, NextIcon } from "@/icons/page";
-import Link from "next/link";
-import { ILogins, ITokens } from "@/types/login";
-import { useToast } from "@/utils/toast";
-import { queryData } from "@/api/api";
-import { useDispatch } from "react-redux";
+
+// types and untils
 import { login } from "@/redux/slice/authSlice";
-import Password from "@/components/passwordTextField";
-import MessageHandler from "@/components/messageHandler";
-import GlobalSlider from "../../(pages)/home/slider";
+import { SHOP_SIGN_IN } from "@/api/auth";
+import { useToast } from "@/utils/toast";
+import { ILogins } from "@/types/login";
+
+// images
 import sliderImage01 from "/public/images/login-image-01.webp";
 import sliderImage02 from "/public/images/login-image-02.webp";
 import sliderImage03 from "/public/images/login-image-03.webp";
@@ -21,11 +27,11 @@ import sliderImage03 from "/public/images/login-image-03.webp";
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { errorMessage } = useToast();
-  const [response, setResponse] = React.useState<any>(null);
+  const { successMessage, errorMessage } = useToast();
+  const [shopSignIn] = useMutation(SHOP_SIGN_IN);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [loginData, setLoginData] = React.useState<ILogins>({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -33,44 +39,12 @@ export default function Login() {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  const queryUserData = async () => {
-    try {
-      const res = await queryData({ url: "/patients/me" });
-      if (res?.status === 200) {
-        const data = res?.data;
-        dispatch(
-          login({
-            address: data?.address,
-            balance: data?.balance,
-            email: data?.email,
-            firstName: data?.firstName,
-            gender: data?.gender,
-            id: data?.id,
-            lastName: data?.lastName,
-            password: data?.password,
-            phone: data?.phone,
-            profile: data?.profile,
-            status: data?.status,
-            createdAt: data?.createdAt,
-            createdBy: data?.createdBy,
-            updatedAt: data?.updatedAt,
-            dob: data?.dob,
-          })
-        );
-      } else {
-        errorMessage({ message: "Something went wrong", duration: 3000 });
-      }
-    } catch (error) {
-      errorMessage({ message: "Something went wrong", duration: 3000 });
-    }
-  };
-
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    if (!loginData.email) {
+    if (!loginData.username) {
       errorMessage({
-        message: "Email is required!",
+        message: "Username or email is required!",
         duration: 2000,
       });
       setIsLoading(false);
@@ -83,6 +57,62 @@ export default function Login() {
       });
       setIsLoading(false);
       return;
+    }
+
+    try {
+      const { data } = await shopSignIn({
+        variables: {
+          where: {
+            username: loginData?.username,
+            password: loginData?.password,
+          },
+        },
+      });
+
+      if (data.shopLogin.success) {
+        successMessage({
+          message: "Login successful!",
+          duration: 3000,
+        });
+        const res = data.shopLogin.data;
+        dispatch(
+          login({
+            id: res?.id || "",
+            fullname: res?.fullname || "",
+            username: res?.username || "",
+            email: res?.email || "",
+            dob: res?.dob || "",
+            remark: res?.remark || "",
+            image: {
+              logo: res?.image?.logo || "",
+              cover: res?.image?.cover || "",
+            },
+            payment_method:
+              res?.payment_method?.map((method: any) => ({
+                id: method.id || "",
+                bank_name: method.bank_name || "",
+                code: method.code || "",
+                bank_account_name: method.bank_account_name || "",
+                bank_account_number: method.bank_account_number || "",
+              })) || [],
+            status: res?.status || "",
+            shop_vip: res?.shop_vip ?? false, // Fallbacks to `false` if `shop_vip` is null/undefined
+            created_at: res?.created_at || "",
+          })
+        );
+
+        document.cookie = `auth_token=${data.shopLogin.data.token}; path=/; max-age=3600`;
+        router.push("/client");
+      } else {
+        errorMessage({
+          message: data.shopLogin.error?.message || "SignIn failed!",
+          duration: 3000,
+        });
+      }
+    } catch (err) {
+      console.log("Error:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -129,22 +159,20 @@ export default function Login() {
           <h1 className="text-black text-title-xl2">Sign in</h1>
           <form action="" className="w-4/5" onSubmit={handleSubmitForm}>
             <Textfield
-              name="email"
-              placeholder="Email...."
-              id="email"
-              title="Email"
-              required
-              color="text-b_text"
+              placeholder="Enter username or email...."
+              title="Username or email"
+              name="username"
               type="text"
+              id="email"
+              required
               onChange={handleLogin}
             />
             <Password
+              placeholder="Enter password...."
+              title="Password"
               name="password"
               id="password"
-              title="Password"
-              placeholder="Enter password...."
               required
-              color="text-b_text"
               onChange={handleLogin}
             />
             <Link
@@ -162,7 +190,7 @@ export default function Login() {
               title={isLoading ? "LOGING...." : "LOG IN"}
               type="submit"
             />
-            <div className="text-gray_color text-sm flex items-center justify-center gap-4 mt-4 italic">
+            <div className="text-gray-500 text-sm flex items-center justify-center gap-4 mt-4 italic">
               ----- OR -----
             </div>
             <div className="flex items-center justify-center gap-6 mt-6 mb-6">
@@ -188,7 +216,6 @@ export default function Login() {
               </Link>
             </div>
           </form>
-          {response && <MessageHandler response={response} />}
         </div>
       </div>
     </div>

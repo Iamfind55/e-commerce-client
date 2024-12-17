@@ -1,6 +1,13 @@
 "use client";
 
-import React from "react";
+import Link from "next/link";
+import Cookies from "js-cookie";
+import React, { ReactNode } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/slice/authSlice";
+import { usePathname, useRouter } from "next/navigation";
+
+// components
 import {
   ArrowNextIcon,
   BankIcon,
@@ -8,6 +15,7 @@ import {
   LogoutIcon,
   MenuIcon,
   NotiIcon,
+  OutlineHomeIcon,
   SearchIcon,
   SettingIcon,
   UserPlusIcon,
@@ -15,17 +23,13 @@ import {
   WarningIcon,
 } from "@/icons/page";
 import "../globals.css";
-import Link from "next/link";
 import DropdownComponent from "@/components/dropdown";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/redux/slice/authSlice";
-import { usePathname, useRouter } from "next/navigation";
-import { menuItems, mobileMenuItems } from "./routes";
-import { ITokens } from "@/types/login";
-// import { ActionLogout } from "@/api/auth";
-import { useToast } from "@/utils/toast";
-import { persistor } from "@/redux/store";
-import Image from "next/image";
+
+type MenuItem = {
+  icon: ReactNode;
+  menu: string;
+  route: string;
+};
 
 export default function RootLayout({
   children,
@@ -33,30 +37,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const dispatch = useDispatch();
-  const pathname = usePathname();
-  const { errorMessage } = useToast();
-  const { user } = useSelector((state: any) => state.auth);
   const router = useRouter();
+  const pathname = usePathname();
+  const activeClassName = "text-base";
+  const inactiveClassName = "text-gray-500";
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  const handleLogout = async () => {
-    try {
-      if (!user?.email) {
-        throw new Error("User email not available.");
-      }
-    } catch (error) {
-      console.log(error);
-      if (error instanceof Error) {
-        errorMessage({ message: error.message, duration: 3000 });
-      }
-    }
-  };
+  const menuItems: MenuItem[] = [
+    {
+      icon: <OutlineHomeIcon size={18} />,
+      menu: "Dashboard",
+      route: "/client",
+    },
+  ];
 
-  const activeClassName = "text-base";
-  const inactiveClassName = "text-b_text";
+  const mobileMenuItems: MenuItem[] = [
+    {
+      icon: <OutlineHomeIcon size={18} />,
+      menu: "Home",
+      route: "/client",
+    },
+  ];
+
+  const handleLogout = async () => {
+    Cookies.remove("auth_token");
+    dispatch(logout());
+    router.push("/signin");
+  };
 
   return (
     <div className="h-screen overflow-hidden">
@@ -68,13 +78,7 @@ export default function RootLayout({
         >
           <div className="h-[10vh] flex items-center justify-around">
             {!isCollapsed && (
-              <Image
-                src="/images/okardcare-hori-logo.png"
-                alt=""
-                width={150}
-                height={150}
-                className="mt-3"
-              />
+              <h1 className="text-gray-500 font-bold">Tiktokshop</h1>
             )}
           </div>
           <div className="flex items-center justify-between flex-col h-[85vh]">
@@ -85,16 +89,18 @@ export default function RootLayout({
                   <Link
                     href={item.route}
                     key={index + 1}
-                    className={`text-b_text py-1 flex items-center justify-between gap-2 w-full cursor-pointer px-6 py-2 ${
+                    className={`text-gray-500 py-1 flex items-center justify-between gap-2 w-full cursor-pointer px-6 py-2 ${
                       isActive
                         ? "bg-base text-white hover:bg-base hover:text-white"
                         : "hover:bg-gray-100"
                     }`}
                   >
-                    <span className="flex items-start justify-start gap-2">
+                    <p className="flex items-start justify-start gap-2 text-sm">
                       {item.icon}
-                      {!isCollapsed && <i className={`text-sm`}>{item.menu}</i>}
-                    </span>
+                      {!isCollapsed && (
+                        <span className={`text-sm`}>{item.menu}</span>
+                      )}
+                    </p>
                     {item.route === "/doctor/schadule" && (
                       <WarningIcon className="text-error" size={20} />
                     )}
@@ -110,7 +116,7 @@ export default function RootLayout({
             <div className="w-full flex items-center justify-start flex-col gap-2 border-b pb-4">
               <Link
                 href="/client/setting"
-                className={`text-b_text py-1 flex items-center ${
+                className={`text-gray-500 py-1 flex items-center ${
                   isCollapsed ? "justify-center" : "justify-start"
                 } gap-2 w-full cursor-pointer px-6 py-2 ${
                   pathname === "/doctor/setting"
@@ -119,19 +125,19 @@ export default function RootLayout({
                 }`}
               >
                 <SettingIcon size={18} />
-                {!isCollapsed && (
-                  <span className="text-sm italic">Settings</span>
-                )}
+                {!isCollapsed && <span className="text-sm">Settings</span>}
               </Link>
               <button
                 onClick={handleLogout}
-                className={`text-b_text py-1 flex items-center ${
+                className={`text-gray-500 py-1 flex items-center ${
                   isCollapsed ? "justify-center" : "justify-start"
                 } gap-2 w-full cursor-pointer px-6 py-2 hover:bg-gray-100
                 }`}
               >
                 <LogoutIcon size={18} />
-                {!isCollapsed && <i className="text-b_text text-sm">Logout</i>}
+                {!isCollapsed && (
+                  <i className="text-gray-500 text-sm">Logout</i>
+                )}
               </button>
             </div>
           </div>
@@ -144,26 +150,29 @@ export default function RootLayout({
                   <ArrowNextIcon
                     size={24}
                     onClick={toggleSidebar}
-                    className="border text-b_text rounded-full hover:border-base hover:bg-base hover:text-white"
+                    className="border text-gray-500 rounded-full hover:border-base hover:bg-base hover:text-white"
                   />
                 </div>
               ) : (
                 <div className="hidden sm:block rounded-full p-1 cursor-pointer">
                   <MenuIcon
                     size={20}
-                    className="text-b_text cursor-pointer"
+                    className="text-gray-500 cursor-pointer"
                     onClick={toggleSidebar}
                   />
                 </div>
               )}
             </div>
             <div className="w-1/2 flex items-center justify-end gap-3">
-              <SearchIcon size={22} className="text-b_text cursor-pointer" />
+              <SearchIcon size={22} className="text-gray-500 cursor-pointer" />
 
               <DropdownComponent
                 className="w-44"
                 head={
-                  <NotiIcon size={22} className="text-b_text cursor-pointer" />
+                  <NotiIcon
+                    size={22}
+                    className="text-gray-500 cursor-pointer"
+                  />
                 }
               >
                 <div id="dropdownDivider">
@@ -211,7 +220,7 @@ export default function RootLayout({
                 head={
                   <CircleUser
                     size={28}
-                    className="cursor-pointer text-b_text"
+                    className="cursor-pointer text-gray-500"
                   />
                 }
               >

@@ -12,7 +12,7 @@ export default function Password(props: TextfieldProps) {
   const [ispassword, setIspassword] = useState(true);
   return (
     <div className="block select-none ">
-      <label className={`${props.color} block text-xs`} htmlFor={props?.id}>
+      <label className={`text-gray-500 block text-xs`} htmlFor={props?.id}>
         {props?.title}{" "}
         {props?.required && <span className="text-red-500">&nbsp;*</span>}
       </label>

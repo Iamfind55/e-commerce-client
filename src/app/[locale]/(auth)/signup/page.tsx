@@ -89,49 +89,46 @@ export default function SignUp() {
           <form className="w-4/5" onSubmit={handleSubmitForm}>
             <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-1">
               <Textfield
-                name="fullname"
                 placeholder="Enter your full name...."
-                id="fullname"
                 title="Full name"
-                required
+                name="fullname"
+                id="fullname"
                 type="text"
+                required
                 onChange={handleChangeSignUpData}
               />
               <Textfield
-                name="username"
                 placeholder="Enter username...."
-                id="username"
                 title="Username"
-                required
+                name="username"
+                id="username"
                 type="text"
+                required
                 onChange={handleChangeSignUpData}
               />
               <Textfield
-                name="email"
                 placeholder="Enter email address...."
-                id="email"
                 title="Email"
-                required
+                name="email"
                 type="email"
-                color="text-b_text"
+                id="email"
+                required
                 onChange={handleChangeSignUpData}
               />
               <Password
+                placeholder="strongPassword1@"
+                title="Password"
                 name="password"
                 id="password"
-                title="Password"
                 required
-                type="password"
                 onChange={handleChangeSignUpData}
-                placeholder="strongPassword1@"
               />
               <Password
-                name="confirm_password"
                 placeholder="strongPassword1@"
-                id="confirm_password"
                 title="Confirm password"
+                name="confirm_password"
+                id="confirm_password"
                 required
-                type="password"
                 onChange={handleConfirmPassword}
               />
               <div className="flex items-center mt-2">

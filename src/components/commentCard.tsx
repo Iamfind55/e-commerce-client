@@ -16,7 +16,7 @@ interface commentCardProps extends InputHTMLAttributes<HTMLInputElement> {
 export default function CommentCard(props: commentCardProps) {
   return (
     <div className="w-full flex items-start justify-center gap-3 p-4 mb-4 border rounded">
-      <div className="border rounded-full w-16 h-16 bg-gray_color">
+      <div className="border rounded-full w-16 h-16 bg-gray-500">
         <Image
           src="/images/doctor-01.jpg"
           alt="Doctor"
@@ -34,15 +34,15 @@ export default function CommentCard(props: commentCardProps) {
               </h4>
               <div className="flex items-center justify-center gap-4">
                 <RatingStar rating={props?.rating || 1} />
-                <p className="text-gray_color text-xs sm:text-sm">
+                <p className="text-gray-500 text-xs sm:text-sm">
                   [{props?.rating}]
                 </p>
               </div>
             </div>
           </div>
-          <p className="text-gray_color text-xs">{props?.created_at}</p>
+          <p className="text-gray-500 text-xs">{props?.created_at}</p>
         </div>
-        <p className="text-gray_color text-xs flex items-start justify-center">
+        <p className="text-gray-500 text-xs flex items-start justify-center">
           <QuotesIconL size={18} className="color-base" />
           {props?.feedback}
           <QuotesIconR size={18} className="color-base" />

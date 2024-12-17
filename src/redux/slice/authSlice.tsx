@@ -1,24 +1,5 @@
+import { initialState } from "@/constants/userInitialState";
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  user: {
-    address: "",
-    balance: 0,
-    createdAt: "",
-    createdBy: "",
-    email: "",
-    firstName: "",
-    gender: "",
-    id: "",
-    lastName: "",
-    password: "",
-    phone: "",
-    profile: "",
-    status: "",
-    updatedAt: "",
-    dob: "",
-  },
-};
 
 export const Authslice = createSlice({
   name: "AuthSlice",

@@ -15,3 +15,43 @@ export const SHOP_REGISTER = gql`
     }
   }
 `;
+
+export const SHOP_SIGN_IN = gql`
+  mutation ShopLogin($where: ShopWhereLoginInput) {
+    shopLogin(where: $where) {
+      success
+      data {
+        token
+        data {
+          id
+          fullname
+          username
+          email
+          dob
+          remark
+          image {
+            logo
+            cover
+          }
+          payment_method {
+            id
+            bank_name
+            code
+            bank_account_name
+            bank_account_number
+          }
+          status
+          shop_vip
+          created_by
+          created_at
+          updated_at
+        }
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
