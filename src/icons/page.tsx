@@ -75,6 +75,7 @@ import { CiShop } from "react-icons/ci";
 import { CiApple } from "react-icons/ci";
 import { HiMinusSmall } from "react-icons/hi2";
 import { CiDeliveryTruck } from "react-icons/ci";
+import { RiVipCrown2Line } from "react-icons/ri";
 
 interface IconProps {
   size?: number;
@@ -83,6 +84,9 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const VIPIcon = (props: IconProps) => {
+  return <RiVipCrown2Line {...props} />;
+};
 export const DeliveryIcon = (props: IconProps) => {
   return <CiDeliveryTruck {...props} />;
 };

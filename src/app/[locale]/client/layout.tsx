@@ -11,6 +11,8 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   ArrowNextIcon,
   BankIcon,
+  CallIcon,
+  CartIcon,
   CircleUser,
   LogoutIcon,
   MenuIcon,
@@ -18,7 +20,9 @@ import {
   OutlineHomeIcon,
   SearchIcon,
   SettingIcon,
+  ShopIcon,
   UserPlusIcon,
+  VIPIcon,
   WalletIcon,
   WarningIcon,
 } from "@/icons/page";
@@ -52,6 +56,36 @@ export default function RootLayout({
       menu: "Dashboard",
       route: "/client",
     },
+    {
+      icon: <ShopIcon size={18} />,
+      menu: "Shop management",
+      route: "/client/shop",
+    },
+    {
+      icon: <CartIcon size={18} />,
+      menu: "Order management",
+      route: "/client/order",
+    },
+    {
+      icon: <NotiIcon size={18} />,
+      menu: "Notifications",
+      route: "/client/notification",
+    },
+    {
+      icon: <CallIcon size={18} />,
+      menu: "Contact Us",
+      route: "/client/contact-us",
+    },
+    {
+      icon: <CircleUser size={18} />,
+      menu: "Member Only",
+      route: "/client/member-only",
+    },
+    {
+      icon: <VIPIcon size={18} />,
+      menu: "Apply VIP product",
+      route: "/client/apply-vip-product",
+    },
   ];
 
   const mobileMenuItems: MenuItem[] = [
@@ -84,21 +118,29 @@ export default function RootLayout({
           <div className="flex items-center justify-between flex-col h-[85vh]">
             <div className="w-full flex items-center justify-start flex-col gap-2 mt-4">
               {menuItems.map((item, index) => {
-                const isActive = pathname === item.route;
+                const normalizedPathname = pathname.replace(
+                  /^\/[a-z]{2}(\/|$)/,
+                  "/"
+                );
+                const isActive = normalizedPathname === item.route;
                 return (
                   <Link
                     href={item.route}
-                    key={index + 1}
+                    key={index}
                     className={`text-gray-500 py-1 flex items-center justify-between gap-2 w-full cursor-pointer px-6 py-2 ${
                       isActive
-                        ? "bg-base text-white hover:bg-base hover:text-white"
+                        ? "bg-gray-200 text-gray-500 hover:text-neon_pink"
                         : "hover:bg-gray-100"
                     }`}
                   >
-                    <p className="flex items-start justify-start gap-2 text-sm">
+                    <p
+                      className={`flex items-start justify-start gap-2 text-sm ${
+                        isActive && "text-neon_pink"
+                      }`}
+                    >
                       {item.icon}
                       {!isCollapsed && (
-                        <span className={`text-sm`}>{item.menu}</span>
+                        <span className="text-sm">{item.menu}</span>
                       )}
                     </p>
                     {item.route === "/doctor/schadule" && (
@@ -119,12 +161,17 @@ export default function RootLayout({
                 className={`text-gray-500 py-1 flex items-center ${
                   isCollapsed ? "justify-center" : "justify-start"
                 } gap-2 w-full cursor-pointer px-6 py-2 ${
-                  pathname === "/doctor/setting"
-                    ? "border-base bg-base text-white hover:bg-base hover:text-white"
+                  pathname.includes("/client/setting")
+                    ? "border-neon_pink bg-gray-200 hover:bg-base hover:text-neon_pink"
                     : " hover:bg-gray-100"
                 }`}
               >
-                <SettingIcon size={18} />
+                <SettingIcon
+                  size={18}
+                  className={`${
+                    pathname.includes("/client/setting") ? "text-neon_pink" : ""
+                  }`}
+                />
                 {!isCollapsed && <span className="text-sm">Settings</span>}
               </Link>
               <button
