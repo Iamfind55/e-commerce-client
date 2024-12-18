@@ -76,6 +76,9 @@ import { CiApple } from "react-icons/ci";
 import { HiMinusSmall } from "react-icons/hi2";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { RiVipCrown2Line } from "react-icons/ri";
+import { MdAddShoppingCart } from "react-icons/md";
+import { BsCartX } from "react-icons/bs";
+import { BsCreditCard2FrontFill } from "react-icons/bs";
 
 interface IconProps {
   size?: number;
@@ -84,6 +87,15 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const CreditCardIcon = (props: IconProps) => {
+  return <BsCreditCard2FrontFill {...props} />;
+};
+export const CartCancelIcon = (props: IconProps) => {
+  return <BsCartX {...props} />;
+};
+export const CartPlusIcon = (props: IconProps) => {
+  return <MdAddShoppingCart {...props} />;
+};
 export const VIPIcon = (props: IconProps) => {
   return <RiVipCrown2Line {...props} />;
 };

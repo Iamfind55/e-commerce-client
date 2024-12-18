@@ -1,38 +1,50 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import Cookies from "js-cookie";
 import React, { ReactNode } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslations } from "next-intl";
 import { logout } from "@/redux/slice/authSlice";
 import { usePathname, useRouter } from "next/navigation";
 
 // components
 import {
+  AppleIcon,
+  ArrowDownIcon,
   ArrowNextIcon,
-  BankIcon,
   CallIcon,
   CartIcon,
+  CircleIcon,
   CircleUser,
+  LanguageIcon,
   LogoutIcon,
   MenuIcon,
+  NextIcon,
   NotiIcon,
   OutlineHomeIcon,
-  SearchIcon,
   SettingIcon,
   ShopIcon,
-  UserPlusIcon,
   VIPIcon,
   WalletIcon,
-  WarningIcon,
 } from "@/icons/page";
 import "../globals.css";
 import DropdownComponent from "@/components/dropdown";
+
+// images
+import ThaiFlag from "/public/images/thai-flag.webp";
+import ChinesFlag from "/public/images/chines-flag.webp";
+import EnglishFlag from "/public/images/english-flag.webp";
+import VietnamFlag from "/public/images/vietnam-flag.webp";
+import MalaysiaFlag from "/public/images/malaysia-flag.webp";
+import Logo from "/public/images/tiktokshop-logo.webp";
 
 type MenuItem = {
   icon: ReactNode;
   menu: string;
   route: string;
+  children?: MenuItem[]; // Optional child menus
 };
 
 export default function RootLayout({
@@ -40,49 +52,89 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const activeClassName = "text-base";
+  const t = useTranslations("homePage");
   const inactiveClassName = "text-gray-500";
+
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
+  const [openMenus, setOpenMenus] = React.useState<string[]>([]);
+
+  // Toggle the dropdown menu
+  const toggleMenu = (menu: string) => {
+    setOpenMenus((prev) =>
+      prev.includes(menu)
+        ? prev.filter((item) => item !== menu)
+        : [...prev, menu]
+    );
+  };
+
   const menuItems: MenuItem[] = [
     {
-      icon: <OutlineHomeIcon size={18} />,
+      icon: <OutlineHomeIcon size={16} />,
       menu: "Dashboard",
       route: "/client",
     },
     {
-      icon: <ShopIcon size={18} />,
+      icon: <AppleIcon size={16} />,
+      menu: "Products",
+      route: "/client/products",
+      children: [
+        { icon: null, menu: "Product List", route: "/client/products/list" },
+        { icon: null, menu: "Apply Product", route: "/client/products/apply" },
+      ],
+    },
+    {
+      icon: <ShopIcon size={16} />,
       menu: "Shop management",
       route: "/client/shop",
     },
     {
-      icon: <CartIcon size={18} />,
+      icon: <WalletIcon size={16} />,
+      menu: "Wallet management",
+      route: "/client/wallet",
+      children: [
+        { icon: null, menu: "My wallet", route: "/client/wallet" },
+        {
+          icon: null,
+          menu: "Recharge history",
+          route: "/client/wallet/recharge",
+        },
+        {
+          icon: null,
+          menu: "Withdraw history",
+          route: "/client/wallet/withdraw",
+        },
+      ],
+    },
+    {
+      icon: <CartIcon size={16} />,
       menu: "Order management",
       route: "/client/order",
     },
     {
-      icon: <NotiIcon size={18} />,
+      icon: <NotiIcon size={16} />,
       menu: "Notifications",
       route: "/client/notification",
     },
     {
-      icon: <CallIcon size={18} />,
+      icon: <CallIcon size={16} />,
       menu: "Contact Us",
       route: "/client/contact-us",
     },
     {
-      icon: <CircleUser size={18} />,
+      icon: <CircleUser size={16} />,
       menu: "Member Only",
       route: "/client/member-only",
     },
     {
-      icon: <VIPIcon size={18} />,
+      icon: <VIPIcon size={16} />,
       menu: "Apply VIP product",
       route: "/client/apply-vip-product",
     },
@@ -110,87 +162,76 @@ export default function RootLayout({
             isCollapsed ? "w-[5%]" : "w-1/5"
           }`}
         >
-          <div className="h-[10vh] flex items-center justify-around">
+          <div className="h-[10vh] flex items-center justify-around bg-gray-400">
             {!isCollapsed && (
-              <h1 className="text-gray-500 font-bold">Tiktokshop</h1>
+              <Image src={Logo} alt="Logo" width={150} height={100} />
             )}
           </div>
           <div className="flex items-center justify-between flex-col h-[85vh]">
-            <div className="w-full flex items-center justify-start flex-col gap-2 mt-4">
+            <div className="w-full flex flex-col gap-2 mt-4">
               {menuItems.map((item, index) => {
-                const normalizedPathname = pathname.replace(
-                  /^\/[a-z]{2}(\/|$)/,
-                  "/"
-                );
-                const isActive = normalizedPathname === item.route;
+                const isActive =
+                  pathname === item.route ||
+                  (item.children &&
+                    item.children.some((child) => pathname === child.route));
+                const isMenuOpen = openMenus.includes(item.menu);
+
                 return (
-                  <Link
-                    href={item.route}
-                    key={index}
-                    className={`text-gray-500 py-1 flex items-center justify-between gap-2 w-full cursor-pointer px-6 py-2 ${
-                      isActive
-                        ? "bg-gray-200 text-gray-500 hover:text-neon_pink"
-                        : "hover:bg-gray-100"
-                    }`}
-                  >
-                    <p
-                      className={`flex items-start justify-start gap-2 text-sm ${
-                        isActive && "text-neon_pink"
+                  <div key={index} className="w-full">
+                    {/* Parent Menu */}
+                    <div
+                      onClick={() => item.children && toggleMenu(item.menu)}
+                      className={`flex items-center justify-between cursor-pointer px-6 py-1 ${
+                        isActive
+                          ? "bg-gray-200 text-neon_pink"
+                          : "text-gray-500 hover:bg-gray-100"
                       }`}
                     >
-                      {item.icon}
-                      {!isCollapsed && (
-                        <span className="text-sm">{item.menu}</span>
+                      <div className="flex items-center gap-2 text-xs">
+                        {item.icon}
+                        <span>{item.menu}</span>
+                      </div>
+                      {item.children && (
+                        <span className="text-gray-400">
+                          {isMenuOpen ? (
+                            <ArrowDownIcon size={18} />
+                          ) : (
+                            <NextIcon size={16} />
+                          )}
+                        </span>
                       )}
-                    </p>
-                    {item.route === "/doctor/schadule" && (
-                      <WarningIcon className="text-error" size={20} />
+                    </div>
+
+                    {/* Child Menus */}
+                    {item.children && isMenuOpen && (
+                      <div className="ml-10">
+                        {item.children.map((child, idx) => {
+                          const isChildActive = pathname === child.route;
+                          return (
+                            <Link
+                              href={child.route}
+                              key={idx}
+                              className={`flex items-center justify-start gap-2 py-1 text-xs ${
+                                isChildActive
+                                  ? "text-neon_pink"
+                                  : "text-gray-500 hover:text-neon_pink"
+                              }`}
+                            >
+                              <CircleIcon size={10} />
+                              <span>{child.menu}</span>
+                            </Link>
+                          );
+                        })}
+                      </div>
                     )}
-                    {item.route === "/doctor/appointment" && (
-                      <span className="bg-base text-white text-xs font-medium px-2 py-0.5 rounded-full">
-                        2
-                      </span>
-                    )}
-                  </Link>
+                  </div>
                 );
               })}
-            </div>
-            <div className="w-full flex items-center justify-start flex-col gap-2 border-b pb-4">
-              <Link
-                href="/client/setting"
-                className={`text-gray-500 py-1 flex items-center ${
-                  isCollapsed ? "justify-center" : "justify-start"
-                } gap-2 w-full cursor-pointer px-6 py-2 ${
-                  pathname.includes("/client/setting")
-                    ? "border-neon_pink bg-gray-200 hover:bg-base hover:text-neon_pink"
-                    : " hover:bg-gray-100"
-                }`}
-              >
-                <SettingIcon
-                  size={18}
-                  className={`${
-                    pathname.includes("/client/setting") ? "text-neon_pink" : ""
-                  }`}
-                />
-                {!isCollapsed && <span className="text-sm">Settings</span>}
-              </Link>
-              <button
-                onClick={handleLogout}
-                className={`text-gray-500 py-1 flex items-center ${
-                  isCollapsed ? "justify-center" : "justify-start"
-                } gap-2 w-full cursor-pointer px-6 py-2 hover:bg-gray-100
-                }`}
-              >
-                <LogoutIcon size={18} />
-                {!isCollapsed && (
-                  <i className="text-gray-500 text-sm">Logout</i>
-                )}
-              </button>
             </div>
           </div>
         </div>
         <div className={`w-full ${isCollapsed ? "sm:w-[95%]" : "sm:w-4/5"}`}>
-          <div className="w-full h-[10vh] flex border-b items-center justify-between px-4">
+          <div className="w-full h-[10vh] flex border-b items-center justify-between px-4 bg-gray-200">
             <div className="w-1/2 flex items-center justify-start gap-4">
               {isCollapsed ? (
                 <div className="hidden sm:block rounded-full p-1 cursor-pointer">
@@ -211,8 +252,73 @@ export default function RootLayout({
               )}
             </div>
             <div className="w-1/2 flex items-center justify-end gap-3">
-              <SearchIcon size={22} className="text-gray-500 cursor-pointer" />
-
+              <DropdownComponent
+                className="w-56 cursor-pointer"
+                head={
+                  <div className="flex items-start justify-start gap-1 text-white text-sm cursor-pointer hover:text-neon_pink">
+                    <LanguageIcon
+                      size={18}
+                      className="cursor-pointer text-gray-500 hover:text-neon_pink"
+                    />
+                  </div>
+                }
+              >
+                <div
+                  id="dropdownDivider"
+                  className="py-4 flex items-start gap-2 flex-col"
+                >
+                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                    <Link
+                      href={pathname}
+                      locale="en"
+                      className="w-full text-sm flex items-center justify-start gap-2"
+                    >
+                      <Image src={EnglishFlag} alt="" height={20} width={20} />
+                      {t("_english")}
+                    </Link>
+                  </div>
+                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                    <Link
+                      href={pathname}
+                      locale="th"
+                      className="w-full text-sm flex items-center justify-start gap-2"
+                    >
+                      <Image src={ThaiFlag} alt="" height={20} width={20} />
+                      {t("_thai")}
+                    </Link>
+                  </div>
+                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                    <Link
+                      href={pathname}
+                      locale="vi"
+                      className="w-full text-sm flex items-center justify-start gap-2"
+                    >
+                      <Image src={VietnamFlag} alt="" height={20} width={20} />
+                      {t("_vietnam")}
+                    </Link>
+                  </div>
+                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                    <Link
+                      href={pathname}
+                      locale="zh"
+                      className="w-full text-sm flex items-center justify-start gap-2"
+                    >
+                      <Image src={ChinesFlag} alt="" height={20} width={20} />
+                      {t("_china")}
+                    </Link>
+                  </div>
+                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                    <Link
+                      href={pathname}
+                      locale="ms"
+                      className="w-full text-sm flex items-center justify-start gap-2"
+                    >
+                      <Image src={MalaysiaFlag} alt="" height={20} width={20} />
+                      {t("_malaysia")}
+                    </Link>
+                  </div>
+                </div>
+              </DropdownComponent>
               <DropdownComponent
                 className="w-44"
                 head={
@@ -262,69 +368,11 @@ export default function RootLayout({
                   </div>
                 </div>
               </DropdownComponent>
-              <DropdownComponent
-                className="w-44"
-                head={
-                  <CircleUser
-                    size={28}
-                    className="cursor-pointer text-gray-500"
-                  />
-                }
-              >
-                <div id="dropdownDivider" className="py-4">
-                  <ul
-                    className="py-2 text-sm text-gray-700 border-b"
-                    aria-labelledby="dropdownDividerButton"
-                  >
-                    <li className="px-5 py-1 flex items-center justify-start gap-2 hover:bg-gray-100">
-                      <UserPlusIcon size={18} />
-                      <Link
-                        href="/client/profile"
-                        className="block py-2 hover:bg-gray-100"
-                      >
-                        Profile
-                      </Link>
-                    </li>
-                    <li className="block sm:hidden px-5 py-1 flex items-center justify-start gap-2 hover:bg-gray-100">
-                      <BankIcon size={18} />
-                      <Link
-                        href="/client/bank"
-                        className="block py-2 hover:bg-gray-100"
-                      >
-                        Bank accounts
-                      </Link>
-                    </li>
-                    <li className="px-5 py-1 flex items-center justify-start gap-2 hover:bg-gray-100">
-                      <WalletIcon size={18} />
-                      <Link
-                        href="/client/wallet"
-                        className="block py-2 hover:bg-gray-100"
-                      >
-                        My wallet
-                      </Link>
-                    </li>
-                    <li className="block sm:hidden px-5 py-1 flex items-center justify-start gap-2 hover:bg-gray-100">
-                      <SettingIcon size={18} />
-                      <Link
-                        href="/client/setting"
-                        className="block py-2 hover:bg-gray-100"
-                      >
-                        Settings
-                      </Link>
-                    </li>
-                  </ul>
-                  <div className="px-4 py-1 flex items-center justify-start gap-2 hover:bg-gray-100 mt-4">
-                    <LogoutIcon size={18} className="text-red-800" />
-                    <Link
-                      href="#"
-                      onClick={handleLogout}
-                      className="block text-sm text-red-800"
-                    >
-                      Log out
-                    </Link>
-                  </div>
-                </div>
-              </DropdownComponent>
+              <LogoutIcon
+                size={18}
+                className="text-neon_pink cursor-pointer"
+                onClick={handleLogout}
+              />
             </div>
           </div>
           <div className="h-[90vh] p-4 bg-bg_color overflow-scroll pb-20 sm:pb-2">

@@ -17,7 +17,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 // In your Withdraw component:
-export default function Withdraw() {
+export default function WithdrawHistory() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [amount, setAmount] = React.useState<number>(0);
