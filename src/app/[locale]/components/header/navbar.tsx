@@ -1,5 +1,12 @@
 "use client";
 
+import React from "react";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { IoLogInOutline } from "react-icons/io5";
+import { Link, usePathname } from "@/navigation";
+
+// components
 import {
   ArrowDownIcon,
   CartIcon,
@@ -9,27 +16,27 @@ import {
   SearchIcon,
   ShopIcon,
 } from "@/icons/page";
-import Link from "next/link";
-import React from "react";
-import Image from "next/image";
-import DropdownComponent from "@/components/dropdown";
-import { IoLogInOutline } from "react-icons/io5";
-import { useTranslations } from "next-intl";
-import { usePathname } from "@/navigation";
 import Drawer from "@/components/drawer";
+import DropdownComponent from "@/components/dropdown";
+
+// images
+import EnglishFlag from "/public/images/english-flag.webp";
+import ThaiFlag from "/public/images/thai-flag.webp";
+import VietnamFlag from "/public/images/vietnam-flag.webp";
+import ChinesFlag from "/public/images/chines-flag.webp";
+import MalaysiaFlag from "/public/images/malaysia-flag.webp";
 
 export default function Navbar() {
   const pathname = usePathname();
   const t = useTranslations("homePage");
+  const headerRef = React.useRef<HTMLDivElement>(null);
+  const [isSticky, setIsSticky] = React.useState(false);
+  const [originalOffset, setOriginalOffset] = React.useState(0);
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
 
   const toggleOpenDrawer = () => {
     setIsOpenDrawer(!openDrawer);
   };
-
-  const headerRef = React.useRef<HTMLDivElement>(null);
-  const [isSticky, setIsSticky] = React.useState(false);
-  const [originalOffset, setOriginalOffset] = React.useState(0);
 
   const handleScroll = () => {
     if (headerRef.current) {
@@ -165,12 +172,7 @@ export default function Navbar() {
                     locale="en"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image
-                      src="/images/english-flag.jpg"
-                      alt=""
-                      height={20}
-                      width={20}
-                    />
+                    <Image src={EnglishFlag} alt="" height={20} width={20} />
                     {t("_english")}
                   </Link>
                 </div>
@@ -180,12 +182,7 @@ export default function Navbar() {
                     locale="th"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image
-                      src="/images/lao-flag.png"
-                      alt=""
-                      height={20}
-                      width={20}
-                    />
+                    <Image src={ThaiFlag} alt="" height={20} width={20} />
                     {t("_thai")}
                   </Link>
                 </div>
@@ -195,12 +192,7 @@ export default function Navbar() {
                     locale="vi"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image
-                      src="/images/lao-flag.png"
-                      alt=""
-                      height={20}
-                      width={20}
-                    />
+                    <Image src={VietnamFlag} alt="" height={20} width={20} />
                     {t("_vietnam")}
                   </Link>
                 </div>
@@ -210,12 +202,7 @@ export default function Navbar() {
                     locale="zh"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image
-                      src="/images/lao-flag.png"
-                      alt=""
-                      height={20}
-                      width={20}
-                    />
+                    <Image src={ChinesFlag} alt="" height={20} width={20} />
                     {t("_china")}
                   </Link>
                 </div>
@@ -225,12 +212,7 @@ export default function Navbar() {
                     locale="ms"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image
-                      src="/images/lao-flag.png"
-                      alt=""
-                      height={20}
-                      width={20}
-                    />
+                    <Image src={MalaysiaFlag} alt="" height={20} width={20} />
                     {t("_malaysia")}
                   </Link>
                 </div>
