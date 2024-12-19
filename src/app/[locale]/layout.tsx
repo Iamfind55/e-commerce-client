@@ -1,13 +1,11 @@
-// "use client";
-
-import type { Metadata } from "next";
 import "./globals.css";
-import "react-toastify/dist/ReactToastify.css";
-import { ReduxProvider } from "@/redux/provider";
-import { ToastContainer } from "react-toastify";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
+import { getMessages } from "next-intl/server";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { ReduxProvider } from "@/redux/provider";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata: Metadata = {
   title: "tiktokshop.net",

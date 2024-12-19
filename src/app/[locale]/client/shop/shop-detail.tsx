@@ -1,101 +1,113 @@
 "use client";
 
-import { updateAPI } from "@/api/api";
+import React from "react";
+import Image from "next/image";
+
+// components
 import IconButton from "@/components/iconButton";
 import Password from "@/components/passwordTextField";
 import Textfield from "@/components/textField";
-import { BackIcon, CheckCircleIcon, CircleIcon } from "@/icons/page";
-import { IPassword, IPasswordValidationResult } from "@/types/profile";
+
+// utils and icons
+import { BackIcon, PlusIcon, TrashIcon } from "@/icons/page";
 import { useToast } from "@/utils/toast";
-import { validatePassword } from "@/utils/validatePassword";
-import React from "react";
+
+// images
+// import ThaiFlag from "/public/images/thai-flag.webp";
+// import ChinesFlag from "/public/images/chines-flag.webp";
+// import EnglishFlag from "/public/images/english-flag.webp";
+// import VietnamFlag from "/public/images/vietnam-flag.webp";
+// import MalaysiaFlag from "/public/images/malaysia-flag.webp";
+import DefaultImage from "/public/images/default-image.webp";
+import { useMutation } from "@apollo/client";
+import { UPDATE_SHOP_PROFILE } from "@/api/shop";
+
+type Record = {
+  name: string;
+  link: string;
+};
 
 export default function ShopDetails() {
+  const [shopSignIn] = useMutation(UPDATE_SHOP_PROFILE);
   const { errorMessage, successMessage } = useToast();
+  const [file, setFile] = React.useState<File | null>(null);
+  const [cover, setCover] = React.useState<File | null>(null);
+  const [preview, setPreview] = React.useState<string | null>(null);
+  const [preview1, setPreview1] = React.useState<string | null>(null);
+  const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
 
-  // State to hold the password data
-  const [passwordData, setPasswordData] = React.useState<IPassword>({
-    currentPassword: "",
-    newPassword: "",
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const maxSizeInBytes = 800 * 1024; // 800KB in bytes
+
+    if (selectedFile) {
+      if (!allowedTypes.includes(selectedFile.type)) {
+        setErrorMessages("Only JPG, JPEG, and PNG files are allowed.");
+        setFile(null);
+        setPreview(null);
+        return;
+      }
+
+      if (selectedFile.size > maxSizeInBytes) {
+        setErrorMessages("File size exceeds 800KB.");
+        setFile(null);
+        setPreview(null);
+        return;
+      }
+
+      setErrorMessages(null);
+      setFile(selectedFile);
+      setPreview(URL.createObjectURL(selectedFile)); // Generate preview URL
+    }
+  };
+
+  const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile1 = e.target.files?.[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const maxSizeInBytes = 1024 * 1024;
+
+    if (selectedFile1) {
+      if (!allowedTypes.includes(selectedFile1.type)) {
+        setErrorMessages("Only JPG, JPEG, and PNG files are allowed.");
+        setCover(null);
+        setPreview1(null);
+        return;
+      }
+
+      if (selectedFile1.size > maxSizeInBytes) {
+        setErrorMessages("File size exceeds 1MB.");
+        setCover(null);
+        setPreview1(null);
+        return;
+      }
+
+      setErrorMessages(null);
+      setCover(selectedFile1);
+      setPreview1(URL.createObjectURL(selectedFile1)); // Generate preview URL
+    }
+  };
+
+  const [records, setRecords] = React.useState<Record[]>([]);
+  const [currentRecord, setCurrentRecord] = React.useState<Record>({
+    name: "",
+    link: "",
   });
 
-  // State to hold confirm password value
-  const [confirmPassword, setConfirmPassword] = React.useState<string>("");
-
-  // State to hold validation results for the new password
-  const [validationResult, setValidationResult] =
-    React.useState<IPasswordValidationResult>({
-      isValid: false,
-      hasUppercase: false,
-      hasNumberSymbolOrWhitespace: false,
-      isLongEnough: false,
-    });
-
-  // Handle new password change and validate
-  const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setPasswordData({ ...passwordData, newPassword });
-
-    // Validate the new password on change
-    const result = validatePassword(newPassword);
-    setValidationResult(result);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCurrentRecord((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle confirm password change
-  const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setConfirmPassword(e.target.value);
+  const handleAddRecord = () => {
+    if (currentRecord.name && currentRecord.link) {
+      setRecords((prev) => [...prev, currentRecord]);
+      setCurrentRecord({ name: "", link: "" });
+    }
   };
 
-  const handleChangePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Check if passwords match
-    if (passwordData.newPassword !== confirmPassword) {
-      errorMessage({ message: "Passwords do not match!", duration: 1000 });
-      return;
-    }
-
-    // If validation for newPassword fails, stop form submission
-    if (!validationResult.isValid) {
-      errorMessage({
-        message: "Password does not meet requirements!",
-        duration: 3000,
-      });
-      return;
-    }
-
-    try {
-      const res = await updateAPI({
-        url: "/patients/change-password",
-        body: passwordData,
-      });
-
-      if (res?.errors) {
-        errorMessage({ message: res?.errors[0]?.msg, duration: 3000 });
-        return;
-      }
-
-      if (res?.status === 400) {
-        errorMessage({ message: res?.message, duration: 3000 });
-        return;
-      }
-
-      if (res?.status === 200) {
-        successMessage({ message: res?.message, duration: 3000 });
-        return;
-      }
-
-      errorMessage({
-        message: "Unexpected response from the server",
-        duration: 3000,
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        errorMessage({ message: error.message, duration: 3000 });
-      }
-    }
   };
 
   return (
@@ -103,11 +115,102 @@ export default function ShopDetails() {
       <div className="w-full rounded bg-white p-4 shadow-md">
         <form
           className="w-full py-2 flex items-start justify-start flex-col gap-4"
-          onSubmit={handleChangePassword}
+          onSubmit={handleSubmitForm}
         >
           <div className="w-full flex items-start justify-start flex-col gap-4">
             <div className="w-full border-b py-1">
               <p className="text-sm text-gray-500">Basic information:</p>
+            </div>
+
+            <div className="w-full flex items-start justify-start gap-6 my-4">
+              <div className="w-2/4 flex items-start justify-start gap-4">
+                <div>
+                  {preview ? (
+                    <Image
+                      src={preview}
+                      width={100}
+                      height={100}
+                      alt="Image preview"
+                      className="max-w-full h-auto border rounded"
+                    />
+                  ) : (
+                    <Image
+                      src={DefaultImage}
+                      width={100}
+                      height={100}
+                      alt="Image preview"
+                      className="max-w-full h-auto border rounded"
+                    />
+                  )}
+                </div>
+                <div className="flex items-start justify-start flex-col gap-3">
+                  <label className="block text-gray-500 text-xs">
+                    Upload shop logo
+                  </label>
+                  <input
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    id="file-upload"
+                    onChange={handleFileChange}
+                    className="block w-full hidden"
+                  />
+                  {errorMessages && (
+                    <p className="text-red-500 text-xs">{errorMessages}</p>
+                  )}
+                  <div className="flex items-start justify-start gap-4">
+                    <label
+                      htmlFor="file-upload"
+                      className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
+                    >
+                      Select new
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="w-2/4 flex items-start justify-start gap-4">
+                <div>
+                  {preview1 ? (
+                    <Image
+                      src={preview1}
+                      width={100}
+                      height={100}
+                      alt="Image preview"
+                      className="max-w-full h-auto border rounded"
+                    />
+                  ) : (
+                    <Image
+                      src={DefaultImage}
+                      width={100}
+                      height={100}
+                      alt="Image preview"
+                      className="max-w-full h-auto border rounded"
+                    />
+                  )}
+                </div>
+                <div className="flex items-start justify-start flex-col gap-3">
+                  <label className="block text-gray-500 text-xs">
+                    Cover image
+                  </label>
+                  <input
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    id="file-upload"
+                    onChange={handleChangeCover}
+                    className="block w-full hidden"
+                  />
+                  {errorMessages && (
+                    <p className="text-red-500 text-xs">{errorMessages}</p>
+                  )}
+                  <div className="flex items-start justify-start gap-4">
+                    <label
+                      htmlFor="file-upload"
+                      className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
+                    >
+                      Select new
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
               <Textfield
@@ -150,14 +253,6 @@ export default function ShopDetails() {
                 type="text"
                 required
               />
-              <Textfield
-                placeholder="Enter shop name...."
-                title="Shop name"
-                name="shop_name"
-                id="shop_name"
-                type="text"
-                required
-              />
               <Password
                 placeholder="Enter password...."
                 title="Password"
@@ -181,12 +276,12 @@ export default function ShopDetails() {
                 id="shop_remark"
                 type="text"
                 multiline
-                rows={3}
+                rows={1}
                 required
               />
             </div>
 
-            <div className="w-full border-b py-1">
+            {/* <div className="w-full border-b py-1">
               <p className="text-sm text-gray-500">Set default language:</p>
             </div>
             <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded sm:flex">
@@ -201,8 +296,14 @@ export default function ShopDetails() {
                   />
                   <label
                     htmlFor="english-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500"
+                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
                   >
+                    <Image
+                      src={EnglishFlag}
+                      alt="english"
+                      height={20}
+                      width={20}
+                    />
                     English
                   </label>
                 </div>
@@ -218,8 +319,14 @@ export default function ShopDetails() {
                   />
                   <label
                     htmlFor="thai-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500"
+                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
                   >
+                    <Image
+                      src={ThaiFlag}
+                      alt="english"
+                      height={20}
+                      width={20}
+                    />
                     Thai
                   </label>
                 </div>
@@ -235,8 +342,14 @@ export default function ShopDetails() {
                   />
                   <label
                     htmlFor="vietnam-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500"
+                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
                   >
+                    <Image
+                      src={VietnamFlag}
+                      alt="vietnam"
+                      height={20}
+                      width={20}
+                    />
                     Vietnam
                   </label>
                 </div>
@@ -252,8 +365,14 @@ export default function ShopDetails() {
                   />
                   <label
                     htmlFor="chines-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500"
+                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
                   >
+                    <Image
+                      src={ChinesFlag}
+                      alt="chines"
+                      height={20}
+                      width={20}
+                    />
                     Chines
                   </label>
                 </div>
@@ -269,17 +388,79 @@ export default function ShopDetails() {
                   />
                   <label
                     htmlFor="malaysia-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500"
+                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
                   >
+                    <Image
+                      src={MalaysiaFlag}
+                      alt="chines"
+                      height={20}
+                      width={20}
+                    />
                     Malaysia
                   </label>
                 </div>
               </li>
-            </ul>
+            </ul> */}
 
             <div className="w-full border-b py-1">
-              <p className="text-sm text-gray-500">Social medias:</p>
+              <p className="text-sm text-gray-500">Social media:</p>
             </div>
+            <div className="w-full flex item-start justify-start gap-2">
+              <div className="w-4/5 flex item-start justify-start gap-2">
+                <Textfield
+                  placeholder="Enter name...."
+                  title="Name"
+                  name="name"
+                  id="name"
+                  type="text"
+                  value={currentRecord.name}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Textfield
+                  placeholder="Enter link...."
+                  title="Link"
+                  name="link"
+                  id="link"
+                  type="text"
+                  value={currentRecord.link}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="text-1/5 flex items-center justify-start">
+                <IconButton
+                  className="rounded bg-neon_blue border text-white text-xs mt-4"
+                  title="Add"
+                  icon={<PlusIcon size={18} className="text-pink" />}
+                  isFront={true}
+                  type="button"
+                  onClick={handleAddRecord}
+                />
+              </div>
+            </div>
+
+            {records.length > 0 && (
+              <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
+                {records.map((record, index) => (
+                  <div
+                    key={index}
+                    className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
+                  >
+                    <div className="flex gap-4">
+                      <span className="text-xs">
+                        {index + 1}. {record.name}
+                      </span>
+                      <span className="text-xs">{record.link}</span>
+                    </div>
+                    <TrashIcon
+                      size={18}
+                      className="text-gray-500 hover:text-neon_pink cursor-pointer"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center justify-start gap-4 mt-4">
@@ -295,10 +476,6 @@ export default function ShopDetails() {
               title="Save Change"
               isFront={true}
               type="submit"
-              disabled={
-                !validationResult.isValid ||
-                passwordData.newPassword !== confirmPassword
-              }
             />
           </div>
         </form>

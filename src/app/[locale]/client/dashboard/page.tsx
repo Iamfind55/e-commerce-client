@@ -9,7 +9,6 @@ import Breadcrumb from "@/components/breadCrumb";
 import ReportCard from "@/components/reportCard";
 import {
   AppleIcon,
-  CancelIcon,
   CartCancelIcon,
   CartIcon,
   CartPlusIcon,

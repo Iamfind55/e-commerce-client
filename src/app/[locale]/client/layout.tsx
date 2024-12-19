@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Link as NavigateLink } from "@/navigation";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import React, { ReactNode } from "react";
@@ -24,7 +25,6 @@ import {
   NextIcon,
   NotiIcon,
   OutlineHomeIcon,
-  SettingIcon,
   ShopIcon,
   VIPIcon,
   WalletIcon,
@@ -86,8 +86,16 @@ export default function RootLayout({
       menu: "Products",
       route: "/client/products",
       children: [
-        { icon: null, menu: "Product List", route: "/client/products/list" },
-        { icon: null, menu: "Apply Product", route: "/client/products/apply" },
+        {
+          icon: null,
+          menu: "Product List",
+          route: "/client/products/product-list",
+        },
+        {
+          icon: null,
+          menu: "Apply Product",
+          route: "/client/products/apply-product",
+        },
       ],
     },
     {
@@ -180,7 +188,11 @@ export default function RootLayout({
                   <div key={index} className="w-full">
                     {/* Parent Menu */}
                     <div
-                      onClick={() => item.children && toggleMenu(item.menu)}
+                      onClick={() =>
+                        item.children
+                          ? toggleMenu(item.menu)
+                          : router.push(item.route)
+                      }
                       className={`flex items-center justify-between cursor-pointer px-6 py-1 ${
                         isActive
                           ? "bg-gray-200 text-neon_pink"
@@ -268,54 +280,54 @@ export default function RootLayout({
                   className="py-4 flex items-start gap-2 flex-col"
                 >
                   <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
-                    <Link
+                    <NavigateLink
                       href={pathname}
                       locale="en"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image src={EnglishFlag} alt="" height={20} width={20} />
                       {t("_english")}
-                    </Link>
+                    </NavigateLink>
                   </div>
                   <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
-                    <Link
+                    <NavigateLink
                       href={pathname}
                       locale="th"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image src={ThaiFlag} alt="" height={20} width={20} />
                       {t("_thai")}
-                    </Link>
+                    </NavigateLink>
                   </div>
                   <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
-                    <Link
+                    <NavigateLink
                       href={pathname}
                       locale="vi"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image src={VietnamFlag} alt="" height={20} width={20} />
                       {t("_vietnam")}
-                    </Link>
+                    </NavigateLink>
                   </div>
                   <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
-                    <Link
+                    <NavigateLink
                       href={pathname}
                       locale="zh"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image src={ChinesFlag} alt="" height={20} width={20} />
                       {t("_china")}
-                    </Link>
+                    </NavigateLink>
                   </div>
                   <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
-                    <Link
+                    <NavigateLink
                       href={pathname}
                       locale="ms"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image src={MalaysiaFlag} alt="" height={20} width={20} />
                       {t("_malaysia")}
-                    </Link>
+                    </NavigateLink>
                   </div>
                 </div>
               </DropdownComponent>
