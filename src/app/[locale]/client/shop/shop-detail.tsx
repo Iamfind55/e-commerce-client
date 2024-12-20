@@ -179,26 +179,27 @@ export default function ShopDetails() {
         });
 
         const res = data.updateShopInformation.data;
+        console.log(res);
         dispatch(
           login({
-            fullname: res.fullname || "",
-            username: res.username || "",
-            email: res.email || "",
-            dob: res.dob || "",
-            remark: res.remark || "",
+            fullname: res.fullname,
+            username: res.username,
+            email: res.email,
+            dob: res.dob,
+            remark: res.remark,
             image: {
-              logo: res.image.logo || "",
-              cover: res.image.cover || "",
+              logo: res.image.logo,
+              cover: res.image.cover,
             },
             payment_method:
               res.payment_method.map((method: any) => ({
-                id: method.id || "",
-                bank_name: method.bank_name || "",
-                code: method.code || "",
-                bank_account_name: method.bank_account_name || "",
-                bank_account_number: method.bank_account_number || "",
+                id: method.id,
+                bank_name: method.bank_name,
+                code: method.code,
+                bank_account_name: method.bank_account_name,
+                bank_account_number: method.bank_account_number,
               })) || [],
-            status: res.status || "",
+            status: res.status,
             shop_vip: res.shop_vip ?? false,
           })
         );
@@ -625,8 +626,8 @@ export default function ShopDetails() {
               type="button"
             />
             <IconButton
-              className={`rounded p-2 text-xs bg-neon_blue text-white cursor-not-allowed`}
-              title={isLoading ? "Save Change" : "Saving...."}
+              className={`rounded p-2 text-xs bg-neon_blue text-white`}
+              title={isLoading ? "Saving...." : "Save Change"}
               icon={isLoading ? <Loading /> : ""}
               isFront={true}
               type="submit"
