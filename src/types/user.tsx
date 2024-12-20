@@ -15,12 +15,14 @@ export interface IUserData {
   id: string | null;
   fullname: string | null;
   username: string | null;
+  password?: string | null;
   email: string | null;
-  dob: string | null;
-  remark: string | null;
-  image: IImage;
-  payment_method: IPaymentMethod[];
-  status: string | null;
-  shop_vip: number | null;
-  created_at: string | null;
+  phone_number: string | null;
+  dob?: string | null;
+  remark?: string | null;
+  image?: IImage;
+  payment_method?: IPaymentMethod[];
+  status?: string | null;
+  shop_vip?: number | null;
+  created_at?: string | null;
 }

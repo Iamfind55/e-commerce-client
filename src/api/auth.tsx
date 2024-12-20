@@ -27,6 +27,7 @@ export const SHOP_SIGN_IN = gql`
           fullname
           username
           email
+          phone_number
           dob
           remark
           image {

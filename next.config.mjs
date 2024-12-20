@@ -6,14 +6,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '5001',
-        pathname: '/api/v1/doctors/**',
-      },
-      {
         protocol: 'https',
-        hostname: 's3.wasabisys.com',
+        hostname: 'img.freepik.com',
         pathname: '/**',
       },
     ],

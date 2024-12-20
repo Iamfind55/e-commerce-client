@@ -77,27 +77,27 @@ export default function Login() {
         const res = data.shopLogin.data;
         dispatch(
           login({
-            id: res?.id || "",
-            fullname: res?.fullname || "",
-            username: res?.username || "",
-            email: res?.email || "",
-            dob: res?.dob || "",
-            remark: res?.remark || "",
+            id: res.data.id || "",
+            fullname: res.data.fullname || "",
+            username: res.data.username || "",
+            email: res.data.email || "",
+            dob: res.data.dob || "",
+            remark: res.data.remark || "",
             image: {
-              logo: res?.image?.logo || "",
-              cover: res?.image?.cover || "",
+              logo: res.data.image?.logo || "",
+              cover: res.data.image?.cover || "",
             },
             payment_method:
-              res?.payment_method?.map((method: any) => ({
+              res?.data?.payment_method?.map((method: any) => ({
                 id: method.id || "",
                 bank_name: method.bank_name || "",
                 code: method.code || "",
                 bank_account_name: method.bank_account_name || "",
                 bank_account_number: method.bank_account_number || "",
               })) || [],
-            status: res?.status || "",
-            shop_vip: res?.shop_vip ?? false, // Fallbacks to `false` if `shop_vip` is null/undefined
-            created_at: res?.created_at || "",
+            status: res.data.status || "",
+            shop_vip: res.data.shop_vip ?? false, // Fallbacks to `false` if `shop_vip` is null/undefined
+            created_at: res.data.created_at || "",
           })
         );
 

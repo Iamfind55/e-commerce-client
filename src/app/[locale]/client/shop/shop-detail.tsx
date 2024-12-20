@@ -2,25 +2,28 @@
 
 import React from "react";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+
+// graphql
+import { useMutation } from "@apollo/client";
+import { login } from "@/redux/slice/authSlice";
 
 // components
+import Loading from "@/components/loading";
+import Textfield from "@/components/textField";
 import IconButton from "@/components/iconButton";
 import Password from "@/components/passwordTextField";
-import Textfield from "@/components/textField";
 
 // utils and icons
-import { BackIcon, PlusIcon, TrashIcon } from "@/icons/page";
 import { useToast } from "@/utils/toast";
+import { BackIcon, PlusIcon, TrashIcon } from "@/icons/page";
+
+// API
+import { UPDATE_SHOP_PROFILE } from "@/api/shop";
 
 // images
-// import ThaiFlag from "/public/images/thai-flag.webp";
-// import ChinesFlag from "/public/images/chines-flag.webp";
-// import EnglishFlag from "/public/images/english-flag.webp";
-// import VietnamFlag from "/public/images/vietnam-flag.webp";
-// import MalaysiaFlag from "/public/images/malaysia-flag.webp";
+import { IUserData } from "@/types/user";
 import DefaultImage from "/public/images/default-image.webp";
-import { useMutation } from "@apollo/client";
-import { UPDATE_SHOP_PROFILE } from "@/api/shop";
 
 type Record = {
   name: string;
@@ -28,13 +31,54 @@ type Record = {
 };
 
 export default function ShopDetails() {
-  const [shopSignIn] = useMutation(UPDATE_SHOP_PROFILE);
+  const dispatch = useDispatch();
   const { errorMessage, successMessage } = useToast();
+  const [updateShopInfo] = useMutation(UPDATE_SHOP_PROFILE);
+  const { user } = useSelector((state: any) => state.auth);
   const [file, setFile] = React.useState<File | null>(null);
   const [cover, setCover] = React.useState<File | null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview, setPreview] = React.useState<string | null>(null);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
+  const [shopData, setShopData] = React.useState<IUserData>({
+    id: "",
+    fullname: "",
+    username: "",
+    password: "",
+    email: "",
+    phone_number: "",
+    dob: "",
+    remark: "",
+    image: {
+      logo: "",
+      cover: "",
+    },
+    payment_method: [],
+  });
+
+  React.useEffect(() => {
+    if (user) {
+      setShopData({
+        id: user.id || null,
+        fullname: user.fullname || null,
+        username: user.username || null,
+        password: user.password || null,
+        email: user.email || null,
+        phone_number: user.phone_number || null,
+        dob: user.dob || null,
+        remark: user.remark || null,
+        image: user.image || {
+          logo: null,
+          cover: null,
+        },
+        payment_method: user.payment_method || [],
+        status: user.status || null,
+        shop_vip: user.shop_vip || null,
+        created_at: user.created_at || null,
+      });
+    }
+  }, [user]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -108,6 +152,67 @@ export default function ShopDetails() {
 
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+    try {
+      const { data } = await updateShopInfo({
+        variables: {
+          data: {
+            fullname: shopData.fullname,
+            username: shopData.username,
+            password: shopData.password,
+            email: shopData.email,
+            phone_number: shopData.phone_number,
+            remark: shopData.remark,
+            image: {
+              cover:
+                "https://img.freepik.com/free-vector/flat-shopping-center-twitter-header_23-2149330482.jpg",
+              logo: "https://img.freepik.com/premium-vector/shopping-logo-design_852937-4657.jpg?semt=ais_hybrid",
+            },
+          },
+        },
+      });
+
+      if (data.updateShopInformation.success) {
+        successMessage({
+          message: "Update shop profile successful!",
+          duration: 3000,
+        });
+
+        const res = data.updateShopInformation.data;
+        dispatch(
+          login({
+            fullname: res.fullname || "",
+            username: res.username || "",
+            email: res.email || "",
+            dob: res.dob || "",
+            remark: res.remark || "",
+            image: {
+              logo: res.image.logo || "",
+              cover: res.image.cover || "",
+            },
+            payment_method:
+              res.payment_method.map((method: any) => ({
+                id: method.id || "",
+                bank_name: method.bank_name || "",
+                code: method.code || "",
+                bank_account_name: method.bank_account_name || "",
+                bank_account_number: method.bank_account_number || "",
+              })) || [],
+            status: res.status || "",
+            shop_vip: res.shop_vip ?? false,
+          })
+        );
+      } else {
+        errorMessage({
+          message: data.updateShopInformation.error || "Update profile failed!",
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -125,7 +230,15 @@ export default function ShopDetails() {
             <div className="w-full flex items-start justify-start gap-6 my-4">
               <div className="w-2/4 flex items-start justify-start gap-4">
                 <div>
-                  {preview ? (
+                  {shopData?.image?.logo ? (
+                    <Image
+                      src={shopData?.image?.logo}
+                      width={100}
+                      height={100}
+                      alt="Image preview"
+                      className="max-w-full h-auto border rounded"
+                    />
+                  ) : preview ? (
                     <Image
                       src={preview}
                       width={100}
@@ -169,7 +282,15 @@ export default function ShopDetails() {
               </div>
               <div className="w-2/4 flex items-start justify-start gap-4">
                 <div>
-                  {preview1 ? (
+                  {shopData?.image?.cover ? (
+                    <Image
+                      src={shopData?.image?.cover}
+                      width={100}
+                      height={100}
+                      alt="Image preview"
+                      className="max-w-full h-auto border rounded"
+                    />
+                  ) : preview1 ? (
                     <Image
                       src={preview1}
                       width={100}
@@ -194,7 +315,7 @@ export default function ShopDetails() {
                   <input
                     type="file"
                     accept=".jpg,.jpeg,.png"
-                    id="file-upload"
+                    id="cover-upload"
                     onChange={handleChangeCover}
                     className="block w-full hidden"
                   />
@@ -203,7 +324,7 @@ export default function ShopDetails() {
                   )}
                   <div className="flex items-start justify-start gap-4">
                     <label
-                      htmlFor="file-upload"
+                      htmlFor="cover-upload"
                       className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
                     >
                       Select new
@@ -216,10 +337,17 @@ export default function ShopDetails() {
               <Textfield
                 placeholder="Enter shop name...."
                 title="Shop name"
-                name="shop_name"
-                id="shop_name"
+                name="fullname"
+                id="fullname"
                 type="text"
                 required
+                value={shopData.fullname || ""}
+                onChange={(e) =>
+                  setShopData({
+                    ...shopData,
+                    fullname: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter username...."
@@ -228,6 +356,13 @@ export default function ShopDetails() {
                 id="username"
                 type="text"
                 required
+                value={shopData.username || ""}
+                onChange={(e) =>
+                  setShopData({
+                    ...shopData,
+                    username: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter phone number...."
@@ -236,22 +371,28 @@ export default function ShopDetails() {
                 id="phone_number"
                 type="text"
                 required
+                value={shopData.phone_number || ""}
+                onChange={(e) =>
+                  setShopData({
+                    ...shopData,
+                    phone_number: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter shop email...."
                 title="Shop email"
-                name="shop_email"
-                id="shop_email"
+                name="email"
+                id="email"
                 type="text"
                 required
-              />
-              <Textfield
-                placeholder="Enter shop name...."
-                title="Shop name"
-                name="shop_name"
-                id="shop_name"
-                type="text"
-                required
+                value={shopData.email || ""}
+                onChange={(e) =>
+                  setShopData({
+                    ...shopData,
+                    email: e.target.value,
+                  })
+                }
               />
               <Password
                 placeholder="Enter password...."
@@ -259,6 +400,13 @@ export default function ShopDetails() {
                 name="password"
                 id="password"
                 required
+                value={shopData.password || ""}
+                onChange={(e) =>
+                  setShopData({
+                    ...shopData,
+                    password: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Active"
@@ -269,17 +417,24 @@ export default function ShopDetails() {
                 required
                 readOnly
               />
-              <Textfield
-                placeholder="Enter shop remark...."
-                title="Shop remark"
-                name="shop_remark"
-                id="shop_remark"
-                type="text"
-                multiline
-                rows={1}
-                required
-              />
             </div>
+            <Textfield
+              placeholder="Enter remark...."
+              title="Remark"
+              name="remark"
+              id="remark"
+              type="text"
+              multiline
+              rows={2}
+              required
+              value={shopData.remark || ""}
+              onChange={(e) =>
+                setShopData({
+                  ...shopData,
+                  remark: e.target.value,
+                })
+              }
+            />
 
             {/* <div className="w-full border-b py-1">
               <p className="text-sm text-gray-500">Set default language:</p>
@@ -415,7 +570,6 @@ export default function ShopDetails() {
                   type="text"
                   value={currentRecord.name}
                   onChange={handleInputChange}
-                  required
                 />
                 <Textfield
                   placeholder="Enter link...."
@@ -425,7 +579,6 @@ export default function ShopDetails() {
                   type="text"
                   value={currentRecord.link}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="text-1/5 flex items-center justify-start">
@@ -473,7 +626,8 @@ export default function ShopDetails() {
             />
             <IconButton
               className={`rounded p-2 text-xs bg-neon_blue text-white cursor-not-allowed`}
-              title="Save Change"
+              title={isLoading ? "Save Change" : "Saving...."}
+              icon={isLoading ? <Loading /> : ""}
               isFront={true}
               type="submit"
             />

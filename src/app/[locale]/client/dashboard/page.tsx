@@ -29,7 +29,6 @@ type ReportItem = {
 export default function DashboardPage() {
   const router = useRouter();
   const { user } = useSelector((state: any) => state.auth);
-
   const reportItems: ReportItem[] = [
     {
       title: "My Products",
