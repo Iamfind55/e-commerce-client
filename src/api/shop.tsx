@@ -74,3 +74,59 @@ export const MUTATION_DELETE_SHOP_SOCIAL = gql`
     }
   }
 `;
+
+export const QUERY_SHOP_PRODUCTS = gql`
+  query GetShopProducts(
+    $page: Int
+    $limit: Int
+    $sortedBy: BaseOrderByInput
+    $where: ShopProductWhereInput
+  ) {
+    getShopProducts(
+      page: $page
+      limit: $limit
+      sortedBy: $sortedBy
+      where: $where
+    ) {
+      total
+      error {
+        message
+        code
+        details
+      }
+      success
+      data {
+        id
+        quantity
+        product_id
+        productData {
+          id
+          name {
+            name_en
+          }
+          description {
+            name_en
+          }
+          images
+          cover_image
+          price
+          discount
+          quantity
+          sku
+          spu
+          total_star
+          total_comment
+          category_ids
+          brand_id
+          status
+          recommended
+          product_top
+          product_vip
+          created_at
+        }
+        status
+        created_at
+      }
+    }
+  }
+`;
