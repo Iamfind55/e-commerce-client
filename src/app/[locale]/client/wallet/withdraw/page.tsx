@@ -1,13 +1,13 @@
 "use client";
 
-import { postAPI, queryData } from "@/api/api";
+// import { postAPI, queryData } from "@/api/api";
 import BalanceCard from "@/components/balanceCard";
 import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
 import MessageHandler from "@/components/messageHandler";
 import Select from "@/components/select";
 import Textfield from "@/components/textField";
-import { useFetchBankByUserId } from "@/lib/bank/useFetchBank";
+// import { useFetchBankByUserId } from "@/lib/bank/useFetchBank";
 import useFilter from "@/lib/useFilter";
 import { login } from "@/redux/slice/authSlice";
 import { prices } from "@/utils/option";
@@ -25,7 +25,7 @@ export default function WithdrawHistory() {
   const { errorMessage } = useToast();
   const [formattedAmount, setFormattedAmount] = React.useState<string>("");
   const { state: filter } = useFilter();
-  const { data } = useFetchBankByUserId(filter);
+  // const { data } = useFetchBankByUserId(filter);
   const [bankId, setBankId] = React.useState<string>("");
 
   // Create options from fetched data

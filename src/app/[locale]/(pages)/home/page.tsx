@@ -182,7 +182,7 @@ export default function Home() {
           <div className="h-auto w-full">
             <GlobalSlider
               images={sliderImages}
-              height="h-[80vh]"
+              height="h-[50vh]"
               slidePerview={1}
             />
           </div>

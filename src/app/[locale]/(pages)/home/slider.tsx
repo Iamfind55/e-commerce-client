@@ -1,4 +1,6 @@
 import React from "react";
+
+// swiper
 import {
   Navigation,
   Pagination,
@@ -9,10 +11,10 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image, { StaticImageData } from "next/image";
 import "swiper/css";
+import "./style.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import "./style.css";
 
 type SliderImage = {
   src: StaticImageData | string;
@@ -39,7 +41,7 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
   hasText = false,
   pagination = false,
   text = [],
-  height = "h-[60vh]",
+  height,
 }) => {
   return (
     <Swiper
@@ -56,7 +58,8 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
       {images.map((image, index) => (
         <SwiperSlide key={index}>
           <div className="flex items-start justify-start gap-4 flex-col py-6 ">
-            <div className={`w-full h-36 sm:${height} text-black relative`}>
+            {/* <div className={`w-full h-36 sm:${height} text-black relative`}> */}
+            <div className={`w-full ${height} text-black relative`}>
               <Image
                 className="w-full h-full object-cover rounded"
                 src={image.src}

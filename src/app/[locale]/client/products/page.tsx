@@ -1,7 +1,9 @@
+import ProductLists from "./product-list/page";
+
 export default function Product() {
   return (
     <>
-      <h1>Hello product</h1>
+      <ProductLists />
     </>
   );
 }

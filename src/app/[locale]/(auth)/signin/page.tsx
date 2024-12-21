@@ -148,7 +148,7 @@ export default function Login() {
           <div className="w-4/5">
             <GlobalSlider
               images={sliderImages}
-              height="h-[50vh]"
+              height="h-[70vh]"
               slidePerview={1}
               text={sliderTexts}
               hasText={true}
