@@ -27,6 +27,14 @@ export enum useStatus {
   BLOCKED = "blocked",
 }
 
+export const countries: any = [
+  { label: "Laos", value: "laos" },
+  { label: "Thailand", value: "thailand" },
+  { label: "Vietname", value: "vietname" },
+  { label: "Korean", value: "korean" },
+  { label: "China", value: "china" },
+];
+
 export const page_limits: any = [
   { label: "10", value: 10 },
   { label: "30", value: 30 },

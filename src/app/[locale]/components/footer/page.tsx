@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function page() {
+export default function Footer() {
   const t = useTranslations("homePage");
   return (
     <>

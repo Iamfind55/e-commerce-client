@@ -10,7 +10,7 @@ import Textfield from "@/components/textField";
 // import { useFetchBankByUserId } from "@/lib/bank/useFetchBank";
 import useFilter from "@/lib/useFilter";
 import { login } from "@/redux/slice/authSlice";
-import { prices } from "@/utils/option";
+// import { prices } from "@/utils/option";
 import { useToast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -29,17 +29,17 @@ export default function WithdrawHistory() {
   const [bankId, setBankId] = React.useState<string>("");
 
   // Create options from fetched data
-  const options = data?.map((account: any) => ({
-    label: account.accountName,
-    value: account.id,
-  }));
+  // const options = data?.map((account: any) => ({
+  //   label: account.accountName,
+  //   value: account.id,
+  // }));
 
   // Set the first bank as the default bank when data is available
-  useEffect(() => {
-    if (data && data.length > 0 && data[0]?.id) {
-      setBankId(data[0].id); // Only set if data[0].id is defined
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.length > 0 && data[0]?.id) {
+  //     setBankId(data[0].id); // Only set if data[0].id is defined
+  //   }
+  // }, [data]);
 
   const [paymentResult, setPaymentResult] = React.useState<string | null>(null);
 
@@ -63,31 +63,31 @@ export default function WithdrawHistory() {
 
   const queryUserData = async () => {
     try {
-      const res = await queryData({ url: "/patients/me" });
-      if (res?.status === 200) {
-        const data = res.data;
-        dispatch(
-          login({
-            address: data?.address,
-            balance: data?.balance,
-            email: data?.email,
-            firstName: data?.firstName,
-            gender: data?.gender,
-            id: data?.id,
-            lastName: data?.lastName,
-            password: data?.password,
-            phone: data?.phone,
-            profile: data?.profile,
-            status: data?.status,
-            createdAt: data?.createdAt,
-            createdBy: data?.createdBy,
-            updatedAt: data?.updatedAt,
-            dob: data?.dob,
-          })
-        );
-      } else {
-        errorMessage({ message: "Something went wrong", duration: 3000 });
-      }
+      // const res = await queryData({ url: "/patients/me" });
+      // if (res?.status === 200) {
+      //   const data = res.data;
+      //   dispatch(
+      //     login({
+      //       address: data?.address,
+      //       balance: data?.balance,
+      //       email: data?.email,
+      //       firstName: data?.firstName,
+      //       gender: data?.gender,
+      //       id: data?.id,
+      //       lastName: data?.lastName,
+      //       password: data?.password,
+      //       phone: data?.phone,
+      //       profile: data?.profile,
+      //       status: data?.status,
+      //       createdAt: data?.createdAt,
+      //       createdBy: data?.createdBy,
+      //       updatedAt: data?.updatedAt,
+      //       dob: data?.dob,
+      //     })
+      //   );
+      // } else {
+      //   errorMessage({ message: "Something went wrong", duration: 3000 });
+      // }
     } catch (error) {
       errorMessage({ message: "Something went wrong", duration: 3000 });
     }
@@ -96,16 +96,16 @@ export default function WithdrawHistory() {
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await postAPI({
-        url: "/withdraws",
-        body: {
-          bankId: bankId,
-          amount: amount.toString(),
-        },
-      });
+      // const res = await postAPI({
+      //   url: "/withdraws",
+      //   body: {
+      //     bankId: bankId,
+      //     amount: amount.toString(),
+      //   },
+      // });
       // setPaymentResult("success");
       setPaymentResult((prev) => (prev === "success" ? "null" : "success"));
-      setResponse(res);
+      // setResponse(res);
       queryUserData();
     } catch (error) {
       if (error instanceof Error) {
@@ -129,7 +129,7 @@ export default function WithdrawHistory() {
                 className="flex items-start justify-start flex-col gap-4"
                 onSubmit={handleSubmitForm}
               >
-                <Select
+                {/* <Select
                   name="accountNumber"
                   title="Select account"
                   option={options}
@@ -137,7 +137,7 @@ export default function WithdrawHistory() {
                   onChange={(e) => setBankId(e.target.value)} // User can still select a different bank
                   required
                   className="h-7.5"
-                />
+                /> */}
                 <Textfield
                   name="deposit_amount"
                   placeholder="Enter amount...."
@@ -150,7 +150,7 @@ export default function WithdrawHistory() {
                   onChange={handleAmountChange}
                 />
                 <div className="flex flex-wrap items-start justify-start gap-4 overflow-auto cursor-pointer">
-                  {prices.map((price: any) => (
+                  {/* {prices.map((price: any) => (
                     <p
                       key={price?.value}
                       id="badge-dismiss-default"
@@ -159,7 +159,7 @@ export default function WithdrawHistory() {
                     >
                       {price?.label}
                     </p>
-                  ))}
+                  ))} */}
                 </div>
 
                 <div className="flex items-start justify-start gap-4 w-full">

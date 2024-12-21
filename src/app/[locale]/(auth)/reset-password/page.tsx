@@ -12,8 +12,8 @@ import { useToast } from "@/utils/toast";
 import { MUTATION_RESET_PASSWORD } from "@/api/auth";
 import IconButton from "@/components/iconButton";
 import Password from "@/components/passwordTextField";
-import { IPasswordWithConfirm } from "@/types/profile";
 import ForgotImage from "../../../../../public/images/forgot-password.svg";
+import { IPasswordWithConfirm } from "@/types/login";
 
 export default function ResetPassword() {
   const router = useRouter();

@@ -22,7 +22,7 @@ import { formatDate } from "@/utils/dateFormat";
 import { formatNumber } from "@/utils/formatNumber";
 // import formatDate from "@/utils/dateFormat";
 // import formatNumber from "@/utils/formatNumber";
-import { transactionColumns } from "@/utils/option";
+// import { transactionColumns } from "@/utils/option";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -87,7 +87,7 @@ export default function Withdraw() {
         </h4>
         <div className="w-full relative overflow-y-auto overflow-x-auto h-auto border text-b_text">
           <table className="w-full bg-gray overflow-x-auto text-left text-sm rtl:text-right">
-            <HeadTable columns={transactionColumns} />
+            {/* <HeadTable columns={transactionColumns} /> */}
             {loading ? (
               "Loading"
             ) : (

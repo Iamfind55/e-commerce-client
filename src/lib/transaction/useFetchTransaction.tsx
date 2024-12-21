@@ -1,6 +1,6 @@
 import React from "react";
 import { FilterState } from "@/types/filter";
-import { queryData } from "@/api/api";
+// import { queryData } from "@/api/api";
 import { ITransactionTypes } from "@/types/transaction";
 
 type NewITransactionTypes = ITransactionTypes[];
@@ -56,14 +56,14 @@ const useFetchTransaction = (filter: FilterState) => {
 
       const queryParams = buildQueryFilter(filter);
 
-      const response = await queryData({
-        url: `/transactions/me?${queryParams.toString()}`,
-      });
-      if (response.status === 200) {
-        const data = await response.data;
-        setData(data);
-        setTotal(response.total);
-      }
+      // const response = await queryData({
+      //   url: `/transactions/me?${queryParams.toString()}`,
+      // });
+      // if (response.status === 200) {
+      //   const data = await response.data;
+      //   setData(data);
+      //   setTotal(response.total);
+      // }
     } catch (error: any) {
       setError(error);
     } finally {
@@ -96,14 +96,14 @@ const useFetchTransactionById = ({ id }: FetchBankProps) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await queryData({
-        url: `/transactions/${props?.id}`,
-      });
-      if (response.status === 200) {
-        const data = await response.data;
-        setData(data);
-        setTotal(response.total);
-      }
+      // const response = await queryData({
+      //   url: `/transactions/${props?.id}`,
+      // });
+      // if (response.status === 200) {
+      //   const data = await response.data;
+      //   setData(data);
+      //   setTotal(response.total);
+      // }
     } catch (error: any) {
       setError(error);
     } finally {
