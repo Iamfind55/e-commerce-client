@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Link as NavigateLink } from "@/navigation";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import React, { ReactNode } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslations } from "next-intl";
 import { logout } from "@/redux/slice/authSlice";
+import { Link as NavigateLink } from "@/navigation";
 import { usePathname, useRouter } from "next/navigation";
 
 // components
@@ -34,11 +34,11 @@ import DropdownComponent from "@/components/dropdown";
 
 // images
 import ThaiFlag from "/public/images/thai-flag.webp";
+import Logo from "/public/images/tiktokshop-logo.webp";
 import ChinesFlag from "/public/images/chines-flag.webp";
 import EnglishFlag from "/public/images/english-flag.webp";
 import VietnamFlag from "/public/images/vietnam-flag.webp";
 import MalaysiaFlag from "/public/images/malaysia-flag.webp";
-import Logo from "/public/images/tiktokshop-logo.webp";
 
 type MenuItem = {
   icon: ReactNode;

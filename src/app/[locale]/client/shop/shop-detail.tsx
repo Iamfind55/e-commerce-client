@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 // graphql
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { login } from "@/redux/slice/authSlice";
 
 // components
@@ -19,26 +19,34 @@ import { useToast } from "@/utils/toast";
 import { BackIcon, PlusIcon, TrashIcon } from "@/icons/page";
 
 // API
-import { UPDATE_SHOP_PROFILE } from "@/api/shop";
+import {
+  MUTATION_CREATE_SHOP_SOCIAL,
+  MUTATION_DELETE_SHOP_SOCIAL,
+  MUTATION_UPDATE_SHOP_PROFILE,
+  QUERY_SHOP_SOCIALS,
+} from "@/api/shop";
 
 // images
-import { IUserData } from "@/types/user";
+import { IShopSocial, IUserData } from "@/types/user";
 import DefaultImage from "/public/images/default-image.webp";
-
-type Record = {
-  name: string;
-  link: string;
-};
+import DeleteModal from "@/components/deleteModal";
 
 export default function ShopDetails() {
   const dispatch = useDispatch();
   const { errorMessage, successMessage } = useToast();
-  const [updateShopInfo] = useMutation(UPDATE_SHOP_PROFILE);
   const { user } = useSelector((state: any) => state.auth);
   const [file, setFile] = React.useState<File | null>(null);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [queryShopSocials, { refetch }] = useLazyQuery(QUERY_SHOP_SOCIALS, {
+    fetchPolicy: "no-cache",
+    // fetchPolicy: "cache-and-network",
+  });
   const [cover, setCover] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview, setPreview] = React.useState<string | null>(null);
+  const [updateShopInfo] = useMutation(MUTATION_UPDATE_SHOP_PROFILE);
+  const [createShopSocial] = useMutation(MUTATION_CREATE_SHOP_SOCIAL);
+  const [deleteShopSocial] = useMutation(MUTATION_DELETE_SHOP_SOCIAL);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const [shopData, setShopData] = React.useState<IUserData>({
@@ -56,29 +64,16 @@ export default function ShopDetails() {
     },
     payment_method: [],
   });
-
-  React.useEffect(() => {
-    if (user) {
-      setShopData({
-        id: user.id || null,
-        fullname: user.fullname || null,
-        username: user.username || null,
-        password: user.password || null,
-        email: user.email || null,
-        phone_number: user.phone_number || null,
-        dob: user.dob || null,
-        remark: user.remark || null,
-        image: user.image || {
-          logo: null,
-          cover: null,
-        },
-        payment_method: user.payment_method || [],
-        status: user.status || null,
-        shop_vip: user.shop_vip || null,
-        created_at: user.created_at || null,
-      });
-    }
-  }, [user]);
+  const [records, setRecords] = React.useState<IShopSocial[]>([]);
+  const [socials, setSocials] = React.useState<IShopSocial[]>([]);
+  const [socialId, setSocialId] = React.useState<string>("");
+  const [currentRecord, setCurrentRecord] = React.useState<IShopSocial>({
+    name: "",
+    link: "",
+    image: "",
+    status: "",
+    created_at: "",
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -132,12 +127,6 @@ export default function ShopDetails() {
     }
   };
 
-  const [records, setRecords] = React.useState<Record[]>([]);
-  const [currentRecord, setCurrentRecord] = React.useState<Record>({
-    name: "",
-    link: "",
-  });
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCurrentRecord((prev) => ({ ...prev, [name]: value }));
@@ -146,7 +135,41 @@ export default function ShopDetails() {
   const handleAddRecord = () => {
     if (currentRecord.name && currentRecord.link) {
       setRecords((prev) => [...prev, currentRecord]);
-      setCurrentRecord({ name: "", link: "" });
+      setCurrentRecord({
+        name: "",
+        link: "",
+        image: "",
+        status: "",
+        created_at: "",
+      });
+    }
+  };
+
+  const handleDeleteRecord = (index: number) => {
+    setRecords((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleOpenDeleteModal = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleDeleteShopSocial = async () => {
+    try {
+      if (socialId) {
+        const { data } = await deleteShopSocial({
+          variables: {
+            deleteShopSocialId: socialId,
+          },
+        });
+        if (data.deleteShopSocial.success) {
+          refetch();
+          console.log("I refetch");
+        } else {
+          errorMessage({ message: "Something went wrong!", duration: 3000 });
+        }
+      }
+    } catch (error) {
+      console.log("Error:", error);
     }
   };
 
@@ -177,9 +200,7 @@ export default function ShopDetails() {
           message: "Update shop profile successful!",
           duration: 3000,
         });
-
         const res = data.updateShopInformation.data;
-        console.log(res);
         dispatch(
           login({
             fullname: res.fullname,
@@ -191,18 +212,29 @@ export default function ShopDetails() {
               logo: res.image.logo,
               cover: res.image.cover,
             },
-            payment_method:
-              res.payment_method.map((method: any) => ({
-                id: method.id,
-                bank_name: method.bank_name,
-                code: method.code,
-                bank_account_name: method.bank_account_name,
-                bank_account_number: method.bank_account_number,
-              })) || [],
             status: res.status,
             shop_vip: res.shop_vip ?? false,
           })
         );
+
+        if (records.length > 0) {
+          for (const record of records) {
+            await createShopSocial({
+              variables: {
+                data: {
+                  image: record.image,
+                  name: record.name,
+                  link: record.link,
+                  shop_id: user?.id,
+                },
+              },
+            });
+          }
+
+          refetch();
+        } else {
+          console.log("No shop socials to create.");
+        }
       } else {
         errorMessage({
           message: data.updateShopInformation.error || "Update profile failed!",
@@ -216,228 +248,291 @@ export default function ShopDetails() {
     }
   };
 
+  React.useEffect(() => {
+    if (user) {
+      setShopData({
+        id: user.id || null,
+        fullname: user.fullname || null,
+        username: user.username || null,
+        password: user.password || null,
+        email: user.email || null,
+        phone_number: user.phone_number || null,
+        dob: user.dob || null,
+        remark: user.remark || null,
+        image: user.image || {
+          logo: null,
+          cover: null,
+        },
+        payment_method: user.payment_method || [],
+        status: user.status || null,
+        shop_vip: user.shop_vip || null,
+        created_at: user.created_at || null,
+      });
+    }
+  }, [user]);
+
+  const handleQueryShopSocials = React.useCallback(async () => {
+    try {
+      const { data } = await queryShopSocials({
+        variables: {
+          where: {
+            status: "ACTIVE",
+          },
+        },
+      });
+      setSocials(data.getShopSocials.data);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [queryShopSocials]);
+
+  React.useEffect(() => {
+    handleQueryShopSocials();
+  }, [handleQueryShopSocials]);
+
   return (
-    <div className="w-full flex items-start justify-center gap-2 sm:flex-row flex-col">
-      <div className="w-full rounded bg-white p-4 shadow-md">
-        <form
-          className="w-full py-2 flex items-start justify-start flex-col gap-4"
-          onSubmit={handleSubmitForm}
-        >
-          <div className="w-full flex items-start justify-start flex-col gap-4">
-            <div className="w-full border-b py-1">
-              <p className="text-sm text-gray-500">Basic information:</p>
-            </div>
+    <>
+      <div className="w-full flex items-start justify-center gap-2 sm:flex-row flex-col">
+        <div className="w-full rounded bg-white p-4 shadow-md">
+          <form
+            className="w-full py-2 flex items-start justify-start flex-col gap-4"
+            onSubmit={handleSubmitForm}
+          >
+            <div className="w-full flex items-start justify-start flex-col gap-4">
+              <div className="w-full border-b py-1">
+                <p className="text-sm text-gray-500">Basic information:</p>
+              </div>
 
-            <div className="w-full flex items-start justify-start gap-6 my-4">
-              <div className="w-2/4 flex items-start justify-start gap-4">
-                <div>
-                  {shopData?.image?.logo ? (
-                    <Image
-                      src={shopData?.image?.logo}
-                      width={100}
-                      height={100}
-                      alt="Image preview"
-                      className="max-w-full h-auto border rounded"
-                    />
-                  ) : preview ? (
-                    <Image
-                      src={preview}
-                      width={100}
-                      height={100}
-                      alt="Image preview"
-                      className="max-w-full h-auto border rounded"
-                    />
-                  ) : (
-                    <Image
-                      src={DefaultImage}
-                      width={100}
-                      height={100}
-                      alt="Image preview"
-                      className="max-w-full h-auto border rounded"
-                    />
-                  )}
-                </div>
-                <div className="flex items-start justify-start flex-col gap-3">
-                  <label className="block text-gray-500 text-xs">
-                    Upload shop logo
-                  </label>
-                  <input
-                    type="file"
-                    accept=".jpg,.jpeg,.png"
-                    id="file-upload"
-                    onChange={handleFileChange}
-                    className="block w-full hidden"
-                  />
-                  {errorMessages && (
-                    <p className="text-red-500 text-xs">{errorMessages}</p>
-                  )}
-                  <div className="flex items-start justify-start gap-4">
-                    <label
-                      htmlFor="file-upload"
-                      className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
-                    >
-                      Select new
+              <div className="w-full flex items-start justify-start gap-6 my-4">
+                <div className="w-2/4 flex items-start justify-start gap-4">
+                  <div>
+                    {shopData?.image?.logo ? (
+                      <Image
+                        src={shopData?.image?.logo}
+                        width={100}
+                        height={100}
+                        alt="Image preview"
+                        className="max-w-full h-auto border rounded"
+                      />
+                    ) : preview ? (
+                      <Image
+                        src={preview}
+                        width={100}
+                        height={100}
+                        alt="Image preview"
+                        className="max-w-full h-auto border rounded"
+                      />
+                    ) : (
+                      <Image
+                        src={DefaultImage}
+                        width={100}
+                        height={100}
+                        alt="Image preview"
+                        className="max-w-full h-auto border rounded"
+                      />
+                    )}
+                  </div>
+                  <div className="flex items-start justify-start flex-col gap-3">
+                    <label className="block text-gray-500 text-xs">
+                      Upload shop logo
                     </label>
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png"
+                      id="file-upload"
+                      onChange={handleFileChange}
+                      className="block w-full hidden"
+                    />
+                    {errorMessages && (
+                      <p className="text-red-500 text-xs">{errorMessages}</p>
+                    )}
+                    <div className="flex items-start justify-start gap-4">
+                      <label
+                        htmlFor="file-upload"
+                        className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
+                      >
+                        Select new
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="w-2/4 flex items-start justify-start gap-4">
-                <div>
+                <div className="w-2/4 flex items-start justify-center flex-col gap-2">
+                  <div className="flex items-center justify-start gap-6">
+                    <label className="block text-gray-500 text-sm">
+                      Upload cover
+                    </label>
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png"
+                      id="cover-upload"
+                      onChange={handleChangeCover}
+                      className="block w-full hidden"
+                    />
+                    <div className="flex items-start justify-start gap-4 border rounded py-1 px-4 cursor-pointer">
+                      <label
+                        htmlFor="cover-upload"
+                        className="text-xs text-gray-500 rounded flex items-center justify-center cursor-pointer"
+                      >
+                        Select new
+                      </label>
+                    </div>
+                  </div>
                   {shopData?.image?.cover ? (
-                    <Image
-                      src={shopData?.image?.cover}
-                      width={100}
-                      height={100}
-                      alt="Image preview"
-                      className="max-w-full h-auto border rounded"
-                    />
-                  ) : preview1 ? (
-                    <Image
-                      src={preview1}
-                      width={100}
-                      height={100}
-                      alt="Image preview"
-                      className="max-w-full h-auto border rounded"
-                    />
+                    <div className="w-full">
+                      {preview1 ? (
+                        <Image
+                          src={preview1}
+                          width={100}
+                          height={100}
+                          alt="Image preview"
+                          className="w-full h-32 object-cover border rounded"
+                        />
+                      ) : shopData?.image?.cover ? (
+                        <Image
+                          src={shopData?.image?.cover}
+                          width={100}
+                          height={100}
+                          alt="Image preview"
+                          className="w-full h-32 object-cover border rounded"
+                        />
+                      ) : (
+                        <Image
+                          src={DefaultImage}
+                          width={100}
+                          height={100}
+                          alt="Image preview"
+                          className="w-full h-32 object-cover border rounded"
+                        />
+                      )}
+                    </div>
                   ) : (
-                    <Image
-                      src={DefaultImage}
-                      width={100}
-                      height={100}
-                      alt="Image preview"
-                      className="max-w-full h-auto border rounded"
-                    />
+                    <div className="w-full flex items-start justify-start flex-col gap-3  border border-dotted border-gray-500">
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        id="cover-upload"
+                        onChange={handleChangeCover}
+                        className="block w-full hidden"
+                      />
+                      {errorMessages && (
+                        <p className="text-red-500 text-xs">{errorMessages}</p>
+                      )}
+                      <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                        <label
+                          htmlFor="cover-upload"
+                          className="text-sm rounded flex items-center justify-center cursor-pointer"
+                        >
+                          <PlusIcon className="text-gray-500" />
+                        </label>
+                      </div>
+                    </div>
                   )}
-                </div>
-                <div className="flex items-start justify-start flex-col gap-3">
-                  <label className="block text-gray-500 text-xs">
-                    Cover image
-                  </label>
-                  <input
-                    type="file"
-                    accept=".jpg,.jpeg,.png"
-                    id="cover-upload"
-                    onChange={handleChangeCover}
-                    className="block w-full hidden"
-                  />
-                  {errorMessages && (
-                    <p className="text-red-500 text-xs">{errorMessages}</p>
-                  )}
-                  <div className="flex items-start justify-start gap-4">
-                    <label
-                      htmlFor="cover-upload"
-                      className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
-                    >
-                      Select new
-                    </label>
-                  </div>
                 </div>
               </div>
-            </div>
-            <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
+              <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
+                <Textfield
+                  placeholder="Enter shop name...."
+                  title="Shop name"
+                  name="fullname"
+                  id="fullname"
+                  type="text"
+                  required
+                  value={shopData.fullname || ""}
+                  onChange={(e) =>
+                    setShopData({
+                      ...shopData,
+                      fullname: e.target.value,
+                    })
+                  }
+                />
+                <Textfield
+                  placeholder="Enter username...."
+                  title="Username"
+                  name="username"
+                  id="username"
+                  type="text"
+                  required
+                  value={shopData.username || ""}
+                  onChange={(e) =>
+                    setShopData({
+                      ...shopData,
+                      username: e.target.value,
+                    })
+                  }
+                />
+                <Textfield
+                  placeholder="Enter phone number...."
+                  title="Phone number"
+                  name="phone_number"
+                  id="phone_number"
+                  type="text"
+                  required
+                  value={shopData.phone_number || ""}
+                  onChange={(e) =>
+                    setShopData({
+                      ...shopData,
+                      phone_number: e.target.value,
+                    })
+                  }
+                />
+                <Textfield
+                  placeholder="Enter shop email...."
+                  title="Shop email"
+                  name="email"
+                  id="email"
+                  type="text"
+                  required
+                  value={shopData.email || ""}
+                  onChange={(e) =>
+                    setShopData({
+                      ...shopData,
+                      email: e.target.value,
+                    })
+                  }
+                />
+                <Password
+                  placeholder="Enter password...."
+                  title="Password"
+                  name="password"
+                  id="password"
+                  required
+                  value={shopData.password || ""}
+                  onChange={(e) =>
+                    setShopData({
+                      ...shopData,
+                      password: e.target.value,
+                    })
+                  }
+                />
+                <Textfield
+                  placeholder="Active"
+                  title="Status"
+                  name="status"
+                  id="status"
+                  type="text"
+                  required
+                  readOnly
+                />
+              </div>
               <Textfield
-                placeholder="Enter shop name...."
-                title="Shop name"
-                name="fullname"
-                id="fullname"
+                placeholder="Enter remark...."
+                title="Remark"
+                name="remark"
+                id="remark"
                 type="text"
+                multiline
+                rows={2}
                 required
-                value={shopData.fullname || ""}
+                value={shopData.remark || ""}
                 onChange={(e) =>
                   setShopData({
                     ...shopData,
-                    fullname: e.target.value,
+                    remark: e.target.value,
                   })
                 }
               />
-              <Textfield
-                placeholder="Enter username...."
-                title="Username"
-                name="username"
-                id="username"
-                type="text"
-                required
-                value={shopData.username || ""}
-                onChange={(e) =>
-                  setShopData({
-                    ...shopData,
-                    username: e.target.value,
-                  })
-                }
-              />
-              <Textfield
-                placeholder="Enter phone number...."
-                title="Phone number"
-                name="phone_number"
-                id="phone_number"
-                type="text"
-                required
-                value={shopData.phone_number || ""}
-                onChange={(e) =>
-                  setShopData({
-                    ...shopData,
-                    phone_number: e.target.value,
-                  })
-                }
-              />
-              <Textfield
-                placeholder="Enter shop email...."
-                title="Shop email"
-                name="email"
-                id="email"
-                type="text"
-                required
-                value={shopData.email || ""}
-                onChange={(e) =>
-                  setShopData({
-                    ...shopData,
-                    email: e.target.value,
-                  })
-                }
-              />
-              <Password
-                placeholder="Enter password...."
-                title="Password"
-                name="password"
-                id="password"
-                required
-                value={shopData.password || ""}
-                onChange={(e) =>
-                  setShopData({
-                    ...shopData,
-                    password: e.target.value,
-                  })
-                }
-              />
-              <Textfield
-                placeholder="Active"
-                title="Status"
-                name="status"
-                id="status"
-                type="text"
-                required
-                readOnly
-              />
-            </div>
-            <Textfield
-              placeholder="Enter remark...."
-              title="Remark"
-              name="remark"
-              id="remark"
-              type="text"
-              multiline
-              rows={2}
-              required
-              value={shopData.remark || ""}
-              onChange={(e) =>
-                setShopData({
-                  ...shopData,
-                  remark: e.target.value,
-                })
-              }
-            />
 
-            {/* <div className="w-full border-b py-1">
+              {/* <div className="w-full border-b py-1">
               <p className="text-sm text-gray-500">Set default language:</p>
             </div>
             <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded sm:flex">
@@ -558,83 +653,122 @@ export default function ShopDetails() {
               </li>
             </ul> */}
 
-            <div className="w-full border-b py-1">
-              <p className="text-sm text-gray-500">Social media:</p>
-            </div>
-            <div className="w-full flex item-start justify-start gap-2">
-              <div className="w-4/5 flex item-start justify-start gap-2">
-                <Textfield
-                  placeholder="Enter name...."
-                  title="Name"
-                  name="name"
-                  id="name"
-                  type="text"
-                  value={currentRecord.name}
-                  onChange={handleInputChange}
-                />
-                <Textfield
-                  placeholder="Enter link...."
-                  title="Link"
-                  name="link"
-                  id="link"
-                  type="text"
-                  value={currentRecord.link}
-                  onChange={handleInputChange}
-                />
+              <div className="w-full border-b py-1">
+                <p className="text-sm text-gray-500">Social media:</p>
               </div>
-              <div className="text-1/5 flex items-center justify-start">
-                <IconButton
-                  className="rounded bg-neon_blue border text-white text-xs mt-4"
-                  title="Add"
-                  icon={<PlusIcon size={18} className="text-pink" />}
-                  isFront={true}
-                  type="button"
-                  onClick={handleAddRecord}
-                />
+              <div className="w-full flex item-start justify-start gap-2">
+                <div className="w-4/5 flex item-start justify-start gap-2">
+                  <Textfield
+                    placeholder="Enter name...."
+                    title="Name"
+                    name="name"
+                    id="name"
+                    type="text"
+                    value={currentRecord.name}
+                    onChange={handleInputChange}
+                  />
+                  <Textfield
+                    placeholder="Enter link...."
+                    title="Link"
+                    name="link"
+                    id="link"
+                    type="text"
+                    value={currentRecord.link}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="text-1/5 flex items-center justify-start">
+                  <IconButton
+                    className="rounded bg-neon_blue border text-white text-xs mt-4"
+                    title="Add"
+                    icon={<PlusIcon size={18} className="text-pink" />}
+                    isFront={true}
+                    type="button"
+                    onClick={handleAddRecord}
+                  />
+                </div>
               </div>
-            </div>
 
-            {records.length > 0 && (
-              <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
-                {records.map((record, index) => (
-                  <div
-                    key={index}
-                    className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
-                  >
-                    <div className="flex gap-4">
-                      <span className="text-xs">
-                        {index + 1}. {record.name}
-                      </span>
-                      <span className="text-xs">{record.link}</span>
+              {records.length > 0 && (
+                <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
+                  <p className="text-xs text-gray-500">
+                    List of new social media:
+                  </p>
+                  {records.map((record, index) => (
+                    <div
+                      key={index}
+                      className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
+                    >
+                      <div className="flex gap-4">
+                        <span className="text-xs">
+                          {index + 1}. {record.name}
+                        </span>
+                        <span className="text-xs">{record.link}</span>
+                      </div>
+                      <TrashIcon
+                        size={18}
+                        className="text-gray-500 hover:text-neon_pink cursor-pointer"
+                        onClick={() => handleDeleteRecord(index)}
+                      />
                     </div>
-                    <TrashIcon
-                      size={18}
-                      className="text-gray-500 hover:text-neon_pink cursor-pointer"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+                  ))}
+                </div>
+              )}
+              {socials.length > 0 && (
+                <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
+                  <p className="text-xs text-gray-500">
+                    List of all social media:
+                  </p>
+                  {socials.map((social, index) => (
+                    <div
+                      key={index}
+                      className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
+                    >
+                      <div className="flex gap-4">
+                        <span className="text-xs">
+                          {index + 1}. {social.name}
+                        </span>
+                        <span className="text-xs">{social.link}</span>
+                      </div>
+                      <TrashIcon
+                        size={18}
+                        className="text-gray-500 hover:text-neon_pink cursor-pointer"
+                        onClick={() => {
+                          handleOpenDeleteModal();
+                          setSocialId(social.id ?? "");
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
-          <div className="flex items-center justify-start gap-4 mt-4">
-            <IconButton
-              className="rounded text-neon_pink p-2 border bg-white text-xs"
-              title="Back"
-              icon={<BackIcon size={18} className="text-pink" />}
-              isFront={true}
-              type="button"
-            />
-            <IconButton
-              className={`rounded p-2 text-xs bg-neon_blue text-white`}
-              title={isLoading ? "Saving...." : "Save Change"}
-              icon={isLoading ? <Loading /> : ""}
-              isFront={true}
-              type="submit"
-            />
-          </div>
-        </form>
+            <div className="flex items-center justify-start gap-4 mt-4">
+              <IconButton
+                className="rounded text-neon_pink p-2 border bg-white text-xs"
+                title="Back"
+                icon={<BackIcon size={18} className="text-pink" />}
+                isFront={true}
+                type="button"
+              />
+              <IconButton
+                className={`rounded p-2 text-xs bg-neon_blue text-white`}
+                title={isLoading ? "Saving...." : "Save Change"}
+                icon={isLoading ? <Loading /> : ""}
+                isFront={true}
+                type="submit"
+              />
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+
+      <DeleteModal
+        isOpen={isOpen}
+        onClose={handleOpenDeleteModal}
+        onConfirm={() => handleDeleteShopSocial()}
+      />
+    </>
   );
 }

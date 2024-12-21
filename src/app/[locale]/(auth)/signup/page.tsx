@@ -16,12 +16,12 @@ import { ISignups } from "@/types/signup";
 import { useToast } from "@/utils/toast";
 
 // graphql API
-import { SHOP_REGISTER } from "@/api/auth";
+import { MUTATION_SHOP_REGISTER } from "@/api/auth";
 
 export default function SignUp() {
   const router = useRouter();
   const { successMessage, errorMessage } = useToast();
-  const [registerShop] = useMutation(SHOP_REGISTER);
+  const [registerShop] = useMutation(MUTATION_SHOP_REGISTER);
   const [signupData, setSignupData] = React.useState<ISignups>({
     fullname: "",
     username: "",

@@ -15,7 +15,7 @@ import Textfield from "@/components/textField";
 
 // types and untils
 import { login } from "@/redux/slice/authSlice";
-import { SHOP_SIGN_IN } from "@/api/auth";
+import { MUTATION_SHOP_SIGN_IN } from "@/api/auth";
 import { useToast } from "@/utils/toast";
 import { ILogins } from "@/types/login";
 
@@ -28,7 +28,7 @@ export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { successMessage, errorMessage } = useToast();
-  const [shopSignIn] = useMutation(SHOP_SIGN_IN);
+  const [shopSignIn] = useMutation(MUTATION_SHOP_SIGN_IN);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [loginData, setLoginData] = React.useState<ILogins>({
     username: "",
@@ -80,6 +80,7 @@ export default function Login() {
             id: res.data.id || "",
             fullname: res.data.fullname || "",
             username: res.data.username || "",
+            phone_number: res.data.phone_number || "",
             email: res.data.email || "",
             dob: res.data.dob || "",
             remark: res.data.remark || "",

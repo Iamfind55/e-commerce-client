@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useMutation } from "@apollo/client";
 
 // APIs
-import { FORGOT_PASSWORD } from "@/api/auth";
+import { MUTATION_FORGOT_PASSWORD } from "@/api/auth";
 
 // components and untils
 import { useToast } from "@/utils/toast";
@@ -19,7 +19,7 @@ import ForgotImage from "../../../../../public/images/forgot-password.svg";
 export default function ForgotPasword() {
   const router = useRouter();
   const { successMessage, errorMessage } = useToast();
-  const [forgotPassword] = useMutation(FORGOT_PASSWORD);
+  const [forgotPassword] = useMutation(MUTATION_FORGOT_PASSWORD);
   const [email, setEmail] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 

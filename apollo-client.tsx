@@ -14,8 +14,6 @@ const createApolloClient = () => {
 
   const authLink = setContext((_, { headers }) => {
     const token = Cookies.get("auth_token");
-    console.log("Token", token);
-
     return {
       headers: {
         ...headers,

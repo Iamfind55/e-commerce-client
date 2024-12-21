@@ -26,3 +26,12 @@ export interface IUserData {
   shop_vip?: number | null;
   created_at?: string | null;
 }
+
+export interface IShopSocial {
+  id?: string;
+  name: string;
+  link: string;
+  image?: string;
+  status?: string;
+  created_at?: string;
+}

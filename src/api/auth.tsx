@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const SHOP_REGISTER = gql`
+export const MUTATION_SHOP_REGISTER = gql`
   mutation ShopRegister($data: CreateShopInput!) {
     shopRegister(data: $data) {
       data {
@@ -16,7 +16,7 @@ export const SHOP_REGISTER = gql`
   }
 `;
 
-export const SHOP_SIGN_IN = gql`
+export const MUTATION_SHOP_SIGN_IN = gql`
   mutation ShopLogin($where: ShopWhereLoginInput) {
     shopLogin(where: $where) {
       success
@@ -57,7 +57,7 @@ export const SHOP_SIGN_IN = gql`
   }
 `;
 
-export const FORGOT_PASSWORD = gql`
+export const MUTATION_FORGOT_PASSWORD = gql`
   mutation ShopForgotPassword($email: String!) {
     shopForgotPassword(email: $email) {
       success
@@ -70,7 +70,7 @@ export const FORGOT_PASSWORD = gql`
   }
 `;
 
-export const RESET_PASSWORD = gql`
+export const MUTATION_RESET_PASSWORD = gql`
   mutation ShopResetPassword($data: ShopResetPasswordInput!) {
     shopResetPassword(data: $data) {
       success

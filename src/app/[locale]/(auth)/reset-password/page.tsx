@@ -9,7 +9,7 @@ import { useMutation } from "@apollo/client";
 // components
 import { BackIcon } from "@/icons/page";
 import { useToast } from "@/utils/toast";
-import { RESET_PASSWORD } from "@/api/auth";
+import { MUTATION_RESET_PASSWORD } from "@/api/auth";
 import IconButton from "@/components/iconButton";
 import Password from "@/components/passwordTextField";
 import { IPasswordWithConfirm } from "@/types/profile";
@@ -18,7 +18,7 @@ import ForgotImage from "../../../../../public/images/forgot-password.svg";
 export default function ResetPassword() {
   const router = useRouter();
   const { successMessage, errorMessage } = useToast();
-  const [forgotPassword] = useMutation(RESET_PASSWORD);
+  const [forgotPassword] = useMutation(MUTATION_RESET_PASSWORD);
   const [token, setToken] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [passwordData, setPasswordData] = React.useState<IPasswordWithConfirm>({
