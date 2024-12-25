@@ -85,12 +85,14 @@ export default function ProductListDetail() {
             <ShopProductCard key={index + 1} {...product} />
           ))}
         </div>
-        <div className="w-full flex items-center justify-center mb-4">
+        <div className="w-full flex items-end justify-end mb-4">
           <Pagination
-            filter={filter.data} // Pass only `data` here
-            totalPage={fetchShopProduct.total ?? 1}
+            filter={filter.data}
+            // totalPage={fetchShopProduct.total ?? 1}
+            totalPage={Math.ceil(
+              (fetchShopProduct.total ?? 0) / filter.data.limit
+            )}
             onPageChange={(e) => {
-              console.log("Current page =====", e);
               filter.dispatch({
                 type: filter.ACTION_TYPE.PAGE,
                 payload: e,
