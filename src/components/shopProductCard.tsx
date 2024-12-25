@@ -3,36 +3,40 @@ import Link from "next/link";
 import Image from "next/image";
 
 // components
-import RatingStar from "./ratingStar";
 import { CheckCircleIcon } from "@/icons/page";
 
 // icons and untils
-import { IproductTypes } from "@/types/product";
 import { truncateText } from "@/utils/letterLimitation";
+import { ShopProduct } from "@/types/product";
 
 // images
 import category01 from "/public/images/category01.webp";
 
-export default function ShopProductCard(props: IproductTypes) {
+export default function ShopProductCard(props: ShopProduct) {
   return (
     <div className="cursor-pointer flex items-start justify-start flex-col select-none gap-2 w-auto rounded border hover:shadow-lg transition-all duration-300">
-      <div className="max-w-sm bg-white rounded">
-        <Image
-          className="rounded"
-          src={!props.profile ? category01 : props?.profile}
-          alt=""
-          width={300}
-          height={200}
-        />
+      <div className="w-full bg-white rounded">
+        <div className="w-full h-[150px] object-cover flex items-center justify-center">
+          <Image
+            className="rounded object-cover"
+            src={
+              !props.productData.cover_image
+                ? category01
+                : props?.productData.cover_image
+            }
+            alt=""
+            width={120}
+            height={120}
+          />
+        </div>
         <div className="p-3 flex items-start justify-start flex-col gap-1">
           <div className="w-full flex items-center justify-start gap-2">
             <i className="text-xs sm:text-md text-second_black font-normal sm:font-bold tracking-tight">
-              {truncateText(`${props?.name}`, 20)}
+              {truncateText(`${props?.productData.name.name_en}`, 20)}
             </i>
-            <RatingStar rating={4} />
           </div>
           <p className="text-gray-500 font-normal text-xs">
-            {truncateText(props?.description, 70)}
+            {truncateText(props?.productData?.description?.name_en ?? "", 70)}
           </p>
           <p className="flex items-center justify-start text-xs text-gray-500">
             <CheckCircleIcon size={16} className="text-green-500" />
@@ -46,7 +50,10 @@ export default function ShopProductCard(props: IproductTypes) {
             <CheckCircleIcon size={16} className="text-green-500" />
             &nbsp; Active.
           </p>
-          <div className="w-full flex flex-col sm:flex-row md:flex-row items-start justify-start gap-2 mt-2">
+          <div className="w-full flex flex-col sm:flex-row md:flex-row items-center justify-between gap-2 mt-2">
+            <div>
+              <p className="font-bold text-md">${props.productData.price}</p>
+            </div>
             <Link
               href="/product/sdfgsdfgsdfgsdgfs"
               className="w-full sm:w-auto bg-neon_pink text-white flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none"

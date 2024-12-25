@@ -1,9 +1,9 @@
 import { NextIcon, PreviousLinkIcon } from "@/icons/page";
-import { FilterState } from "@/types/filter";
+import { IFilter } from "@/types/product";
 import React from "react";
 
 interface PaginationType {
-  filter: FilterState;
+  filter: IFilter;
   totalPage: number;
   onPageChange?: (page: number) => void;
 }
@@ -14,9 +14,17 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
   const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2);
   const currentPage = filter.page;
 
-  const itemsPerPage = filter.offset;
+  // Default offset to 1 if undefined
+  const itemsPerPage = filter.limit || 1;
+
+  // Calculate total pages based on total items and items per page
   const totalPages = Math.ceil(totalPage / itemsPerPage);
 
+  // console.log("Total Items:", totalPage);
+  // console.log("Items Per Page:", itemsPerPage);
+  // console.log("Calculated Total Pages:", totalPages);
+
+  // Calculate visible page range
   const startPage = Math.max(1, currentPage - halfMaxVisiblePages);
   const endPage = Math.min(totalPages, currentPage + halfMaxVisiblePages);
 
@@ -24,6 +32,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
   for (let i = startPage; i <= endPage; i++) {
     pages.push(i);
   }
+
   const handlePreviousClick = () => {
     if (onPageChange && currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -39,19 +48,20 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
   return (
     <nav className="mt-4 flex justify-center bg-white">
       <ul className="flex space-x-2 bg-white">
-        <li className="flex items-center ">
+        {/* Previous Button */}
+        <li className="flex items-center">
           <button
-            className={`border hover:${
-              currentPage === 1 ? "" : "border"
-            } rounded  px-4 py-1 hover:${
-              currentPage === 1 ? "" : "text-white"
-            } ${currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}`}
+            className={`border rounded px-4 py-1 ${
+              currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
+            }`}
             onClick={handlePreviousClick}
-            disabled={currentPage == 1}
+            disabled={currentPage === 1}
           >
             <PreviousLinkIcon size={20} />
           </button>
         </li>
+
+        {/* First Page Button */}
         {startPage > 1 && (
           <li>
             <button
@@ -67,12 +77,14 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
             <span className="px-4 py-1">...</span>
           </li>
         )}
+
+        {/* Visible Pages */}
         {pages.map((page) => (
           <li key={page}>
             <button
               className={`rounded px-3 py-1 ${
                 currentPage === page
-                  ? "border text-neon_pink hover:bg-neon_pink hover:text-white"
+                  ? "bg-neon_pink text-white"
                   : "border text-neon_pink hover:bg-neon_pink hover:text-white"
               }`}
               onClick={() => onPageChange && onPageChange(page)}
@@ -81,6 +93,8 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
             </button>
           </li>
         ))}
+
+        {/* Last Page Button */}
         {endPage < totalPages - 1 && (
           <li>
             <span className="px-3 py-1">...</span>
@@ -89,20 +103,18 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
         {endPage < totalPages && (
           <li>
             <button
-              className=" rounded-full bg-white px-4 py-1 hover:bg-neon_blue hover:text-b_text"
+              className="border rounded-full px-4 py-1 hover:bg-neon_blue hover:text-b_text"
               onClick={() => onPageChange && onPageChange(totalPages)}
             >
               {totalPages}
             </button>
           </li>
         )}
-        <li className="flex items-center bg-white">
+
+        {/* Next Button */}
+        <li className="flex items-center">
           <button
-            className={`border  hover:${
-              currentPage === totalPages ? "" : "text-white"
-            } hover:${
-              currentPage === totalPages ? "" : "bg-neon_pink border"
-            } rounded text-neon_pink px-3 py-1 ${
+            className={`border rounded px-3 py-1 ${
               currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""
             }`}
             onClick={handleNextClick}
@@ -117,3 +129,5 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
 };
 
 export default Pagination;
+
+// export default Pagination;

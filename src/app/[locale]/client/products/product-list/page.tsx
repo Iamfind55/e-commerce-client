@@ -8,6 +8,7 @@ import ProductListDetail from "./components/page";
 
 export default function ProductLists() {
   const [tab, setTab] = React.useState<number>(1);
+
   return (
     <>
       <Breadcrumb

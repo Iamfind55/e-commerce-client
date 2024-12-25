@@ -5,8 +5,8 @@ export const gender: any = [
 ];
 
 export const product_status: any = [
-  { label: "Active", value: "active" },
-  { label: "Unactive", value: "unactive" },
+  { label: "Active", value: "ACTIVE" },
+  { label: "Inactive", value: "INACTIVE" },
 ];
 
 export const stock: any = [

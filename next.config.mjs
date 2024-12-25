@@ -10,6 +10,11 @@ const nextConfig = {
         hostname: 'img.freepik.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '227_cdn.pionexprocoin.cc',
+        pathname: '/**',
+      },
     ],
   },
 };

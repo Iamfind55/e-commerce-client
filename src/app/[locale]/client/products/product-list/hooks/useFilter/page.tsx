@@ -19,16 +19,17 @@ type Action =
 
 // Initial state
 const initialState: IFilter = {
-  limit: 50,
+  limit: 1,
   page: 1,
   status: null,
   keyword: null,
+  pagination: 1,
   brand_id: null,
   category_id: null,
   product_vip: null,
   product_top: null,
   price_between: null,
-  createdAt: {
+  createdAtBetween: {
     startDate: null,
     endDate: null,
   },
@@ -36,10 +37,9 @@ const initialState: IFilter = {
 
 const ACTION_TYPE = {
   STATUS: "status",
-  //   STOCK: "stock",
   KEYWORD: "keyword",
   PAGE_ROW: "page_row",
-  //   PAGINATION: "pagination",
+  PAGINATION: "pagination",
   BRAND_ID: "brand_id",
   CATEGORY_ID: "category_id",
   PRODUCT_VIP: "product_vip",
@@ -50,14 +50,14 @@ const ACTION_TYPE = {
 } as const;
 
 const reducer = (state: IFilter, action: Action): IFilter => {
-  const startDate = moment(state.createdAt.startDate);
-  const endDate = moment(state.createdAt.endDate);
+  const startDate = moment(state.createdAtBetween.startDate);
+  const endDate = moment(state.createdAtBetween.endDate);
   switch (action.type) {
     case ACTION_TYPE.CREATED_AT_START_DATE:
       return {
         ...state,
-        createdAt: {
-          ...state.createdAt,
+        createdAtBetween: {
+          ...state.createdAtBetween,
           startDate: action.payload,
           ...(endDate.isValid() &&
             moment(action.payload).isAfter(endDate) && {
@@ -68,15 +68,15 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           }),
         },
         ...(action.payload &&
-          state.createdAt.endDate && {
+          state.createdAtBetween.endDate && {
             page: 1,
           }),
       };
     case ACTION_TYPE.CREATED_AT_END_DATE:
       return {
         ...state,
-        createdAt: {
-          ...state.createdAt,
+        createdAtBetween: {
+          ...state.createdAtBetween,
           endDate: action.payload,
           ...(startDate.isValid() &&
             startDate.isAfter(action.payload) && {
@@ -87,16 +87,13 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           }),
         },
         ...(action.payload &&
-          state.createdAt.startDate && {
+          state.createdAtBetween.startDate && {
             page: 1,
           }),
       };
 
     case ACTION_TYPE.STATUS:
       return { ...state, status: action.payload || null, page: 1 };
-
-    // case ACTION_TYPE.STOCK:
-    //   return { ...state, stock: action.payload || null, page: 1 };
 
     case ACTION_TYPE.KEYWORD:
       return { ...state, keyword: action.payload || null, page: 1 };
@@ -116,8 +113,8 @@ const reducer = (state: IFilter, action: Action): IFilter => {
     case ACTION_TYPE.PRICE_BETWEEN:
       return { ...state, price_between: action.payload || null, page: 1 };
 
-    // case ACTION_TYPE.PAGINATION:
-    //   return { ...state, page: action.payload || null };
+    case ACTION_TYPE.PAGINATION:
+      return { ...state, pagination: action.payload || 1 };
 
     default:
       return state;
@@ -128,12 +125,12 @@ const useFilter = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const data = React.useMemo(() => {
-    const startDate = moment(state.createdAt.startDate);
-    const endDate = moment(state.createdAt.endDate);
+    const startDate = moment(state.createdAtBetween.startDate);
+    const endDate = moment(state.createdAtBetween.endDate);
     return {
       ...state,
-      createdAt: {
-        ...state.createdAt,
+      createdAtBetween: {
+        ...state.createdAtBetween,
         startDate: startDate.isValid() ? startDate.format("YYYY-MM-DD") : null,
         endDate: endDate.isValid() ? endDate.format("YYYY-MM-DD") : null,
       },

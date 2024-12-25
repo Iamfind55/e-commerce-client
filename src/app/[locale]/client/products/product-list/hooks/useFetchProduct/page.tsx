@@ -1,49 +1,47 @@
-import { QUERY_SHOP_PRODUCTS } from "@/api/shop";
-import { IFilter, IproductTypes } from "@/types/product";
-import { useLazyQuery } from "@apollo/client";
 import React from "react";
+import { useSelector } from "react-redux";
+
+// api
+import { useLazyQuery } from "@apollo/client";
+import { QUERY_SHOP_PRODUCTS } from "@/api/shop";
+
+// type and utils
+import { IFilter, ShopProduct } from "@/types/product";
 
 interface FetchProductsResponse {
-  getProducts: {
-    data: IproductTypes[];
+  getShopProducts: {
+    data: ShopProduct[];
     total: number;
   };
 }
 
 const useFetchProducts = ({ filter }: { filter: IFilter }) => {
-  const [getProducts, { data }] = useLazyQuery<FetchProductsResponse>(
+  const { user } = useSelector((state: any) => state.auth);
+  const [getShopProducts, { data }] = useLazyQuery<FetchProductsResponse>(
     QUERY_SHOP_PRODUCTS,
     {
       fetchPolicy: "no-cache",
     }
   );
 
-  const {
-    limit,
-    page,
-    status,
-    keyword,
-    brand_id,
-    category_id,
-    product_vip,
-    product_top,
-    price_between,
-  } = filter;
-
+  const { limit, page, status, keyword, createdAtBetween } = filter;
   const fetchProducts = () => {
-    getProducts({
+    getShopProducts({
       variables: {
         orderBy: "created_at_DESC",
         limit: limit,
         page: page,
         where: {
+          shop_id: user.id,
           ...(status && { status: status }),
           ...(keyword && { keyword: keyword }),
-          ...(brand_id && { brand_id: brand_id }),
-          ...(category_id && { category_id: category_id }),
-          ...(product_vip && { product_vip: product_vip }),
-          ...(product_top && { product_top: product_top }),
-          ...(price_between && { price_between: price_between }),
+          ...(createdAtBetween.startDate &&
+            createdAtBetween.endDate && {
+              createdAtBetween: {
+                startDate: createdAtBetween.startDate,
+                endDate: createdAtBetween.endDate,
+              },
+            }),
         },
       },
     });
@@ -51,16 +49,16 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
 
   React.useEffect(() => {
     fetchProducts();
-  }, [filter, getProducts]);
+  }, [filter, getShopProducts]);
 
   return {
-    getProducts,
+    getShopProducts,
     fetchProducts,
-    data: data?.getProducts?.data?.map((product, index) => ({
+    data: data?.getShopProducts?.data?.map((product, index) => ({
       ...product,
       no: index + 1,
     })),
-    total: data?.getProducts?.total,
+    total: data?.getShopProducts?.total,
   };
 };
 
