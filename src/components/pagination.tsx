@@ -9,24 +9,23 @@ interface PaginationType {
 }
 
 const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
+  const currentPage = filter.page || 1;
+  const totalPages = totalPage;
+
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const maxVisiblePages = isMobile ? 2 : 3;
+  const maxVisiblePages = isMobile ? 3 : 5;
   const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2);
-  const currentPage = filter.page;
 
-  // Default offset to 1 if undefined
-  const itemsPerPage = filter.limit || 1;
+  // Calculate start and end page dynamically
+  let startPage = Math.max(1, currentPage - halfMaxVisiblePages);
+  let endPage = Math.min(totalPages, currentPage + halfMaxVisiblePages);
 
-  // Calculate total pages based on total items and items per page
-  const totalPages = Math.ceil(totalPage / itemsPerPage);
-
-  // console.log("Total Items:", totalPage);
-  // console.log("Items Per Page:", itemsPerPage);
-  // console.log("Calculated Total Pages:", totalPages);
-
-  // Calculate visible page range
-  const startPage = Math.max(1, currentPage - halfMaxVisiblePages);
-  const endPage = Math.min(totalPages, currentPage + halfMaxVisiblePages);
+  if (currentPage <= halfMaxVisiblePages) {
+    endPage = Math.min(maxVisiblePages, totalPages);
+  }
+  if (currentPage > totalPages - halfMaxVisiblePages) {
+    startPage = Math.max(1, totalPages - maxVisiblePages + 1);
+  }
 
   const pages = [];
   for (let i = startPage; i <= endPage; i++) {
@@ -49,7 +48,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
     <nav className="mt-4 flex justify-center bg-white">
       <ul className="flex space-x-2 bg-white">
         {/* Previous Button */}
-        <li className="flex items-center">
+        <li>
           <button
             className={`border rounded px-4 py-1 ${
               currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
@@ -61,31 +60,29 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
           </button>
         </li>
 
-        {/* First Page Button */}
+        {/* First Page */}
         {startPage > 1 && (
-          <li>
-            <button
-              className="border rounded-full px-4 py-1 hover:bg-neon_pink"
-              onClick={() => onPageChange && onPageChange(1)}
-            >
-              1
-            </button>
-          </li>
-        )}
-        {startPage > 2 && (
-          <li>
-            <span className="px-4 py-1">...</span>
-          </li>
+          <>
+            <li>
+              <button
+                className="border rounded px-4 py-1 hover:bg-neon_pink hover:text-white"
+                onClick={() => onPageChange && onPageChange(1)}
+              >
+                1
+              </button>
+            </li>
+            {startPage > 2 && <li className="px-2">...</li>}
+          </>
         )}
 
-        {/* Visible Pages */}
+        {/* Page Numbers */}
         {pages.map((page) => (
           <li key={page}>
             <button
               className={`rounded px-3 py-1 ${
                 currentPage === page
                   ? "bg-neon_pink text-white"
-                  : "border text-neon_pink hover:bg-neon_pink hover:text-white"
+                  : "bg-white border text-neon_pink hover:bg-neon_pink hover:text-white"
               }`}
               onClick={() => onPageChange && onPageChange(page)}
             >
@@ -94,25 +91,23 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
           </li>
         ))}
 
-        {/* Last Page Button */}
-        {endPage < totalPages - 1 && (
-          <li>
-            <span className="px-3 py-1">...</span>
-          </li>
-        )}
+        {/* Last Page */}
         {endPage < totalPages && (
-          <li>
-            <button
-              className="border rounded-full px-4 py-1 hover:bg-neon_blue hover:text-b_text"
-              onClick={() => onPageChange && onPageChange(totalPages)}
-            >
-              {totalPages}
-            </button>
-          </li>
+          <>
+            {endPage < totalPages - 1 && <li className="px-2">...</li>}
+            <li>
+              <button
+                className="border rounded px-4 py-1 hover:bg-neon_pink hover:text-white"
+                onClick={() => onPageChange && onPageChange(totalPages)}
+              >
+                {totalPages}
+              </button>
+            </li>
+          </>
         )}
 
         {/* Next Button */}
-        <li className="flex items-center">
+        <li>
           <button
             className={`border rounded px-3 py-1 ${
               currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""
@@ -129,5 +124,3 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
 };
 
 export default Pagination;
-
-// export default Pagination;

@@ -10,30 +10,10 @@ import { product_status, stock } from "@/utils/option";
 import ShopProductCard from "@/components/shopProductCard";
 import useFetchProducts from "../hooks/useFetchProduct/page";
 import React from "react";
-import { IFilter } from "@/types/product";
 
 export default function ProductListDetail() {
   const filter = useFilter();
   const fetchShopProduct = useFetchProducts({ filter: filter.data });
-  // console.log(fetchShopProduct);
-  // console.log(filter);
-
-  const [filters, setFilters] = React.useState<IFilter>({
-    limit: 1,
-    page: 1,
-    pagination: filter.state.pagination || 2,
-    keyword: null,
-    status: null,
-    brand_id: null,
-    category_id: null,
-    price_between: null,
-    createdAtBetween: {
-      startDate: null,
-      endDate: null,
-    },
-    product_top: null,
-    product_vip: null,
-  });
 
   return (
     <>
@@ -107,12 +87,12 @@ export default function ProductListDetail() {
         </div>
         <div className="w-full flex items-center justify-center mb-4">
           <Pagination
-            filter={filters}
+            filter={filter.data} // Pass only `data` here
             totalPage={fetchShopProduct.total ?? 1}
             onPageChange={(e) => {
-              console.log("page", e);
+              console.log("Current page =====", e);
               filter.dispatch({
-                type: filter.ACTION_TYPE.PAGINATION,
+                type: filter.ACTION_TYPE.PAGE,
                 payload: e,
               });
             }}

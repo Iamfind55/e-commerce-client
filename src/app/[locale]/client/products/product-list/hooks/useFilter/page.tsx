@@ -5,10 +5,8 @@ import React from "react";
 // Define the type for actions
 type Action =
   | { type: "status"; payload: string | null }
-  //   | { type: "stock"; payload: string | null }
+  | { type: "page"; payload: number | 1 }
   | { type: "keyword"; payload: string | null }
-  | { type: "page_row"; payload: number }
-  | { type: "pagination"; payload: number }
   | { type: "brand_id"; payload: string | null }
   | { type: "category_id"; payload: string | null }
   | { type: "product_vip"; payload: boolean | null }
@@ -23,7 +21,6 @@ const initialState: IFilter = {
   page: 1,
   status: null,
   keyword: null,
-  pagination: 1,
   brand_id: null,
   category_id: null,
   product_vip: null,
@@ -38,8 +35,7 @@ const initialState: IFilter = {
 const ACTION_TYPE = {
   STATUS: "status",
   KEYWORD: "keyword",
-  PAGE_ROW: "page_row",
-  PAGINATION: "pagination",
+  PAGE: "page",
   BRAND_ID: "brand_id",
   CATEGORY_ID: "category_id",
   PRODUCT_VIP: "product_vip",
@@ -52,6 +48,7 @@ const ACTION_TYPE = {
 const reducer = (state: IFilter, action: Action): IFilter => {
   const startDate = moment(state.createdAtBetween.startDate);
   const endDate = moment(state.createdAtBetween.endDate);
+
   switch (action.type) {
     case ACTION_TYPE.CREATED_AT_START_DATE:
       return {
@@ -72,6 +69,7 @@ const reducer = (state: IFilter, action: Action): IFilter => {
             page: 1,
           }),
       };
+
     case ACTION_TYPE.CREATED_AT_END_DATE:
       return {
         ...state,
@@ -113,8 +111,8 @@ const reducer = (state: IFilter, action: Action): IFilter => {
     case ACTION_TYPE.PRICE_BETWEEN:
       return { ...state, price_between: action.payload || null, page: 1 };
 
-    case ACTION_TYPE.PAGINATION:
-      return { ...state, pagination: action.payload || 1 };
+    case ACTION_TYPE.PAGE:
+      return { ...state, page: action.payload };
 
     default:
       return state;

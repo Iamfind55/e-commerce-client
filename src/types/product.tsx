@@ -46,7 +46,6 @@ export interface IFilter {
   limit: number;
   offset?: number;
   page: number;
-  pagination: number;
   status?: string | null;
   keyword?: string | null;
   brand_id?: string | null;
