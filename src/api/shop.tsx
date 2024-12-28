@@ -130,3 +130,47 @@ export const QUERY_SHOP_PRODUCTS = gql`
     }
   }
 `;
+
+export const QUERY_SHOP_SINGLE_PRODUCT = gql`
+  query GetShopProduct($getShopProductId: ID!) {
+    getShopProduct(id: $getShopProductId) {
+      success
+      data {
+        id
+        quantity
+        product_id
+        productData {
+          id
+          name {
+            name_en
+          }
+          description {
+            name_en
+          }
+          images
+          cover_image
+          price
+          discount
+          quantity
+          sku
+          spu
+          total_star
+          total_comment
+          category_ids
+          brand_id
+          status
+          recommended
+          product_top
+          product_vip
+        }
+        status
+        updated_at
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

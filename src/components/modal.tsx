@@ -1,4 +1,3 @@
-import { CancelIcon } from "@/icons/page";
 import React, { useRef, useEffect } from "react";
 
 type Props = {
