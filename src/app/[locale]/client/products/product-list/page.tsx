@@ -4,7 +4,7 @@ import React from "react";
 
 // components
 import Breadcrumb from "@/components/breadCrumb";
-import ProductListDetail from "./components/page";
+import ProductListDetail from "../components/page";
 
 export default function ProductLists() {
   const [tab, setTab] = React.useState<number>(1);

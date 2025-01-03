@@ -88,7 +88,6 @@ export default function ProductListDetail() {
         <div className="w-full flex items-end justify-end mb-4">
           <Pagination
             filter={filter.data}
-            // totalPage={fetchShopProduct.total ?? 1}
             totalPage={Math.ceil(
               (fetchShopProduct.total ?? 0) / filter.data.limit
             )}
