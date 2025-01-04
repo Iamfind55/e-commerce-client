@@ -1,6 +1,6 @@
-import { NextIcon, PreviousLinkIcon } from "@/icons/page";
-import { IFilter } from "@/types/product";
 import React from "react";
+import { IFilter } from "@/types/product";
+import { NextIcon, PreviousLinkIcon } from "@/icons/page";
 
 interface PaginationType {
   filter: IFilter;
@@ -47,18 +47,18 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
   return (
     <>
       {totalPages > 1 && (
-        <nav className="mt-4 flex justify-center bg-white">
+        <nav className="mt-4 flex items-center justify-center bg-white">
           <ul className="flex space-x-2 bg-white">
             {/* Previous Button */}
             <li>
               <button
-                className={`border rounded px-4 py-1 ${
+                className={`border rounded p-1 mt-0.5${
                   currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
                 }`}
                 onClick={handlePreviousClick}
                 disabled={currentPage === 1}
               >
-                <PreviousLinkIcon size={20} />
+                <PreviousLinkIcon size={12} />
               </button>
             </li>
 
@@ -67,7 +67,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
               <>
                 <li>
                   <button
-                    className="border rounded px-4 py-1 hover:bg-neon_pink hover:text-white"
+                    className="border rounded text-xs p-1 hover:bg-neon_pink hover:text-white"
                     onClick={() => onPageChange && onPageChange(1)}
                   >
                     1
@@ -81,7 +81,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
             {pages.map((page) => (
               <li key={page}>
                 <button
-                  className={`rounded px-3 py-1 ${
+                  className={`rounded text-xs px-2 ${
                     currentPage === page
                       ? "bg-neon_pink text-white"
                       : "bg-white border text-neon_pink hover:bg-neon_pink hover:text-white"
@@ -99,7 +99,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
                 {endPage < totalPages - 1 && <li className="px-2">...</li>}
                 <li>
                   <button
-                    className="border rounded px-4 py-1 hover:bg-neon_pink hover:text-white"
+                    className="text-xs border rounded px-2 hover:bg-neon_pink hover:text-white"
                     onClick={() => onPageChange && onPageChange(totalPages)}
                   >
                     {totalPages}
@@ -111,7 +111,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
             {/* Next Button */}
             <li>
               <button
-                className={`border rounded px-3 py-1 ${
+                className={`border rounded p-1 mt-0.5${
                   currentPage === totalPages
                     ? "cursor-not-allowed opacity-50"
                     : ""
@@ -119,7 +119,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
                 onClick={handleNextClick}
                 disabled={currentPage === totalPages}
               >
-                <NextIcon size={20} />
+                <NextIcon size={12} />
               </button>
             </li>
           </ul>

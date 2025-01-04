@@ -79,6 +79,8 @@ import { RiVipCrown2Line } from "react-icons/ri";
 import { MdAddShoppingCart } from "react-icons/md";
 import { BsCartX } from "react-icons/bs";
 import { BsCreditCard2FrontFill } from "react-icons/bs";
+import { FiLink } from "react-icons/fi";
+import { MdOutlineQrCode2 } from "react-icons/md";
 
 interface IconProps {
   size?: number;
@@ -87,6 +89,12 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const QRcodeIcon = (props: IconProps) => {
+  return <MdOutlineQrCode2 {...props} />;
+};
+export const LinkIcon = (props: IconProps) => {
+  return <FiLink {...props} />;
+};
 export const CreditCardIcon = (props: IconProps) => {
   return <BsCreditCard2FrontFill {...props} />;
 };

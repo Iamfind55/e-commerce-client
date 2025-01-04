@@ -45,8 +45,8 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
         };
       case useStatus.COMPLETED:
         return {
-          className: "bg-gray-100 text-gray-800",
-          weight: "bg-b_text",
+          className: "bg-green-100 text-green-800",
+          weight: "bg-green-500",
         };
       case useStatus.DELETED:
         return {
@@ -100,9 +100,9 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
 
   return (
     <span
-      className={`${className} inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-lg`}
+      className={`${className} inline-flex items-center justify-center text-xs font-medium px-2.5 py-0.5 rounded-lg`}
     >
-      <span className={`w-2 h-2 me-1 rounded-full ${weight}`}></span>
+      <span className={`w-2 h-2 me-1 mt-1 rounded-full ${weight}`}></span>
       {status}
     </span>
   );

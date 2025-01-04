@@ -16,7 +16,6 @@ interface FetchProductsResponse {
 }
 
 const useFetchProducts = ({ filter }: { filter: IFilter }) => {
-  // console.log("Filter for category Id:", filter);
   const { user } = useSelector((state: any) => state.auth);
   const [getShopProducts, { data }] = useLazyQuery<FetchProductsResponse>(
     QUERY_SHOP_PRODUCTS,

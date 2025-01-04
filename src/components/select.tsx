@@ -18,7 +18,7 @@ const Select = ({
   return (
     <div className="flex items-start justify-start flex-col select-none gap-2 w-full">
       {
-        <label className="text-gray-500 text-xs font-medium">
+        <label className="text-gray-500 text-xs">
           {title} {required && <span className="text-red-500">&nbsp;*</span>}
         </label>
       }

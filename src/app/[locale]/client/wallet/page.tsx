@@ -1,188 +1,469 @@
 "use client";
 
+import Image from "next/image";
+import React, { ReactNode } from "react";
+import { QRCodeCanvas } from "qrcode.react";
+
+// components
+import MyModal from "@/components/modal";
+import Textfield from "@/components/textField";
+import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
-import StatusBadge from "@/components/status";
-import HeadTable from "@/components/tableHeader";
-import { calculateIndexPaginate } from "@/help/calculateIndexPaginate";
+import WalletCard from "@/components/walletCard";
+
+// icons and utils
 import {
-  CancelIcon,
-  CheckCircleIcon,
-  CloseEyeIcon,
   DepositIcon,
-  PendingIcon,
-  TrendDownIcon,
-  TrendUpIcon,
+  LinkIcon,
+  LockIcon,
+  MinusIcon,
+  PlusIcon,
+  QRcodeIcon,
+  TrashIcon,
   WalletIcon,
   WithdrawIcon,
 } from "@/icons/page";
-import { useFetchTransaction } from "@/lib/transaction/useFetchTransaction";
-import useFilter from "@/lib/useFilter";
-import { ITransactionTypes } from "@/types/transaction";
-import { formatDate } from "@/utils/dateFormat";
-import { formatNumber } from "@/utils/formatNumber";
-// import formatDate from "@/utils/dateFormat";
-// import formatNumber from "@/utils/formatNumber";
-// import { transactionColumns } from "@/utils/option";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+
+type ReportItem = {
+  title: string;
+  amount: string;
+  percent: number;
+  icon: ReactNode;
+};
 
 export default function Withdraw() {
-  const router = useRouter();
-  const { user } = useSelector((state: any) => state.auth);
-  const { state: filter } = useFilter();
-  const { data, loading } = useFetchTransaction(filter);
+  const [qrcode, setQrcode] = React.useState<string>("");
+  const [quantity, setQuantity] = React.useState<number>(1);
+  const [cover, setCover] = React.useState<File | null>(null);
+  const [preview1, setPreview1] = React.useState<string | null>(null);
+  const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
+  const [withdrawQuantity, setWithdrawQuantity] = React.useState<number>(20);
+  const [transactionId, setTransactionId] = React.useState<string | null>(null);
+  const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
+  const [selectedCoinType, setSelectedCoinType] =
+    React.useState<string>("erc20");
+
+  const handleIncreaseQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleDecreaseQuantity = () => {
+    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
+
+  const handleIncreaseWithdrawQuantity = () => {
+    setWithdrawQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleDecreaseWithdrawQuantity = () => {
+    setWithdrawQuantity((prevQuantity) =>
+      prevQuantity > 1 ? prevQuantity - 1 : 1
+    );
+  };
+
+  const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile1 = e.target.files?.[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const maxSizeInBytes = 1024 * 1024;
+
+    if (selectedFile1) {
+      if (!allowedTypes.includes(selectedFile1.type)) {
+        setErrorMessages("Only JPG, JPEG, and PNG files are allowed.");
+        setCover(null);
+        setPreview1(null);
+        return;
+      }
+
+      if (selectedFile1.size > maxSizeInBytes) {
+        setErrorMessages("File size exceeds 1MB.");
+        setCover(null);
+        setPreview1(null);
+        return;
+      }
+
+      setErrorMessages(null);
+      setCover(selectedFile1);
+      setPreview1(URL.createObjectURL(selectedFile1)); // Generate preview URL
+    }
+  };
+
+  const handleOpenModal = () => {
+    setIsOpenModal(!isOpenModal);
+  };
+
+  // Handle change in selected coin type
+  const handleCoinTypeChange = (event: any) => {
+    setSelectedCoinType(event.target.value);
+  };
+
+  const reportItems: ReportItem[] = [
+    {
+      title: "Wallet Banlance",
+      amount: "$500",
+      percent: 5,
+      icon: <WalletIcon size={38} className="text-neon_blue" />,
+    },
+    {
+      title: "Recharged",
+      amount: "$12",
+      percent: 15,
+      icon: <DepositIcon size={38} className="text-green-500" />,
+    },
+    {
+      title: "Withdrawal",
+      amount: "$12,000",
+      percent: 8,
+      icon: <WithdrawIcon size={38} className="text-neon_pink" />,
+    },
+    {
+      title: "Frozen Balance",
+      amount: "$7,000",
+      percent: 3,
+      icon: <LockIcon size={38} className="text-neon_pink" />,
+    },
+    {
+      title: "Withdrawable Balance",
+      amount: "$320",
+      percent: 12,
+      icon: <WithdrawIcon size={38} className="text-green-500" />,
+    },
+  ];
+
   return (
-    <div className="flex items-start justify-start flex-col gap-4">
-      <div className="w-full flex items-start justify-start gap-4 bg-white shadow-md border-t border-gray-100 rounded">
-        <div className="py-6 px-4 w-4/4 text-b_text flex items-start justify-start flex-col gap-4 blur-xs">
-          <div className="flex items-center justify-center gap-2">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center bg-cyan-100 text-secondary">
-              <WalletIcon size={36} />
-            </div>
-            <div>
-              <p className="text-sm text-b_text">
-                <strong>Full name:</strong>&nbsp; {user?.firstName}&nbsp;
-                {user?.lastName}
-              </p>
-              <p className="text-sm text-b_text">
-                <strong>Email:</strong>&nbsp; {user?.email}
-              </p>
-            </div>
-          </div>
-          <h4 className="text-b_text text-sm mb-3 font-bold">
-            Available balances:
-          </h4>
-          <strong className="text-xl text-base w-full">
-            {formatNumber(user?.balance)} Kip
-          </strong>
-          <div className="flex items-center justify-center gap-3">
-            <IconButton
-              className="rounded text-white p-2 bg-base w-full mt-4 text-xs"
-              icon={<DepositIcon />}
-              isFront={true}
-              title="Deposit"
-              type="button"
-              onClick={() => router.push("/client/deposit")}
+    <>
+      <Breadcrumb
+        items={[
+          { label: "Wallet management", value: "/wallet" },
+          { label: "My wallet", value: "/wallet" },
+        ]}
+      />
+      <div className="mt-2 rounded flex items-start justify-start flex-col gap-2 py-4 text-gray-500">
+        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {reportItems.map((item, index) => (
+            <WalletCard
+              key={index}
+              title={item.title}
+              amount={item.amount}
+              percent={item.percent}
+              icon={item.icon}
             />
-            <IconButton
-              className="rounded text-white p-2 bg-b_text w-full mt-4 text-xs"
-              icon={<WithdrawIcon />}
-              isFront={true}
-              title="Withdraw"
-              type="button"
-              onClick={() => router.push("/client/withdraw")}
-            />
-          </div>
+          ))}
         </div>
-        {/* <div className="py-6 px-4 w-2/4 border text-b_text">
-          <h4 className="text-b_text text-sm mb-3 font-sm">
-            Your active bank account:
-          </h4>
-        </div> */}
-      </div>
-      <div className="hidden sm:block w-full flex items-start justify-start flex-col gap-4 bg-white border rounded py-6 px-4">
-        <h4 className="text-b_text text-sm mb-3 font-sm">
-          List of all latest transactions:
-        </h4>
-        <div className="w-full relative overflow-y-auto overflow-x-auto h-auto border text-b_text">
-          <table className="w-full bg-gray overflow-x-auto text-left text-sm rtl:text-right">
-            {/* <HeadTable columns={transactionColumns} /> */}
-            {loading ? (
-              "Loading"
-            ) : (
-              <tbody>
-                {data &&
-                  data.map((row: ITransactionTypes, index: number) => {
-                    return (
-                      <tr
-                        key={index}
-                        className="border-b border-gray bg-white hover:bg-gray"
-                      >
-                        <td className="pl-2">
-                          {calculateIndexPaginate({ filter, index })}
-                        </td>
-                        <td>
-                          <p className="flex">
-                            {row?.type === "withdraw" ? (
-                              <TrendDownIcon className="text-red-600" />
-                            ) : (
-                              <TrendUpIcon className="text-green-600" />
-                            )}
-                            &nbsp;&nbsp;
-                            {row?.type}
-                          </p>
-                        </td>
-                        <td>{formatNumber(row?.amount)}</td>
-                        <td>
-                          <StatusBadge status={row.status ?? ""} />
-                        </td>
-                        <td>{formatDate(row?.createdAt ?? "")}</td>
-                        <td className="flex items-start justify-start gap-3 h-full py-1">
-                          <Link
-                            href={`/client/transaction/${row?.id}`}
-                            className="hover:border p-2 rounded-full cursor-pointer"
-                          >
-                            <CloseEyeIcon size={18} />
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            )}
-          </table>
-        </div>
-      </div>
-      <div className="block sm:hidden w-full flex items-start justify-start flex-col gap-4 bg-white shadow-md border-t border-gray-100 rounded py-6 px-4 sm:px-2 text-b_text">
-        <h4 className="text-b_text text-sm font-sm">
-          List of all latest transactions:
-        </h4>
-        {data &&
-          data.map((row: ITransactionTypes, index: number) => {
-            return (
-              <Link
-                key={index + 1}
-                href={`/client/transaction/${row?.id}`}
-                className="w-full flex items-start justify-between rounded-md p-2 border"
-              >
-                <div>
-                  <p className="flex items-start justify-start text-sm">
-                    {row?.type === "withdraw" ? (
-                      <TrendDownIcon className="text-red-600" />
-                    ) : (
-                      <TrendUpIcon className="text-green-600" />
-                    )}
-                    &nbsp;&nbsp;
-                    {row?.type}
+
+        <div className="mt-6 w-full flex flex-col sm:flex-row items-start justify-between gap-4">
+          <form className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-4 p-4">
+            <p className="text-md font-medium">Top-Up Your Wallet Balance:</p>
+
+            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
+              <div className="flex items-start justify-start gap-2 py-2">
+                <p className="text-sm">Select type:</p>
+                <div className="flex items-start justify-start gap-4">
+                  <div className="flex items-center mb-4">
+                    <input
+                      id="erc20-coin"
+                      type="radio"
+                      value="erc20"
+                      // checked
+                      name="rechargeAccount"
+                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                    />
+                    <label
+                      htmlFor="erc20-coin"
+                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
+                    >
+                      ERC20
+                    </label>
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <input
+                      id="trc20-coin"
+                      type="radio"
+                      value="trc20"
+                      name="rechargeAccount"
+                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                    />
+                    <label
+                      htmlFor="trc20-coin"
+                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
+                    >
+                      TRC20
+                    </label>
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <input
+                      id="btc-coin"
+                      type="radio"
+                      value="btc"
+                      name="rechargeAccount"
+                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                    />
+                    <label
+                      htmlFor="btc-coin"
+                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
+                    >
+                      BTC
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full flex items-start justify-between gap-4">
+                <p className="text-sm w-auto">Amount:</p>
+                <div className="w-full flex items-center justify-start gap-6 border rounded py-2 px-4">
+                  <button
+                    className="rounded-full bg-gray-300 text-white cursor-pointer"
+                    onClick={handleDecreaseQuantity}
+                  >
+                    <MinusIcon size={16} />
+                  </button>
+                  <p className="text-sm w-full text-center">{quantity}</p>
+                  <button
+                    className="rounded-full bg-gray-300 text-white cursor-pointer"
+                    onClick={handleIncreaseQuantity}
+                  >
+                    <PlusIcon size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
+              <Textfield
+                name="transactionId"
+                placeholder="Enter your transaction ID...."
+                id="transaction_id"
+                title="Transaction ID"
+                required
+                color="text-gray-500"
+                value={transactionId ?? ""}
+                // onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
+              <div className="border-b w-full pb-1">
+                <p className="text-xs">Upload recharge voucher:</p>
+              </div>
+              <div className="flex items-start justify-start gap-4">
+                <div className="flex items-center justify-start gap-6">
+                  <input
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    id="cover-upload"
+                    onChange={handleChangeCover}
+                    className="block w-full hidden"
+                  />
+                  <label
+                    htmlFor="cover-upload"
+                    className="w-auto border text-xs text-gray-500 rounded flex items-center justify-center cursor-pointer px-4 py-2"
+                  >
+                    <PlusIcon size={16} /> Upload
+                  </label>
+                </div>
+
+                <div className={`w-full relative ${!preview1 && "hidden"}`}>
+                  {preview1 && (
+                    <Image
+                      src={preview1}
+                      width={50}
+                      height={50}
+                      alt="Image preview"
+                      className="w-full h-32 object-cover border rounded"
+                    />
+                  )}
+                  <button
+                    onClick={() => {
+                      setPreview1(null);
+                    }}
+                    className="absolute top-2 right-2 bg-gray-200 p-1 rounded-full text-neon_pink cursor-pointer"
+                  >
+                    <TrashIcon size={18} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
+              <div className="border-b w-full pb-1">
+                <p className="text-xs">Recharge Information:</p>
+              </div>
+              <div className="w-full">
+                <div className="flex items-start justify-between">
+                  <p className="text-xs">Amount conversion rate:</p>
+                  <p className="text-black text-sm">1.00</p>
+                </div>
+                <p className="text-xs mt-4">Account address:</p>
+                <div className="w-full flex items-start justify-between">
+                  <p className="text-xs font-medium">
+                    TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw
                   </p>
-                  <span className="text-xs">
-                    {formatDate(row?.createdAt ?? "")}
-                  </span>
+                  <div className="flex items-start justify-start gap-4">
+                    <LinkIcon
+                      size={16}
+                      className="text-gray-500 cursor-pointer"
+                      onClick={() =>
+                        setTransactionId("TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw")
+                      }
+                    />
+                    <QRcodeIcon
+                      size={16}
+                      className="text-gray-500 cursor-pointer"
+                      onClick={() => {
+                        handleOpenModal();
+                        setQrcode("TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw");
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="flex items-start justify-start flex-col gap-2">
-                  <strong className="font-md text-sm flex items-center justify-center">
-                    {formatNumber(row?.amount)} Kip &nbsp;
-                    {row.status === "active" ? (
-                      <CheckCircleIcon className="text-green-600" />
-                    ) : row.status === "failed" ? (
-                      <CancelIcon className="text-red-600" />
-                    ) : (
-                      <PendingIcon className="text-amber-300" />
-                    )}
-                  </strong>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <IconButton
+                className="rounded bg-neon_blue text-white p-2 w-auto mt-4 text-sm"
+                type="button"
+                title="Recharge"
+              />
+            </div>
+          </form>
+
+          <form className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-2 p-4">
+            <p className="text-md font-medium">
+              Transfer Wallet Balance to Your Account:
+            </p>
+
+            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
+              <div className="flex items-start justify-start gap-2 py-2">
+                <p className="text-sm">Select type:</p>
+                <div className="flex items-start justify-start gap-4">
+                  <div className="flex items-center mb-4">
+                    <input
+                      type="radio"
+                      value="erc20"
+                      id="with-erc20-coin"
+                      name="rechargeAccount"
+                      onChange={handleCoinTypeChange}
+                      checked={selectedCoinType === "erc20"}
+                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                    />
+                    <label
+                      htmlFor="with-erc20-coin"
+                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
+                    >
+                      ERC20
+                    </label>
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <input
+                      type="radio"
+                      value="trc20"
+                      id="with-trc20-coin"
+                      name="rechargeAccount"
+                      onChange={handleCoinTypeChange}
+                      checked={selectedCoinType === "trc20"}
+                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                    />
+                    <label
+                      htmlFor="with-trc20-coin"
+                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
+                    >
+                      TRC20
+                    </label>
+                  </div>
+                  <div className="flex items-center mb-4">
+                    <input
+                      value="btc"
+                      type="radio"
+                      id="with-btc-coin"
+                      name="rechargeAccount"
+                      onChange={handleCoinTypeChange}
+                      checked={selectedCoinType === "btc"}
+                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                    />
+                    <label
+                      htmlFor="with-btc-coin"
+                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
+                    >
+                      BTC
+                    </label>
+                  </div>
                 </div>
-              </Link>
-            );
-          })}
-        <IconButton
-          className="rounded-md text-base p-2 w-full border border-base text-xs"
-          isFront={true}
-          type="button"
-          title="View More..."
-          onClick={() => router.push("/client/transaction")}
-        />
+              </div>
+              <div className="w-full flex items-start justify-between gap-4">
+                <p className="text-sm w-auto">Amount:</p>
+                <div className="w-full flex items-center justify-start gap-6 border rounded py-2 px-4">
+                  <button
+                    className="rounded-full bg-gray-300 text-white cursor-pointer"
+                    onClick={handleDecreaseWithdrawQuantity}
+                  >
+                    <MinusIcon size={16} />
+                  </button>
+                  <p className="text-sm w-full text-center">
+                    {withdrawQuantity}
+                  </p>
+                  <button
+                    className="rounded-full bg-gray-300 text-white cursor-pointer"
+                    onClick={handleIncreaseWithdrawQuantity}
+                  >
+                    <PlusIcon size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
+              <Textfield
+                required
+                id="account_address"
+                name="accountAddress"
+                color="text-gray-500"
+                title="Account address"
+                placeholder="Enter account address...."
+              />
+            </div>
+
+            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
+              <div className="border-b w-full pb-1">
+                <p className="text-xs">Withdraw Information:</p>
+              </div>
+              <div className="w-full flex flex-col gap-1">
+                <div className="flex items-start justify-between pr-4">
+                  <p className="text-xs">Amount conversion rate:</p>
+                  <p className="text-black text-sm">$1.00</p>
+                </div>
+                <div className="flex items-start justify-between pr-4">
+                  <p className="text-xs">Minimum withdrawal:</p>
+                  <p className="text-black text-sm">$20.00</p>
+                </div>
+                <div className="flex items-start justify-between pr-4">
+                  <p className="text-xs">Maximum withdrawal:</p>
+                  <p className="text-black text-sm">$100,000.00</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full flex items-center justify-between px-3">
+              <p>
+                {selectedCoinType.toUpperCase()} / {withdrawQuantity}
+              </p>
+              <IconButton
+                className="rounded bg-neon_pink text-white p-2 w-auto mt-4 text-sm"
+                type="button"
+                title="Apply for withdrawal"
+              />
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+
+      <MyModal
+        isOpen={isOpenModal}
+        onClose={handleOpenModal}
+        className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/5 md:inset-0 h-auto shadow"
+      >
+        <div className="w-full h-[50vh] flex items-center justify-center">
+          <QRCodeCanvas value={qrcode} size={250} />
+        </div>
+      </MyModal>
+    </>
   );
 }

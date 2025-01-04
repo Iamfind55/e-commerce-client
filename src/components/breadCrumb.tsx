@@ -21,16 +21,21 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
           <React.Fragment key={index}>
             {!isLast ? (
               <>
-                <Link href={item.value} className="text-gray-500 text-sm">
+                <Link
+                  href={item.value}
+                  className="text-gray-500 text-xs sm:text-sm"
+                >
                   {item.label}
                 </Link>
                 <NextIcon
                   className="text-gray-500 text-sm font-bold"
-                  size={20}
+                  size={18}
                 />
               </>
             ) : (
-              <span className="text-gray-500 text-sm">{item.label}</span>
+              <span className="text-gray-500 text-xs sm:text-sm">
+                {item.label}
+              </span>
             )}
           </React.Fragment>
         );

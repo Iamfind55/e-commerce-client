@@ -1,189 +1,227 @@
 "use client";
 
-// import { postAPI, queryData } from "@/api/api";
-import BalanceCard from "@/components/balanceCard";
-import Breadcrumb from "@/components/breadCrumb";
-import IconButton from "@/components/iconButton";
-import MessageHandler from "@/components/messageHandler";
+import Image from "next/image";
+
+// components
 import Select from "@/components/select";
-import Textfield from "@/components/textField";
-// import { useFetchBankByUserId } from "@/lib/bank/useFetchBank";
-import useFilter from "@/lib/useFilter";
-import { login } from "@/redux/slice/authSlice";
-// import { prices } from "@/utils/option";
-import { useToast } from "@/utils/toast";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import StatusBadge from "@/components/status";
+import Pagination from "@/components/pagination";
+import Breadcrumb from "@/components/breadCrumb";
+import DatePicker from "@/components/datePicker";
 
-// In your Withdraw component:
+// icons, hooks and utils
+import category01 from "/public/images/category01.webp";
+import TransactionCard from "@/components/trasactionCard";
+import useFilter from "../../products/hooks/useFilter/page";
+import { page_limits, transaction_status } from "@/utils/option";
+import useFetchProducts from "../../products/hooks/useFetchProduct/page";
+
 export default function WithdrawHistory() {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const [amount, setAmount] = React.useState<number>(0);
-  const [response, setResponse] = React.useState<any>(null);
-  const { errorMessage } = useToast();
-  const [formattedAmount, setFormattedAmount] = React.useState<string>("");
-  const { state: filter } = useFilter();
-  // const { data } = useFetchBankByUserId(filter);
-  const [bankId, setBankId] = React.useState<string>("");
-
-  // Create options from fetched data
-  // const options = data?.map((account: any) => ({
-  //   label: account.accountName,
-  //   value: account.id,
-  // }));
-
-  // Set the first bank as the default bank when data is available
-  // useEffect(() => {
-  //   if (data && data.length > 0 && data[0]?.id) {
-  //     setBankId(data[0].id); // Only set if data[0].id is defined
-  //   }
-  // }, [data]);
-
-  const [paymentResult, setPaymentResult] = React.useState<string | null>(null);
-
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/,/g, "");
-    const numericValue = Number(value);
-
-    if (!isNaN(numericValue)) {
-      setAmount(numericValue);
-      setFormattedAmount(new Intl.NumberFormat().format(numericValue));
-    }
-  };
-
-  const handlePriceClick = (value: string) => {
-    const numericValue = Number(value);
-    if (!isNaN(numericValue)) {
-      setAmount(numericValue);
-      setFormattedAmount(new Intl.NumberFormat().format(numericValue));
-    }
-  };
-
-  const queryUserData = async () => {
-    try {
-      // const res = await queryData({ url: "/patients/me" });
-      // if (res?.status === 200) {
-      //   const data = res.data;
-      //   dispatch(
-      //     login({
-      //       address: data?.address,
-      //       balance: data?.balance,
-      //       email: data?.email,
-      //       firstName: data?.firstName,
-      //       gender: data?.gender,
-      //       id: data?.id,
-      //       lastName: data?.lastName,
-      //       password: data?.password,
-      //       phone: data?.phone,
-      //       profile: data?.profile,
-      //       status: data?.status,
-      //       createdAt: data?.createdAt,
-      //       createdBy: data?.createdBy,
-      //       updatedAt: data?.updatedAt,
-      //       dob: data?.dob,
-      //     })
-      //   );
-      // } else {
-      //   errorMessage({ message: "Something went wrong", duration: 3000 });
-      // }
-    } catch (error) {
-      errorMessage({ message: "Something went wrong", duration: 3000 });
-    }
-  };
-
-  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      // const res = await postAPI({
-      //   url: "/withdraws",
-      //   body: {
-      //     bankId: bankId,
-      //     amount: amount.toString(),
-      //   },
-      // });
-      // setPaymentResult("success");
-      setPaymentResult((prev) => (prev === "success" ? "null" : "success"));
-      // setResponse(res);
-      queryUserData();
-    } catch (error) {
-      if (error instanceof Error) {
-        errorMessage({ message: error.message, duration: 3000 });
-      }
-    }
-  };
-
+  const filter = useFilter();
+  const fetchShopProduct = useFetchProducts({ filter: filter.data });
   return (
-    <div className="flex items-start justify-center flex-col gap-4">
-      {/* <Breadcrumb path="Payment/withdraw" /> */}
-      <div className="py-6 px-4 shadow-md w-full text-b_text bg-white">
-        <h4 className="text-b_text text-sm mb-3 font-bold">
-          Looking to add funds to your account:
-        </h4>
-        <div className="flex items-start justify-between gap-4">
-          <div className="w-full md:w-3/5">
-            <div id="default-tab-content">
-              <form
-                action=""
-                className="flex items-start justify-start flex-col gap-4"
-                onSubmit={handleSubmitForm}
-              >
-                {/* <Select
-                  name="accountNumber"
-                  title="Select account"
-                  option={options}
-                  value={bankId}
-                  onChange={(e) => setBankId(e.target.value)} // User can still select a different bank
-                  required
-                  className="h-7.5"
-                /> */}
-                <Textfield
-                  name="deposit_amount"
-                  placeholder="Enter amount...."
-                  id="firstName"
-                  title="Deposit amount"
-                  required
-                  color="text-b_text"
-                  type="text"
-                  value={formattedAmount}
-                  onChange={handleAmountChange}
-                />
-                <div className="flex flex-wrap items-start justify-start gap-4 overflow-auto cursor-pointer">
-                  {/* {prices.map((price: any) => (
-                    <p
-                      key={price?.value}
-                      id="badge-dismiss-default"
-                      className="inline-flex items-center px-2 py-1 me-2 text-xs font-medium text-b_text rounded-lg border border-base"
-                      onClick={() => handlePriceClick(price?.value)}
-                    >
-                      {price?.label}
-                    </p>
-                  ))} */}
-                </div>
-
-                <div className="flex items-start justify-start gap-4 w-full">
-                  <IconButton
-                    className="rounded text-white p-2 bg-base w-full md:w-1/4 mt-4 text-sm"
-                    isFront={true}
-                    title="Withdraw now"
-                    type="submit"
-                  />
-                  <IconButton
-                    className="rounded text-white p-2 bg-gray-400 w-full md:w-1/4 mt-4 text-sm"
-                    isFront={true}
-                    title="Cancel"
-                  />
-                </div>
-              </form>
-              {response && <MessageHandler response={response} />}
+    <>
+      <Breadcrumb
+        items={[
+          { label: "Wallet management", value: "/wallet" },
+          { label: "Withdraw History", value: "/wallet/withdraw" },
+        ]}
+      />
+      <div className="w-full bg-white mt-2 rounded flex items-end justify-end flex-col gap-2 text-gray-500 p-1 sm:p-4">
+        <div className="w-full flex flex-col sm:flex-row items-start justify-between gap-2">
+          <div className="flex items-start justify-start gap-2">
+            <Select
+              name="number"
+              title="Show number"
+              option={page_limits}
+              className="h-8"
+              // onChange={(e) => {
+              //   filter.dispatch({
+              //     type: filter.ACTION_TYPE.STATUS,
+              //     payload: e.target.value,
+              //   });
+              // }}
+            />
+            <div className="block sm:hidden">
+              <Select
+                name="status"
+                title="Status"
+                option={transaction_status}
+                className="h-8"
+                // onChange={(e) => {
+                //   filter.dispatch({
+                //     type: filter.ACTION_TYPE.STATUS,
+                //     payload: e.target.value,
+                //   });
+                // }}
+              />
             </div>
           </div>
-          <div className="hidden md:block w-2/5 p-3">
-            <BalanceCard refresh={paymentResult} />
+          <div className="flex items-end justify-start gap-2">
+            <div className="hidden sm:block ">
+              <Select
+                name="status"
+                title="Status"
+                option={transaction_status}
+                className="h-8"
+                // onChange={(e) => {
+                //   filter.dispatch({
+                //     type: filter.ACTION_TYPE.STATUS,
+                //     payload: e.target.value,
+                //   });
+                // }}
+              />
+            </div>
+            <DatePicker
+              name="start_date"
+              title="Start date"
+              className="h-8"
+              // value={filter.state.createdAtBetween.startDate ?? ""}
+              // onChange={(e) => {
+              //   filter.dispatch({
+              //     type: filter.ACTION_TYPE.CREATED_AT_START_DATE,
+              //     payload: e.target.value,
+              //   });
+              // }}
+            />
+            <DatePicker
+              name="end_date"
+              title="End date"
+              className="h-8"
+              // value={filter.state.createdAtBetween.endDate ?? ""}
+              // onChange={(e) => {
+              //   filter.dispatch({
+              //     type: filter.ACTION_TYPE.CREATED_AT_END_DATE,
+              //     payload: e.target.value,
+              //   });
+              // }}
+            />
+          </div>
+        </div>
+        <div className="w-full mt-4 hidden sm:block">
+          <table className="w-full bg-gray overflow-x-auto text-left text-sm rtl:text-right border rounded">
+            <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
+              <tr className="border-b border-gray text-left">
+                <th scope="col" className="py-3 pl-1">
+                  No
+                </th>
+                <th scope="col" className="py-3 pl-1">
+                  Amount
+                </th>
+                <th scope="col" className="py-3 pl-1">
+                  Received amount
+                </th>
+                <th scope="col" className="py-3 pl-1">
+                  Voucher
+                </th>
+                <th scope="col" className="py-3 pl-1">
+                  Status
+                </th>
+                <th scope="col" className="py-3 pl-1">
+                  Method
+                </th>
+                <th scope="col" className="py-3 pl-1">
+                  Date
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* {products.map((product) => ( */}
+              <tr className="border-b text-xs border-gray bg-white hover:bg-gray py-6">
+                <td className="pl-2 py-4">1</td>
+                <td className="pl-2 py-4">$4,150.00</td>
+                <td className="pl-2 py-4">$4,190.00</td>
+                <td>
+                  <div className="flex items-start justify-start gap-4">
+                    <Image
+                      className="rounded"
+                      src={category01}
+                      alt="Voucher"
+                      width={60}
+                      height={60}
+                    />
+                  </div>
+                </td>
+                <td>
+                  <StatusBadge status="completed" />
+                </td>
+                <td>BTC Conversion rate : $1.00</td>
+                <td>2024-08-18 10:21:55</td>
+              </tr>
+              <tr className="border-b text-xs border-gray bg-white hover:bg-gray py-6">
+                <td className="pl-2 py-4">2</td>
+                <td className="pl-2 py-4">$4,150.00</td>
+                <td className="pl-2 py-4">$4,190.00</td>
+                <td>
+                  <div className="flex items-start justify-start gap-4">
+                    <Image
+                      className="rounded"
+                      src={category01}
+                      alt="Voucher"
+                      width={60}
+                      height={60}
+                    />
+                  </div>
+                </td>
+                <td>
+                  <StatusBadge status="completed" />
+                </td>
+                <td>BTC Conversion rate : $1.00</td>
+                <td>2024-08-18 10:21:55</td>
+              </tr>
+              {/* ))} */}
+            </tbody>
+          </table>
+          <div className="flex items-start justify-end py-4 gap-4">
+            <Pagination
+              filter={filter.data}
+              totalPage={Math.ceil(
+                (fetchShopProduct.total ?? 0) / filter.data.limit
+              )}
+              onPageChange={(e) => {
+                filter.dispatch({
+                  type: filter.ACTION_TYPE.PAGE,
+                  payload: e,
+                });
+              }}
+            />
+          </div>
+        </div>
+        <div className="w-full mt-4 block sm:hidden">
+          <div className="w-full flex items-start jusitfy-start gap-2 flex-col">
+            <TransactionCard
+              date="2024-08-18 10:21:55"
+              status="completed"
+              title="BTC Conversion rate : $1.00"
+              amount="$4,150.00"
+              receive_amount="$4,190.00"
+              image={category01.src}
+            />
+            <TransactionCard
+              date="2024-08-18 10:21:55"
+              status="completed"
+              title="BTC Conversion rate : $1.00"
+              amount="$4,150.00"
+              receive_amount="$4,190.00"
+              image={category01.src}
+            />
+          </div>
+          <div className="flex items-start justify-center py-2 gap-4">
+            <Pagination
+              filter={filter.data}
+              totalPage={Math.ceil(
+                (fetchShopProduct.total ?? 0) / filter.data.limit
+              )}
+              onPageChange={(e) => {
+                filter.dispatch({
+                  type: filter.ACTION_TYPE.PAGE,
+                  payload: e,
+                });
+              }}
+            />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

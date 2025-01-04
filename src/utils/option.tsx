@@ -41,3 +41,9 @@ export const page_limits: any = [
   { label: "50", value: 50 },
   { label: "100", value: 100 },
 ];
+
+export const transaction_status: any = [
+  { label: "Reviewing", value: "REVIEWING" },
+  { label: "Completed", value: "COMPLETED" },
+  { label: "Failed", value: "FAILED" },
+];

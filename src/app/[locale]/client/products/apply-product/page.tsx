@@ -1,15 +1,19 @@
 "use client";
 
 import React from "react";
-import Breadcrumb from "@/components/breadCrumb";
-import { useRouter } from "@/navigation";
-// import { ArrowDownIcon, NextIcon } from "@/icons/page";
-import useFilter from "../hooks/useFilter/page";
-import ShopProductCard from "@/components/shopProductCard";
-import useFetchProducts from "../hooks/useFetchProduct/page";
+
+// apollo
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_CATEGORIES } from "@/api/category";
+
+// components
+import Breadcrumb from "@/components/breadCrumb";
 import Pagination from "@/components/pagination";
+import ShopProductCard from "@/components/shopProductCard";
+
+// icons, hooks and utils
+import useFilter from "../hooks/useFilter/page";
+import useFetchProducts from "../hooks/useFetchProduct/page";
 
 export default function ApplyProduct() {
   const filter = useFilter();
@@ -32,41 +36,6 @@ export default function ApplyProduct() {
         : [...prev, menu]
     );
   };
-
-  // const menuItems: MenuItem[] = [
-  //   {
-  //     menu: "Dashboard",
-  //     route: "/client",
-  //   },
-  //   {
-  //     menu: "Products",
-  //     route: "/client/products",
-  //     children: [
-  //       {
-  //         menu: "Product List",
-  //         route: "/client/products/product-list",
-  //       },
-  //       {
-  //         menu: "Apply Product",
-  //         route: "/client/products/apply-product",
-  //         children: [
-  //           {
-  //             menu: "Sub Product 1",
-  //             route: "/client/products/apply-product/sub1",
-  //           },
-  //           {
-  //             menu: "Sub Product 2",
-  //             route: "/client/products/apply-product/sub2",
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     menu: "Shop management",
-  //     route: "/client/shop",
-  //   },
-  // ];
 
   const renderMenu = (items: Category[], level = 0) =>
     items?.map((item, index) => {
@@ -150,11 +119,6 @@ export default function ApplyProduct() {
       console.error("Apollo Error:", error);
     }
   }, [error]);
-
-  console.log("Categories Data:", data);
-  console.log("Categories Data:", data?.getCategories);
-  console.log("Categories Data:", data?.getCategories?.data);
-  // console.log("Old data:", menuItems);
 
   return (
     <>
