@@ -6,36 +6,24 @@ import { SearchIcon } from "@/icons/page";
 import DatePicker from "@/components/datePicker";
 
 // utils
-import useFilter from "../hooks/useFilter/page";
 import Pagination from "@/components/pagination";
 import { product_status, stock } from "@/utils/option";
-import ShopProductCard from "@/components/shopProductCard";
-import useFetchProducts from "../hooks/useFetchProduct/page";
+import OrderCardComponent from "@/components/orderCard";
+import useFilter from "../../products/hooks/useFilter/page";
+import useFetchProducts from "../../products/hooks/useFetchProduct/page";
 
-export default function ProductListDetail() {
+export default function OrderListDetail() {
   const filter = useFilter();
   const fetchShopProduct = useFetchProducts({ filter: filter.data });
 
   return (
     <>
       <div className="flex flex-col sm:flex-row items-start justify-between">
-        <div className="flex items-start justify-start gap-2">
-          <Select
-            name="status"
-            title="Status"
-            option={product_status}
-            className="h-8"
-            onChange={(e) => {
-              filter.dispatch({
-                type: filter.ACTION_TYPE.STATUS,
-                payload: e.target.value,
-              });
-            }}
-          />
+        <div className="w-full sm:w-auto flex items-start justify-start gap-2 mt-2 sm:mt-0">
           <Select name="stock" title="Stock" option={stock} className="h-8" />
         </div>
-        <div className="flex items-end justify-start gap-2">
-          <div className="relative w-full">
+        <div className="w-full flex flex-col sm:flex-row mt-2 sm:mt-0 items-end justify-start gap-2">
+          <div className="relative w-full ml-4">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <SearchIcon size={16} className="text-neon_pink" />
             </div>
@@ -50,7 +38,7 @@ export default function ProductListDetail() {
                   payload: e.target.value,
                 });
               }}
-              className="h-8 bg-white text-gray-500 border text-xs rounded block w-auto ps-10 p-2 focus:outline-none focus:ring-1"
+              className="h-8 bg-white text-gray-500 border text-xs rounded block w-full sm:w-auto ps-10 p-2 focus:outline-none focus:ring-1"
             />
           </div>
           <DatePicker
@@ -80,10 +68,10 @@ export default function ProductListDetail() {
         </div>
       </div>
       <div>
-        <p className="text-gray-500 text-sm mt-4 mb-2">List of all products:</p>
-        <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
+        <p className="text-gray-500 text-xs mt-4 mb-2">List of all orders:</p>
+        <div className="w-full h-auto grid grid-cols-1 gap-2 sm:gap-4 lg:grid-cols-4">
           {fetchShopProduct?.data?.map((product, index) => (
-            <ShopProductCard key={index + 1} {...product} />
+            <OrderCardComponent key={index + 1} {...product} />
           ))}
         </div>
         <div className="w-full flex items-end justify-end mb-4">
