@@ -1,8 +1,9 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_PRODUCTS = gql`
-  query GetProducts($page: Int, $limit: Int, $where: ProductWhereInput) {
-    getProducts(page: $page, limit: $limit, where: $where) {
+  query GetProducts($where: ProductWhereInput) {
+    getProducts(where: $where) {
+      success
       total
       data {
         id
@@ -27,6 +28,12 @@ export const QUERY_PRODUCTS = gql`
         recommended
         product_top
         product_vip
+        created_at
+      }
+      error {
+        message
+        code
+        details
       }
     }
   }

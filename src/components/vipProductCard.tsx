@@ -8,17 +8,37 @@ import { QUERY_SHOP_SINGLE_PRODUCT } from "@/api/shop";
 // components
 import MyModal from "./modal";
 import IconButton from "./iconButton";
-import { CheckCircleIcon } from "@/icons/page";
+import {
+  CheckCircleIcon,
+  VIP1Icon,
+  VIP2Icon,
+  VIP3Icon,
+  VIP4Icon,
+} from "@/icons/page";
 
 // icons and untils
 import { stripHtml } from "@/utils/stripHtml";
+import { ProductData } from "@/types/product";
 import { truncateText } from "@/utils/letterLimitation";
-import { ProductData, ShopProduct } from "@/types/product";
 
 // images
 import category01 from "/public/images/category01.webp";
 
-export default function ShopProductCard(props: ShopProduct) {
+interface VIPProductCardProps extends ProductData {
+  selectedIds: string[];
+  handleCheckboxChange: (productId: string) => void;
+}
+
+export default function VIPProductCard({
+  id,
+  name,
+  description,
+  cover_image,
+  price,
+  product_vip,
+  selectedIds,
+  handleCheckboxChange,
+}: VIPProductCardProps) {
   const defaultProductData: ProductData = {
     id: "",
     name: { name_en: "" },
@@ -40,7 +60,6 @@ export default function ShopProductCard(props: ShopProduct) {
     product_vip: null,
     created_at: null,
   };
-
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
   const [productId, setProductId] = React.useState<string>("");
   const [productData, setProductData] =
@@ -75,16 +94,46 @@ export default function ShopProductCard(props: ShopProduct) {
 
   return (
     <>
-      <div className="cursor-pointer flex items-start justify-start flex-col select-none gap-2 w-auto rounded border hover:shadow-lg transition-all duration-300">
-        <div className="w-full bg-white rounded">
+      <div className="cursor-pointer flex items-start justify-start flex-col select-none gap-2 w-auto rounded rounded-tr-xl border hover:shadow-lg transition-all duration-300">
+        <div className="w-full bg-white rounded relative group">
+          {/* Checkbox - Top-Left */}
+          <div
+            className={`absolute top-1 left-2 group ${
+              selectedIds.length >= 1
+                ? "opacity-100"
+                : "opacity-0 group-hover:opacity-100"
+            } transition-opacity duration-200`}
+          >
+            <input
+              type="checkbox"
+              className="w-3.5 h-3.5 rounded text-neon_pink focus:ring-neon_pink border-gray-300"
+              onChange={() => handleCheckboxChange(id)}
+              checked={selectedIds.includes(id)}
+            />
+          </div>
+
+          {/* Checkbox - Top-Right */}
+          <div className="absolute top-0 right-0">
+            {product_vip === 1 ? (
+              <div className="flex items-center justify-center gap-1 text-white bg-neon_blue py-1 px-4 rounded-tr-xl rounded-bl-xl">
+                <p className="text-xs">VIP</p>{" "}
+                <VIP1Icon size={16} className="text-white" />
+              </div>
+            ) : product_vip === 2 ? (
+              <VIP2Icon size={16} className="text-green-500" />
+            ) : product_vip === 3 ? (
+              <VIP3Icon size={16} className="text-neon_blue" />
+            ) : product_vip === 4 ? (
+              <VIP4Icon size={16} className="" />
+            ) : (
+              <VIP1Icon size={16} className="text-neon_pink" />
+            )}
+          </div>
+
           <div className="w-full h-[150px] object-cover flex items-center justify-center">
             <Image
               className="rounded object-cover"
-              src={
-                !props.productData.cover_image
-                  ? category01
-                  : props?.productData.cover_image
-              }
+              src={!cover_image ? category01 : cover_image}
               alt=""
               width={120}
               height={120}
@@ -93,14 +142,11 @@ export default function ShopProductCard(props: ShopProduct) {
           <div className="p-3 flex items-start justify-start flex-col gap-1">
             <div className="w-full flex items-center justify-start gap-2">
               <i className="text-xs sm:text-md text-second_black font-normal sm:font-bold tracking-tight">
-                {truncateText(`${props?.productData.name.name_en}`, 20)}
+                {truncateText(`${name.name_en}`, 25)}
               </i>
             </div>
             <p className="text-gray-500 font-normal text-xs">
-              {truncateText(
-                stripHtml(props?.productData?.description?.name_en ?? ""),
-                60
-              )}
+              {truncateText(stripHtml(description?.name_en ?? ""), 60)}
             </p>
             <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
@@ -116,12 +162,12 @@ export default function ShopProductCard(props: ShopProduct) {
             </p>
             <div className="w-full flex flex-col sm:flex-row md:flex-row items-center justify-between gap-2 mt-2">
               <div>
-                <p className="font-bold text-md">${props.productData.price}</p>
+                <p className="font-bold text-md text-black">${price}</p>
               </div>
               <button
-                className="w-full sm:w-auto bg-neon_pink text-white flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none"
+                className="w-full sm:w-auto text-gray-500 border border-gray-200 flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none"
                 onClick={() => {
-                  setProductId(props.id);
+                  setProductId(id);
                   handleOpenModal();
                 }}
               >

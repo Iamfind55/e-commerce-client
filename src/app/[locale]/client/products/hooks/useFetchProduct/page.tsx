@@ -8,25 +8,25 @@ import { QUERY_SHOP_PRODUCTS } from "@/api/shop";
 // type and utils
 import { IFilter, ShopProduct } from "@/types/product";
 
-interface FetchProductsResponse {
+interface FetchShopProductsResponse {
   getShopProducts: {
     data: ShopProduct[];
     total: number;
   };
 }
 
-const useFetchProducts = ({ filter }: { filter: IFilter }) => {
+const useFetchShopProducts = ({ filter }: { filter: IFilter }) => {
   const { user } = useSelector((state: any) => state.auth);
-  const [getShopProducts, { data }] = useLazyQuery<FetchProductsResponse>(
+  const { limit, page, status, keyword, createdAtBetween, category_id } =
+    filter;
+  const [getShopProducts, { data }] = useLazyQuery<FetchShopProductsResponse>(
     QUERY_SHOP_PRODUCTS,
     {
       fetchPolicy: "no-cache",
     }
   );
 
-  const { limit, page, status, keyword, createdAtBetween, category_id } =
-    filter;
-  const fetchProducts = () => {
+  const fetchShopProducts = () => {
     getShopProducts({
       variables: {
         orderBy: "created_at_DESC",
@@ -37,7 +37,7 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
           ...(category_id && { category_id: category_id }),
           ...(status && { status: status }),
           ...(keyword && { keyword: keyword }),
-          ...(createdAtBetween.startDate &&
+          ...(createdAtBetween?.startDate &&
             createdAtBetween.endDate && {
               createdAtBetween: {
                 startDate: createdAtBetween.startDate,
@@ -50,12 +50,12 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
   };
 
   React.useEffect(() => {
-    fetchProducts();
+    fetchShopProducts();
   }, [filter, getShopProducts]);
 
   return {
     getShopProducts,
-    fetchProducts,
+    fetchShopProducts,
     data: data?.getShopProducts?.data?.map((product, index) => ({
       ...product,
       no: index + 1,
@@ -64,4 +64,4 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
   };
 };
 
-export default useFetchProducts;
+export default useFetchShopProducts;

@@ -57,7 +57,7 @@ export default function ProductListDetail() {
             name="start_date"
             title="Start date"
             className="h-8"
-            value={filter.state.createdAtBetween.startDate ?? ""}
+            value={filter?.state?.createdAtBetween?.startDate ?? ""}
             onChange={(e) => {
               filter.dispatch({
                 type: filter.ACTION_TYPE.CREATED_AT_START_DATE,
@@ -69,7 +69,7 @@ export default function ProductListDetail() {
             name="end_date"
             title="End date"
             className="h-8"
-            value={filter.state.createdAtBetween.endDate ?? ""}
+            value={filter?.state?.createdAtBetween?.endDate ?? ""}
             onChange={(e) => {
               filter.dispatch({
                 type: filter.ACTION_TYPE.CREATED_AT_END_DATE,

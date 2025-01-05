@@ -67,13 +67,13 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
               <>
                 <li>
                   <button
-                    className="border rounded text-xs p-1 hover:bg-neon_pink hover:text-white"
+                    className="border rounded text-xs py-0 px-2 text-neon_pink hover:bg-neon_pink hover:text-white"
                     onClick={() => onPageChange && onPageChange(1)}
                   >
                     1
                   </button>
                 </li>
-                {startPage > 2 && <li className="px-2">...</li>}
+                {startPage > 2 && <li className="px-2 text-gray-500">...</li>}
               </>
             )}
 
@@ -96,10 +96,12 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
             {/* Last Page */}
             {endPage < totalPages && (
               <>
-                {endPage < totalPages - 1 && <li className="px-2">...</li>}
+                {endPage < totalPages - 1 && (
+                  <li className="px-2 text-gray-500">...</li>
+                )}
                 <li>
                   <button
-                    className="text-xs border rounded px-2 hover:bg-neon_pink hover:text-white"
+                    className="text-xs border rounded py-0 px-2 text-neon_pink hover:bg-neon_pink hover:text-white"
                     onClick={() => onPageChange && onPageChange(totalPages)}
                   >
                     {totalPages}

@@ -57,6 +57,11 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaCircle } from "react-icons/fa";
 import { TbMessage2Cog } from "react-icons/tb";
+import { TbHexagonNumber1Filled } from "react-icons/tb";
+import { TbHexagonNumber2Filled } from "react-icons/tb";
+import { TbHexagonNumber3Filled } from "react-icons/tb";
+import { TbHexagonNumber4Filled } from "react-icons/tb";
+import { TbHexagonNumber5Filled } from "react-icons/tb";
 
 interface IconProps {
   size?: number;
@@ -65,6 +70,21 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const VIP5Icon = (props: IconProps) => {
+  return <TbHexagonNumber5Filled {...props} />;
+};
+export const VIP4Icon = (props: IconProps) => {
+  return <TbHexagonNumber4Filled {...props} />;
+};
+export const VIP3Icon = (props: IconProps) => {
+  return <TbHexagonNumber3Filled {...props} />;
+};
+export const VIP2Icon = (props: IconProps) => {
+  return <TbHexagonNumber2Filled {...props} />;
+};
+export const VIP1Icon = (props: IconProps) => {
+  return <TbHexagonNumber1Filled {...props} />;
+};
 export const MessageSettingIcon = (props: IconProps) => {
   return <TbMessage2Cog {...props} />;
 };

@@ -24,7 +24,7 @@ export interface ProductData {
   status: string | null;
   recommended: boolean | null;
   product_top: boolean | null;
-  product_vip: boolean | null;
+  product_vip: number | null;
   created_at: string | null; // ISO date string
 }
 
@@ -50,7 +50,7 @@ export interface IFilter {
   keyword?: string | null;
   brand_id?: string | null;
   category_id?: string | null;
-  product_vip?: boolean | null;
+  product_vip?: number | null;
   product_top?: boolean | null;
   price_between?: [number, number] | null;
   createdAtBetween: CreatedAtBetween;
