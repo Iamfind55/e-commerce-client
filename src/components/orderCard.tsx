@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { stripHtml } from "@/utils/stripHtml";
 import { useLazyQuery } from "@apollo/client";
 
 // components

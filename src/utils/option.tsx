@@ -9,6 +9,12 @@ export const product_status: any = [
   { label: "Inactive", value: "INACTIVE" },
 ];
 
+export const notification_status: any = [
+  { label: "All", value: "ALL" },
+  { label: "Read", value: "READ" },
+  { label: "Unread", value: "UNREAD" },
+];
+
 export const stock: any = [
   { label: "In stock", value: "stock" },
   { label: "No inventory", value: "inventory" },

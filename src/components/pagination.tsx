@@ -58,7 +58,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
                 onClick={handlePreviousClick}
                 disabled={currentPage === 1}
               >
-                <PreviousLinkIcon size={12} />
+                <PreviousLinkIcon size={12} className="text-gray-500" />
               </button>
             </li>
 
@@ -119,7 +119,7 @@ const Pagination = ({ filter, totalPage, onPageChange }: PaginationType) => {
                 onClick={handleNextClick}
                 disabled={currentPage === totalPages}
               >
-                <NextIcon size={12} />
+                <NextIcon size={12} className="text-gray-500" />
               </button>
             </li>
           </ul>

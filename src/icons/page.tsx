@@ -55,6 +55,8 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { FaCircle } from "react-icons/fa";
+import { TbMessage2Cog } from "react-icons/tb";
 
 interface IconProps {
   size?: number;
@@ -63,6 +65,12 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const MessageSettingIcon = (props: IconProps) => {
+  return <TbMessage2Cog {...props} />;
+};
+export const FillCircleIcon = (props: IconProps) => {
+  return <FaCircle {...props} />;
+};
 export const CircelCancelIcon = (props: IconProps) => {
   return <MdCancel {...props} />;
 };

@@ -6,8 +6,8 @@ import { SearchIcon } from "@/icons/page";
 import DatePicker from "@/components/datePicker";
 
 // utils
+import { stock } from "@/utils/option";
 import Pagination from "@/components/pagination";
-import { product_status, stock } from "@/utils/option";
 import OrderCardComponent from "@/components/orderCard";
 import useFilter from "../../products/hooks/useFilter/page";
 import useFetchProducts from "../../products/hooks/useFetchProduct/page";

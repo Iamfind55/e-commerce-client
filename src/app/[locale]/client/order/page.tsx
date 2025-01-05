@@ -5,7 +5,7 @@ import React from "react";
 // components
 import OrderListDetail from "./order-list/page";
 import Breadcrumb from "@/components/breadCrumb";
-import { CancelIcon, CheckCircleIcon, CircelCancelIcon } from "@/icons/page";
+import { CancelIcon, CheckCircleIcon } from "@/icons/page";
 
 export default function OrderManagement() {
   const [tab, setTab] = React.useState<number>(1);
