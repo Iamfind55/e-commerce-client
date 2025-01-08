@@ -38,7 +38,6 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
   text = [],
   height,
 }) => {
-  console.log("Banner-01 Data:", images);
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
