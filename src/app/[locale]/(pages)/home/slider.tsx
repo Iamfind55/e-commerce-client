@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 // swiper
 import {
@@ -8,18 +9,12 @@ import {
   A11y,
   Autoplay,
 } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import Image, { StaticImageData } from "next/image";
 import "swiper/css";
 import "./style.css";
+import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-
-type SliderImage = {
-  src: StaticImageData | string;
-  alt: string;
-};
+import { Swiper, SwiperSlide } from "swiper/react";
 
 type SlideText = {
   title: string;
@@ -27,7 +22,7 @@ type SlideText = {
 };
 
 type GlobalSliderProps = {
-  images: SliderImage[];
+  images: Banner[];
   height?: string;
   slidePerview?: number;
   hasText?: boolean;
@@ -43,6 +38,7 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
   text = [],
   height,
 }) => {
+  console.log("Banner-01 Data:", images);
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
@@ -55,32 +51,32 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
         disableOnInteraction: false,
       }}
     >
-      {images.map((image, index) => (
-        <SwiperSlide key={index}>
-          <div className="flex items-start justify-start gap-4 flex-col py-6 ">
-            {/* <div className={`w-full h-36 sm:${height} text-black relative`}> */}
-            <div className={`w-full ${height} text-black relative`}>
-              <Image
-                className="w-full h-full object-cover rounded"
-                src={image.src}
-                alt={image.alt}
-                width={200}
-                height={250}
-              />
-            </div>
-            {hasText && text[index] && (
-              <div className="p-4 flex items-center justify-center flex-col gap-2 py-4">
-                <h1 className="text-lg font-bold text-black">
-                  {text[index]?.title}
-                </h1>
-                <p className="text-sm text-gray-600 text-center">
-                  {text[index]?.description}
-                </p>
+      {images &&
+        images.map((image, index) => (
+          <SwiperSlide key={image.id}>
+            <div className="flex items-start justify-start gap-4 flex-col py-6">
+              <div className={`w-full ${height} text-black relative`}>
+                <Image
+                  className="w-full h-full object-cover rounded"
+                  src={image.image || ""}
+                  alt={image.name || "Banner"}
+                  width={200}
+                  height={250}
+                />
               </div>
-            )}
-          </div>
-        </SwiperSlide>
-      ))}
+              {hasText && text[index] && (
+                <div className="p-4 flex items-center justify-center flex-col gap-2 py-4">
+                  <h1 className="text-lg font-bold text-black">
+                    {text[index]?.title}
+                  </h1>
+                  <p className="text-sm text-gray-600 text-center">
+                    {text[index]?.description}
+                  </p>
+                </div>
+              )}
+            </div>
+          </SwiperSlide>
+        ))}
     </Swiper>
   );
 };

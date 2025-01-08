@@ -16,16 +16,10 @@ import category05 from "/public/images/category05.webp";
 import category06 from "/public/images/category06.webp";
 import category07 from "/public/images/category07.webp";
 import category08 from "/public/images/category08.webp";
-import bannerImage01 from "/public/images/banner01.webp";
-import bannerImage02 from "/public/images/banner02.webp";
-import bannerImage03 from "/public/images/banner03.webp";
-import bannerImage04 from "/public/images/banner04.webp";
-import bannerImage05 from "/public/images/banner05.webp";
-import bannerImage06 from "/public/images/banner06.webp";
-import sliderImage01 from "/public/images/slider01.jpg";
-import sliderImage02 from "/public/images/slider02.jpg";
-import sliderImage03 from "/public/images/slider03.jpg";
 import { useTranslations } from "next-intl";
+import { useLazyQuery } from "@apollo/client";
+import { QUERY_BANNERS } from "@/api/banner";
+import { QUERY_CATEGORIES } from "@/api/category";
 
 export default function Home() {
   const t = useTranslations("homePage");
@@ -38,21 +32,6 @@ export default function Home() {
     { src: category06, alt: "Category 6", width: 200, height: 600 },
     { src: category07, alt: "Category 7", width: 200, height: 500 },
     { src: category08, alt: "Category 8", width: 200, height: 500 },
-  ];
-
-  const bannerImages01 = [
-    { src: bannerImage01, alt: "Slider Image 1", width: 200, height: 500 },
-    { src: bannerImage02, alt: "Slider Image 2", width: 200, height: 600 },
-  ];
-
-  const bannerImages02 = [
-    { src: bannerImage03, alt: "Slider Image 1", width: 200, height: 500 },
-    { src: bannerImage04, alt: "Slider Image 2", width: 200, height: 600 },
-  ];
-
-  const bannerImages03 = [
-    { src: bannerImage05, alt: "Slider Image 1", width: 200, height: 500 },
-    { src: bannerImage06, alt: "Slider Image 2", width: 200, height: 600 },
   ];
 
   const products = [
@@ -169,11 +148,53 @@ export default function Home() {
     },
   ];
 
-  const sliderImages = [
-    { src: sliderImage01, alt: "Slider Image 1" },
-    { src: sliderImage02, alt: "Slider Image 2" },
-    { src: sliderImage03, alt: "Slider Image 3" },
-  ];
+  const [getBanners, { data }] = useLazyQuery<GetBannersResponse>(
+    QUERY_BANNERS,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
+
+  const [getCategories, { data: Categories }] =
+    useLazyQuery<GetCategoriesResponse>(QUERY_CATEGORIES, {
+      fetchPolicy: "no-cache",
+    });
+
+  React.useEffect(() => {
+    getBanners({
+      variables: {
+        sortedBy: "created_at_DESC",
+        where: {
+          status: "ACTIVE",
+        },
+      },
+    });
+  }, [getBanners]);
+
+  React.useEffect(() => {
+    getCategories({
+      variables: {
+        limit: 8,
+        sortedBy: "created_at_DESC",
+        where: {
+          status: "ACTIVE",
+        },
+      },
+    });
+  }, [getCategories]);
+
+  const bannersByPosition = React.useMemo(() => {
+    if (!data?.getBanners?.data) return {};
+    return data.getBanners.data.reduce(
+      (acc: Record<string, Banner[]>, banner: Banner) => {
+        if (!banner.position) return acc;
+        acc[banner.position] = acc[banner.position] || [];
+        acc[banner.position].push(banner);
+        return acc;
+      },
+      {}
+    );
+  }, [data]);
 
   return (
     <div className="my-4 sm:my-6">
@@ -181,7 +202,7 @@ export default function Home() {
         <div className="container flex flex-col gap-6 px-2 sm:px-0">
           <div className="h-auto w-full">
             <GlobalSlider
-              images={sliderImages}
+              images={bannersByPosition["1"] || []}
               height="h-[50vh]"
               slidePerview={1}
             />
@@ -197,11 +218,22 @@ export default function Home() {
                     className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
                     src={image.src}
                     alt={image.alt}
-                    width={image.width}
-                    height={image.height}
+                    width={200}
+                    height={600}
                   />
                 </Link>
               ))}
+              {/* {Categories?.getCategories?.data.map((image, index) => (
+                <Link href="/category" key={index + 1}>
+                  <Image
+                    className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
+                    src={image.image ?? ""}
+                    alt={image.name?.name_en}
+                    width={200}
+                    height={600}
+                  />
+                </Link> 
+              ))}*/}
             </div>
           </div>
           <div className="flex flex-col items-start justify-start gap-2">
@@ -221,20 +253,23 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
-            {bannerImages01.map((image, index) => (
-              <Image
-                key={index + 1}
-                className="w-full h-full rounded-md cursor-pointer"
-                src={image.src}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-              />
-            ))}
+            {bannersByPosition["2"] &&
+              bannersByPosition["2"]
+                .slice(0, 2) // Limit to the first 2 images
+                .map((image, index) => (
+                  <Image
+                    key={index + 1}
+                    className="w-full h-full rounded-md cursor-pointer"
+                    src={image.image || ""}
+                    alt={image.name}
+                    width={200}
+                    height={500}
+                  />
+                ))}
           </div>
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
-              images={bannerImages01}
+              images={bannersByPosition["2"] || []}
               height="h-[36vh]"
               slidePerview={1}
             />
@@ -256,20 +291,23 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
-            {bannerImages02.map((image, index) => (
-              <Image
-                key={index + 1}
-                className="w-full h-full rounded-md cursor-pointer"
-                src={image.src}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-              />
-            ))}
+            {bannersByPosition["3"] &&
+              bannersByPosition["3"]
+                .slice(0, 2)
+                .map((image, index) => (
+                  <Image
+                    key={index + 1}
+                    className="w-full h-full rounded-md cursor-pointer"
+                    src={image.image || ""}
+                    alt={image.name}
+                    width={200}
+                    height={500}
+                  />
+                ))}
           </div>
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
-              images={bannerImages02}
+              images={bannersByPosition["3"]}
               height="h-[36vh]"
               slidePerview={1}
             />
@@ -300,20 +338,23 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
-            {bannerImages03.map((image, index) => (
-              <Image
-                key={index + 1}
-                className="w-full h-full rounded-md cursor-pointer"
-                src={image.src}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-              />
-            ))}
+            {bannersByPosition["4"] &&
+              bannersByPosition["4"]
+                .slice(0, 2) // Limit to the first 2 images
+                .map((image, index) => (
+                  <Image
+                    key={index + 1}
+                    className="w-full h-full rounded-md cursor-pointer"
+                    src={image.image || ""}
+                    alt={image.name}
+                    width={200}
+                    height={500}
+                  />
+                ))}
           </div>
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
-              images={bannerImages03}
+              images={bannersByPosition["4"]}
               height="h-[36vh]"
               slidePerview={1}
             />

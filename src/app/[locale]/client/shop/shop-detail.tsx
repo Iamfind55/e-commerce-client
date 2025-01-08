@@ -406,7 +406,7 @@ export default function ShopDetails() {
                       )}
                     </div>
                   ) : (
-                    <div className="w-full flex items-start justify-start flex-col gap-3  border border-dotted border-gray-500">
+                    <div className="w-full flex items-center justify-center py-4 rounded-md flex-col gap-3  border border-dotted border-gray-500">
                       <input
                         type="file"
                         accept=".jpg,.jpeg,.png"

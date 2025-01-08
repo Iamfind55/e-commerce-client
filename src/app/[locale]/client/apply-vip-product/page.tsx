@@ -9,8 +9,8 @@ import useFetchProducts from "./hooks/useFetchProduct/page";
 // icons, utils and hooks
 import { AwardIcon } from "@/icons/page";
 import useFilter from "./hooks/useFilter/page";
-import VIPProductCard from "@/components/vipProductCard";
 import EmptyPage from "@/components/emptyPage";
+import VIPProductCard from "@/components/vipProductCard";
 
 export default function ApplyVIPProduct() {
   const filter = useFilter();

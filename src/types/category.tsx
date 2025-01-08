@@ -14,8 +14,10 @@ type ErrorDetails = {
 };
 
 type GetCategoriesResponse = {
-  success: boolean;
-  total: number;
-  data: Category[];
-  error?: ErrorDetails;
+  getCategories: {
+    success: boolean;
+    total: number;
+    data: Category[];
+    error?: ErrorDetails;
+  };
 };
