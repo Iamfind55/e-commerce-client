@@ -10,8 +10,8 @@ export interface ProductData {
   id: string;
   name: ProductName;
   description: ProductDescription | null;
-  images?: string[]; // Array of image URLs
-  cover_image: string; // URL of the cover image
+  images?: string[];
+  cover_image: string;
   price: number;
   discount?: number | null;
   quantity?: number | null;
@@ -19,17 +19,26 @@ export interface ProductData {
   spu?: string | null;
   total_star?: number | null;
   total_comment?: number | null;
-  category_ids?: string[] | null; // Array of category IDs
+  category_ids?: string[] | null;
   brand_id?: string | null;
   status?: string | null;
   recommended?: boolean | null;
   product_top?: boolean | null;
   product_vip?: number | null;
-  created_at?: string | null; // ISO date string
+  created_at?: string | null;
 }
 
 export interface GetProductsResponse {
   getProducts: {
+    success: boolean;
+    total: number;
+    data: ProductData[];
+    error?: ErrorDetails;
+  };
+}
+
+export interface GetBestSellingProductsResponse {
+  getBestSellingProducts: {
     success: boolean;
     total: number;
     data: ProductData[];

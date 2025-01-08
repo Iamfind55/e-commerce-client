@@ -11,13 +11,17 @@ import ProductCard from "@/components/ProductCard";
 // icons and utils
 import { Link } from "@/navigation";
 import { NextIcon } from "@/icons/page";
-import { GetProductsResponse, ProductData } from "@/types/product";
+import {
+  GetBestSellingProductsResponse,
+  GetProductsResponse,
+  ProductData,
+} from "@/types/product";
 
 // apollo and APIs
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_BANNERS } from "@/api/banner";
 import { QUERY_CATEGORIES } from "@/api/category";
-import { QUERY_PRODUCTS } from "@/api/product";
+import { QUERY_BEST_SELLING_PRODUCTS, QUERY_PRODUCTS } from "@/api/product";
 
 // images
 import category01 from "/public/images/category01.webp";
@@ -46,6 +50,11 @@ export default function Home() {
       fetchPolicy: "no-cache",
     });
 
+  const [getBestSellProducts, { data: bestSellProduct }] =
+    useLazyQuery<GetBestSellingProductsResponse>(QUERY_BEST_SELLING_PRODUCTS, {
+      fetchPolicy: "no-cache",
+    });
+
   React.useEffect(() => {
     getProducts({
       variables: {
@@ -70,6 +79,14 @@ export default function Home() {
       },
     });
   }, [getPopularProducts]);
+
+  React.useEffect(() => {
+    getBestSellProducts({
+      variables: {
+        limit: 6,
+      },
+    });
+  }, [getBestSellProducts]);
 
   React.useEffect(() => {
     getBanners({
@@ -107,7 +124,7 @@ export default function Home() {
     );
   }, [data]);
 
-  console.log("Product:", categoryData);
+  console.log("Best selling product:", bestSellProduct);
 
   return (
     <div className="my-4 sm:my-6">
@@ -143,7 +160,7 @@ export default function Home() {
               {t("_best_selling")}:
             </p>
             <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-6">
-              {popularProduct?.getProducts?.data?.map(
+              {bestSellProduct?.getBestSellingProducts?.data?.map(
                 (product: ProductData, index: number) => (
                   <ProductCard
                     key={index + 1}
