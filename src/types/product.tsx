@@ -37,6 +37,22 @@ export interface GetProductsResponse {
   };
 }
 
+export interface GetProductResponse {
+  getProduct: {
+    success: boolean;
+    data: ProductData;
+    error?: ErrorDetails;
+  };
+}
+
+export interface GetSimilarProductResponse {
+  getSimilarProducts: {
+    success: boolean;
+    data: ProductData[];
+    error?: ErrorDetails;
+  };
+}
+
 export interface GetBestSellingProductsResponse {
   getBestSellingProducts: {
     success: boolean;

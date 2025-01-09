@@ -1,101 +1,91 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import RatingStar from "@/components/ratingStar";
 import Image from "next/image";
-import category01 from "/public/images/category01.webp";
-import { AwardIcon, CartIcon, MinusIcon, PlusIcon } from "@/icons/page";
+import { useParams } from "next/navigation";
+import RatingStar from "@/components/ratingStar";
+import React, { useState, useEffect } from "react";
+
+// Apollo and APIs
+import {
+  QUERY_BEST_SELLING_PRODUCTS,
+  QUERY_SIMILAR_PRODUCT,
+  QUERY_SINGLE_PRODUCT,
+} from "@/api/product";
+import { useLazyQuery } from "@apollo/client";
+
+// components
 import IconButton from "@/components/iconButton";
-import ThumbnailSwiper from "@/components/thumbnailSwiper";
 import ProductCard from "@/components/ProductCard";
+import ThumbnailSwiper from "@/components/thumbnailSwiper";
+import defaultImage from "/public/images/default-image.webp";
 
-const products = [
-  {
-    id: 1,
-    name: "Product 1",
-    description: "Description of Product 1",
-    rating: 4.5,
-    price: 1000,
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    description: "Description of Product 2",
-    rating: 4.0,
-    price: 800,
-  },
-  {
-    id: 3,
-    name: "Product 3",
-    description: "Description of Product 3",
-    rating: 5.0,
-    price: 1200,
-  },
-  {
-    id: 4,
-    name: "Product 4",
-    description: "Description of Product 4",
-    rating: 3.5,
-    price: 600,
-  },
-  {
-    id: 5,
-    name: "Product 5",
-    description: "Description of Product 5",
-    rating: 4.8,
-    price: 1500,
-  },
-];
-
-const products02 = [
-  {
-    id: "1231",
-    price: "250",
-    name: "Product1",
-    description: "This is the first product in our system now.",
-  },
-  {
-    id: "1241",
-    price: "300",
-    name: "Product2",
-    description: "This is the second product, a little better.",
-  },
-  {
-    id: "1251",
-    price: "150",
-    name: "Product3",
-    description: "The third product, perfect for casual use.",
-  },
-  {
-    id: "1261",
-    price: "200",
-    name: "Product4",
-    description: "Our fourth product, optimized for comfort.",
-  },
-  {
-    id: "1271",
-    price: "350",
-    name: "Product5",
-    description: "The fifth product, top-of-the-line quality.",
-  },
-  {
-    id: "1281",
-    price: "400",
-    name: "Product6",
-    description: "The sixth product, with premium features.",
-  },
-  {
-    id: "12312",
-    price: "250",
-    name: "Product7",
-    description: "This is the first product in our system now.",
-  },
-];
+// icons and utils
+import {
+  GetBestSellingProductsResponse,
+  GetProductResponse,
+  GetSimilarProductResponse,
+  ProductData,
+} from "@/types/product";
+import { stripHtml } from "@/utils/stripHtml";
+import { truncateText } from "@/utils/letterLimitation";
+import { AwardIcon, CartIcon, MinusIcon, PlusIcon } from "@/icons/page";
 
 export default function ProductDetails() {
+  const params = useParams();
+  const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
+
   const [quantity, setQuantity] = useState<number>(1);
-  const [price, setPrice] = useState<number>(100);
+  const [price, setPrice] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(price);
+
+  const [getProduct, { data: productData }] = useLazyQuery<GetProductResponse>(
+    QUERY_SINGLE_PRODUCT,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
+
+  const [getSimilarProducts, { data: similarProductData }] =
+    useLazyQuery<GetSimilarProductResponse>(QUERY_SIMILAR_PRODUCT, {
+      fetchPolicy: "no-cache",
+    });
+
+  const [getBestSellProducts, { data: bestSellProductData }] =
+    useLazyQuery<GetBestSellingProductsResponse>(QUERY_BEST_SELLING_PRODUCTS, {
+      fetchPolicy: "no-cache",
+    });
+
+  React.useEffect(() => {
+    getBestSellProducts({
+      variables: {
+        limit: 6,
+      },
+    });
+  }, [getBestSellProducts]);
+
+  React.useEffect(() => {
+    getSimilarProducts({
+      variables: {
+        limit: 8,
+      },
+    });
+  }, [getSimilarProducts]);
+
+  console.log("Similar product:", similarProductData);
+
+  React.useEffect(() => {
+    getProduct({
+      variables: {
+        getProductId: id,
+      },
+    });
+  }, [getProduct, id]);
+
+  React.useEffect(() => {
+    if (productData?.getProduct?.data) {
+      setPrice(productData.getProduct.data.price);
+    }
+  }, [productData]);
 
   useEffect(() => {
     setTotalPrice(quantity * price);
@@ -108,6 +98,7 @@ export default function ProductDetails() {
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
+
   const [tab, setTab] = React.useState<number>(1);
 
   return (
@@ -116,14 +107,22 @@ export default function ProductDetails() {
         <div className="w-full flex flex-col md:flex-row items-start justify-start gap-4 bg-white rounded">
           <div className="w-full sm:w-2/4 p-4 rounded flex items-start justify-center">
             <div className="w-full h-[60vh]">
-              <ThumbnailSwiper />
+              {productData?.getProduct?.data?.images && (
+                <ThumbnailSwiper images={productData.getProduct.data.images} />
+              )}
             </div>
           </div>
           <div className="w-full sm:w-2/4 h-[65vh] flex items-start justify-start flex-col gap-4 rounded p-4">
-            <h1 className="text-md">OXO Stainless Steel Salad Spinner</h1>
+            <h1 className="text-md">
+              {productData?.getProduct?.data?.name?.name_en}
+            </h1>
             <div className="flex items-center justify-center gap-2">
-              <RatingStar rating={4} />
-              <p className="text-xs">(10 comments)</p>
+              <RatingStar
+                rating={productData?.getProduct?.data?.total_star ?? 3}
+              />
+              <p className="text-xs">
+                ({productData?.getProduct?.data?.total_comment ?? 0} comments)
+              </p>
             </div>
             <div className="border-b w-full"></div>
             <div className="w-full flex items-center justify-start gap-6">
@@ -132,7 +131,7 @@ export default function ProductDetails() {
                 <p className="text-sm">Liyang Store</p>
                 <Image
                   className="rounded"
-                  src={category01}
+                  src={defaultImage}
                   alt=""
                   width={50}
                   height={50}
@@ -162,7 +161,9 @@ export default function ProductDetails() {
                   <PlusIcon size={16} />
                 </button>
               </div>
-              <p className="text-sm">(23033 Available)</p>
+              <p className="text-sm">
+                ({productData?.getProduct?.data?.quantity ?? 10} Available)
+              </p>
             </div>
             <div className="border-b w-full"></div>
             <div>
@@ -187,6 +188,7 @@ export default function ProductDetails() {
             </div>
           </div>
         </div>
+
         <div className="w-full flex flex-col md:flex-row items-start justify-start gap-6 py-4">
           <div className="w-full sm:w-3/4 order-2 sm:order-1 rounded flex bg-white p-2 items-start justify-start flex-col gap-4">
             <div className="w-full">
@@ -221,12 +223,11 @@ export default function ProductDetails() {
               <div id="default-tab-content" className="p-3">
                 {tab === 1 && (
                   <div>
-                    <p>
-                      One less distraction. This adidas running tank helps make
-                      sure heat and sweat do not get to your head, thanks to
-                      moisture-absorbing AEROREADY and its light, breathable
-                      feel. Push for your first 10k or set a new speed goal.
-                      There is nothing holding you back.
+                    <p className="text-sm text-gray-500">
+                      {stripHtml(
+                        productData?.getProduct?.data?.description?.name_en ??
+                          ""
+                      )}
                     </p>
                   </div>
                 )}
@@ -241,15 +242,19 @@ export default function ProductDetails() {
                 </p>
               </div>
               <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
-                {products02.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    price={product.price}
-                    name={product.name}
-                    description={product.description}
-                  />
-                ))}
+                {similarProductData?.getSimilarProducts?.data?.map(
+                  (product: ProductData, index: number) => (
+                    <ProductCard
+                      key={index + 1}
+                      id={product.id}
+                      price={product.price}
+                      name={product.name}
+                      description={product.description}
+                      cover_image={product.cover_image}
+                      total_star={product.total_star}
+                    />
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -270,28 +275,44 @@ export default function ProductDetails() {
             </div>
             <div className="w-full flex items-start justify-start gap-2 flex-col p-2">
               <h1 className="w-full border-b pb-2">Best selling products:</h1>
-              {products.map((product) => (
-                <div
-                  key={product.id}
-                  className="w-full flex items-start justify-start gap-2 cursor-pointer py-2 rounded hover:bg-gray-200"
-                >
-                  <Image
-                    className="rounded"
-                    src={category01}
-                    alt={product.name}
-                    width={100}
-                    height={120}
-                  />
-                  <div className="flex items-start justify-start flex-col gap-1">
-                    <p className="text-sm">{product.name}</p>
-                    <p className="text-xs">{product.description}</p>
-                    <div className="flex items-center justify-start gap-2">
-                      <RatingStar rating={product.rating} />
-                      <p className="text-sm">${product.price}</p>
+              {bestSellProductData?.getBestSellingProducts?.data?.map(
+                (product, index: number) => (
+                  <div
+                    key={index + 1}
+                    className="w-full flex items-start justify-start gap-2 cursor-pointer py-2 rounded hover:bg-gray-200"
+                  >
+                    <Image
+                      className="rounded"
+                      src={
+                        product?.cover_image
+                          ? product.cover_image
+                          : defaultImage
+                      }
+                      alt={product.name?.name_en}
+                      width={100}
+                      height={120}
+                    />
+                    <div className="flex items-start justify-start flex-col gap-1">
+                      <p className="text-sm">
+                        {truncateText(
+                          stripHtml(product.name?.name_en ?? ""),
+                          25
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {truncateText(
+                          stripHtml(product.description?.name_en ?? ""),
+                          60
+                        )}
+                      </p>
+                      <div className="flex items-center justify-start gap-2">
+                        <RatingStar rating={product.total_star ?? 2} />
+                        <p className="text-sm">${product?.price}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
         </div>

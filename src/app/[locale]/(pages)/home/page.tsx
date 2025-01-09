@@ -124,8 +124,6 @@ export default function Home() {
     );
   }, [data]);
 
-  console.log("Best selling product:", bestSellProduct);
-
   return (
     <div className="my-4 sm:my-6">
       <div className="flex items-center justify-center flex-col gap-6">

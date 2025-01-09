@@ -15,6 +15,13 @@ const nextConfig = {
         hostname: '227_cdn.pionexprocoin.cc',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '227_cdn.pionexprocoin.cchttps',
+        pathname: '/**',
+      },
+
+
     ],
   },
 };

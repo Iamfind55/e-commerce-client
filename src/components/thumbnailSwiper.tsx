@@ -14,7 +14,12 @@ import "./style.css";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import type { Swiper as SwiperInstance } from "swiper";
 
-export default function ThumbnailSwiper() {
+// Define the props interface
+interface ThumbnailSwiperProps {
+  images: string[];
+}
+
+export default function ThumbnailSwiper({ images }: ThumbnailSwiperProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperInstance | null>(null);
 
   return (
@@ -32,15 +37,17 @@ export default function ThumbnailSwiper() {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
-        {[...Array(10)].map((_, index) => (
+        {images.map((image, index) => (
           <SwiperSlide key={index}>
             <img
-              src={`https://swiperjs.com/demos/images/nature-${index + 1}.jpg`}
-              alt={`Nature ${index + 1}`}
+              src={"https://227_cdn.pionexprocoin.cc" + image}
+              alt={`Product Image ${index + 1}`}
             />
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {/* Thumbnails Swiper */}
       <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
@@ -50,12 +57,9 @@ export default function ThumbnailSwiper() {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        {[...Array(10)].map((_, index) => (
+        {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <img
-              src={`https://swiperjs.com/demos/images/nature-${index + 1}.jpg`}
-              alt={`Thumbnail ${index + 1}`}
-            />
+            <img src={"https://227_cdn.pionexprocoin.cc" + image} alt={image} />
           </SwiperSlide>
         ))}
       </Swiper>
