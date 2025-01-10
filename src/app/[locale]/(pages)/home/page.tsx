@@ -141,7 +141,10 @@ export default function Home() {
             </p>
             <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
               {categoryData?.getCategories?.data.map((image, index) => (
-                <Link href="/category" key={index + 1}>
+                <Link
+                  href={`/category/${image.id}?name=${image.name?.name_en}`}
+                  key={index + 1}
+                >
                   <Image
                     className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
                     src={image.image ?? category01}

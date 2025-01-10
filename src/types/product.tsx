@@ -88,4 +88,5 @@ export interface IFilter {
   product_top?: boolean | null;
   price_between?: [number, number] | null;
   createdAtBetween: CreatedAtBetween;
+  price_sort?: string | null;
 }

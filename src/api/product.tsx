@@ -5,8 +5,14 @@ export const QUERY_PRODUCTS = gql`
     $where: ProductWhereInput
     $limit: Int
     $sortedBy: BaseOrderByInput
+    $page: Int
   ) {
-    getProducts(where: $where, limit: $limit, sortedBy: $sortedBy) {
+    getProducts(
+      where: $where
+      limit: $limit
+      sortedBy: $sortedBy
+      page: $page
+    ) {
       success
       total
       data {

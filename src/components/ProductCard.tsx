@@ -26,9 +26,9 @@ export default function ProductCard(props: ProductData) {
           height={100}
         />
         <div className="p-3 flex items-start justify-start flex-col gap-2">
-          <div className="w-full flex items-center justify-start gap-2">
+          <div className="w-full flex items-center justify-start flex-col gap-2">
             <i className="text-xs sm:text-md text-second_black font-normal tracking-tight">
-              {truncateText(props.name?.name_en || "", 12)}
+              {truncateText(props.name?.name_en || "", 20)}
             </i>
             <RatingStar rating={props.total_star || 0} />
           </div>

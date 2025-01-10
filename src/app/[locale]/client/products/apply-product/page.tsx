@@ -89,15 +89,9 @@ export default function ApplyProduct() {
       );
     });
 
-  const [getCategories, { data, error, loading }] = useLazyQuery(
-    QUERY_CATEGORIES,
-    {
-      fetchPolicy: "no-cache",
-      context: {
-        addTypename: false, // Disable `__typename`
-      },
-    }
-  );
+  const [getCategories, { data, error }] = useLazyQuery(QUERY_CATEGORIES, {
+    fetchPolicy: "no-cache",
+  });
 
   const fetchCategories = () => {
     getCategories({
