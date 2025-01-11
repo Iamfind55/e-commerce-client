@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 // components
-import { Link } from "@/navigation";
+import { Link, useRouter } from "@/navigation";
 import IconButton from "./iconButton";
 
 // icons, utils, hook
@@ -13,11 +13,9 @@ import { truncateText } from "@/utils/letterLimitation";
 import defaultImage from "/public/images/default-image.webp";
 
 export default function ShopCard(props: ShopData) {
+  const router = useRouter();
   return (
-    <Link
-      href="#"
-      className="flex items-center justify-center cursor-pointer w-full md:w-fit bg-white rounded-lg hover:shadow gap-4"
-    >
+    <div className="flex items-center justify-center cursor-pointer w-full md:w-fit bg-white rounded-lg hover:shadow gap-4">
       <div className="w-full flex flex-col items-center relative">
         <div className="w-full h-[14vh]">
           <Image
@@ -54,7 +52,7 @@ export default function ShopCard(props: ShopData) {
             <p className="text-xs text-gray-500">
               Shop since {formatDate(props?.created_at ?? "")}
             </p>
-            <p className="text-xs text-gray-500">Total products: 12343 </p>
+            <p className="text-xs text-gray-500">Total products: 12343</p>
             <div className="my-2 f-full flex flex-col items-center justify-center">
               <div className="flex flex-col gap-2 w-full">
                 <IconButton
@@ -63,12 +61,13 @@ export default function ShopCard(props: ShopData) {
                   isFront={true}
                   type="button"
                   title="Visit shop"
+                  onClick={() => router.push(`/shop/${props?.id}`)}
                 />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
