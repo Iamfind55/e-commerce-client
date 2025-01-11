@@ -28,9 +28,6 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
     }
   );
 
-  console.log("Category ID:", category_id);
-  console.log("Filter:", limit, page, priceBetweenArray, brand_id, price_sort);
-
   const [getProducts, { data, loading }] = useLazyQuery<GetProductsResponse>(
     QUERY_PRODUCTS,
     {

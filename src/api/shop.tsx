@@ -1,5 +1,39 @@
 import { gql } from "@apollo/client";
 
+export const QUERY_SHOPS = gql`
+  query GetShops(
+    $limit: Int
+    $page: Int
+    $sortedBy: BaseOrderByInput
+    $where: ShopWhereInput
+  ) {
+    getShops(limit: $limit, page: $page, sortedBy: $sortedBy, where: $where) {
+      success
+      total
+      data {
+        id
+        fullname
+        username
+        phone_number
+        email
+        remark
+        image {
+          logo
+          cover
+        }
+        status
+        shop_vip
+        created_at
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
+
 export const MUTATION_UPDATE_SHOP_PROFILE = gql`
   mutation UpdateShopInformation($data: UpdateShopInformationInput!) {
     updateShopInformation(data: $data) {
