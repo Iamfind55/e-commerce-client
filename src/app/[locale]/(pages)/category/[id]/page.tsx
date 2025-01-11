@@ -1,45 +1,44 @@
 "use client";
 
+import React from "react";
+import { useParams } from "next/navigation";
+import { useLazyQuery } from "@apollo/client";
+
+// Apollo and APIs
 import { QUERY_BRANDINGS } from "@/api/branding";
 import { QUERY_CATEGORIES } from "@/api/category";
-import { QUERY_PRODUCTS } from "@/api/product";
-import ProductCard from "@/components/ProductCard";
-import RangeMultiSlider from "@/components/RangeMultiSlider";
-import BottomDrawer from "@/components/bottomDrawer";
+
+// components
+import Select from "@/components/select";
+import { useRouter } from "@/navigation";
 import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
 import Pagination from "@/components/pagination";
-import Select from "@/components/select";
-import { ArrowDownIcon, CancelIcon, FilterIcon, NextIcon } from "@/icons/page";
-import useFilter from "@/lib/useFilter";
-import { useRouter } from "@/navigation";
-import { GetBrandingResponse } from "@/types/branding";
-import { GetProductsResponse, ProductData } from "@/types/product";
-import { useLazyQuery } from "@apollo/client";
-import { useParams } from "next/navigation";
-import React from "react";
+import ProductCard from "@/components/ProductCard";
+import BottomDrawer from "@/components/bottomDrawer";
+import RangeMultiSlider from "@/components/RangeMultiSlider";
 
-const categories = [
-  { name: "Women" },
-  { name: "Men" },
-  { name: "Kids & baby" },
-  { name: "Shoes" },
-  { name: "Handbages & Accessories" },
-  { name: "Jewelry" },
-  { name: "Christmas" },
-  { name: "Electronic product" },
-];
+// icons, utils, type and hooks
+import { ProductData } from "@/types/product";
+import EmptyPage from "@/components/emptyPage";
+import { GetBrandingResponse } from "@/types/branding";
+import useFilter from "../../product/hooks/useFilter/page";
+import { CancelIcon, FilterIcon, NextIcon } from "@/icons/page";
+import useFetchProducts from "../../product/hooks/useFetchProduct/page";
 
 const filters: any = [
-  { label: "Newest", value: "newest" },
-  { label: "Most expensive", value: "most_expensive" },
-  { label: "Cheapest", value: "cheapest" },
+  { label: "Most expensive", value: "price_DESC" },
+  { label: "Cheapest", value: "price_ASC" },
 ];
 
 export default function Category() {
   const params = useParams();
   const router = useRouter();
+  const filter = useFilter();
+  const fetchProducts = useFetchProducts({ filter: filter.data });
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
+
+  const [categoryId, setCategoryId] = React.useState<string>("");
   const [categoryName, setCategoryName] = React.useState<string | null>(null);
 
   const getQueryParam = (param: string) => {
@@ -57,33 +56,10 @@ export default function Category() {
     setIsOpenDrawer(!openDrawer);
   };
 
-  const { state: filter, dispatch: filterDispatch, ACTION_TYPE } = useFilter();
-  const handlePageChange = (newPage: number) => {
-    filterDispatch({ type: ACTION_TYPE.PAGE, payload: newPage });
-  };
-
   const [getBrandings, { data: brandingData }] =
     useLazyQuery<GetBrandingResponse>(QUERY_BRANDINGS, {
       fetchPolicy: "no-cache",
     });
-
-  const [getProducts, { data: productData }] =
-    useLazyQuery<GetProductsResponse>(QUERY_PRODUCTS, {
-      fetchPolicy: "no-cache",
-    });
-
-  React.useEffect(() => {
-    getProducts({
-      variables: {
-        limit: 12,
-        where: {
-          status: "ACTIVE",
-          product_vip: 0,
-          category_id: id,
-        },
-      },
-    });
-  }, [getProducts]);
 
   React.useEffect(() => {
     getBrandings({
@@ -101,36 +77,42 @@ export default function Category() {
     value: brand.id,
   }));
 
-  const [getCategories, { data }] = useLazyQuery(QUERY_CATEGORIES, {
-    fetchPolicy: "no-cache",
-  });
+  const [getCategories, { data: categoryData }] = useLazyQuery(
+    QUERY_CATEGORIES,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
 
-  const fetchCategories = () => {
-    getCategories({
+  const fetchSubCategories = async () => {
+    const res = await getCategories({
       variables: {
         where: {
+          parent_id: categoryId,
           status: "ACTIVE",
         },
         sortedBy: "created_at_ASC",
       },
     });
+
+    if (res?.data?.getCategories?.total > 0) {
+      console.log("Query sub category");
+    } else {
+      console.log("Query product with category Id");
+      filter.dispatch({
+        type: filter.ACTION_TYPE.CATEGORY_ID,
+        payload: categoryId,
+      });
+    }
   };
 
   React.useEffect(() => {
-    fetchCategories();
-  }, [getCategories]);
+    setCategoryId(id ?? "");
+  }, [categoryId]);
 
-  const fetchSignleCategories = async (id: string) => {
-    await getCategories({
-      variables: {
-        where: {
-          parent_id: id,
-          status: "ACTIVE",
-        },
-        sortedBy: "created_at_ASC",
-      },
-    });
-  };
+  React.useEffect(() => {
+    fetchSubCategories();
+  }, [categoryId, getCategories]);
 
   return (
     <>
@@ -139,26 +121,40 @@ export default function Category() {
           <div className="w-1/4 hidden sm:flex items-start justify-center flex-col gap-1 p-2 rounded shadow-md">
             <div className="w-full border-b border-gray-200 py-2">
               <h1
-                className="text-sm cursor-pointer hover:bg-gray-100 pl-4 py-1 rounded"
+                className="text-sm cursor-pointer hover:bg-gray-100 pl-2 py-1 rounded"
                 onClick={() => router.push("/category")}
               >
                 All categories
               </h1>
             </div>
             <div className="w-full">
-              <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
-                {data?.getCategories?.data?.map(
-                  (val: Category, index: number) => (
-                    <li
-                      key={index + 1}
-                      className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
-                      onClick={() => fetchSignleCategories(val?.id)}
-                    >
-                      <span>{val?.name?.name_en}</span>
-                      <NextIcon size={16} />
-                    </li>
-                  )
+              <p
+                className="flex items-start justify-between cursor-pointer text-sm hover:bg-gray-200 w-full py-1 px-2 rounded cursor-pointer"
+                onClick={() =>
+                  router.push(`/category/${id}?name=${categoryName}`)
+                }
+              >
+                {categoryName}
+                {categoryData?.total > 0 && categoryData?.success && (
+                  <NextIcon size={16} className="text-gray-500" />
                 )}
+              </p>
+              <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
+                {categoryData?.total > 0 &&
+                  categoryData?.success &&
+                  categoryData?.getCategories?.data?.map(
+                    (val: Category, index: number) => (
+                      <li
+                        key={index + 1}
+                        className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
+                        onClick={() => {
+                          setCategoryId(val?.id);
+                        }}
+                      >
+                        <span>{val?.name?.name_en}</span>
+                      </li>
+                    )
+                  )}
               </ul>
             </div>
             <div className="w-full">
@@ -170,14 +166,10 @@ export default function Category() {
                   <div className="relative mb-6">
                     <RangeMultiSlider
                       onChange={(min, max) => {
-                        // filterDispatch({
-                        //   type: ACTION_TYPE.MIN,
-                        //   payload: min,
-                        // });
-                        // filterDispatch({
-                        //   type: ACTION_TYPE.MAX,
-                        //   payload: max,
-                        // });
+                        filter.dispatch({
+                          type: filter.ACTION_TYPE.PRICE_BETWEEN,
+                          payload: [min, max],
+                        });
                       }}
                     />
                   </div>
@@ -213,6 +205,12 @@ export default function Category() {
                     title="Brand"
                     option={brands}
                     className="h-8"
+                    onChange={(e) => {
+                      filter.dispatch({
+                        type: filter.ACTION_TYPE.BRAND_ID,
+                        payload: e.target.value,
+                      });
+                    }}
                   />
                 )}
                 <Select
@@ -220,34 +218,58 @@ export default function Category() {
                   title="Sort by"
                   option={filters}
                   className="h-8"
+                  onChange={(e) => {
+                    filter.dispatch({
+                      type: filter.ACTION_TYPE.PRICE_SORT,
+                      payload: e.target.value,
+                    });
+                  }}
                 />
               </div>
             </div>
-            <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
-              {productData?.getProducts?.data?.map(
-                (product: ProductData, index: number) => (
-                  <ProductCard
-                    key={index + 1}
-                    id={product.id}
-                    price={product.price}
-                    name={product.name}
-                    description={product.description}
-                    cover_image={product.cover_image}
-                    total_star={product.total_star}
-                  />
-                )
-              )}
-            </div>
+            {fetchProducts?.loading ? (
+              <div className="w-full flex items-center justify-center">
+                <p className="text-gray-500 text-sm">Loading...</p>
+              </div>
+            ) : fetchProducts.total ?? 0 > 0 ? (
+              <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
+                {fetchProducts?.data?.map(
+                  (product: ProductData, index: number) => (
+                    <ProductCard
+                      key={index + 1}
+                      id={product.id}
+                      price={product.price}
+                      name={product.name}
+                      description={product.description}
+                      cover_image={product.cover_image}
+                      total_star={product.total_star}
+                    />
+                  )
+                )}
+              </div>
+            ) : (
+              <div className="rounded w-full">
+                <EmptyPage />
+              </div>
+            )}
             <div className="w-full flex items-center justify-center mb-4">
               <Pagination
-                filter={filter}
-                totalPage={20}
-                onPageChange={handlePageChange}
+                filter={filter.data}
+                totalPage={Math.ceil(
+                  (fetchProducts.total ?? 0) / filter.data.limit
+                )}
+                onPageChange={(e) => {
+                  filter.dispatch({
+                    type: filter.ACTION_TYPE.PAGE,
+                    payload: e,
+                  });
+                }}
               />
             </div>
           </div>
         </div>
       </div>
+
       <BottomDrawer
         isOpen={openDrawer}
         onClose={toggleOpenDrawer}
@@ -261,14 +283,17 @@ export default function Category() {
           </div>
           <div className="w-full">
             <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
-              {categories?.map((val, index) => (
-                <li
-                  key={index + 1}
-                  className="cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
-                >
-                  {val?.name}
-                </li>
-              ))}
+              {categoryData?.getCategories?.data?.map(
+                (val: Category, index: number) => (
+                  <li
+                    key={index + 1}
+                    className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
+                    onClick={() => setCategoryId(val?.id)}
+                  >
+                    <span>{val?.name?.name_en}</span>
+                  </li>
+                )
+              )}
             </ul>
           </div>
           <div className="w-full">
@@ -278,7 +303,14 @@ export default function Category() {
               </div>
               <div className="p-4">
                 <div className="relative mb-6">
-                  <RangeMultiSlider onChange={(min, max) => {}} />
+                  <RangeMultiSlider
+                    onChange={(min, max) => {
+                      filter.dispatch({
+                        type: filter.ACTION_TYPE.PRICE_BETWEEN,
+                        payload: [min, max],
+                      });
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -288,7 +320,7 @@ export default function Category() {
               className="rounded text-base p-2 w-full mt-4 mb-6 italic text-sm bg-neon_pink"
               type="button"
               title="Apply now"
-              //   onClick={() => router.push("/signin")}
+              onClick={() => toggleOpenDrawer()}
             />
           </div>
         </div>

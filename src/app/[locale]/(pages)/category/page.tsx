@@ -1,22 +1,28 @@
 "use client";
 
-import { QUERY_BRANDINGS } from "@/api/branding";
-import { QUERY_CATEGORIES } from "@/api/category";
-import ProductCard from "@/components/ProductCard";
-import RangeMultiSlider from "@/components/RangeMultiSlider";
-import BottomDrawer from "@/components/bottomDrawer";
-import Breadcrumb from "@/components/breadCrumb";
-import IconButton from "@/components/iconButton";
-import Pagination from "@/components/pagination";
-import Select from "@/components/select";
-import { CancelIcon, FilterIcon, NextIcon } from "@/icons/page";
-import { GetBrandingResponse } from "@/types/branding";
-import { ProductData } from "@/types/product";
-import { useLazyQuery } from "@apollo/client";
 import React from "react";
+import { useLazyQuery } from "@apollo/client";
+
+// apollo and APIs
+import { useRouter } from "@/navigation";
+import { QUERY_BRANDINGS } from "@/api/branding";
+import IconButton from "@/components/iconButton";
+import { QUERY_CATEGORIES } from "@/api/category";
+
+// components
+import Select from "@/components/select";
+import Breadcrumb from "@/components/breadCrumb";
+import Pagination from "@/components/pagination";
+import ProductCard from "@/components/ProductCard";
+import BottomDrawer from "@/components/bottomDrawer";
+import RangeMultiSlider from "@/components/RangeMultiSlider";
+
+// utils, icons and hooks
+import { ProductData } from "@/types/product";
+import { CancelIcon, FilterIcon } from "@/icons/page";
+import { GetBrandingResponse } from "@/types/branding";
 import useFilter from "../product/hooks/useFilter/page";
 import useFetchProducts from "../product/hooks/useFetchProduct/page";
-import { useRouter } from "@/navigation";
 
 const filters: any = [
   { label: "Most expensive", value: "price_DESC" },
@@ -71,6 +77,7 @@ export default function Category() {
     });
   }, [getBrandings]);
 
+  // Re-format the structure of branding
   const brands = brandingData?.getBrandings?.data.map((brand) => ({
     label: brand.name.name_en,
     value: brand.id,
@@ -134,14 +141,6 @@ export default function Category() {
                 ]}
               />
             </div>
-            {/* <div className="w-full flex sm:hidden items-center justify-between">
-              <button
-                onClick={() => toggleOpenDrawer()}
-                className="flex items-center justify-between"
-              >
-                <FilterIcon size={22} />
-              </button>
-            </div> */}
             <div className="w-full flex items-center justify-end">
               <div className="flex items-center justify-center gap-2">
                 {brands && brands.length > 0 && (
@@ -170,7 +169,7 @@ export default function Category() {
                     });
                   }}
                 />
-                <div className="flex sm:hidden items-center justify-center">
+                <div className="flex sm:hidden items-end justify-end">
                   <button
                     onClick={() => toggleOpenDrawer()}
                     className="flex items-center justify-between"
@@ -265,6 +264,14 @@ export default function Category() {
                     }}
                   />
                 </div>
+              </div>
+              <div className="mb-4">
+                <IconButton
+                  className="rounded text-base p-2 w-full mt-4 mb-6 italic text-sm bg-neon_pink"
+                  type="button"
+                  title="Apply now"
+                  onClick={() => toggleOpenDrawer()}
+                />
               </div>
             </div>
           </div>

@@ -8,7 +8,8 @@ import { QUERY_PRODUCTS } from "@/api/product";
 import { GetProductsResponse, IFilter } from "@/types/product";
 
 const useFetchProducts = ({ filter }: { filter: IFilter }) => {
-  const { limit, page, price_between, brand_id, price_sort } = filter;
+  const { limit, page, price_between, category_id, brand_id, price_sort } =
+    filter;
 
   // Convert price_between to a string format if needed
   const modified = price_between
@@ -27,6 +28,7 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
     }
   );
 
+  console.log("Category ID:", category_id);
   console.log("Filter:", limit, page, priceBetweenArray, brand_id, price_sort);
 
   const [getProducts, { data, loading }] = useLazyQuery<GetProductsResponse>(
@@ -47,6 +49,7 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
           product_vip: 0,
           price_between: priceBetweenArray,
           ...(brand_id && { brand_id: brand_id }),
+          ...(category_id && { category_id: category_id }),
         },
         sortedBy: price_sort ? price_sort : "price_DESC",
       },
