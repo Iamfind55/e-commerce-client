@@ -2,7 +2,6 @@
 
 import { QUERY_BRANDINGS } from "@/api/branding";
 import { QUERY_CATEGORIES } from "@/api/category";
-import { QUERY_PRODUCTS } from "@/api/product";
 import ProductCard from "@/components/ProductCard";
 import RangeMultiSlider from "@/components/RangeMultiSlider";
 import BottomDrawer from "@/components/bottomDrawer";
@@ -12,7 +11,7 @@ import Pagination from "@/components/pagination";
 import Select from "@/components/select";
 import { CancelIcon, FilterIcon, NextIcon } from "@/icons/page";
 import { GetBrandingResponse } from "@/types/branding";
-import { GetProductsResponse, ProductData } from "@/types/product";
+import { ProductData } from "@/types/product";
 import { useLazyQuery } from "@apollo/client";
 import React from "react";
 import useFilter from "../product/hooks/useFilter/page";
@@ -29,16 +28,10 @@ export default function Category() {
   const filter = useFilter();
   const fetchProducts = useFetchProducts({ filter: filter.data });
 
-  console.log("AABB:", fetchProducts);
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
   const toggleOpenDrawer = () => {
     setIsOpenDrawer(!openDrawer);
   };
-
-  const [getProducts, { data: productData }] =
-    useLazyQuery<GetProductsResponse>(QUERY_PRODUCTS, {
-      fetchPolicy: "no-cache",
-    });
 
   const [getBrandings, { data: brandingData }] =
     useLazyQuery<GetBrandingResponse>(QUERY_BRANDINGS, {
@@ -66,18 +59,6 @@ export default function Category() {
   React.useEffect(() => {
     fetchCategories();
   }, [getCategories]);
-
-  React.useEffect(() => {
-    getProducts({
-      variables: {
-        limit: 12,
-        where: {
-          status: "ACTIVE",
-          product_vip: 0,
-        },
-      },
-    });
-  }, [getProducts]);
 
   React.useEffect(() => {
     getBrandings({
@@ -133,14 +114,10 @@ export default function Category() {
                   <div className="relative mb-6">
                     <RangeMultiSlider
                       onChange={(min, max) => {
-                        // filter.dispatch({
-                        //   type: filter.ACTION_TYPE.PRICE_BETWEEN,
-                        //   payload: min,
-                        // });
-                        // filter.dispatch({
-                        //   type: filter.ACTION_TYPE.PRICE_BETWEEN,
-                        //   payload: max,
-                        // });
+                        filter.dispatch({
+                          type: filter.ACTION_TYPE.PRICE_BETWEEN,
+                          payload: [min, max],
+                        });
                       }}
                     />
                   </div>
@@ -157,16 +134,16 @@ export default function Category() {
                 ]}
               />
             </div>
-            <div className="w-full flex sm:hidden items-center justify-between">
+            {/* <div className="w-full flex sm:hidden items-center justify-between">
               <button
                 onClick={() => toggleOpenDrawer()}
                 className="flex items-center justify-between"
               >
                 <FilterIcon size={22} />
               </button>
-            </div>
+            </div> */}
             <div className="w-full flex items-center justify-end">
-              <div className="flex items-start justify-start gap-2">
+              <div className="flex items-center justify-center gap-2">
                 {brands && brands.length > 0 && (
                   <Select
                     name="brand"
@@ -193,23 +170,38 @@ export default function Category() {
                     });
                   }}
                 />
+                <div className="flex sm:hidden items-center justify-center">
+                  <button
+                    onClick={() => toggleOpenDrawer()}
+                    className="flex items-center justify-between"
+                  >
+                    <FilterIcon size={22} />
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
-              {fetchProducts?.data?.map(
-                (product: ProductData, index: number) => (
-                  <ProductCard
-                    key={index + 1}
-                    id={product.id}
-                    price={product.price}
-                    name={product.name}
-                    description={product.description}
-                    cover_image={product.cover_image}
-                    total_star={product.total_star}
-                  />
-                )
-              )}
-            </div>
+            {fetchProducts?.loading ? (
+              <div className="w-full flex items-center justify-center">
+                <p className="text-gray-500 text-sm">Loading...</p>
+              </div>
+            ) : (
+              <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
+                {fetchProducts?.data?.map(
+                  (product: ProductData, index: number) => (
+                    <ProductCard
+                      key={index + 1}
+                      id={product.id}
+                      price={product.price}
+                      name={product.name}
+                      description={product.description}
+                      cover_image={product.cover_image}
+                      total_star={product.total_star}
+                    />
+                  )
+                )}
+              </div>
+            )}
+
             <div className="w-full flex items-end justify-end mb-4">
               <Pagination
                 filter={filter.data}
@@ -236,7 +228,7 @@ export default function Category() {
       >
         <div className="w-full bg-white pb-6 mb-6 items-start justify-center flex-col gap-1 p-2 shadow-md">
           <div className="w-full border-b border-gray-200 py-2">
-            <h1 className="text-sm text-neon_blue">All categories</h1>
+            <h1 className="text-sm text-gray-500">All categories</h1>
           </div>
           <div className="w-full">
             <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
@@ -245,33 +237,36 @@ export default function Category() {
                   <li
                     key={index + 1}
                     className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
+                    onClick={() =>
+                      router.push(
+                        `/category/${val.id}?name=${val.name?.name_en}`
+                      )
+                    }
                   >
                     <span>{val?.name?.name_en}</span>
-                    <NextIcon size={16} />
                   </li>
                 )
               )}
             </ul>
           </div>
-          <div className="w-full">
+          <div className="w-full mb-6">
             <div className="border rounded w-full p-2">
               <div className="bg-white rounded">
                 <h1 className="text-sm">Price range</h1>
               </div>
               <div className="p-4">
                 <div className="relative mb-6">
-                  <RangeMultiSlider onChange={(min, max) => {}} />
+                  <RangeMultiSlider
+                    onChange={(min, max) => {
+                      filter.dispatch({
+                        type: filter.ACTION_TYPE.PRICE_BETWEEN,
+                        payload: [min, max],
+                      });
+                    }}
+                  />
                 </div>
               </div>
             </div>
-          </div>
-          <div className="mb-4">
-            <IconButton
-              className="rounded text-base p-2 w-full mt-4 mb-6 italic text-sm bg-neon_pink"
-              type="button"
-              title="Apply now"
-              //   onClick={() => router.push("/signin")}
-            />
           </div>
         </div>
       </BottomDrawer>

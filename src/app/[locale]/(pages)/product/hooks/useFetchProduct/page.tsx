@@ -8,11 +8,28 @@ import { QUERY_PRODUCTS } from "@/api/product";
 import { GetProductsResponse, IFilter } from "@/types/product";
 
 const useFetchProducts = ({ filter }: { filter: IFilter }) => {
-  const { limit, page, brand_id, price_sort } = filter;
+  const { limit, page, price_between, brand_id, price_sort } = filter;
 
-  console.log("Filter:", limit, page, brand_id, price_sort);
+  // Convert price_between to a string format if needed
+  const modified = price_between
+    ? `[${price_between.join(",")}]`
+    : "[10,1000000]";
 
-  const [getProducts, { data }] = useLazyQuery<GetProductsResponse>(
+  // Convert the string back to an array of numbers
+  const priceBetweenArray: [number, number] = JSON.parse(modified).map(
+    (value: unknown) => {
+      if (typeof value === "string") {
+        return parseFloat(value);
+      } else if (typeof value === "number") {
+        return value;
+      }
+      throw new Error("Invalid type in price_between array");
+    }
+  );
+
+  console.log("Filter:", limit, page, priceBetweenArray, brand_id, price_sort);
+
+  const [getProducts, { data, loading }] = useLazyQuery<GetProductsResponse>(
     QUERY_PRODUCTS,
     {
       fetchPolicy: "no-cache",
@@ -28,9 +45,9 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
         where: {
           status: "ACTIVE",
           product_vip: 0,
+          price_between: priceBetweenArray,
           ...(brand_id && { brand_id: brand_id }),
         },
-        // ...(price_sort && { sortedBy: price_sort }),
         sortedBy: price_sort ? price_sort : "price_DESC",
       },
     });
@@ -43,6 +60,7 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
   return {
     getProducts,
     fetchProducts,
+    loading,
     data: data?.getProducts?.data?.map((product, index) => ({
       ...product,
       no: index + 1,
