@@ -5,12 +5,12 @@ import { useLazyQuery } from "@apollo/client";
 
 // type and utils
 import { QUERY_SHOPS } from "@/api/shop";
-import { GetShopResponse, IShopFilter } from "@/types/shop";
+import { GetShopsResponse, IShopFilter } from "@/types/shop";
 
 const useFetchShops = ({ filter }: { filter: IShopFilter }) => {
   const { limit, page, keyword, shop_vip, created_at_DESC } = filter;
 
-  const [getShops, { data, loading }] = useLazyQuery<GetShopResponse>(
+  const [getShops, { data, loading }] = useLazyQuery<GetShopsResponse>(
     QUERY_SHOPS,
     {
       fetchPolicy: "no-cache",

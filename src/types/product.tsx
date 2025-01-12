@@ -19,7 +19,8 @@ export interface ProductData {
   spu?: string | null;
   total_star?: number | null;
   total_comment?: number | null;
-  category_ids?: string[] | null;
+  // category_ids?: string[] | null;
+  categories?: Category[] | null;
   brand_id?: string | null;
   status?: string | null;
   recommended?: boolean | null;

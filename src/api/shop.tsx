@@ -34,6 +34,33 @@ export const QUERY_SHOPS = gql`
   }
 `;
 
+export const QUERY_SHOP = gql`
+  query GetShop($getShopId: ID!) {
+    getShop(id: $getShopId) {
+      success
+      data {
+        id
+        fullname
+        phone_number
+        remark
+        image {
+          logo
+          cover
+        }
+        status
+        shop_vip
+        created_by
+        email
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
+
 export const MUTATION_UPDATE_SHOP_PROFILE = gql`
   mutation UpdateShopInformation($data: UpdateShopInformationInput!) {
     updateShopInformation(data: $data) {
@@ -190,12 +217,18 @@ export const QUERY_SHOP_SINGLE_PRODUCT = gql`
           spu
           total_star
           total_comment
-          category_ids
           brand_id
           status
           recommended
           product_top
           product_vip
+          categories {
+            id
+            name {
+              name_en
+            }
+            image
+          }
         }
         status
         updated_at

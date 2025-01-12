@@ -32,7 +32,8 @@ export default function ShopProductCard(props: ShopProduct) {
     spu: null,
     total_star: null,
     total_comment: null,
-    category_ids: null,
+    // category_ids: null,
+    categories: [],
     brand_id: null,
     status: null,
     recommended: null,
@@ -170,12 +171,12 @@ export default function ShopProductCard(props: ShopProduct) {
                 Categories
               </label>
               <div className="flex items-start justify-start gap-6">
-                {productData?.category_ids?.map((val, index) => (
+                {productData?.categories?.map((val, index) => (
                   <span
                     key={index + 1}
                     className="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded-md"
                   >
-                    {val}
+                    {val.name.name_en}
                   </span>
                 ))}
               </div>

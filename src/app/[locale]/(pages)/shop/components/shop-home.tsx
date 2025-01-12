@@ -1,100 +1,61 @@
-import ProductCard from "@/components/ProductCard";
-import Pagination from "@/components/pagination";
-import useFilter from "@/lib/useFilter";
+import moment from "moment";
+import React from "react";
 
-const products = [
-  {
-    id: "123",
-    price: "250",
-    name: "Product1",
-    description: "This is the first product in our system now.",
-  },
-  {
-    id: "124",
-    price: "300",
-    name: "Product2",
-    description: "This is the second product, a little better.",
-  },
-  {
-    id: "125",
-    price: "150",
-    name: "Product3",
-    description: "The third product, perfect for casual use.",
-  },
-  {
-    id: "126",
-    price: "200",
-    name: "Product4",
-    description: "Our fourth product, optimized for comfort.",
-  },
-  {
-    id: "127",
-    price: "350",
-    name: "Product5",
-    description: "The fifth product, top-of-the-line quality.",
-  },
-  {
-    id: "128",
-    price: "400",
-    name: "Product6",
-    description: "The sixth product, with premium features.",
-  },
-  {
-    id: "1232",
-    price: "250",
-    name: "Product1",
-    description: "This is the first product in our system now.",
-  },
-  {
-    id: "1242",
-    price: "300",
-    name: "Product2",
-    description: "This is the second product, a little better.",
-  },
-  {
-    id: "1252",
-    price: "150",
-    name: "Product3",
-    description: "The third product, perfect for casual use.",
-  },
-  {
-    id: "1262",
-    price: "200",
-    name: "Product4",
-    description: "Our fourth product, optimized for comfort.",
-  },
-];
+// components
+import Pagination from "@/components/pagination";
+import ShopProductCard2 from "@/components/shopProductCard2";
+
+// hooks for query and filter products
+import EmptyPage from "@/components/emptyPage";
+import useFetchShopProducts from "../hooks/useFetchShopProduct/page";
+import useShopProductFilter from "../hooks/useFilterShopProduct/page";
+
 export default function ShopHomeComponent() {
-  const { state: filter, dispatch: filterDispatch, ACTION_TYPE } = useFilter();
-  const handlePageChange = (newPage: number) => {
-    filterDispatch({ type: ACTION_TYPE.PAGE, payload: newPage });
-  };
+  const filter = useShopProductFilter();
+  const currentDate = moment().format("YYYY-MM-DD");
+  const fetchShopProducts = useFetchShopProducts({ filter: filter.data });
+
+  React.useEffect(() => {
+    filter.dispatch({
+      type: filter.ACTION_TYPE.CREATED_AT_START_DATE,
+      payload: currentDate,
+    });
+  }, []);
+
   return (
     <>
-      <div>
-        <div className="container">
-          <div className="flex flex-col items-start justify-start gap-2">
-            <p className="text-second_black text-sm sm:text-md">
-              New arrival products:
-            </p>
+      <div className="container">
+        <div className="flex flex-col items-start justify-start gap-2">
+          <p className="text-second_black text-sm sm:text-md">
+            New arrival products:
+          </p>
+          {fetchShopProducts?.loading ? (
+            "Loading..."
+          ) : fetchShopProducts?.total || 0 > 0 ? (
             <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  price={product.price}
-                  name={product.name}
-                  description={product.description}
-                />
+              {fetchShopProducts?.data?.map((product, index) => (
+                <ShopProductCard2 key={index + 1} {...product} />
               ))}
             </div>
-            <div className="w-full flex items-center justify-center mb-4">
-              <Pagination
-                filter={filter}
-                totalPage={20}
-                onPageChange={handlePageChange}
-              />
+          ) : (
+            <div className="rounded w-full">
+              <EmptyPage />
             </div>
+          )}
+
+          <div className="w-full flex items-center justify-center mb-4">
+            <Pagination
+              filter={filter.data}
+              totalPage={Math.ceil(
+                (fetchShopProducts.total ?? 0) / filter.data.limit
+              )}
+              onPageChange={(e) => {
+                filter.dispatch({
+                  type: filter.ACTION_TYPE.PAGE,
+                  payload: e,
+                });
+              }}
+            />
           </div>
         </div>
       </div>

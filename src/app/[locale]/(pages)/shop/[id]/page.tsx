@@ -1,36 +1,80 @@
 "use client";
 
-import Image from "next/image";
-import category01 from "/public/images/category01.webp";
-import RatingStar from "@/components/ratingStar";
 import React from "react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+
+// Apollo and APIs
+import { QUERY_SHOP } from "@/api/shop";
+import { useLazyQuery } from "@apollo/client";
+
+// components
 import ShopHomeComponent from "../components/shop-home";
-import BestSellingComponent from "../components/best-selling";
 import AllProductComponent from "../components/all-product";
+import BestSellingComponent from "../components/best-selling";
+
+// utils, icons, hook and types
+import { GetShopResponse } from "@/types/shop";
+import category01 from "/public/images/category01.webp";
 
 export default function Shop() {
+  const params = useParams();
   const [tab, setTab] = React.useState<number>(1);
+  const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
+
+  const [getShop, { data: shopData }] = useLazyQuery<GetShopResponse>(
+    QUERY_SHOP,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
+
+  React.useEffect(() => {
+    getShop({
+      variables: {
+        getShopId: id,
+      },
+    });
+  }, [getShop]);
+
   return (
     <>
       <div
         className="flex items-center justify-center flex-col bg-cover bg-center bg-no-repeat min-h-[30vh] sm:min-h-[40vh]"
-        style={{ backgroundImage: `url(${category01.src})` }}
+        style={{
+          backgroundImage: `url(${
+            shopData?.getShop?.data?.image?.cover
+              ? shopData?.getShop?.data?.image?.cover
+              : category01.src
+          })`,
+        }}
       >
-        <div className="container bg-bg_color flex p-2 sm:p-6 rounded opacity-90 sm:opacity-100 transition-opacity duration-300">
-          <div className="w-full flex items-start justify-start gap-4 my-2 sm:my-4">
+        <div className="container bg-white flex p-2 rounded opacity-70 sm:opacity-100 transition-opacity duration-300">
+          <div className="w-full flex flex-col sm:flow-row items-center justify-center gap-2 sm:gap-4 my-0 sm:my-4">
             <Image
               className="rounded"
-              src={category01}
+              src={
+                shopData?.getShop?.data?.image?.logo
+                  ? shopData?.getShop?.data?.image?.logo
+                  : category01
+              }
               alt="product-01"
               width={100}
               height={100}
             />
-            <div className="flex items-start justify-start flex-col gap-2">
-              <p className="text-md text-black">Beauty Shop</p>
-              <RatingStar rating={4.5} />
+            <div className="w-11/12 sm:w-4/5 flex items-center justify-center flex-col gap-2">
+              <p className="text-md text-black">
+                {shopData?.getShop?.data?.fullname}
+              </p>
+              <p className="text-gray-500 text-md text-xs">
+                {shopData?.getShop?.data?.email && (
+                  <span>Email: {shopData?.getShop?.data?.email}</span>
+                )}
+              </p>
               <p className="text-xs text-gray-500">
-                Cellphones & Tabs, Women Clothing & Fashion, Beauty, Health &
-                Hair, Men Clothing & Fashion, Baby & Kids
+                {shopData?.getShop?.data?.remark && (
+                  <span>Details: {shopData?.getShop?.data?.remark}</span>
+                )}
               </p>
             </div>
           </div>

@@ -155,8 +155,8 @@ export default function Navbar() {
               head={
                 <div className="flex items-start justify-start gap-1 text-white text-sm cursor-pointer hover:text-neon_pink">
                   <LanguageIcon
-                    size={18}
-                    className="cursor-pointer text-white hover:text-neon_pink"
+                    size={16}
+                    className="cursor-pointer text-white hover:text-neon_pink mt-1"
                   />
                   <p className="hidden sm:block">{t("_languages")}</p>
                 </div>
@@ -221,7 +221,7 @@ export default function Navbar() {
             <div className="hidden md:block">
               <Link
                 href="/signin"
-                className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
+                className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <IoLogInOutline size={16} />
                 &nbsp;{t("_login_button")}
@@ -230,7 +230,7 @@ export default function Navbar() {
             <div className="hidden md:block">
               <Link
                 href="/cart"
-                className="flex items-start justify-center cursor-pointer text-sm hover:text-neon_pink"
+                className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <CartIcon size={16} />
                 &nbsp;{t("_my_cart")}
