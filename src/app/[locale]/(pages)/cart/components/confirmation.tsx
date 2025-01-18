@@ -1,7 +1,9 @@
-import IconButton from "@/components/iconButton";
-import { CheckCircleIcon } from "@/icons/page";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "use-intl";
+import { useRouter } from "next/navigation";
+
+// components
+import { CheckCircleIcon } from "@/icons/page";
+import IconButton from "@/components/iconButton";
 
 export default function Confirmation() {
   const t = useTranslations("myCartPage");
@@ -15,7 +17,6 @@ export default function Confirmation() {
           </div>
           <p className="text-xl">{t("_confirmation_title")}&nbsp;🎉🎉🎉</p>
           <p className="text-sm font-small text-center text-gray-500">
-            {/* {t("_confirmation_description")} */}
             We appreciate your trust in us. Enjoy your new items!
           </p>
           <p className="text-sm font-small text-center text-gray-500">Click the button below to explore more products</p>

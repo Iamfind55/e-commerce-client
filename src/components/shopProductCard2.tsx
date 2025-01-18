@@ -25,8 +25,6 @@ export default function ShopProductCard2(props: ShopProductData) {
     dispatch(addToCart({ id: props?.productData.id, name: props?.productData.name.name_en, price: props.productData.price, quantity: 1, cover_image: props.productData.cover_image, in_stock: props?.quantity }));
   };
 
-  console.log(props);
-
   return (
     <>
       <div className="cursor-pointer relative flex items-start justify-start flex-col select-none gap-2 w-auto rounded border hover:shadow-lg transition-all duration-300 group">

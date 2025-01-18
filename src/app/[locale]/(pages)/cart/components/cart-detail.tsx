@@ -1,13 +1,16 @@
-import { MinusIcon, PlusIcon, TrashIcon } from "@/icons/page";
-import Image from "next/image";
 import React from "react";
-
-import category01 from "/public/images/category01.webp";
-import { useTranslations } from "next-intl";
-
-import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
 import { RootState } from "@/redux/store";
+import { useTranslations } from "next-intl";
+import { useDispatch, useSelector } from "react-redux";
+
+// components
+import { MinusIcon, PlusIcon, TrashIcon } from "@/icons/page";
 import { decreaseQuantity, increaseQuantity, removeFromCart } from "@/redux/slice/cartSlice";
+
+// images
+import category01 from "/public/images/category01.webp";
+
 
 export default function MyCartDetails() {
   const t = useTranslations("myCartPage");
