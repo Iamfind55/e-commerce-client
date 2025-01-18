@@ -30,6 +30,12 @@ const nextConfig = {
         hostname: 'gratisography.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      }
+
     ],
   },
 };

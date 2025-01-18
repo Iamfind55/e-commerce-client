@@ -1,58 +1,29 @@
-import Image from "next/image";
-import category01 from "/public/images/category01.webp";
 import React from "react";
+import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 import { useTranslations } from "next-intl";
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  total: number;
-  image?: string;
-  availableStock: number;
-}
+// images
+import category01 from "/public/images/category01.webp";
+
 export default function DeliveryDetails() {
   const t = useTranslations("myCartPage");
-  const [products, setProducts] = React.useState<Product[]>([
-    {
-      id: 1,
-      name: "This is the best women shoe in the world",
-      price: 100,
-      quantity: 1,
-      total: 100,
-      availableStock: 100,
-    },
-    {
-      id: 2,
-      name: "This is the best women shoe in the world",
-      price: 150,
-      quantity: 1,
-      total: 150,
-      availableStock: 200,
-    },
-    {
-      id: 3,
-      name: "This is the best women shoe in the world",
-      price: 200,
-      quantity: 1,
-      total: 200,
-      availableStock: 50,
-    },
-  ]);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
   return (
     <>
       <div className="flex items-center justify-center flex-col gap-2">
         <div className="container w-full border-b">
           <h1 className="border-b py-2">{t("_product_list")}:</h1>
-          {products?.map((product, index: number) => (
+          {cartItems?.map((product, index: number) => (
             <div
               key={index + 1}
               className="flex items-start justify-start gap-2 p-4"
             >
               <Image
                 className="rounded"
-                src={category01}
+                src={product?.cover_image ? product?.cover_image : category01}
                 alt={product?.name}
                 width={60}
                 height={60}
@@ -60,7 +31,7 @@ export default function DeliveryDetails() {
               <div className="text-gray-500 flex items-start justify-start flex-col">
                 <p className="text-sm">{product?.name}.</p>
                 <p className="text-xs">
-                  ${product?.price}&nbsp;&nbsp;({product?.quantity} available)
+                  ${product?.price}&nbsp;&nbsp;({product?.quantity} items)
                 </p>
               </div>
             </div>
@@ -69,7 +40,7 @@ export default function DeliveryDetails() {
         <div className="w-full flex items-center justify-between">
           <p className="text-sm">{t("_delivery_type")}:</p>
           <div className="flex items-center justify-center gap-2 p-2 rounded border border-neon_blue">
-            <input type="radio" name="address" />
+            <input type="radio" name="address" defaultChecked />
             <p className="text-xs">{t("_door_to_door")}</p>
           </div>
         </div>

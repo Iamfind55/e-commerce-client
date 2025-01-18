@@ -5,85 +5,35 @@ import React from "react";
 import category01 from "/public/images/category01.webp";
 import { useTranslations } from "next-intl";
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  total: number;
-  image?: string;
-  availableStock: number;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { decreaseQuantity, increaseQuantity, removeFromCart } from "@/redux/slice/cartSlice";
 
 export default function MyCartDetails() {
   const t = useTranslations("myCartPage");
-  const [products, setProducts] = React.useState<Product[]>([
-    {
-      id: 1,
-      name: "Product 1",
-      price: 100,
-      quantity: 1,
-      total: 100,
-      availableStock: 100,
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 150,
-      quantity: 1,
-      total: 150,
-      availableStock: 200,
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      price: 200,
-      quantity: 1,
-      total: 200,
-      availableStock: 50,
-    },
-  ]);
-
+  const dispatch = useDispatch();
   const [subTotal, setSubTotal] = React.useState<number>(0);
 
+
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const handleRemoveFromCart = (id: string) => {
+    dispatch(removeFromCart(id));
+  };
+
+  const handleIncreaseQuantity = (id: string) => {
+    dispatch(increaseQuantity(id));
+  };
+
+  const handleDecreaseQuantity = (id: string) => {
+    dispatch(decreaseQuantity(id));
+  };
+
   React.useEffect(() => {
-    const total = products.reduce((sum, product) => sum + product.total, 0);
+    const total = cartItems.reduce((sum, product) => sum + (product.price * product.quantity), 0);
     setSubTotal(total);
-  }, [products]);
+  }, [cartItems]);
 
-  const handleIncreaseQuantity = (id: number) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id
-          ? {
-              ...product,
-              quantity: product.quantity + 1,
-              total: (product.quantity + 1) * product.price,
-            }
-          : product
-      )
-    );
-  };
-
-  const handleDecreaseQuantity = (id: number) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id && product.quantity > 1
-          ? {
-              ...product,
-              quantity: product.quantity - 1,
-              total: (product.quantity - 1) * product.price,
-            }
-          : product
-      )
-    );
-  };
-
-  const handleRemoveProduct = (id: number) => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== id)
-    );
-  };
+  console.log("Cart data:", cartItems);
 
   return (
     <div className="relative overflow-y-auto overflow-x-auto h-auto">
@@ -115,54 +65,51 @@ export default function MyCartDetails() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {cartItems.map((product, index) => (
               <tr
                 key={product.id}
-                className="border-b border-gray bg-white hover:bg-gray py-6"
+                className="border-b border-gray bg-white hover:bg-gray py-6 text-gray-500"
               >
-                <td className="pl-2 py-4">{product.id}</td>
+                <td className="pl-2 py-4">{index + 1}</td>
                 <td>
                   <div className="flex items-start justify-start gap-4">
                     <Image
                       className="rounded"
-                      src={category01}
+                      src={product?.cover_image ? product?.cover_image : category01}
                       alt={product.name}
                       width={60}
                       height={60}
                     />
                     <div className="flex items-start justify-start flex-col">
-                      <p className="text-sm">{product.name}</p>
-                      <p className="text-xs text-gray-400">
-                        {t("_available")} ({product.availableStock}{" "}
-                        {t("_items")})
-                      </p>
+                      <p className="text-xs">{product.name}</p>
+                      <p className="text-xs">({product.in_stock} Available in stock)</p>
                     </div>
                   </div>
                 </td>
-                <td>${product.price}</td>
+                <td className="text-xs">${product.price}</td>
                 <td>
                   <div className="flex items-center justify-start gap-6 rounded py-2 px-4">
                     <button
-                      className="rounded-full bg-gray-300 text-white cursor-pointer"
+                      className="rounded-full bg-gray-300 text-white cursor-pointer p-0.5"
                       onClick={() => handleDecreaseQuantity(product.id)}
                     >
-                      <MinusIcon size={16} />
+                      <MinusIcon size={14} />
                     </button>
-                    <p>{product.quantity}</p>
+                    <p className="text-xs">{product.quantity}</p>
                     <button
-                      className="rounded-full bg-gray-300 text-white cursor-pointer"
+                      className="rounded-full bg-gray-300 text-white cursor-pointer p-0.5"
                       onClick={() => handleIncreaseQuantity(product.id)}
                     >
-                      <PlusIcon size={16} />
+                      <PlusIcon size={14} />
                     </button>
                   </div>
                 </td>
-                <td>${product.total}</td>
+                <td className="text-xs">${(product.quantity * product?.price).toFixed(2)}</td>
                 <td className="pl-2 py-4 flex items-center justify-center">
                   <TrashIcon
                     size={18}
                     className="cursor-pointer hover:text-red-500"
-                    onClick={() => handleRemoveProduct(product.id)}
+                    onClick={() => handleRemoveFromCart(product.id)}
                   />
                 </td>
               </tr>
@@ -181,7 +128,7 @@ export default function MyCartDetails() {
         </table>
       </div>
       <div className="block sm:hidden">
-        {products?.map((val, index: number) => (
+        {cartItems?.map((val, index: number) => (
           <div
             key={index + 1}
             className="w-full flex items-start justify-start flex-col gap-2 border-b pb-2 my-2"
@@ -220,12 +167,12 @@ export default function MyCartDetails() {
             <div className="w-full flex items-center justify-between">
               <div className="flex items-start justify-start">
                 <p className="text-xs text-gray-500">{t("_sub_total")}: </p>
-                <p className="text-sm">&nbsp;&nbsp;${val?.total}</p>
+                <p className="text-sm">&nbsp;&nbsp;${(val?.price * val?.quantity).toFixed(2)}</p>
               </div>
               <div className="flex items-center justify-start gap-6 rounded py-2 px-4">
                 <button
                   className="text-neon_pink cursor-pointer"
-                  onClick={() => handleRemoveProduct(val.id)}
+                  onClick={() => removeFromCart(val.id)}
                 >
                   <TrashIcon size={16} />
                 </button>
@@ -235,7 +182,7 @@ export default function MyCartDetails() {
         ))}
         <div className="w-full flex items-start justify-between gap-4 pr-4">
           <p className="text-sm text-gray-500">{t("_sub_total")}:</p>
-          <p className="text-md">${subTotal}</p>
+          <p className="text-md">${subTotal.toFixed(2)}</p>
         </div>
       </div>
     </div>

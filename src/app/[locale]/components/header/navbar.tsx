@@ -25,6 +25,8 @@ import ThaiFlag from "/public/images/thai-flag.webp";
 import VietnamFlag from "/public/images/vietnam-flag.webp";
 import ChinesFlag from "/public/images/chines-flag.webp";
 import MalaysiaFlag from "/public/images/malaysia-flag.webp";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -33,6 +35,12 @@ export default function Navbar() {
   const [isSticky, setIsSticky] = React.useState(false);
   const [originalOffset, setOriginalOffset] = React.useState(0);
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
+
+  // query from redux
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  // const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartCount = cartItems.length;
+
 
   const toggleOpenDrawer = () => {
     setIsOpenDrawer(!openDrawer);
@@ -62,11 +70,10 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`bg-second_black ${
-          isSticky
-            ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
-            : "mx-auto px-4 z-50"
-        } flex items-center justify-between bg-second_black p-4`}
+        className={`bg-second_black ${isSticky
+          ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
+          : "mx-auto px-4 z-50"
+          } flex items-center justify-between bg-second_black p-4`}
         style={
           isSticky
             ? { position: "fixed", zIndex: 49 }
@@ -227,12 +234,17 @@ export default function Navbar() {
                 &nbsp;{t("_login_button")}
               </Link>
             </div>
-            <div className="hidden md:block">
+            <div className="hidden md:block relative">
               <Link
                 href="/cart"
                 className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <CartIcon size={16} />
+                {cartCount > 0 && (
+                  <span className="animate-bounce absolute -top-3 -left-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
                 &nbsp;{t("_my_cart")}
               </Link>
             </div>
