@@ -20,7 +20,6 @@ export default function BalanceCard({ refresh }: BalanceCardProps) {
   const { user } = useSelector((state: any) => state.auth);
   const { state: filter } = useFilter();
   const { data, loading, refresh: doRefresh } = useFetchTransaction(filter);
-  console.log(refresh);
 
   React.useEffect(() => {
     doRefresh();

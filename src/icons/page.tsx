@@ -62,6 +62,9 @@ import { TbHexagonNumber2Filled } from "react-icons/tb";
 import { TbHexagonNumber3Filled } from "react-icons/tb";
 import { TbHexagonNumber4Filled } from "react-icons/tb";
 import { TbHexagonNumber5Filled } from "react-icons/tb";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
+import { RxDashboard } from "react-icons/rx";
+import { HiOutlineNewspaper } from "react-icons/hi2";
 
 interface IconProps {
   size?: number;
@@ -70,6 +73,15 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const NewsIcon = (props: IconProps) => {
+  return <HiOutlineNewspaper {...props} />;
+};
+export const DashboardIcon = (props: IconProps) => {
+  return <RxDashboard {...props} />;
+};
+export const PurchaseIcon = (props: IconProps) => {
+  return <HiOutlineClipboardDocumentList {...props} />;
+};
 export const VIP5Icon = (props: IconProps) => {
   return <TbHexagonNumber5Filled {...props} />;
 };

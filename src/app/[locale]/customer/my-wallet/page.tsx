@@ -1,28 +1,23 @@
 "use client";
 
-import Image from "next/image";
-import React, { ReactNode } from "react";
-import { QRCodeCanvas } from "qrcode.react";
-
-// components
-import MyModal from "@/components/modal";
-import Textfield from "@/components/textField";
 import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
+import MyModal from "@/components/modal";
+import Textfield from "@/components/textField";
 import WalletCard from "@/components/walletCard";
-
-// icons and utils
 import {
-  DepositIcon,
   LinkIcon,
   LockIcon,
   MinusIcon,
   PlusIcon,
   QRcodeIcon,
   TrashIcon,
-  WalletIcon,
   WithdrawIcon,
 } from "@/icons/page";
+import Image from "next/image";
+import { QRCodeCanvas } from "qrcode.react";
+import React, { ReactNode } from "react";
+import TransactionHistory from "./transaction-history/page";
 
 type ReportItem = {
   title: string;
@@ -31,17 +26,23 @@ type ReportItem = {
   icon: ReactNode;
 };
 
-export default function ShopWallet() {
+export default function CustomerWallet() {
   const [qrcode, setQrcode] = React.useState<string>("");
   const [quantity, setQuantity] = React.useState<number>(1);
   const [cover, setCover] = React.useState<File | null>(null);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
-  const [withdrawQuantity, setWithdrawQuantity] = React.useState<number>(20);
-  const [transactionId, setTransactionId] = React.useState<string | null>(null);
+  const [isOpenQRModal, setIsOpenQRModal] = React.useState<boolean>(false);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
-  const [selectedCoinType, setSelectedCoinType] =
-    React.useState<string>("erc20");
+  const [transactionId, setTransactionId] = React.useState<string | null>(null);
+
+  const handleOpenModal = () => {
+    setIsOpenModal(!isOpenModal);
+  };
+
+  const handleOpenQRModal = () => {
+    setIsOpenQRModal(!isOpenQRModal);
+  };
 
   const handleIncreaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -49,16 +50,6 @@ export default function ShopWallet() {
 
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
-  };
-
-  const handleIncreaseWithdrawQuantity = () => {
-    setWithdrawQuantity((prevQuantity) => prevQuantity + 1);
-  };
-
-  const handleDecreaseWithdrawQuantity = () => {
-    setWithdrawQuantity((prevQuantity) =>
-      prevQuantity > 1 ? prevQuantity - 1 : 1
-    );
   };
 
   const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,34 +78,7 @@ export default function ShopWallet() {
     }
   };
 
-  const handleOpenModal = () => {
-    setIsOpenModal(!isOpenModal);
-  };
-
-  // Handle change in selected coin type
-  const handleCoinTypeChange = (event: any) => {
-    setSelectedCoinType(event.target.value);
-  };
-
   const reportItems: ReportItem[] = [
-    {
-      title: "Wallet Banlance",
-      amount: "$500",
-      percent: 5,
-      icon: <WalletIcon size={38} className="text-neon_blue" />,
-    },
-    {
-      title: "Recharged",
-      amount: "$12",
-      percent: 15,
-      icon: <DepositIcon size={38} className="text-green-500" />,
-    },
-    {
-      title: "Withdrawal",
-      amount: "$12,000",
-      percent: 8,
-      icon: <WithdrawIcon size={38} className="text-neon_pink" />,
-    },
     {
       title: "Frozen Balance",
       amount: "$7,000",
@@ -122,23 +86,22 @@ export default function ShopWallet() {
       icon: <LockIcon size={38} className="text-neon_pink" />,
     },
     {
-      title: "Withdrawable Balance",
+      title: "Total Balance",
       amount: "$320",
       percent: 12,
       icon: <WithdrawIcon size={38} className="text-green-500" />,
     },
   ];
-
   return (
     <>
       <Breadcrumb
         items={[
-          { label: "Wallet management", value: "/wallet" },
-          { label: "My wallet", value: "/wallet" },
+          { label: "Customer", value: "/customer" },
+          { label: "My wallet", value: "/customer/my-wallet" },
         ]}
       />
       <div className="mt-2 rounded flex items-start justify-start flex-col gap-2 py-4 text-gray-500">
-        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 px-4 sm:px-0">
           {reportItems.map((item, index) => (
             <WalletCard
               key={index}
@@ -148,12 +111,33 @@ export default function ShopWallet() {
               icon={item.icon}
             />
           ))}
+          <div
+            onClick={() => handleOpenModal()}
+            className="w-auto bg-white p-4 rounded-md flex items-start justify-start flex-col select-none gap-1 sm:gap-2 hover:cursor-pointer group shadow transition-all duration-300"
+          >
+            <div className="py-0 sm:py-4 px-2 w-full flex items-center justify-start flex-col gap-1 sm:gap-4">
+              <div className="rounded-full transition-all duration-300">
+                <PlusIcon size={22} />
+              </div>
+              <div className="flex items-start justify-start flex-col gap-2">
+                <p className="text-md font-medium text-gray-500">
+                  Offline wallet recharge
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+        <TransactionHistory />
+      </div>
 
-        <div className="mt-6 w-full flex flex-col sm:flex-row items-start justify-between gap-4">
-          <form className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-4 p-4">
+      <MyModal
+        isOpen={isOpenModal}
+        onClose={handleOpenModal}
+        className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/4 md:inset-0 h-auto shadow"
+      >
+        <div className="w-full rounded bg-white w-full">
+          <form className="w-full bg-white rounded flex items-start justify-start flex-col p-4">
             <p className="text-md font-medium">Top-Up Your Wallet Balance:</p>
-
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
               <div className="flex items-start justify-start gap-2 py-2">
                 <p className="text-sm">Select type:</p>
@@ -308,7 +292,7 @@ export default function ShopWallet() {
                       size={16}
                       className="text-gray-500 cursor-pointer"
                       onClick={() => {
-                        handleOpenModal();
+                        handleOpenQRModal();
                         setQrcode("TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw");
                       }}
                     />
@@ -325,139 +309,12 @@ export default function ShopWallet() {
               />
             </div>
           </form>
-
-          <form className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-2 p-4">
-            <p className="text-md font-medium">
-              Transfer Wallet Balance to Your Account:
-            </p>
-
-            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
-              <div className="flex items-start justify-start gap-2 py-2">
-                <p className="text-sm">Select type:</p>
-                <div className="flex items-start justify-start gap-4">
-                  <div className="flex items-center mb-4">
-                    <input
-                      type="radio"
-                      value="erc20"
-                      id="with-erc20-coin"
-                      name="rechargeAccount"
-                      onChange={handleCoinTypeChange}
-                      checked={selectedCoinType === "erc20"}
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                    />
-                    <label
-                      htmlFor="with-erc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      ERC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      type="radio"
-                      value="trc20"
-                      id="with-trc20-coin"
-                      name="rechargeAccount"
-                      onChange={handleCoinTypeChange}
-                      checked={selectedCoinType === "trc20"}
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                    />
-                    <label
-                      htmlFor="with-trc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      TRC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      value="btc"
-                      type="radio"
-                      id="with-btc-coin"
-                      name="rechargeAccount"
-                      onChange={handleCoinTypeChange}
-                      checked={selectedCoinType === "btc"}
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                    />
-                    <label
-                      htmlFor="with-btc-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      BTC
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full flex items-start justify-between gap-4">
-                <p className="text-sm w-auto">Amount:</p>
-                <div className="w-full flex items-center justify-start gap-6 border rounded py-2 px-4">
-                  <button
-                    className="rounded-full bg-gray-300 text-white cursor-pointer"
-                    onClick={handleDecreaseWithdrawQuantity}
-                  >
-                    <MinusIcon size={16} />
-                  </button>
-                  <p className="text-sm w-full text-center">
-                    {withdrawQuantity}
-                  </p>
-                  <button
-                    className="rounded-full bg-gray-300 text-white cursor-pointer"
-                    onClick={handleIncreaseWithdrawQuantity}
-                  >
-                    <PlusIcon size={16} />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
-              <Textfield
-                required
-                id="account_address"
-                name="accountAddress"
-                color="text-gray-500"
-                title="Account address"
-                placeholder="Enter account address...."
-              />
-            </div>
-
-            <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
-              <div className="border-b w-full pb-1">
-                <p className="text-xs">Withdraw Information:</p>
-              </div>
-              <div className="w-full flex flex-col gap-1">
-                <div className="flex items-start justify-between pr-4">
-                  <p className="text-xs">Amount conversion rate:</p>
-                  <p className="text-black text-sm">$1.00</p>
-                </div>
-                <div className="flex items-start justify-between pr-4">
-                  <p className="text-xs">Minimum withdrawal:</p>
-                  <p className="text-black text-sm">$20.00</p>
-                </div>
-                <div className="flex items-start justify-between pr-4">
-                  <p className="text-xs">Maximum withdrawal:</p>
-                  <p className="text-black text-sm">$100,000.00</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full flex items-center justify-between px-3">
-              <p>
-                {selectedCoinType.toUpperCase()} / {withdrawQuantity}
-              </p>
-              <IconButton
-                className="rounded bg-neon_pink text-white p-2 w-auto mt-4 text-sm"
-                type="button"
-                title="Apply for withdrawal"
-              />
-            </div>
-          </form>
         </div>
-      </div>
+      </MyModal>
 
       <MyModal
-        isOpen={isOpenModal}
-        onClose={handleOpenModal}
+        isOpen={isOpenQRModal}
+        onClose={handleOpenQRModal}
         className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/5 md:inset-0 h-auto shadow"
       >
         <div className="w-full h-[50vh] flex items-center justify-center">

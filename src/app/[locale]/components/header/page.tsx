@@ -1,7 +1,7 @@
 import HeaderTop from "./header-top";
 import Navbar from "./navbar";
 
-export default function page() {
+export default function Header() {
   return (
     <div className="bg-second_black">
       <HeaderTop />

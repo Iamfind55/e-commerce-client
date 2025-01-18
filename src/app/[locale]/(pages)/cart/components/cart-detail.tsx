@@ -36,8 +36,6 @@ export default function MyCartDetails() {
     setSubTotal(total);
   }, [cartItems]);
 
-  console.log("Cart data:", cartItems);
-
   return (
     <div className="relative overflow-y-auto overflow-x-auto h-auto">
       <div className="w-full hidden sm:block">

@@ -148,7 +148,7 @@ export default function Home() {
                   <Image
                     className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
                     src={image.image ?? category01}
-                    alt={image.name?.name_en}
+                    alt={image.name?.name_en ?? "default"}
                     width={200}
                     height={600}
                   />

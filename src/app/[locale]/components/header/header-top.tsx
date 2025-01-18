@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-export default function Header() {
+export default function HeaderTop() {
   const t = useTranslations("homePage");
   return (
     <div className="hidden sm:block bg-base py-4 px-0">
