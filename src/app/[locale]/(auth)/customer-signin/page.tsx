@@ -1,54 +1,92 @@
 "use client";
 
-import Image from "next/image";
-import Logo from "../../../../../public/images/tiktokshop-logo.webp";
-import { Link } from "@/navigation";
-import {
-  AppleIcon,
-  CircleIcon,
-  CircleUser,
-  FacebookIcon,
-  GoogleIcon,
-  NextIcon,
-} from "@/icons/page";
+import React from "react";
+
+import { Link, useRouter } from "@/navigation";
+import { CircleUser, NextIcon } from "@/icons/page";
 import IconButton from "@/components/iconButton";
 import Textfield from "@/components/textField";
 import Password from "@/components/passwordTextField";
-import React from "react";
-import { ILogins } from "@/types/login";
 import { useToast } from "@/utils/toast";
 import backgroundImage from "../../../../../public/images/background-image.png";
+import { ICustomerLogin } from "@/types/customer-auth";
+import { useMutation } from "@apollo/client";
+import { MUTATION_CUSTOMER_LOGIN } from "@/api/customer-auth";
+import { signIn } from "@/redux/slice/customerAuthSlice";
+import { useDispatch } from "react-redux";
 
 export default function CustomerLogin() {
-  const [loginData, setLoginData] = React.useState<ILogins>({
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [customerLogin] = useMutation(MUTATION_CUSTOMER_LOGIN);
+  const { successMessage, errorMessage } = useToast();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [loginData, setLoginData] = React.useState<ICustomerLogin>({
     username: "",
     password: "",
   });
-  const { successMessage, errorMessage } = useToast();
-
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-  const handleLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomerLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
+
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    if (!loginData.username) {
-      errorMessage({
-        message: "Username or email is required!",
-        duration: 2000,
-      });
-      setIsLoading(false);
-      return;
+
+    const requiredFields = [
+      { value: loginData.username, message: "Username or email is required!" },
+      { value: loginData.password, message: "Password is required!" },
+    ];
+
+    for (const field of requiredFields) {
+      if (!field.value) {
+        errorMessage({ message: field.message, duration: 2000 });
+        setIsLoading(false);
+        return;
+      }
     }
-    if (!loginData.password) {
-      errorMessage({
-        message: "Password is required!",
-        duration: 2000,
+
+    try {
+      const { data } = await customerLogin({
+        variables: {
+          where: {
+            username: loginData?.username,
+            password: loginData?.password,
+          },
+        },
       });
+
+      if (data?.customerLogin?.success) {
+        successMessage({
+          message: "Login successful!",
+          duration: 3000,
+        });
+        const res = data.customerLogin.data;
+        dispatch(
+          signIn({
+            id: res.data.id || "",
+            firstName: res.data.firtName || "",
+            lastName: res.data.lastName || "",
+            username: res.data.username || "",
+            email: res.data.email || "",
+            phone_number: res.data.phone_number || "",
+            dob: res.data.dob || "",
+            image: res.data.image || "",
+            status: res.data.status || "",
+            created_at: res.data.created || "",
+          })
+        );
+
+        document.cookie = `c_auth_token=${data?.customerLogin?.data?.token}; path=/; max-age=3600`;
+        router.push("/customer");
+      }
+    } catch (error) {
+      errorMessage({
+        message: "An unexpected error occurred during login.",
+        duration: 3000,
+      });
+    } finally {
       setIsLoading(false);
-      return;
     }
   };
 
@@ -76,7 +114,7 @@ export default function CustomerLogin() {
               type="text"
               id="email"
               required
-              onChange={handleLogin}
+              onChange={handleCustomerLogin}
             />
             <Password
               placeholder="Enter password...."
@@ -84,7 +122,7 @@ export default function CustomerLogin() {
               name="password"
               id="password"
               required
-              onChange={handleLogin}
+              onChange={handleCustomerLogin}
             />
             <Link
               href="/forgot-password"
@@ -101,26 +139,12 @@ export default function CustomerLogin() {
               title={isLoading ? "LOGING...." : "LOG IN"}
               type="submit"
             />
-            <div className="text-gray-500 text-sm flex items-center justify-center gap-4 mt-4 italic">
-              ----- OR -----
-            </div>
-            <div className="flex items-center justify-center gap-6 mt-6 mb-6">
-              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
-                <FacebookIcon size={14} />
-              </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
-                <GoogleIcon size={18} />
-              </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
-                <AppleIcon size={16} />
-              </div>
-            </div>
             <div className="flex items-center justify-center gap-4 mt-4">
               <p className="text-b_text text-sm italic">
                 Do not have an account yet?
               </p>
               <Link
-                href="/signup"
+                href="/customer-signup"
                 className="font-bold underline text-neon_pink text-sm italic"
               >
                 Sign Up

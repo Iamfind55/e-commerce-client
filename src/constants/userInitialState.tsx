@@ -22,3 +22,18 @@ export const initialState = {
     created_at: "",
   },
 };
+
+export const initialCustomerState = {
+  customer: {
+    id: "",
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    phone_number: "",
+    dob: "",
+    image: "",
+    status: "",
+    created_at: "",
+  },
+};
