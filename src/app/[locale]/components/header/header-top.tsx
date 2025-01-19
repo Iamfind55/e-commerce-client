@@ -1,3 +1,4 @@
+import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
 
 export default function HeaderTop() {
@@ -15,6 +16,12 @@ export default function HeaderTop() {
             </p>
           </div>
         </div>
+        <Link
+          href="/signup"
+          className="text-xs cursor-pointer rounded py-1 px-4 border border-white"
+        >
+          Be a Seller
+        </Link>
       </div>
     </div>
   );

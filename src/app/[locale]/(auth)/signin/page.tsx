@@ -118,9 +118,9 @@ export default function Login() {
   };
 
   const sliderImages = [
-    { src: sliderImage01, alt: "Slider Image 1" },
-    { src: sliderImage02, alt: "Slider Image 2" },
-    { src: sliderImage03, alt: "Slider Image 3" },
+    { id: "1", image: sliderImage01.src, name: "Slider Image 1" },
+    { id: "2", image: sliderImage02.src, name: "Slider Image 2" },
+    { id: "3", image: sliderImage03.src, name: "Slider Image 3" },
   ];
 
   const sliderTexts = [

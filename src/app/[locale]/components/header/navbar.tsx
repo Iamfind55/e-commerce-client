@@ -41,7 +41,6 @@ export default function Navbar() {
   // const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const cartCount = cartItems.length;
 
-
   const toggleOpenDrawer = () => {
     setIsOpenDrawer(!openDrawer);
   };
@@ -70,10 +69,11 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`bg-second_black ${isSticky
-          ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
-          : "mx-auto px-4 z-50"
-          } flex items-center justify-between bg-second_black p-4`}
+        className={`bg-second_black ${
+          isSticky
+            ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
+            : "mx-auto px-4 z-50"
+        } flex items-center justify-between bg-second_black p-4`}
         style={
           isSticky
             ? { position: "fixed", zIndex: 49 }
@@ -227,7 +227,7 @@ export default function Navbar() {
             </DropdownComponent>
             <div className="hidden md:block">
               <Link
-                href="/signin"
+                href="/customer-signin"
                 className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
               >
                 <IoLogInOutline size={16} />
