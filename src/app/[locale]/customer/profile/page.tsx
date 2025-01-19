@@ -2,6 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { useMutation } from "@apollo/client";
 
 // components
 import Loading from "@/components/loading";
@@ -10,19 +12,23 @@ import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
 import Password from "@/components/passwordTextField";
 
+// utils
+import { useToast } from "@/utils/toast";
+
 // images and icons
 import { SaveIcon } from "@/icons/page";
-import DefaultImage from "/public/images/default-image.webp";
-import { useSelector } from "react-redux";
 import { ICustomers } from "@/types/customer-auth";
+import DefaultImage from "/public/images/default-image.webp";
+import { MUTATION_UPDATE_CUSTOMER_PROFILE } from "@/api/customer";
 
 export default function ProfileManagement() {
+  const { errorMessage, successMessage } = useToast();
   const [file, setFile] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview, setPreview] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
-
   const { customer } = useSelector((state: any) => state.customerAuth);
+  const [customerProfile] = useMutation(MUTATION_UPDATE_CUSTOMER_PROFILE);
 
   const [profileData, setProfileData] = React.useState<ICustomers>({
     id: "",
@@ -41,7 +47,7 @@ export default function ProfileManagement() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-    const maxSizeInBytes = 800 * 1024; // 800KB in bytes
+    const maxSizeInBytes = 800 * 1024;
 
     if (selectedFile) {
       if (!allowedTypes.includes(selectedFile.type)) {
@@ -60,7 +66,71 @@ export default function ProfileManagement() {
 
       setErrorMessages(null);
       setFile(selectedFile);
-      setPreview(URL.createObjectURL(selectedFile)); // Generate preview URL
+      setPreview(URL.createObjectURL(selectedFile));
+    }
+  };
+
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    if (!file) {
+      setErrorMessages("No file selected.");
+      setIsLoading(false);
+      return;
+    }
+
+    const _formData = new FormData();
+    _formData.append("file", file);
+    _formData.append(
+      "upload_preset",
+      process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+    );
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+        {
+          method: "POST",
+          body: _formData,
+        }
+      );
+      const data = await response.json();
+
+      if (data.secure_url) {
+        console.log("Image uploaded:", data.secure_url);
+        const res = await customerProfile({
+          variables: {
+            data: {
+              id: profileData.id,
+              image: data.secure_url ?? "",
+              firstName: profileData.firstName,
+              lastName: profileData.lastName,
+              username: profileData.username,
+              password: profileData.password,
+              email: profileData.email,
+              phone_number: profileData.phone_number,
+              dob: profileData.dob,
+            },
+          },
+        });
+
+        console.log("Response:", res);
+
+        // if (res.updateCustomerInformation.success) {
+        //   successMessage({
+        //     message: "Update shop profile successful!",
+        //     duration: 3000,
+        //   });
+        // } else {
+        //    errorMessage({
+        //      message: res.updateCustomerInformation.error.details,
+        //      duration: 3000,
+        //    });
+        // }
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -90,16 +160,24 @@ export default function ProfileManagement() {
             { label: "Purchase history", value: "/purchase-history" },
           ]}
         />
-        <div
-          className="w-full flex items-start justify-start flex-col gap-4"
-          //   onSubmit={handleSubmitForm}
-        >
-          <form className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4">
+        <div className="w-full flex items-start justify-start flex-col gap-4">
+          <form
+            onSubmit={handleSubmitForm}
+            className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4"
+          >
             <div className="w-2/4 flex items-start justify-start gap-4">
               <div>
                 {preview ? (
                   <Image
                     src={preview}
+                    width={100}
+                    height={100}
+                    alt="Image preview"
+                    className="max-w-full h-auto border rounded"
+                  />
+                ) : profileData.image ? (
+                  <Image
+                    src={profileData.image}
                     width={100}
                     height={100}
                     alt="Image preview"

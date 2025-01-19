@@ -141,7 +141,7 @@ export default function ShopProductCard(props: ShopProduct) {
       >
         <div className="rounded bg-white w-full p-4">
           <h4 className="text-gray-500 text-lg mb-3">
-            First Impressions Baby Girls Top and Bloomer Set, Created for Macy's
+            First Impressions Baby Girls Top and Bloomer Set, Created for Macys
           </h4>
           <div className="border-b-2 border-gray-300">
             <p className="text-sm text-gray-500">Basic infomation</p>

@@ -91,7 +91,7 @@ export default function OrderCardComponent(props: ShopProduct) {
               height={80}
             />
             <p className="text-xs">
-              Macy's Mariner Link 22" Chain Necklace in 14k Gold-Plated Sterling
+              Macys Mariner Link 22 Chain Necklace in 14k Gold-Plated Sterling
               Silver
             </p>
           </div>
@@ -183,7 +183,7 @@ export default function OrderCardComponent(props: ShopProduct) {
           <p className="text-xs text-black">
             Product name: &nbsp;
             <span className="text-gray-500">
-              Macy's Mariner Link 22" Chain Necklace in 14k Gold-Plated Sterling
+              Macys Mariner Link 22 Chain Necklace in 14k Gold-Plated Sterling
               Silver
             </span>
           </p>
@@ -295,9 +295,9 @@ export default function OrderCardComponent(props: ShopProduct) {
           <p className="text-sm text-black">
             To be paid: &nbsp;
             <span className="text-gray-500">$1665.53</span>&nbsp;&nbsp;
-            <span className="text-red-500">
-              // Check whether the account balance is sufficient
-            </span>
+            {/* <span className="text-red-500">
+              Check whether the account balance is sufficient
+            </span> */}
           </p>
           <div className="w-full flex items-center justify-end gap-4">
             <IconButton

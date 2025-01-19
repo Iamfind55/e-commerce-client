@@ -24,7 +24,7 @@ export default function MemberOnly() {
             </p>
           </div>
           <div className="w-full p-6 flex items-center justify-center">
-            <h1 className="text-xl">Member's privilege</h1>
+            <h1 className="text-xl">Member privilege</h1>
           </div>
           <div className="w-full bg-neon_pink rounded-xl p-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div className="w-full flex items-center justify-center gap-4">

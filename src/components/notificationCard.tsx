@@ -103,7 +103,7 @@ export default function NotificationCard(props: cardProps) {
             <div className="w-full flex text-sm items-start justify-start gap-4 bg-gray-100 rounded-sm p-2">
               <p>Product name:</p>
               <p>
-                Versace Men's Swiss Chronograph Two Tone Stainless Steel
+                Versace Mens Swiss Chronograph Two Tone Stainless Steel
                 Bracelet Watch 45mm
               </p>
             </div>
