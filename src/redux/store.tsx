@@ -1,11 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
-import counterReducer from "./slice/counterSlice";
-import { Authslice } from "./slice/authSlice";
-import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
+import storage from "redux-persist/lib/storage";
+import { configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
+
 import cartReducer from "./slice/cartSlice";
+import { Authslice } from "./slice/authSlice";
+import counterReducer from "./slice/counterSlice";
+import customerAuthReducer from "./slice/customerAuthSlice";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +18,7 @@ const rootReducer = combineReducers({
   counter: counterReducer,
   auth: Authslice.reducer,
   cart: cartReducer,
+  customerAuth: customerAuthReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

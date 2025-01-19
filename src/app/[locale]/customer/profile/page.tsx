@@ -1,21 +1,43 @@
 "use client";
 
-import Breadcrumb from "@/components/breadCrumb";
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 
-import DefaultImage from "/public/images/default-image.webp";
-import Textfield from "@/components/textField";
-import Password from "@/components/passwordTextField";
-import IconButton from "@/components/iconButton";
+// components
 import Loading from "@/components/loading";
+import Textfield from "@/components/textField";
+import Breadcrumb from "@/components/breadCrumb";
+import IconButton from "@/components/iconButton";
+import Password from "@/components/passwordTextField";
+
+// images and icons
 import { SaveIcon } from "@/icons/page";
+import DefaultImage from "/public/images/default-image.webp";
+import { useSelector } from "react-redux";
+import { ICustomers } from "@/types/customer-auth";
 
 export default function ProfileManagement() {
   const [file, setFile] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview, setPreview] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
+
+  const { customer } = useSelector((state: any) => state.customerAuth);
+
+  const [profileData, setProfileData] = React.useState<ICustomers>({
+    id: "",
+    firstName: "",
+    lastName: "",
+    username: "",
+    password: "",
+    email: "",
+    phone_number: "",
+    dob: "",
+    image: "",
+    status: "",
+    created_at: "",
+  });
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -42,6 +64,23 @@ export default function ProfileManagement() {
     }
   };
 
+  React.useEffect(() => {
+    if (customer) {
+      setProfileData({
+        id: customer.id || null,
+        firstName: customer.firstName || null,
+        lastName: customer.lastName || null,
+        username: customer.username || null,
+        password: customer.password || null,
+        email: customer.email || null,
+        phone_number: customer.phone_number || null,
+        dob: customer.dob || null,
+        status: customer.status || null,
+        created_at: customer.created_at || null,
+      });
+    }
+  }, [customer]);
+
   return (
     <>
       <div className="w-full flex items-start justify-start flex-col gap-2">
@@ -51,11 +90,11 @@ export default function ProfileManagement() {
             { label: "Purchase history", value: "/purchase-history" },
           ]}
         />
-        <form
+        <div
           className="w-full flex items-start justify-start flex-col gap-4"
           //   onSubmit={handleSubmitForm}
         >
-          <div className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4">
+          <form className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4">
             <div className="w-2/4 flex items-start justify-start gap-4">
               <div>
                 {preview ? (
@@ -103,19 +142,34 @@ export default function ProfileManagement() {
 
             <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
               <Textfield
-                placeholder="Enter fullname...."
-                title="Fullname"
-                name="fullname"
-                id="fullname"
+                placeholder="Enter first name...."
+                title="First name"
+                name="firstName"
+                id="firstName"
                 type="text"
                 required
-                // value={shopData.fullname || ""}
-                // onChange={(e) =>
-                //   setShopData({
-                //     ...shopData,
-                //     fullname: e.target.value,
-                //   })
-                // }
+                value={profileData.firstName || ""}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    firstName: e.target.value,
+                  })
+                }
+              />
+              <Textfield
+                placeholder="Enter lastname...."
+                title="Last name"
+                name="lastName"
+                id="lastName"
+                type="text"
+                required
+                value={profileData.lastName || ""}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    lastName: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter phone number...."
@@ -124,13 +178,13 @@ export default function ProfileManagement() {
                 id="phone_number"
                 type="text"
                 required
-                // value={shopData.phone_number || ""}
-                // onChange={(e) =>
-                //   setShopData({
-                //     ...shopData,
-                //     phone_number: e.target.value,
-                //   })
-                // }
+                value={profileData.phone_number || ""}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    phone_number: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter your email...."
@@ -139,13 +193,13 @@ export default function ProfileManagement() {
                 id="email"
                 type="text"
                 required
-                // value={shopData.email || ""}
-                // onChange={(e) =>
-                //   setShopData({
-                //     ...shopData,
-                //     email: e.target.value,
-                //   })
-                // }
+                value={profileData.email || ""}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    email: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter your username...."
@@ -154,13 +208,13 @@ export default function ProfileManagement() {
                 id="username"
                 type="text"
                 required
-                // value={shopData.email || ""}
-                // onChange={(e) =>
-                //   setShopData({
-                //     ...shopData,
-                //     email: e.target.value,
-                //   })
-                // }
+                value={profileData.username || ""}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    username: e.target.value,
+                  })
+                }
               />
               <Password
                 placeholder="Enter password...."
@@ -168,13 +222,13 @@ export default function ProfileManagement() {
                 name="password"
                 id="password"
                 required
-                // value={shopData.password || ""}
-                // onChange={(e) =>
-                //   setShopData({
-                //     ...shopData,
-                //     password: e.target.value,
-                //   })
-                // }
+                value={profileData.password || ""}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    password: e.target.value,
+                  })
+                }
               />
               <Password
                 placeholder="Confirm password...."
@@ -182,18 +236,27 @@ export default function ProfileManagement() {
                 name="confirm_password"
                 id="confirm_password"
                 required
-                // value={shopData.password || ""}
-                // onChange={(e) =>
-                //   setShopData({
-                //     ...shopData,
-                //     password: e.target.value,
-                //   })
-                // }
+                value={profileData.password || ""}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    password: e.target.value,
+                  })
+                }
               />
             </div>
-          </div>
+            <div className="w-full flex items-end justify-end px-4 sm:px-0">
+              <IconButton
+                className={`w-full sm:w-auto rounded p-2 text-xs bg-neon_pink text-white`}
+                title={isLoading ? "Submiting...." : "Update profile"}
+                icon={isLoading ? <Loading /> : <SaveIcon size={18} />}
+                isFront={true}
+                type="submit"
+              />
+            </div>
+          </form>
 
-          <div className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4">
+          <form className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4">
             <div className="w-full border-b py-1">
               <p className="text-sm text-gray-500">Payment setting:</p>
             </div>
@@ -232,18 +295,18 @@ export default function ProfileManagement() {
                 type="text"
               />
             </div>
-          </div>
 
-          <div className="w-full flex items-end justify-end px-4 sm:px-0">
-            <IconButton
-              className={`w-full sm:w-auto rounded p-2 text-xs bg-neon_pink text-white`}
-              title={isLoading ? "Submiting...." : "Update profile"}
-              icon={isLoading ? <Loading /> : <SaveIcon size={18} />}
-              isFront={true}
-              type="submit"
-            />
-          </div>
-        </form>
+            <div className="w-full flex items-end justify-end px-4 sm:px-0">
+              <IconButton
+                className={`w-full sm:w-auto rounded p-2 text-xs bg-neon_pink text-white`}
+                title={isLoading ? "Submiting...." : "Update profile"}
+                icon={isLoading ? <Loading /> : <SaveIcon size={18} />}
+                isFront={true}
+                type="submit"
+              />
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

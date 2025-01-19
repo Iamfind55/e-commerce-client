@@ -55,3 +55,32 @@ export const MUTATION_CUSTOMER_LOGIN = gql`
     }
   }
 `;
+
+export const MUTATION_CUSTOMER_FORGOT_PASSWORD = gql`
+  mutation CustomerForgotPassword($email: String!) {
+    customerForgotPassword(email: $email) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
+
+export const MUTATION_CUSTOMER_RESET_PASSWORD = gql`
+  mutation CustomerResetPassword($data: ShopResetPasswordInput!) {
+    customerResetPassword(data: $data) {
+      success
+      data {
+        id
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

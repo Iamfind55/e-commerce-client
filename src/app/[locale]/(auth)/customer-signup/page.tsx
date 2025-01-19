@@ -84,7 +84,7 @@ export default function CustomerRegister() {
         dispatch(
           signIn({
             id: res.data.id || "",
-            firstName: res.data.firtName || "",
+            firstName: res.data.firstName || "",
             lastName: res.data.lastName || "",
             username: res.data.username || "",
             email: res.data.email || "",

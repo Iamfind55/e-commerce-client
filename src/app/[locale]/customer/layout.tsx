@@ -19,7 +19,6 @@ import {
   CircleUser,
   DashboardIcon,
   LogoutIcon,
-  NewsIcon,
   PurchaseIcon,
   WalletIcon,
 } from "@/icons/page";
@@ -45,8 +44,8 @@ export default function RootLayout({
   const activeClassName = "text-base";
   const inactiveClassName = "text-gray-500";
 
-  const { user } = useSelector((state: any) => state.auth);
-
+  const { customer } = useSelector((state: any) => state.customerAuth);
+  
   const menuItems: MenuItem[] = [
     {
       icon: <DashboardIcon size={16} />,
@@ -117,14 +116,16 @@ export default function RootLayout({
           <div className="w-1/4 hidden sm:flex flex-col gap-2 shadow rounded-md bg-white">
             <div className="w-full bg-neon_pink p-6 rounded-tr-md rounded-tl-md">
               <Image
-                src={user?.image?.logo ? user?.image?.logo : DafultImage}
+                src={customer?.image ? customer?.image : DafultImage}
                 alt="Logo"
                 width={80}
                 height={80}
                 className="rounded-full"
               />
-              <p className="text-sm text-white">{user?.fullname}</p>
-              <p className="text-xs text-white">{user?.email}</p>
+              <p className="text-sm text-white">
+                {customer?.firstName}&nbsp;{customer?.lastName}
+              </p>
+              <p className="text-xs text-white">{customer?.email}</p>
             </div>
             <div className="w-full flex items-start justify-start flex-col gap-2">
               {menuItems.map((item, index) => {

@@ -9,11 +9,11 @@ import { useMutation } from "@apollo/client";
 import { MUTATION_FORGOT_PASSWORD } from "@/api/auth";
 
 // components and untils
+import { BackIcon } from "@/icons/page";
 import { useToast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import Textfield from "@/components/textField";
 import IconButton from "@/components/iconButton";
-import { BackIcon, NextIcon, RefreshIcon } from "@/icons/page";
 import ForgotImage from "../../../../../public/images/forgot-password.svg";
 
 export default function ForgotPasword() {

@@ -1,25 +1,30 @@
 "use client";
 
 import React from "react";
-
-import { Link, useRouter } from "@/navigation";
-import { CircleUser, NextIcon } from "@/icons/page";
-import IconButton from "@/components/iconButton";
-import Textfield from "@/components/textField";
-import Password from "@/components/passwordTextField";
-import { useToast } from "@/utils/toast";
-import backgroundImage from "../../../../../public/images/background-image.png";
-import { ICustomerLogin } from "@/types/customer-auth";
-import { useMutation } from "@apollo/client";
-import { MUTATION_CUSTOMER_LOGIN } from "@/api/customer-auth";
-import { signIn } from "@/redux/slice/customerAuthSlice";
 import { useDispatch } from "react-redux";
+
+// components
+import Textfield from "@/components/textField";
+import IconButton from "@/components/iconButton";
+import { CircleUser, NextIcon } from "@/icons/page";
+import Password from "@/components/passwordTextField";
+import { signIn } from "@/redux/slice/customerAuthSlice";
+
+// utils, hooks and APIs
+import { useToast } from "@/utils/toast";
+import { useMutation } from "@apollo/client";
+import { Link, useRouter } from "@/navigation";
+import { ICustomerLogin } from "@/types/customer-auth";
+import { MUTATION_CUSTOMER_LOGIN } from "@/api/customer-auth";
+
+// images
+import backgroundImage from "../../../../../public/images/background-image.png";
 
 export default function CustomerLogin() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [customerLogin] = useMutation(MUTATION_CUSTOMER_LOGIN);
   const { successMessage, errorMessage } = useToast();
+  const [customerLogin] = useMutation(MUTATION_CUSTOMER_LOGIN);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [loginData, setLoginData] = React.useState<ICustomerLogin>({
     username: "",
@@ -65,7 +70,7 @@ export default function CustomerLogin() {
         dispatch(
           signIn({
             id: res.data.id || "",
-            firstName: res.data.firtName || "",
+            firstName: res.data.firstName || "",
             lastName: res.data.lastName || "",
             username: res.data.username || "",
             email: res.data.email || "",
@@ -79,6 +84,11 @@ export default function CustomerLogin() {
 
         document.cookie = `c_auth_token=${data?.customerLogin?.data?.token}; path=/; max-age=3600`;
         router.push("/customer");
+      } else {
+        errorMessage({
+          message: data?.customerLogin?.error?.details,
+          duration: 3000,
+        });
       }
     } catch (error) {
       errorMessage({
@@ -125,7 +135,7 @@ export default function CustomerLogin() {
               onChange={handleCustomerLogin}
             />
             <Link
-              href="/forgot-password"
+              href="/customer-forgot-password"
               className="flex items-center justify-end w-full mt-2"
             >
               <i className="text-xs text-b_text cursor-pointer hover:text-base hover:underline hover:text-xs">
