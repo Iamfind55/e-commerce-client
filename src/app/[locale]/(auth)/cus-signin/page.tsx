@@ -82,7 +82,7 @@ export default function CustomerLogin() {
           })
         );
 
-        document.cookie = `c_auth_token=${data?.customerLogin?.data?.token}; path=/; max-age=3600`;
+        document.cookie = `auth_token=${data?.customerLogin?.data?.token}; path=/; max-age=3600`;
         router.push("/customer");
       } else {
         errorMessage({

@@ -86,7 +86,7 @@ export default function PaymentDetails({ tab, setTab }: PaymentDetailsProps) {
           <div className="border-b">
             {cartItems?.map((product, index: number) => (
               <div
-                key={index + 1}
+                key={product?.id}
                 className="flex items-start justify-between gap-2 p-4"
               >
                 <div className="text-gray-500 flex items-start justify-start flex-col">
@@ -113,4 +113,3 @@ export default function PaymentDetails({ tab, setTab }: PaymentDetailsProps) {
     </div>
   );
 }
-

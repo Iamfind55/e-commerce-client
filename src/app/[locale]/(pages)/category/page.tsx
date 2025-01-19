@@ -95,21 +95,19 @@ export default function Category() {
             </div>
             <div className="w-full">
               <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
-                {categoryData?.getCategories?.data?.map(
-                  (val: Category, index: number) => (
-                    <li
-                      key={index + 1}
-                      className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
-                      onClick={() =>
-                        router.push(
-                          `/category/${val.id}?name=${val.name?.name_en}`
-                        )
-                      }
-                    >
-                      <span>{val?.name?.name_en}</span>
-                    </li>
-                  )
-                )}
+                {categoryData?.getCategories?.data?.map((val: Category) => (
+                  <li
+                    key={val?.id}
+                    className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
+                    onClick={() =>
+                      router.push(
+                        `/category/${val.id}?name=${val.name?.name_en}`
+                      )
+                    }
+                  >
+                    <span>{val?.name?.name_en}</span>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="w-full">
@@ -185,19 +183,17 @@ export default function Category() {
               </div>
             ) : (
               <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
-                {fetchProducts?.data?.map(
-                  (product: ProductData, index: number) => (
-                    <ProductCard
-                      key={index + 1}
-                      id={product.id}
-                      price={product.price}
-                      name={product.name}
-                      description={product.description}
-                      cover_image={product.cover_image}
-                      total_star={product.total_star}
-                    />
-                  )
-                )}
+                {fetchProducts?.data?.map((product: ProductData) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    price={product.price}
+                    name={product.name}
+                    description={product.description}
+                    cover_image={product.cover_image}
+                    total_star={product.total_star}
+                  />
+                ))}
               </div>
             )}
 
@@ -231,21 +227,17 @@ export default function Category() {
           </div>
           <div className="w-full">
             <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
-              {categoryData?.getCategories?.data?.map(
-                (val: Category, index: number) => (
-                  <li
-                    key={index + 1}
-                    className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
-                    onClick={() =>
-                      router.push(
-                        `/category/${val.id}?name=${val.name?.name_en}`
-                      )
-                    }
-                  >
-                    <span>{val?.name?.name_en}</span>
-                  </li>
-                )
-              )}
+              {categoryData?.getCategories?.data?.map((val: Category) => (
+                <li
+                  key={val.id}
+                  className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
+                  onClick={() =>
+                    router.push(`/category/${val.id}?name=${val.name?.name_en}`)
+                  }
+                >
+                  <span>{val?.name?.name_en}</span>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="w-full mb-6">

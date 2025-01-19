@@ -134,8 +134,8 @@ export default function ApplyProduct() {
           List of all products found:
         </p>
         <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
-          {fetchShopProduct?.data?.map((product, index) => (
-            <ShopProductCard key={index + 1} {...product} />
+          {fetchShopProduct?.data?.map((product) => (
+            <ShopProductCard key={product.id} {...product} />
           ))}
         </div>
 

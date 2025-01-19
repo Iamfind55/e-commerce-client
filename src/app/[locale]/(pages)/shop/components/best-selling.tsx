@@ -34,8 +34,8 @@ export default function ShopHomeComponent() {
               "Loading..."
             ) : fetchShopProducts?.total || 0 > 0 ? (
               <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
-                {fetchShopProducts?.data?.map((product, index) => (
-                  <ShopProductCard2 key={index + 1} {...product} />
+                {fetchShopProducts?.data?.map((product) => (
+                  <ShopProductCard2 key={product.id} {...product} />
                 ))}
               </div>
             ) : (

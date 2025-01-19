@@ -6,17 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 // components
 import { MinusIcon, PlusIcon, TrashIcon } from "@/icons/page";
-import { decreaseQuantity, increaseQuantity, removeFromCart } from "@/redux/slice/cartSlice";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+} from "@/redux/slice/cartSlice";
 
 // images
 import category01 from "/public/images/category01.webp";
-
 
 export default function MyCartDetails() {
   const t = useTranslations("myCartPage");
   const dispatch = useDispatch();
   const [subTotal, setSubTotal] = React.useState<number>(0);
-
 
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const handleRemoveFromCart = (id: string) => {
@@ -32,7 +34,10 @@ export default function MyCartDetails() {
   };
 
   React.useEffect(() => {
-    const total = cartItems.reduce((sum, product) => sum + (product.price * product.quantity), 0);
+    const total = cartItems.reduce(
+      (sum, product) => sum + product.price * product.quantity,
+      0
+    );
     setSubTotal(total);
   }, [cartItems]);
 
@@ -76,14 +81,18 @@ export default function MyCartDetails() {
                   <div className="flex items-start justify-start gap-4">
                     <Image
                       className="rounded"
-                      src={product?.cover_image ? product?.cover_image : category01}
+                      src={
+                        product?.cover_image ? product?.cover_image : category01
+                      }
                       alt={product.name}
                       width={60}
                       height={60}
                     />
                     <div className="flex items-start justify-start flex-col">
                       <p className="text-xs">{product.name}</p>
-                      <p className="text-xs">({product.in_stock} Available in stock)</p>
+                      <p className="text-xs">
+                        ({product.in_stock} Available in stock)
+                      </p>
                     </div>
                   </div>
                 </td>
@@ -105,7 +114,9 @@ export default function MyCartDetails() {
                     </button>
                   </div>
                 </td>
-                <td className="text-xs">${(product.quantity * product?.price).toFixed(2)}</td>
+                <td className="text-xs">
+                  ${(product.quantity * product?.price).toFixed(2)}
+                </td>
                 <td className="pl-2 py-4 flex items-center justify-center">
                   <TrashIcon
                     size={18}
@@ -129,9 +140,9 @@ export default function MyCartDetails() {
         </table>
       </div>
       <div className="block sm:hidden">
-        {cartItems?.map((val, index: number) => (
+        {cartItems?.map((val) => (
           <div
-            key={index + 1}
+            key={val?.id}
             className="w-full flex items-start justify-start flex-col gap-2 border-b pb-2 my-2"
           >
             <div className="w-full flex items-start justify-start gap-4">
@@ -168,7 +179,9 @@ export default function MyCartDetails() {
             <div className="w-full flex items-center justify-between">
               <div className="flex items-start justify-start">
                 <p className="text-xs text-gray-500">{t("_sub_total")}: </p>
-                <p className="text-sm">&nbsp;&nbsp;${(val?.price * val?.quantity).toFixed(2)}</p>
+                <p className="text-sm">
+                  &nbsp;&nbsp;${(val?.price * val?.quantity).toFixed(2)}
+                </p>
               </div>
               <div className="flex items-center justify-start gap-6 rounded py-2 px-4">
                 <button

@@ -112,9 +112,9 @@ export default function Shop() {
               </div>
             ) : fetchProducts?.total ?? 0 > 0 ? (
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-2 sm:mx-0 mx-2">
-                {fetchProducts?.data?.map((shop, index) => (
+                {fetchProducts?.data?.map((shop) => (
                   <div
-                    key={index + 1}
+                    key={shop.id}
                     className="flex items-center justify-center"
                   >
                     <ShopCard {...shop} />

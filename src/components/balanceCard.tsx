@@ -31,7 +31,7 @@ export default function BalanceCard({ refresh }: BalanceCardProps) {
         return (
           <div
             className="w-full rounded flex items-center justify-between border py-2 px-3"
-            key={index + 1}
+            key={row.id}
           >
             <div className="flex items-start justify-center gap-2">
               {row?.type === "withdraw" ? (

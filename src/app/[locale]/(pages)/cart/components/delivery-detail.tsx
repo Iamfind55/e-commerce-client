@@ -16,9 +16,9 @@ export default function DeliveryDetails() {
       <div className="flex items-center justify-center flex-col gap-2">
         <div className="container w-full border-b">
           <h1 className="border-b py-2">{t("_product_list")}:</h1>
-          {cartItems?.map((product, index: number) => (
+          {cartItems?.map((product) => (
             <div
-              key={index + 1}
+              key={product?.id}
               className="flex items-start justify-start gap-2 p-4"
             >
               <Image

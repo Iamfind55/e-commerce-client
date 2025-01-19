@@ -216,9 +216,9 @@ export default function VIPProductCard({
                 Categories
               </label>
               <div className="flex items-start justify-start gap-6">
-                {productData?.category_ids?.map((val, index) => (
+                {productData?.category_ids?.map((val) => (
                   <span
-                    key={index + 1}
+                    key={val}
                     className="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded-md"
                   >
                     {val}
@@ -383,7 +383,7 @@ export default function VIPProductCard({
                     </thead>
                     <tbody>
                       {productData?.images?.map((value, index) => (
-                        <tr className="bg-white border" key={index + 1}>
+                        <tr className="bg-white border" key={value + 1}>
                           <th
                             scope="row"
                             className="px-6 py-4 whitespace-nowrap border"

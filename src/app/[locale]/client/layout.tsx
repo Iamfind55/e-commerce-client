@@ -399,8 +399,8 @@ export default function RootLayout({
               const isActive = pathname === item.route;
               return (
                 <Link
-                  href={item?.route}
                   key={index + 1}
+                  href={item?.route}
                   className={`flex flex-col items-center cursor-pointer ${
                     isActive ? activeClassName : inactiveClassName
                   }`}

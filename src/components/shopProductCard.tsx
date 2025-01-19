@@ -171,9 +171,9 @@ export default function ShopProductCard(props: ShopProduct) {
                 Categories
               </label>
               <div className="flex items-start justify-start gap-6">
-                {productData?.categories?.map((val, index) => (
+                {productData?.categories?.map((val) => (
                   <span
-                    key={index + 1}
+                    key={val.id}
                     className="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded-md"
                   >
                     {val.name.name_en}
@@ -337,8 +337,8 @@ export default function ShopProductCard(props: ShopProduct) {
                       </tr>
                     </thead>
                     <tbody>
-                      {productData?.images?.map((value, index) => (
-                        <tr className="bg-white border" key={index + 1}>
+                      {productData?.images?.map((value) => (
+                        <tr className="bg-white border" key={value}>
                           <th
                             scope="row"
                             className="px-6 py-4 whitespace-nowrap border"

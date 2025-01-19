@@ -165,7 +165,7 @@ export default function PurchaseHistory() {
           <div className="block sm:hidden">
             {cartItems?.map((val, index: number) => (
               <div
-                key={index + 1}
+                key={val.id}
                 className="w-full flex items-start justify-start flex-col gap-2 border rounded p-2 my-2"
               >
                 <div className="w-full flex items-start justify-start gap-4">

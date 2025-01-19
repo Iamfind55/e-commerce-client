@@ -90,9 +90,9 @@ export default function Notifications() {
             List of all notifications:
           </p>
           <div className="w-full h-auto grid grid-cols-1 gap-2 sm:gap-4 lg:grid-cols-4">
-            {fetchShopProduct?.data?.map((product, index) => (
+            {fetchShopProduct?.data?.map((product) => (
               <NotificationCard
-                key={index + 1}
+                key={product.id}
                 title="User pays orders"
                 status="Unread"
                 detail="Order completion payment"

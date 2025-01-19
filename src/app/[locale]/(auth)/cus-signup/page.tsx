@@ -96,7 +96,7 @@ export default function CustomerRegister() {
           })
         );
 
-        document.cookie = `c_auth_token=${data?.customerRegister?.data?.token}; path=/; max-age=3600`;
+        document.cookie = `auth_token=${data?.customerRegister?.data?.token}; path=/; max-age=3600`;
         router.push("/customer");
       } else {
         errorMessage({

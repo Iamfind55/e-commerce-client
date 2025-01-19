@@ -144,9 +144,9 @@ export default function ShippingInformation() {
   return (
     <>
       <div className="w-full grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {addressData.map((row, index: number) => (
+        {addressData.map((row) => (
           <div
-            key={index + 1}
+            key={row?.id}
             className="relative border rounded border-dotted p-4 h-62 flex items-start justify-center flex-col gap-1 text-gray-400"
           >
             <input

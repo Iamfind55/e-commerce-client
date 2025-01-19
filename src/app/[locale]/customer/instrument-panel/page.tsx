@@ -176,8 +176,8 @@ export default function InstrumentPanel() {
           ]}
         />
         <div className="w-full flex items-start justify-between gap-4 mt-4">
-          {reportItems.map((item, index) => (
-            <CustomerReportCard key={index + 1} {...item} />
+          {reportItems.map((item) => (
+            <CustomerReportCard key={item.detail} {...item} />
           ))}
         </div>
         <div className="bg-white w-full flex items-start justify-start flex-col gap-4 mt-4 p-4 rounded">
@@ -185,9 +185,9 @@ export default function InstrumentPanel() {
             Set default shipping address:
           </p>
           <div className="w-full grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {addressData.map((row, index: number) => (
+            {addressData.map((row) => (
               <div
-                key={index + 1}
+                key={row.id}
                 className={`relative border rounded ${
                   row.isDefault && "border-neon_pink bg-red-100"
                 } p-4 h-62 flex items-start justify-center flex-col gap-1 text-gray-400`}

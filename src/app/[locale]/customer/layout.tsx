@@ -45,7 +45,7 @@ export default function RootLayout({
   const inactiveClassName = "text-gray-500";
 
   const { customer } = useSelector((state: any) => state.customerAuth);
-  
+
   const menuItems: MenuItem[] = [
     {
       icon: <DashboardIcon size={16} />,
@@ -170,12 +170,12 @@ export default function RootLayout({
       <div className="block sm:hidden sticky bottom-0 z-10 bg-white">
         <div className="bg-white pt-4 pb-4 block lg:hidden w-full">
           <div className="w-full flex items-center justify-around">
-            {mobileMenuItems.map((item, index) => {
+            {mobileMenuItems.map((item) => {
               const isActive = pathname === item.route;
               return (
                 <Link
                   href={item?.route}
-                  key={index + 1}
+                  key={item.route + 1}
                   className={`flex flex-col items-center cursor-pointer ${
                     isActive ? activeClassName : inactiveClassName
                   }`}

@@ -245,7 +245,7 @@ export default function ProductDetails() {
                 {similarProductData?.getSimilarProducts?.data?.map(
                   (product: ProductData, index: number) => (
                     <ProductCard
-                      key={index + 1}
+                      key={product.id}
                       id={product.id}
                       price={product.price}
                       name={product.name}
@@ -276,9 +276,9 @@ export default function ProductDetails() {
             <div className="w-full flex items-start justify-start gap-2 flex-col p-2">
               <h1 className="w-full border-b pb-2">Best selling products:</h1>
               {bestSellProductData?.getBestSellingProducts?.data?.map(
-                (product, index: number) => (
+                (product) => (
                   <div
-                    key={index + 1}
+                    key={product.id}
                     className="w-full flex items-start justify-start gap-2 cursor-pointer py-2 rounded hover:bg-gray-200"
                   >
                     <Image

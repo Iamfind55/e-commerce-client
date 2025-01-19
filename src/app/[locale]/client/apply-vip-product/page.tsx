@@ -174,9 +174,9 @@ export default function ApplyVIPProduct() {
             <div>
               {fetchProduct?.total ?? 0 < 1 ? (
                 <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
-                  {fetchProduct?.data?.map((product, index: number) => (
+                  {fetchProduct?.data?.map((product) => (
                     <VIPProductCard
-                      key={index + 1}
+                      key={product.id}
                       {...product}
                       selectedIds={selectedIds}
                       handleCheckboxChange={handleCheckboxChange}

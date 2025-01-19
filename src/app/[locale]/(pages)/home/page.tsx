@@ -140,10 +140,10 @@ export default function Home() {
               {t("_categories")}:
             </p>
             <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
-              {categoryData?.getCategories?.data.map((image, index) => (
+              {categoryData?.getCategories?.data.map((image) => (
                 <Link
                   href={`/category/${image.id}?name=${image.name?.name_en}`}
-                  key={index + 1}
+                  key={image.id}
                 >
                   <Image
                     className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
@@ -162,9 +162,9 @@ export default function Home() {
             </p>
             <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-6">
               {bestSellProduct?.getBestSellingProducts?.data?.map(
-                (product: ProductData, index: number) => (
+                (product: ProductData) => (
                   <ProductCard
-                    key={index + 1}
+                    key={product.id}
                     id={product.id}
                     price={product.price}
                     name={product.name}
@@ -180,9 +180,9 @@ export default function Home() {
             {bannersByPosition["2"] &&
               bannersByPosition["2"]
                 .slice(0, 2) // Limit to the first 2 images
-                .map((image, index) => (
+                .map((image) => (
                   <Image
-                    key={index + 1}
+                    key={image.id}
                     className="w-full h-full rounded-md cursor-pointer"
                     src={image.image || ""}
                     alt={image.name}
@@ -206,7 +206,7 @@ export default function Home() {
               {popularProduct?.getProducts?.data?.map(
                 (product: ProductData, index: number) => (
                   <ProductCard
-                    key={index + 1}
+                    key={product.id}
                     id={product.id}
                     price={product.price}
                     name={product.name}
@@ -222,9 +222,9 @@ export default function Home() {
             {bannersByPosition["3"] &&
               bannersByPosition["3"]
                 .slice(0, 2)
-                .map((image, index) => (
+                .map((image) => (
                   <Image
-                    key={index + 1}
+                    key={image.id}
                     className="w-full h-full rounded-md cursor-pointer"
                     src={image.image || ""}
                     alt={image.name}
@@ -257,7 +257,7 @@ export default function Home() {
               {productData?.getProducts?.data?.map(
                 (product: ProductData, index: number) => (
                   <ProductCard
-                    key={index + 1}
+                    key={product.id}
                     id={product.id}
                     price={product.price}
                     name={product.name}
@@ -273,9 +273,9 @@ export default function Home() {
             {bannersByPosition["4"] &&
               bannersByPosition["4"]
                 .slice(0, 2) // Limit to the first 2 images
-                .map((image, index) => (
+                .map((image) => (
                   <Image
-                    key={index + 1}
+                    key={image.id}
                     className="w-full h-full rounded-md cursor-pointer"
                     src={image.image || ""}
                     alt={image.name}

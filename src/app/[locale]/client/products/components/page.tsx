@@ -82,8 +82,8 @@ export default function ProductListDetail() {
       <div>
         <p className="text-gray-500 text-sm mt-4 mb-2">List of all products:</p>
         <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
-          {fetchShopProduct?.data?.map((product, index) => (
-            <ShopProductCard key={index + 1} {...product} />
+          {fetchShopProduct?.data?.map((product) => (
+            <ShopProductCard key={product.id} {...product} />
           ))}
         </div>
         <div className="w-full flex items-end justify-end mb-4">
