@@ -35,9 +35,9 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/**',
       }
-
     ],
   },
+  output: 'export',
 };
 export default withNextIntl(nextConfig);
 
