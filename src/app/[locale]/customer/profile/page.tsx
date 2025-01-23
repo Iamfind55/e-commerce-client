@@ -178,6 +178,7 @@ export default function ProfileManagement() {
 
   const handleSubmitPayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const paymentMethods = [usdtPaymentData, bankPaymentData];
 
@@ -228,6 +229,8 @@ export default function ProfileManagement() {
         message: "Unexpected error! Try again later!",
         duration: 3000,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -525,7 +528,7 @@ export default function ProfileManagement() {
             <div className="w-full flex items-end justify-end px-4 sm:px-0">
               <IconButton
                 className={`w-full sm:w-auto rounded p-2 text-xs bg-neon_pink text-white`}
-                title={isLoading ? "Submiting...." : "Update profile"}
+                title={isLoading ? "Submiting...." : "Update"}
                 icon={isLoading ? <Loading /> : <SaveIcon size={18} />}
                 isFront={true}
                 type="submit"

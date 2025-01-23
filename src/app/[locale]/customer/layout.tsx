@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import React, { ReactNode } from "react";
-import { logout } from "@/redux/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
+import { signOut } from "@/redux/slice/customerAuthSlice";
 
 // components
 import "../globals.css";
@@ -104,8 +104,8 @@ export default function RootLayout({
 
   const handleLogout = async () => {
     Cookies.remove("auth_token");
-    dispatch(logout());
-    router.push("/signin");
+    dispatch(signOut());
+    router.push("/cus-signin");
   };
 
   return (

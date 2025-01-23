@@ -110,7 +110,7 @@ export default function CustomerLogin() {
         }}
         className="h-screen bg-bg_color flex items-center justify-center"
       >
-        <div className="rounded text-gray-500 w-11/12 sm:w-1/4 bg-white flex items-center justify-center flex-col gap-2 py-6">
+        <div className="rounded text-gray-500 w-11/12 sm:w-2/5 bg-white flex items-center justify-center flex-col gap-2 py-6">
           <CircleUser size={32} />
           <div className="flex items-center justify-center flex-col">
             <p className="text-lg">WELCOME</p>
