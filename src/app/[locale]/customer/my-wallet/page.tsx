@@ -18,6 +18,9 @@ import Image from "next/image";
 import { QRCodeCanvas } from "qrcode.react";
 import React, { ReactNode } from "react";
 import TransactionHistory from "./transaction-history/page";
+import { useLazyQuery } from "@apollo/client";
+import { QUERY_WALLET_INFO } from "@/api/wallet";
+import { GetWalletResponse } from "@/types/wallet";
 
 type ReportItem = {
   title: string;
@@ -78,20 +81,39 @@ export default function CustomerWallet() {
     }
   };
 
-  const reportItems: ReportItem[] = [
+  const [getWallet, { data, loading }] = useLazyQuery<GetWalletResponse>(
+    QUERY_WALLET_INFO,
     {
-      title: "Frozen Balance",
-      amount: "$7,000",
-      percent: 3,
-      icon: <LockIcon size={38} className="text-neon_pink" />,
-    },
-    {
-      title: "Total Balance",
-      amount: "$320",
-      percent: 12,
-      icon: <WithdrawIcon size={38} className="text-green-500" />,
-    },
-  ];
+      fetchPolicy: "no-cache",
+    }
+  );
+
+  React.useEffect(() => {
+    getWallet();
+  }, [getWallet]);
+
+  // Map data to report items
+  const reportItems = React.useMemo(() => {
+    const totalBalance = data?.getShopWallet?.data?.total_balance || 0;
+    const totalFrozenBalance =
+      data?.getShopWallet?.data?.total_frozen_balance || 0;
+
+    return [
+      {
+        title: "Frozen Balance",
+        amount: `$${totalFrozenBalance}`,
+        percent: 3,
+        icon: <LockIcon size={38} className="text-neon_pink" />,
+      },
+      {
+        title: "Total Balance",
+        amount: `$${totalBalance}`,
+        percent: 12,
+        icon: <WithdrawIcon size={38} className="text-green-500" />,
+      },
+    ];
+  }, [data]);
+
   return (
     <>
       <Breadcrumb
@@ -101,32 +123,38 @@ export default function CustomerWallet() {
         ]}
       />
       <div className="mt-2 rounded flex items-start justify-start flex-col gap-2 py-4 text-gray-500">
-        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 px-4 sm:px-0">
-          {reportItems.map((item, index) => (
-            <WalletCard
-              key={index}
-              title={item.title}
-              amount={item.amount}
-              percent={item.percent}
-              icon={item.icon}
-            />
-          ))}
-          <div
-            onClick={() => handleOpenModal()}
-            className="w-auto bg-white p-4 rounded-md flex items-start justify-start flex-col select-none gap-1 sm:gap-2 hover:cursor-pointer group shadow transition-all duration-300"
-          >
-            <div className="py-0 sm:py-4 px-2 w-full flex items-center justify-start flex-col gap-1 sm:gap-4">
-              <div className="rounded-full transition-all duration-300">
-                <PlusIcon size={22} />
-              </div>
-              <div className="flex items-start justify-start flex-col gap-2">
-                <p className="text-md font-medium text-gray-500">
-                  Offline wallet recharge
-                </p>
+        {loading ? (
+          <p className="text-gray-500 text-center">
+            Loading wallet information...
+          </p>
+        ) : (
+          <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 px-4 sm:px-0">
+            {reportItems.map((item, index) => (
+              <WalletCard
+                key={index}
+                title={item.title}
+                amount={item.amount}
+                percent={item.percent}
+                icon={item.icon}
+              />
+            ))}
+            <div
+              onClick={() => handleOpenModal()}
+              className="w-auto bg-white p-4 rounded-md flex items-start justify-start flex-col select-none gap-1 sm:gap-2 hover:cursor-pointer group shadow transition-all duration-300"
+            >
+              <div className="py-0 sm:py-4 px-2 w-full flex items-center justify-start flex-col gap-1 sm:gap-4">
+                <div className="rounded-full transition-all duration-300">
+                  <PlusIcon size={22} />
+                </div>
+                <div className="flex items-start justify-start flex-col gap-2">
+                  <p className="text-md font-medium text-gray-500">
+                    Offline wallet recharge
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <TransactionHistory />
       </div>
 
@@ -219,6 +247,7 @@ export default function CustomerWallet() {
                 required
                 color="text-gray-500"
                 value={transactionId ?? ""}
+                readOnly
                 // onChange={(e) => setEmail(e.target.value)}
               />
             </div>

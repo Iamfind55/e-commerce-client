@@ -27,7 +27,7 @@ const Select = ({
         value={value}
         onChange={onChange}
         required={required}
-        className={`-mt-2 text-xs rounded w-full border pr-[100px] focus:border-b_text  focus:bg-white focus:ring-1 focus:ring-base text-b_text outline-none text-dark py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-rubik ${className}`}
+        className={`-mt-2 text-xs rounded w-full border pr-[100px] focus:border-b_text focus:bg-white focus:ring-1 focus:ring-base text-b_text outline-none text-dark py-1 px-3 leading-8 transition-colors duration-200 ease-in-out font-rubik ${className} h-8`}
       >
         {option.map((option: any) => (
           <option key={option.value} value={option.value}>

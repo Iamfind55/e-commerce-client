@@ -22,3 +22,16 @@ export const MUTATION_UPDATE_CUSTOMER_PROFILE = gql`
     }
   }
 `;
+
+export const MUTATION_UPDATE_PAYMENT_METHOD = gql`
+  mutation UpdateCustomerInformation($data: UpdateCustomerInformationInput!) {
+    updateCustomerInformation(data: $data) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

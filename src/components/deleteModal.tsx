@@ -50,17 +50,15 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }: Props) => {
                 className="absolute right-0 top-3 end-2.5 text-neon_pink bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center p-2"
                 onClick={onClose}
               >
-                <CancelIcon size={24} className="text-neon_pink" />
+                {/* <CancelIcon size={24} className="text-neon_pink" /> */}
                 <span className="sr-only">Close modal</span>
               </button>
               <div className="px-6 py-4 md:p-5 flex items-center justify-center flex-col gap-4">
-                <div className="mx-auto mb-4 text-error w-12 h-12">
-                  <div className="text-secondary ">
-                    <WarningIcon className="rounded" size={24} />
-                  </div>
-                </div>
-                <h3 className="mb-5 text-md font-normal text-gray-500">
-                  Are you sure you want to delete these items?
+                <h3 className="mt-5 text-lg font-normal text-gray-500">
+                  Are you sure you want to delete this item?
+                </h3>
+                <h3 className="mb-2 text-xs text-gray-500">
+                  Note: Any deleted files or folders will not restore again!.
                 </h3>
                 <div className="flex items-center justify-center gap-4">
                   <button

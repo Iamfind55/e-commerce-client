@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@apollo/client";
 
 // components
@@ -14,14 +14,21 @@ import Password from "@/components/passwordTextField";
 
 // utils
 import { useToast } from "@/utils/toast";
+import { signIn } from "@/redux/slice/customerAuthSlice";
 
 // images and icons
 import { SaveIcon } from "@/icons/page";
-import { ICustomers } from "@/types/customer-auth";
 import DefaultImage from "/public/images/default-image.webp";
-import { MUTATION_UPDATE_CUSTOMER_PROFILE } from "@/api/customer";
+import { ICustomers, IPaymentMethod } from "@/types/customer-auth";
+
+// APIs
+import {
+  MUTATION_UPDATE_CUSTOMER_PROFILE,
+  MUTATION_UPDATE_PAYMENT_METHOD,
+} from "@/api/customer";
 
 export default function ProfileManagement() {
+  const dispatch = useDispatch();
   const { errorMessage, successMessage } = useToast();
   const [file, setFile] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -29,6 +36,15 @@ export default function ProfileManagement() {
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const { customer } = useSelector((state: any) => state.customerAuth);
   const [customerProfile] = useMutation(MUTATION_UPDATE_CUSTOMER_PROFILE);
+  const [paymentMethod] = useMutation(MUTATION_UPDATE_PAYMENT_METHOD);
+
+  const [paymentData, setPaymentData] = React.useState<IPaymentMethod>({
+    id: "",
+    code: "",
+    bank_name: "",
+    bank_account_name: "",
+    bank_account_number: "",
+  });
 
   const [profileData, setProfileData] = React.useState<ICustomers>({
     id: "",
@@ -73,6 +89,7 @@ export default function ProfileManagement() {
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+
     if (!file) {
       setErrorMessages("No file selected.");
       setIsLoading(false);
@@ -85,6 +102,7 @@ export default function ProfileManagement() {
       "upload_preset",
       process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
     );
+
     try {
       const response = await fetch(
         process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
@@ -96,11 +114,9 @@ export default function ProfileManagement() {
       const data = await response.json();
 
       if (data.secure_url) {
-        console.log("Image uploaded:", data.secure_url);
         const res = await customerProfile({
           variables: {
             data: {
-              id: profileData.id,
               image: data.secure_url ?? "",
               firstName: profileData.firstName,
               lastName: profileData.lastName,
@@ -113,24 +129,71 @@ export default function ProfileManagement() {
           },
         });
 
-        console.log("Response:", res);
+        const result = res?.data?.updateCustomerInformation;
+        if (result?.success) {
+          const updatedData = result?.data || {};
+          successMessage({
+            message: "Update shop profile successful!",
+            duration: 3000,
+          });
 
-        // if (res.updateCustomerInformation.success) {
-        //   successMessage({
-        //     message: "Update shop profile successful!",
-        //     duration: 3000,
-        //   });
-        // } else {
-        //    errorMessage({
-        //      message: res.updateCustomerInformation.error.details,
-        //      duration: 3000,
-        //    });
-        // }
+          dispatch(
+            signIn({
+              ...updatedData,
+              created_at: updatedData.created || "",
+            })
+          );
+        } else {
+          errorMessage({
+            message: result?.error?.details || "An error occurred",
+            duration: 3000,
+          });
+        }
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      errorMessage({
+        message: "Failed to update profile. Please try again.",
+        duration: 3000,
+      });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleSubmitPayment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await paymentMethod({
+        variables: {
+          data: {
+            payment_method: [
+              {
+                code: paymentData.code,
+                bank_name: paymentData.bank_name,
+                bank_account_name: paymentData.bank_account_name,
+                bank_account_number: paymentData.bank_account_number,
+              },
+            ],
+          },
+        },
+      });
+
+      if (res?.data?.updateCustomerInformation?.success) {
+        successMessage({
+          message: "Update payment method success",
+          duration: 3000,
+        });
+      } else {
+        errorMessage({
+          message: res?.data?.updateCustomerInformation?.error?.details,
+          duration: 3000,
+        });
+      }
+    } catch (err) {
+      errorMessage({
+        message: "Unexpected error! try again later!",
+        duration: 3000,
+      });
     }
   };
 
@@ -150,6 +213,8 @@ export default function ProfileManagement() {
       });
     }
   }, [customer]);
+
+  console.log(profileData.image);
 
   return (
     <>
@@ -334,7 +399,10 @@ export default function ProfileManagement() {
             </div>
           </form>
 
-          <form className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4">
+          <form
+            onSubmit={handleSubmitPayment}
+            className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4"
+          >
             <div className="w-full border-b py-1">
               <p className="text-sm text-gray-500">Payment setting:</p>
             </div>
@@ -346,6 +414,13 @@ export default function ProfileManagement() {
                 name="wallet_address"
                 id="wallet_address"
                 type="text"
+                value={paymentData.code || ""}
+                onChange={(e) =>
+                  setPaymentData({
+                    ...paymentData,
+                    code: e.target.value,
+                  })
+                }
               />
             </div>
 
@@ -357,6 +432,13 @@ export default function ProfileManagement() {
                 name="bank_name"
                 id="bank_name"
                 type="text"
+                value={paymentData.bank_name || ""}
+                onChange={(e) =>
+                  setPaymentData({
+                    ...paymentData,
+                    bank_name: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter back account name...."
@@ -364,6 +446,13 @@ export default function ProfileManagement() {
                 name="bank_account_name"
                 id="bank_account_name"
                 type="text"
+                value={paymentData.bank_account_name || ""}
+                onChange={(e) =>
+                  setPaymentData({
+                    ...paymentData,
+                    bank_account_name: e.target.value,
+                  })
+                }
               />
               <Textfield
                 placeholder="Enter bank account number...."
@@ -371,6 +460,13 @@ export default function ProfileManagement() {
                 name="bank_account_number"
                 id="bank_account_number"
                 type="text"
+                value={paymentData.bank_account_number || ""}
+                onChange={(e) =>
+                  setPaymentData({
+                    ...paymentData,
+                    bank_account_number: e.target.value,
+                  })
+                }
               />
             </div>
 

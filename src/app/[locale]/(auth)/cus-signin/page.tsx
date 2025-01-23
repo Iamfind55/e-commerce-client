@@ -86,7 +86,7 @@ export default function CustomerLogin() {
         router.push("/customer");
       } else {
         errorMessage({
-          message: data?.customerLogin?.error?.details,
+          message: data?.customerLogin?.error?.message,
           duration: 3000,
         });
       }

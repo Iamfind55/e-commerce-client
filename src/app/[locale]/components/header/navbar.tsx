@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { IoLogInOutline } from "react-icons/io5";
 import { Link, usePathname } from "@/navigation";
@@ -10,6 +11,7 @@ import { Link, usePathname } from "@/navigation";
 import {
   ArrowDownIcon,
   CartIcon,
+  DashboardIcon,
   LanguageIcon,
   MenuIcon,
   ProductIcon,
@@ -31,6 +33,7 @@ import { RootState } from "@/redux/store";
 export default function Navbar() {
   const pathname = usePathname();
   const t = useTranslations("homePage");
+  const token = Cookies.get("auth_token");
   const headerRef = React.useRef<HTMLDivElement>(null);
   const [isSticky, setIsSticky] = React.useState(false);
   const [originalOffset, setOriginalOffset] = React.useState(0);
@@ -225,15 +228,28 @@ export default function Navbar() {
                 </div>
               </div>
             </DropdownComponent>
-            <div className="hidden md:block">
-              <Link
-                href="/customer-signin"
-                className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
-              >
-                <IoLogInOutline size={16} />
-                &nbsp;{t("_login_button")}
-              </Link>
-            </div>
+            {token ? (
+              <div className="hidden md:block">
+                <Link
+                  href="/customer"
+                  className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
+                >
+                  <DashboardIcon size={12} />
+                  &nbsp;Dashboard
+                </Link>
+              </div>
+            ) : (
+              <div className="hidden md:block">
+                <Link
+                  href="/cus-signin"
+                  className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
+                >
+                  <IoLogInOutline size={16} />
+                  &nbsp;{t("_login_button")}
+                </Link>
+              </div>
+            )}
+
             <div className="hidden md:block relative">
               <Link
                 href="/cart"

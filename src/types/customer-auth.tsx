@@ -27,3 +27,11 @@ export interface ICustomers {
   status: string;
   created_at?: string;
 }
+
+export interface IPaymentMethod {
+  id: string;
+  code: string;
+  bank_name?: string;
+  bank_account_name: string;
+  bank_account_number: string;
+}
