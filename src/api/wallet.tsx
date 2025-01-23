@@ -24,3 +24,25 @@ export const QUERY_WALLET_INFO = gql`
     }
   }
 `;
+
+export const QUERY_WALLET_CUSTOMER = gql`
+  query GetCustomerInformation {
+    getCustomerInformation {
+      success
+      data {
+        payment_method {
+          id
+          bank_name
+          code
+          bank_account_name
+          bank_account_number
+        }
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

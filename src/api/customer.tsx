@@ -35,3 +35,25 @@ export const MUTATION_UPDATE_PAYMENT_METHOD = gql`
     }
   }
 `;
+
+export const QUERY_CUSTOMER_PAYMENT_METHOD = gql`
+  query GetCustomerInformation {
+    getCustomerInformation {
+      success
+      data {
+        payment_method {
+          id
+          bank_name
+          code
+          bank_account_name
+          bank_account_number
+        }
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

@@ -19,7 +19,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import React, { ReactNode } from "react";
 import TransactionHistory from "./transaction-history/page";
 import { useLazyQuery } from "@apollo/client";
-import { QUERY_WALLET_INFO } from "@/api/wallet";
+import { QUERY_WALLET_CUSTOMER } from "@/api/wallet";
 import { GetWalletResponse } from "@/types/wallet";
 
 type ReportItem = {
@@ -82,7 +82,7 @@ export default function CustomerWallet() {
   };
 
   const [getWallet, { data, loading }] = useLazyQuery<GetWalletResponse>(
-    QUERY_WALLET_INFO,
+    QUERY_WALLET_CUSTOMER,
     {
       fetchPolicy: "no-cache",
     }
@@ -113,6 +113,8 @@ export default function CustomerWallet() {
       },
     ];
   }, [data]);
+
+  console.log("Wallet:", data);
 
   return (
     <>
@@ -218,7 +220,7 @@ export default function CustomerWallet() {
                   </div>
                 </div>
               </div>
-              <div className="w-full flex items-start justify-between gap-4">
+              <div className="w-full flex items-center justify-between gap-4">
                 <p className="text-sm w-auto">Amount:</p>
                 <div className="w-full flex items-center justify-start gap-6 border rounded py-2 px-4">
                   <button

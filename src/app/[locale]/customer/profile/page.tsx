@@ -2,8 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation } from "@apollo/client";
 
 // components
 import Loading from "@/components/loading";
@@ -25,7 +25,13 @@ import { ICustomers, IPaymentMethod } from "@/types/customer-auth";
 import {
   MUTATION_UPDATE_CUSTOMER_PROFILE,
   MUTATION_UPDATE_PAYMENT_METHOD,
+  QUERY_CUSTOMER_PAYMENT_METHOD,
 } from "@/api/customer";
+import { GetPaymentResponse } from "@/types/paymentMethod";
+
+interface CloudinaryResponse {
+  secure_url?: string;
+}
 
 export default function ProfileManagement() {
   const dispatch = useDispatch();
@@ -34,11 +40,20 @@ export default function ProfileManagement() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview, setPreview] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
+
   const { customer } = useSelector((state: any) => state.customerAuth);
   const [customerProfile] = useMutation(MUTATION_UPDATE_CUSTOMER_PROFILE);
   const [paymentMethod] = useMutation(MUTATION_UPDATE_PAYMENT_METHOD);
 
-  const [paymentData, setPaymentData] = React.useState<IPaymentMethod>({
+  const [usdtPaymentData, setUsdtPaymentData] = React.useState<IPaymentMethod>({
+    id: "",
+    code: "",
+    bank_name: "",
+    bank_account_name: "",
+    bank_account_number: "",
+  });
+
+  const [bankPaymentData, setBankPaymentData] = React.useState<IPaymentMethod>({
     id: "",
     code: "",
     bank_name: "",
@@ -59,6 +74,11 @@ export default function ProfileManagement() {
     status: "",
     created_at: "",
   });
+
+  const [getPayment, { data: paymentMethodData, refetch }] =
+    useLazyQuery<GetPaymentResponse>(QUERY_CUSTOMER_PAYMENT_METHOD, {
+      fetchPolicy: "no-cache",
+    });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -90,65 +110,61 @@ export default function ProfileManagement() {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!file) {
-      setErrorMessages("No file selected.");
-      setIsLoading(false);
-      return;
-    }
-
-    const _formData = new FormData();
-    _formData.append("file", file);
-    _formData.append(
-      "upload_preset",
-      process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
-    );
-
     try {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
-        {
-          method: "POST",
-          body: _formData,
-        }
-      );
-      const data = await response.json();
+      let data: CloudinaryResponse = {};
+      if (file) {
+        const _formData = new FormData();
+        _formData.append("file", file);
+        _formData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+        );
 
-      if (data.secure_url) {
-        const res = await customerProfile({
-          variables: {
-            data: {
-              image: data.secure_url ?? "",
-              firstName: profileData.firstName,
-              lastName: profileData.lastName,
-              username: profileData.username,
-              password: profileData.password,
-              email: profileData.email,
-              phone_number: profileData.phone_number,
-              dob: profileData.dob,
-            },
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+          {
+            method: "POST",
+            body: _formData,
+          }
+        );
+        data = (await response.json()) as CloudinaryResponse; // Type assertion
+      }
+
+      const res = await customerProfile({
+        variables: {
+          data: {
+            firstName: profileData.firstName,
+            lastName: profileData.lastName,
+            username: profileData.username,
+            ...(profileData.password && { password: profileData.password }), // Conditionally include password
+            email: profileData.email,
+            phone_number: profileData.phone_number,
+            dob: profileData.dob,
+            image: data.secure_url || profileData.image,
           },
+        },
+      });
+
+      const result = res?.data?.updateCustomerInformation;
+      if (result?.success) {
+        const updatedData = result?.data || {};
+        successMessage({
+          message: "Update shop profile successful!",
+          duration: 3000,
         });
 
-        const result = res?.data?.updateCustomerInformation;
-        if (result?.success) {
-          const updatedData = result?.data || {};
-          successMessage({
-            message: "Update shop profile successful!",
-            duration: 3000,
-          });
-
-          dispatch(
-            signIn({
-              ...updatedData,
-              created_at: updatedData.created || "",
-            })
-          );
-        } else {
-          errorMessage({
-            message: result?.error?.details || "An error occurred",
-            duration: 3000,
-          });
-        }
+        dispatch(
+          signIn({
+            ...updatedData,
+            image: data.secure_url,
+            created_at: updatedData.created || "",
+          })
+        );
+      } else {
+        errorMessage({
+          message: result?.error?.details || "An error occurred",
+          duration: 3000,
+        });
       }
     } catch (error) {
       errorMessage({
@@ -163,39 +179,78 @@ export default function ProfileManagement() {
   const handleSubmitPayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await paymentMethod({
-        variables: {
-          data: {
-            payment_method: [
-              {
-                code: paymentData.code,
-                bank_name: paymentData.bank_name,
-                bank_account_name: paymentData.bank_account_name,
-                bank_account_number: paymentData.bank_account_number,
-              },
-            ],
-          },
-        },
-      });
+      const paymentMethods = [usdtPaymentData, bankPaymentData];
 
-      if (res?.data?.updateCustomerInformation?.success) {
+      // Process all payment methods concurrently
+      const results = await Promise.all(
+        paymentMethods.map(async (paymentData) => {
+          const res = await paymentMethod({
+            variables: {
+              data: {
+                payment_method: [
+                  {
+                    id: paymentData.id,
+                    code: paymentData.code,
+                    bank_name: paymentData.bank_name,
+                    bank_account_name: paymentData.bank_account_name,
+                    bank_account_number: paymentData.bank_account_number,
+                  },
+                ],
+              },
+            },
+          });
+
+          return {
+            success: res?.data?.updateCustomerInformation?.success,
+            error: res?.data?.updateCustomerInformation?.error?.details,
+            code: paymentData.code,
+          };
+        })
+      );
+
+      // Check if all requests were successful
+      const allSuccess = results.every((result) => result.success);
+      if (allSuccess) {
         successMessage({
-          message: "Update payment method success",
+          message: "All payment methods updated successfully!",
           duration: 3000,
         });
       } else {
         errorMessage({
-          message: res?.data?.updateCustomerInformation?.error?.details,
+          message: "Update payment method fails",
           duration: 3000,
         });
       }
+
+      refetch();
     } catch (err) {
       errorMessage({
-        message: "Unexpected error! try again later!",
+        message: "Unexpected error! Try again later!",
         duration: 3000,
       });
     }
   };
+
+  React.useEffect(() => {
+    getPayment();
+  }, [getPayment]);
+
+  React.useEffect(() => {
+    if (paymentMethodData?.getCustomerInformation?.data?.payment_method) {
+      const paymentMethods =
+        paymentMethodData.getCustomerInformation.data.payment_method;
+
+      // Set the first record (USDT) to usdtPaymentData
+      if (paymentMethods[0]?.code === "USDT") {
+        setUsdtPaymentData(paymentMethods[0]);
+      }
+
+      // Set the second record (BANK) to bankPaymentData
+      if (paymentMethods[1]?.code === "BANK") {
+        setBankPaymentData(paymentMethods[1]);
+      }
+    }
+  }, [paymentMethodData]);
 
   React.useEffect(() => {
     if (customer) {
@@ -208,13 +263,12 @@ export default function ProfileManagement() {
         email: customer.email || null,
         phone_number: customer.phone_number || null,
         dob: customer.dob || null,
+        image: customer.image || null,
         status: customer.status || null,
         created_at: customer.created_at || null,
       });
     }
   }, [customer]);
-
-  console.log(profileData.image);
 
   return (
     <>
@@ -364,7 +418,6 @@ export default function ProfileManagement() {
                 title="Password"
                 name="password"
                 id="password"
-                required
                 value={profileData.password || ""}
                 onChange={(e) =>
                   setProfileData({
@@ -378,7 +431,6 @@ export default function ProfileManagement() {
                 title="Confirm password"
                 name="confirm_password"
                 id="confirm_password"
-                required
                 value={profileData.password || ""}
                 onChange={(e) =>
                   setProfileData({
@@ -414,11 +466,11 @@ export default function ProfileManagement() {
                 name="wallet_address"
                 id="wallet_address"
                 type="text"
-                value={paymentData.code || ""}
+                value={usdtPaymentData.bank_account_number}
                 onChange={(e) =>
-                  setPaymentData({
-                    ...paymentData,
-                    code: e.target.value,
+                  setUsdtPaymentData({
+                    ...usdtPaymentData,
+                    bank_account_number: e.target.value,
                   })
                 }
               />
@@ -432,10 +484,10 @@ export default function ProfileManagement() {
                 name="bank_name"
                 id="bank_name"
                 type="text"
-                value={paymentData.bank_name || ""}
+                value={bankPaymentData.bank_name}
                 onChange={(e) =>
-                  setPaymentData({
-                    ...paymentData,
+                  setBankPaymentData({
+                    ...bankPaymentData,
                     bank_name: e.target.value,
                   })
                 }
@@ -446,10 +498,10 @@ export default function ProfileManagement() {
                 name="bank_account_name"
                 id="bank_account_name"
                 type="text"
-                value={paymentData.bank_account_name || ""}
+                value={bankPaymentData.bank_account_name || ""}
                 onChange={(e) =>
-                  setPaymentData({
-                    ...paymentData,
+                  setBankPaymentData({
+                    ...bankPaymentData,
                     bank_account_name: e.target.value,
                   })
                 }
@@ -459,11 +511,11 @@ export default function ProfileManagement() {
                 title="Bank account number"
                 name="bank_account_number"
                 id="bank_account_number"
-                type="text"
-                value={paymentData.bank_account_number || ""}
+                type="number"
+                value={bankPaymentData.bank_account_number}
                 onChange={(e) =>
-                  setPaymentData({
-                    ...paymentData,
+                  setBankPaymentData({
+                    ...bankPaymentData,
                     bank_account_number: e.target.value,
                   })
                 }
