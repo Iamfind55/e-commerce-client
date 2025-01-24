@@ -17,47 +17,63 @@ import Select from "@/components/select";
 import { page_limits, product_status } from "@/utils/option";
 import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
-import useFilter from "@/app/[locale]/(pages)/product/hooks/useFilter/page";
-import useFetchProducts from "@/app/[locale]/(pages)/product/hooks/useFetchProduct/page";
+import useFetchCustomerTransactionHistories from "../hooks/useFetchCusTransaction";
+import useFilter from "../hooks/useFilter/page";
+import { CloseEyeIcon } from "@/icons/page";
 
 export default function TransactionHistory() {
-  const filter = useFilter();
-  const fetchShopProduct = useFetchProducts({ filter: filter.data });
-
   const t = useTranslations("myCartPage");
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const filter = useFilter();
+  const fetchCustomerTransactions = useFetchCustomerTransactionHistories({
+    filter: filter.data,
+  });
+
+  console.log(fetchCustomerTransactions);
+
   return (
     <>
       <div className="bg-white rounded p-4 w-full flex items-start justify-start flex-col gap-2 mt-4">
         <h1 className="text-sm">Transaction details:</h1>
         <div className="w-full mt-2">
           <div className="w-full hidden sm:block">
-            <div className="flex flex-col sm:flex-row items-start justify-between gap-2">
-              <div className="flex items-start justify-start gap-2">
-                <Select
-                  name="page_limit"
-                  title="Show"
-                  option={page_limits}
-                  className="h-8"
-                />
-              </div>
+            <div className="flex flex-col sm:flex-row items-start justify-end gap-2">
               <div className="flex items-start justify-statr gap-2">
                 <Select
                   name="status"
                   title="Status"
                   option={product_status}
                   className="h-8"
+                  onChange={(e) => {
+                    filter.dispatch({
+                      type: filter.ACTION_TYPE.STATUS,
+                      payload: e.target.value,
+                    });
+                  }}
                 />
                 <div className="flex items-end justify-start gap-2">
                   <DatePicker
                     name="start_date"
                     title="Start date"
                     className="h-8"
+                    value={filter?.state?.createdAtBetween?.startDate ?? ""}
+                    onChange={(e) => {
+                      filter.dispatch({
+                        type: filter.ACTION_TYPE.CREATED_AT_START_DATE,
+                        payload: e.target.value,
+                      });
+                    }}
                   />
                   <DatePicker
                     name="end_date"
                     title="End date"
                     className="h-8"
+                    value={filter?.state?.createdAtBetween?.endDate ?? ""}
+                    onChange={(e) => {
+                      filter.dispatch({
+                        type: filter.ACTION_TYPE.CREATED_AT_END_DATE,
+                        payload: e.target.value,
+                      });
+                    }}
                   />
                 </div>
               </div>
@@ -69,13 +85,13 @@ export default function TransactionHistory() {
                     id
                   </th>
                   <th scope="col" className="py-3 pl-1">
-                    Product
+                    Transaction
                   </th>
                   <th scope="col" className="py-3 pl-1">
-                    Quantity
+                    Amount
                   </th>
                   <th scope="col" className="py-3 pl-1">
-                    Price
+                    Coin Type
                   </th>
                   <th scope="col" className="py-3 pl-1">
                     Date
@@ -92,50 +108,44 @@ export default function TransactionHistory() {
                 </tr>
               </thead>
               <tbody>
-                {cartItems.map((product, index) => (
+                {fetchCustomerTransactions?.data?.map((items, index) => (
                   <tr
-                    key={product.id}
+                    key={items.id}
                     className="border-b border-gray bg-white hover:bg-gray py-6 text-gray-500"
                   >
                     <td className="pl-2 py-4">{index + 1}</td>
                     <td>
-                      <div className="flex items-center justify-center gap-4">
+                      <div className="flex items-center justify-start gap-4">
                         <Image
                           className="rounded"
                           src={
-                            product?.cover_image
-                              ? product?.cover_image
+                            items?.payment_slip
+                              ? items?.payment_slip
                               : category01
                           }
-                          alt={product.name}
+                          alt={items.identifier}
                           width={60}
                           height={60}
                         />
                         <p className="text-xs">
-                          {truncateText(product.name, 30)}
+                          {truncateText(items.identifier, 30)}
                         </p>
                       </div>
                     </td>
-                    <td className="text-xs text-center">{product.quantity}</td>
-                    <td className="text-xs">${product.price}</td>
+                    <td className="text-xs">{items.amount}</td>
+                    <td className="text-xs">${items.coin_type}</td>
                     <td>
-                      <p className="text-xs">18-01-2025</p>
+                      <p className="text-xs">{items.created_at}</p>
                     </td>
                     <td className="text-xs">
-                      <StatusBadge status="completed" />
+                      <StatusBadge
+                        status={
+                          items.status === "ACTIVE" ? "completed" : "failed"
+                        }
+                      />
                     </td>
                     <td className="pl-2 py-4 flex items-center justify-center gap-2">
-                      <IconButton
-                        className="rounded border text-gray-500 p-2 w-auto text-xs"
-                        type="button"
-                        title="Pay"
-                        // onClick={}
-                      />
-                      <IconButton
-                        className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                        title="Cancel"
-                        type="submit"
-                      />
+                      <CloseEyeIcon />
                     </td>
                   </tr>
                 ))}
@@ -145,7 +155,7 @@ export default function TransactionHistory() {
               <Pagination
                 filter={filter.data}
                 totalPage={Math.ceil(
-                  (fetchShopProduct.total ?? 0) / filter.data.limit
+                  (fetchCustomerTransactions.total ?? 0) / filter.data.limit
                 )}
                 onPageChange={(e) => {
                   filter.dispatch({
@@ -158,38 +168,38 @@ export default function TransactionHistory() {
           </div>
 
           <div className="block sm:hidden">
-            {cartItems?.map((val, index: number) => (
+            {fetchCustomerTransactions?.data?.map((val, index: number) => (
               <div
-                key={val.id}
+                key={val.id + index}
                 className="w-full flex items-start justify-start flex-col gap-2 border rounded p-2 my-2"
               >
                 <div className="w-full flex items-start justify-start gap-4">
                   <Image
                     className="rounded"
-                    src={category01}
-                    alt="image-01"
+                    src={val?.payment_slip ? val?.payment_slip : category01}
+                    alt={val?.identifier}
                     width={60}
                     height={60}
                   />
-                  <p className="text-xs">{val?.name}</p>
+                  <p className="text-xs">{val?.identifier}</p>
                 </div>
                 <div className="w-full flex items-end justify-between">
                   <div className="w-full flex items-start justify-between flex-col gap-1">
                     <div className="flex items-start justify-start">
                       <p className="text-xs text-gray-500">{t("_price")}: </p>
-                      <p className="text-xs">&nbsp;&nbsp;${val?.price}</p>
+                      <p className="text-xs">&nbsp;&nbsp;${val?.amount}</p>
                     </div>
                     <div className="flex items-start justify-start">
                       <p className="text-xs text-gray-500">
                         {t("_quantity")}:{" "}
                       </p>
-                      <p className="text-xs">&nbsp;&nbsp;{val.quantity}</p>
+                      <p className="text-xs">&nbsp;&nbsp;{val.coin_type}</p>
                     </div>
                     <div className="flex items-start justify-start">
                       <p className="text-xs text-gray-500">Date: </p>
-                      <p className="text-xs">&nbsp;&nbsp;18-01-2025</p>
+                      <p className="text-xs">&nbsp;&nbsp;{val.created_at}</p>
                     </div>
-                    <StatusBadge status="completed" />
+                    <StatusBadge status={val?.status} />
                   </div>
                   <div className="w-full flex items-start justify-between">
                     <IconButton
@@ -210,7 +220,7 @@ export default function TransactionHistory() {
               <Pagination
                 filter={filter.data}
                 totalPage={Math.ceil(
-                  (fetchShopProduct.total ?? 0) / filter.data.limit
+                  (fetchCustomerTransactions.total ?? 0) / filter.data.limit
                 )}
                 onPageChange={(e) => {
                   filter.dispatch({

@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
 import MyModal from "@/components/modal";
@@ -16,28 +18,36 @@ import {
 } from "@/icons/page";
 import Image from "next/image";
 import { QRCodeCanvas } from "qrcode.react";
-import React, { ReactNode } from "react";
 import TransactionHistory from "./transaction-history/page";
-import { useLazyQuery } from "@apollo/client";
-import { QUERY_WALLET_CUSTOMER } from "@/api/wallet";
-import { GetWalletResponse } from "@/types/wallet";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { QUERY_CUSTOMER_WALLET } from "@/api/wallet";
+import { GetCustomerWalletResponse, ICutomerRecharge } from "@/types/wallet";
+import { useToast } from "@/utils/toast";
+import { MUTATION_CUSTOMER_RECHARGE } from "@/api/recharge";
+import Loading from "@/components/loading";
 
-type ReportItem = {
-  title: string;
-  amount: string;
-  percent: number;
-  icon: ReactNode;
-};
+interface CloudinaryResponse {
+  secure_url?: string;
+}
 
 export default function CustomerWallet() {
+  const { errorMessage, successMessage } = useToast();
   const [qrcode, setQrcode] = React.useState<string>("");
-  const [quantity, setQuantity] = React.useState<number>(1);
   const [cover, setCover] = React.useState<File | null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
   const [isOpenQRModal, setIsOpenQRModal] = React.useState<boolean>(false);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const [transactionId, setTransactionId] = React.useState<string | null>(null);
+  const [rechargeData, setRechargeData] = React.useState<ICutomerRecharge>({
+    amout_recharged: 1,
+    coin_type: "",
+    account_number: "",
+    image: "",
+  });
+
+  const [customerRecharge] = useMutation(MUTATION_CUSTOMER_RECHARGE);
 
   const handleOpenModal = () => {
     setIsOpenModal(!isOpenModal);
@@ -48,11 +58,19 @@ export default function CustomerWallet() {
   };
 
   const handleIncreaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setRechargeData((prev) => ({
+      ...prev,
+      amout_recharged: prev.amout_recharged + 1,
+    }));
   };
 
   const handleDecreaseQuantity = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+    if (rechargeData.amout_recharged > 0) {
+      setRechargeData((prev) => ({
+        ...prev,
+        amout_recharged: prev.amout_recharged - 1,
+      }));
+    }
   };
 
   const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,12 +99,10 @@ export default function CustomerWallet() {
     }
   };
 
-  const [getWallet, { data, loading }] = useLazyQuery<GetWalletResponse>(
-    QUERY_WALLET_CUSTOMER,
-    {
+  const [getWallet, { data, loading, refetch }] =
+    useLazyQuery<GetCustomerWalletResponse>(QUERY_CUSTOMER_WALLET, {
       fetchPolicy: "no-cache",
-    }
-  );
+    });
 
   React.useEffect(() => {
     getWallet();
@@ -94,9 +110,9 @@ export default function CustomerWallet() {
 
   // Map data to report items
   const reportItems = React.useMemo(() => {
-    const totalBalance = data?.getShopWallet?.data?.total_balance || 0;
+    const totalBalance = data?.getCustomerWallet?.data?.total_balance || 0;
     const totalFrozenBalance =
-      data?.getShopWallet?.data?.total_frozen_balance || 0;
+      data?.getCustomerWallet?.data?.total_frozen_balance || 0;
 
     return [
       {
@@ -114,7 +130,62 @@ export default function CustomerWallet() {
     ];
   }, [data]);
 
-  console.log("Wallet:", data);
+  console.log(reportItems);
+  const handleSubmitForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      let data: CloudinaryResponse = {};
+      if (cover) {
+        const _formData = new FormData();
+        _formData.append("file", cover);
+        _formData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+        );
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+          {
+            method: "POST",
+            body: _formData,
+          }
+        );
+        data = (await response.json()) as CloudinaryResponse;
+      }
+
+      const res = await customerRecharge({
+        variables: {
+          data: {
+            amout_recharged: rechargeData.amout_recharged,
+            coin_type: rechargeData.coin_type,
+            account_number: rechargeData.account_number,
+            image: data.secure_url || "",
+          },
+        },
+      });
+
+      if (res?.data?.customerRechargeBalance.success) {
+        refetch();
+        successMessage({
+          message: "Recharge successfull!",
+          duration: 3000,
+        });
+      } else {
+        errorMessage({
+          message: res?.data?.customerRechargeBalance?.error?.details,
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      errorMessage({
+        message: "Failed to update profile. Please try again.",
+        duration: 3000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -166,7 +237,10 @@ export default function CustomerWallet() {
         className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/4 md:inset-0 h-auto shadow"
       >
         <div className="w-full rounded bg-white w-full">
-          <form className="w-full bg-white rounded flex items-start justify-start flex-col p-4">
+          <form
+            className="w-full bg-white rounded flex items-start justify-start flex-col p-4"
+            onSubmit={handleSubmitForm}
+          >
             <p className="text-md font-medium">Top-Up Your Wallet Balance:</p>
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
               <div className="flex items-start justify-start gap-2 py-2">
@@ -176,10 +250,16 @@ export default function CustomerWallet() {
                     <input
                       id="erc20-coin"
                       type="radio"
-                      value="erc20"
-                      // checked
                       name="rechargeAccount"
                       className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                      value="ERC20"
+                      onChange={(e) =>
+                        setRechargeData((prev) => ({
+                          ...prev,
+                          coin_type: e.target.value,
+                        }))
+                      }
+                      checked={rechargeData.coin_type === "erc20"}
                     />
                     <label
                       htmlFor="erc20-coin"
@@ -192,9 +272,16 @@ export default function CustomerWallet() {
                     <input
                       id="trc20-coin"
                       type="radio"
-                      value="trc20"
                       name="rechargeAccount"
                       className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                      value="TRC20"
+                      onChange={(e) =>
+                        setRechargeData((prev) => ({
+                          ...prev,
+                          coin_type: e.target.value,
+                        }))
+                      }
+                      checked={rechargeData.coin_type === "TRC20"}
                     />
                     <label
                       htmlFor="trc20-coin"
@@ -207,9 +294,16 @@ export default function CustomerWallet() {
                     <input
                       id="btc-coin"
                       type="radio"
-                      value="btc"
                       name="rechargeAccount"
                       className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
+                      value="BTC"
+                      onChange={(e) =>
+                        setRechargeData((prev) => ({
+                          ...prev,
+                          coin_type: e.target.value,
+                        }))
+                      }
+                      checked={rechargeData.coin_type === "BTC"}
                     />
                     <label
                       htmlFor="btc-coin"
@@ -229,7 +323,19 @@ export default function CustomerWallet() {
                   >
                     <MinusIcon size={16} />
                   </button>
-                  <p className="text-sm w-full text-center">{quantity}</p>
+
+                  <input
+                    type="number"
+                    min="0"
+                    className="text-sm w-full text-center border-none focus:outline-none"
+                    value={rechargeData.amout_recharged}
+                    onChange={(e) =>
+                      setRechargeData((prev) => ({
+                        ...prev,
+                        amout_recharged: Number(e.target.value) || 0,
+                      }))
+                    }
+                  />
                   <button
                     className="rounded-full bg-gray-300 text-white cursor-pointer"
                     onClick={handleIncreaseQuantity}
@@ -248,9 +354,13 @@ export default function CustomerWallet() {
                 title="Transaction ID"
                 required
                 color="text-gray-500"
-                value={transactionId ?? ""}
-                readOnly
-                // onChange={(e) => setEmail(e.target.value)}
+                value={rechargeData.account_number}
+                onChange={(e) =>
+                  setRechargeData((prev) => ({
+                    ...prev,
+                    account_number: e.target.value,
+                  }))
+                }
               />
             </div>
 
@@ -334,9 +444,11 @@ export default function CustomerWallet() {
 
             <div className="w-full">
               <IconButton
-                className="rounded bg-neon_blue text-white p-2 w-auto mt-4 text-sm"
-                type="button"
-                title="Recharge"
+                className="rounded bg-neon_pink text-white p-2 w-auto mt-4 text-sm"
+                title={isLoading ? "Submiting...." : "Recharge"}
+                icon={isLoading ? <Loading /> : <WithdrawIcon size={18} />}
+                isFront={true}
+                type="submit"
               />
             </div>
           </form>
