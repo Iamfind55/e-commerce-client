@@ -37,7 +37,12 @@ const nextConfig = {
       }
     ],
   },
-  // output: 'export',
+  output: 'export',
+  i18n: {
+    locales: ['en', 'es'], // Your locales
+    defaultLocale: 'en',
+    localeDetection: false, // Disable for static exports
+  }
 };
 export default withNextIntl(nextConfig);
 
