@@ -18,30 +18,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Setup Node
+        with:
+          fetch-depth: 0 # Required for proper commit detection
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-          
+
       - name: Install dependencies
-        run: npm ci
-          
-      - name: Build with Next.js
+        run: npm ci --audit=false
+        env:
+          CI: true
+
+      - name: Build Next.js application
         run: npm run build
         env:
-          NEXT_PUBLIC_BASE_PATH: /your-repo-name # If deploying to project site
-          
+          NEXT_PUBLIC_BASE_PATH: /your-repo-name # Replace with your actual repo name
+          NODE_ENV: production
+
       - name: Export static site
         run: npm run export
-          
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: ./out
 
   deploy:
     environment:
