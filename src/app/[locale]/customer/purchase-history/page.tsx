@@ -18,7 +18,7 @@ import { page_limits, product_status } from "@/utils/option";
 import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
 import useFilter from "../../(pages)/product/hooks/useFilter/page";
-import useFetchProducts from "../../(pages)/product/hooks/useFetchProduct/page";
+import useFetchProducts from "../../(pages)/product/hooks/useFetchProduct";
 
 export default function PurchaseHistory() {
   const filter = useFilter();

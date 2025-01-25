@@ -14,7 +14,7 @@ import category01 from "/public/images/category01.webp";
 import TransactionCard from "@/components/trasactionCard";
 import useFilter from "../../products/hooks/useFilter/page";
 import { page_limits, transaction_status } from "@/utils/option";
-import useFetchProducts from "../../products/hooks/useFetchProduct/page";
+import useFetchProducts from "../../products/hooks/useFetchProduct";
 
 export default function WithdrawHistory() {
   const filter = useFilter();

@@ -22,7 +22,7 @@ import { ProductData } from "@/types/product";
 import { CancelIcon, FilterIcon } from "@/icons/page";
 import { GetBrandingResponse } from "@/types/branding";
 import useFilter from "../product/hooks/useFilter/page";
-import useFetchProducts from "../product/hooks/useFetchProduct/page";
+import useFetchProducts from "../product/hooks/useFetchProduct";
 
 const filters: any = [
   { label: "Most expensive", value: "price_DESC" },

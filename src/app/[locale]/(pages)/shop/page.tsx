@@ -10,7 +10,7 @@ import EmptyPage from "@/components/emptyPage";
 import useFilter from "./hooks/useFilter/page";
 import ShopPagination from "./components/pagination";
 import { FilterIcon, SearchIcon } from "@/icons/page";
-import useFetchShops from "./hooks/useFetchShop/page";
+import useFetchShops from "./hooks/useFetchShop";
 
 const dropdownOptions = [
   { label: "VIP1", value: 1 },

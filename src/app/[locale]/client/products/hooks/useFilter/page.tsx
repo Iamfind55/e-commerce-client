@@ -9,7 +9,7 @@ type Action =
   | { type: "keyword"; payload: string | null }
   | { type: "brand_id"; payload: string | null }
   | { type: "category_id"; payload: string | null }
-  | { type: "product_vip"; payload: boolean | null }
+  | { type: "product_vip"; payload: number | null }
   | { type: "product_top"; payload: boolean | null }
   | { type: "price_between"; payload: [number, number] | null }
   | { type: "created_at_start_date"; payload: string | null }

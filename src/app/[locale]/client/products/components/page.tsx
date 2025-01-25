@@ -10,7 +10,7 @@ import useFilter from "../hooks/useFilter/page";
 import Pagination from "@/components/pagination";
 import { product_status, stock } from "@/utils/option";
 import ShopProductCard from "@/components/shopProductCard";
-import useFetchProducts from "../hooks/useFetchProduct/page";
+import useFetchProducts from "../hooks/useFetchProduct";
 
 export default function ProductListDetail() {
   const filter = useFilter();

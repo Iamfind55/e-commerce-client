@@ -24,7 +24,7 @@ import EmptyPage from "@/components/emptyPage";
 import { GetBrandingResponse } from "@/types/branding";
 import useFilter from "../../product/hooks/useFilter/page";
 import { CancelIcon, FilterIcon, NextIcon } from "@/icons/page";
-import useFetchProducts from "../../product/hooks/useFetchProduct/page";
+import useFetchProducts from "../../product/hooks/useFetchProduct";
 
 const filters: any = [
   { label: "Most expensive", value: "price_DESC" },

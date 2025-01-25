@@ -4,7 +4,7 @@ import React from "react";
 // components
 import Breadcrumb from "@/components/breadCrumb";
 import Pagination from "@/components/pagination";
-import useFetchProducts from "./hooks/useFetchProduct/page";
+import useFetchProducts from "./hooks/useFetchProduct";
 
 // icons, utils and hooks
 import { AwardIcon } from "@/icons/page";

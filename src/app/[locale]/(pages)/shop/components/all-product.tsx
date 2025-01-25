@@ -6,7 +6,7 @@ import ShopProductCard2 from "@/components/shopProductCard2";
 
 // hooks for query and filter products
 import EmptyPage from "@/components/emptyPage";
-import useFetchShopProducts from "../hooks/useFetchShopProduct/page";
+import useFetchShopProducts from "../hooks/useFetchShopProduct";
 import useShopProductFilter from "../hooks/useFilterShopProduct/page";
 
 export default function AllProductComponent() {

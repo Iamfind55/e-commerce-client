@@ -13,7 +13,7 @@ import Breadcrumb from "@/components/breadCrumb";
 import useFilter from "../products/hooks/useFilter/page";
 import { notification_status, stock } from "@/utils/option";
 import NotificationCard from "@/components/notificationCard";
-import useFetchProducts from "../products/hooks/useFetchProduct/page";
+import useFetchProducts from "../products/hooks/useFetchProduct";
 
 export default function Notifications() {
   const filter = useFilter();

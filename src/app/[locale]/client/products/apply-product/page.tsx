@@ -13,7 +13,7 @@ import ShopProductCard from "@/components/shopProductCard";
 
 // icons, hooks and utils
 import useFilter from "../hooks/useFilter/page";
-import useFetchProducts from "../hooks/useFetchProduct/page";
+import useFetchProducts from "../hooks/useFetchProduct";
 
 export default function ApplyProduct() {
   const filter = useFilter();
