@@ -21,23 +21,39 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for proper commit detection
+          fetch-depth: 0
+
+      - name: Verify package-lock.json
+        run: |
+          if [ ! -f "package-lock.json" ]; then
+            echo "Error: package-lock.json is missing!"
+            exit 1
+          fi
+
+          LOCKFILE_VERSION=$(node -pe "require('./package-lock.json').lockfileVersion")
+          if [ $LOCKFILE_VERSION -lt 2 ]; then
+            echo "Error: Update package-lock.json with modern npm (run 'npm install' locally)"
+            exit 1
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: npm ci --audit=false
+        run: |
+          npm config set audit false
+          npm ci --no-fund --prefer-offline
         env:
           CI: true
 
       - name: Build Next.js application
         run: npm run build
         env:
-          NEXT_PUBLIC_BASE_PATH: /your-repo-name # Replace with your actual repo name
+          NEXT_PUBLIC_BASE_PATH: /your-repo-name
           NODE_ENV: production
 
       - name: Export static site
