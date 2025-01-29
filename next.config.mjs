@@ -4,7 +4,6 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -38,12 +37,7 @@ const nextConfig = {
       }
     ],
   },
-  output: 'export',
-  i18n: {
-    locales: ['en', 'es'], // Your locales
-    defaultLocale: 'en',
-    localeDetection: false, // Disable for static exports
-  }
+  // output: 'export',
 };
 export default withNextIntl(nextConfig);
 

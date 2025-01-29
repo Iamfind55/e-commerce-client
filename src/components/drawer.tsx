@@ -1,33 +1,30 @@
-import { useEffect } from "react";
-import { BackIcon, ShopIcon } from "@/icons/page";
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { BackIcon, NextIcon } from "@/icons/page";
+import { useLazyQuery } from "@apollo/client";
+import { QUERY_CATEGORIES_HEADER } from "@/api/category";
+import { GetHeaderCategoriesResponse } from "@/types/header-category";
 import { Link } from "@/navigation";
-import { useRouter } from "next/navigation";
 
 type DrawerTypes = {
   isOpen: boolean;
-  children?: React.ReactNode;
   onClose?: () => void;
-  icon?: React.ReactNode;
 };
 
-type Subcategory = {
-  title: string;
-  items: string[];
-};
+const Drawer = ({ isOpen, onClose }: DrawerTypes) => {
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [getCategories, { data }] = useLazyQuery<GetHeaderCategoriesResponse>(
+    QUERY_CATEGORIES_HEADER,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
 
-type Category = {
-  label: string;
-  icon: React.ReactNode;
-  subcategories: Subcategory[];
-};
+  useEffect(() => {
+    getCategories();
+  }, [getCategories]);
 
-const Drawer = ({ isOpen, children, onClose }: DrawerTypes) => {
-  const router = useRouter();
-  const drawerRef = React.useRef<HTMLDivElement>(null);
-  const [selectedCategory, setSelectedCategory] =
-    React.useState<Category | null>(null);
-
+  // Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -35,6 +32,7 @@ const Drawer = ({ isOpen, children, onClose }: DrawerTypes) => {
         !drawerRef.current.contains(event.target as Node)
       ) {
         onClose && onClose();
+        setActiveCategory(null); // Close subcategory menu on outside click
       }
     };
 
@@ -51,168 +49,80 @@ const Drawer = ({ isOpen, children, onClose }: DrawerTypes) => {
 
   if (!isOpen) return null;
 
-  const categories: Category[] = [
-    {
-      label: "Men handbages and accessories",
-      icon: <ShopIcon />,
-      subcategories: [
-        {
-          title: "Men's Clothing",
-          items: [
-            "All Men's Clothing",
-            "New Arrivals",
-            "Blazers & Sport Coats",
-            "Coats & Jackets",
-          ],
-        },
-        {
-          title: "Men's Active & Outdoor",
-          items: [
-            "All Activewear",
-            "Outdoor Apparel & Shoes",
-            "Sports Fan Shop",
-          ],
-        },
-        {
-          title: "Men's Shoes",
-          items: [
-            "All Men's Shoes",
-            "Athletic Shoes & Sneakers",
-            "Boots",
-            "Casual Shoes",
-          ],
-        },
-        {
-          title: "Men's Shoes",
-          items: [
-            "All Men's Shoes",
-            "Athletic Shoes & Sneakers",
-            "Boots",
-            "Casual Shoes",
-          ],
-        },
-      ],
-    },
-    {
-      label: "Men handbages and accessories",
-      icon: <ShopIcon />,
-      subcategories: [
-        {
-          title: "Men's Clothing",
-          items: [
-            "All Men's Clothing",
-            "New Arrivals",
-            "Blazers & Sport Coats",
-            "Coats & Jackets",
-          ],
-        },
-        {
-          title: "Men's Active & Outdoor",
-          items: [
-            "All Activewear",
-            "Outdoor Apparel & Shoes",
-            "Sports Fan Shop",
-          ],
-        },
-        {
-          title: "Men's Shoes",
-          items: [
-            "All Men's Shoes",
-            "Athletic Shoes & Sneakers",
-            "Boots",
-            "Casual Shoes",
-          ],
-        },
-        {
-          title: "Men's Shoes",
-          items: [
-            "All Men's Shoes",
-            "Athletic Shoes & Sneakers",
-            "Boots",
-            "Casual Shoes",
-          ],
-        },
-      ],
-    },
-    {
-      label: "Women",
-      icon: <ShopIcon />,
-      subcategories: [
-        {
-          title: "Women's Clothing",
-          items: ["Dresses", "Tops", "Skirts", "Pants"],
-        },
-        {
-          title: "Women's Shoes",
-          items: ["Heels", "Flats", "Boots", "Sneakers"],
-        },
-      ],
-    },
-  ];
-
-  const handleNavigateToCategory = () => {
-    router.push("/category");
-    onClose && onClose();
-  };
+  console.log(data);
 
   return (
-    <div
-      className={`fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50`}
-    >
-      <div
-        ref={drawerRef}
-        className={`fixed top-0 left-0 h-screen p-2 overflow-y-auto transition-transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } bg-white w-80 shadow`}
-        tabIndex={-1}
-        aria-labelledby="drawer-label"
-      >
-        <div className="flex justify-end items-center mb-2">
-          <button className="rounded" onClick={onClose}>
-            <BackIcon size={20} className="text-gray-500" />
-          </button>
-        </div>
-        <ul className="flex flex-col text-gray-500">
-          {categories.map((category, index) => (
-            <li
-              key={index}
-              className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200"
-              onMouseEnter={() => setSelectedCategory(category)}
-            >
-              {category.icon}
-              <span className="text-sm">{category.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {selectedCategory && (
-        <div
-          ref={drawerRef}
-          className="fixed top-3 left-25 h-auto w-auto p-4 rounded bg-white shadow-lg"
-        >
-          <div className="grid grid-cols-4 gap-4">
-            {selectedCategory.subcategories.map((subcategory, index) => (
-              <div key={index} className="mb-4">
-                <h4 className="font-semibold mb-2 text-gray-700 text-sm">
-                  {subcategory.title}
-                </h4>
-                <ul className="pl-2 flex items-start justify-start flex-col cursor-pointer gap-2">
-                  {subcategory.items.map((item, idx) => (
-                    <li
-                      key={idx}
-                      className="text-sm text-gray-500 rounded hover:text-neon_pink"
-                      onClick={() => handleNavigateToCategory()}
-                    >
-                      {item}
-                      {/* <Link href="/category">{item}</Link> */}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+    <div className="fixed inset-0 z-50 flex bg-black bg-opacity-50">
+      {/* Wrap everything inside a ref container */}
+      <div ref={drawerRef} className="flex">
+        {/* Side Menu */}
+        <div className="w-64 bg-white shadow-lg h-full p-2 overflow-y-auto">
+          <div className="flex justify-end items-center mb-2">
+            <button className="rounded" onClick={onClose}>
+              <BackIcon size={20} className="text-gray-500" />
+            </button>
           </div>
+          <ul className="flex flex-col text-gray-700">
+            {data?.getCategories?.data.map((category) => {
+              const hasSubcategories =
+                category.subcategories && category.subcategories.length > 0;
+              return (
+                <li
+                  key={category.id}
+                  className={`flex items-center justify-between gap-2 p-2 cursor-pointer hover:bg-gray-200 border-b border-gray-200`}
+                  onMouseEnter={() =>
+                    setActiveCategory(
+                      activeCategory === category.id ? null : category.id
+                    )
+                  }
+                >
+                  <span className="text-sm">{category.name.name_en}</span>
+                  {hasSubcategories && <NextIcon size={16} />}
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      )}
+
+        {/* Mega Menu for Subcategories */}
+        {activeCategory &&
+          data?.getCategories?.data.some(
+            (cat) =>
+              (cat.id === activeCategory && cat.subcategories?.length) ?? 0 > 0
+          ) && (
+            <div className="w-[700px] h-full bg-white shadow-lg p-4">
+              <div className="grid grid-cols-3 gap-4">
+                {data?.getCategories?.data
+                  .find((cat) => cat.id === activeCategory)
+                  ?.subcategories?.map((sub) => (
+                    <div key={sub.id} className="space-y-1">
+                      <h3 className="text-sm font-medium text-black hover:cursor-pointer">
+                        {sub.name.name_en}
+                      </h3>
+                      <ul className="space-y-1">
+                        {(sub.subcategories ?? []).map((child) => (
+                          <Link
+                            href={`/category/${child.id}?name=${child.name?.name_en}`}
+                            key={child.id}
+                            onClick={() => {
+                              if (onClose) onClose();
+                            }}
+                          >
+                            <li
+                              key={child.id}
+                              className="text-xs text-gray-600 hover:text-neon_pink cursor-pointer"
+                            >
+                              {child.name.name_en}
+                            </li>
+                          </Link>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+      </div>
     </div>
   );
 };

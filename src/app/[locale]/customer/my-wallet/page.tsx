@@ -130,7 +130,6 @@ export default function CustomerWallet() {
     ];
   }, [data]);
 
-  console.log(reportItems);
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);

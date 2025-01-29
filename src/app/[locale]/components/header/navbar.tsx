@@ -89,7 +89,7 @@ export default function Navbar() {
         >
           <div className="flex items-start justify-center gap-6">
             <button
-              onMouseEnter={toggleOpenDrawer}
+              onClick={toggleOpenDrawer}
               className="hidden sm:block border border-white rounded p-1"
             >
               <MenuIcon size={20} className="text-white" />

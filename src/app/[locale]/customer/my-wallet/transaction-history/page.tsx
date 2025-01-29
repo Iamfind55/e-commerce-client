@@ -116,7 +116,7 @@ export default function TransactionHistory() {
                     <td className="pl-2 py-4">{index + 1}</td>
                     <td>
                       <div className="flex items-center justify-start gap-4">
-                        <Image
+                        {/* <Image
                           className="rounded"
                           src={
                             items?.payment_slip
@@ -126,7 +126,7 @@ export default function TransactionHistory() {
                           alt={items.identifier}
                           width={60}
                           height={60}
-                        />
+                        /> */}
                         <p className="text-xs">
                           {truncateText(items.identifier, 30)}
                         </p>

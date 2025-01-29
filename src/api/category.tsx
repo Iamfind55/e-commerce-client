@@ -33,3 +33,41 @@ export const QUERY_CATEGORIES = gql`
     }
   }
 `;
+
+export const QUERY_CATEGORIES_HEADER = gql`
+  query GetCategories($where: CategoryWhereInput, $sortedBy: BaseOrderByInput) {
+    getCategories(where: $where, sortedBy: $sortedBy) {
+      success
+      total
+      data {
+        id
+        name {
+          name_en
+        }
+        subcategories {
+          id
+          name {
+            name_en
+          }
+          subcategories {
+            id
+            name {
+              name_en
+            }
+            subcategories {
+              id
+              name {
+                name_en
+              }
+            }
+          }
+        }
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
