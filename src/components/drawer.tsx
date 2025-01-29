@@ -21,7 +21,14 @@ const Drawer = ({ isOpen, onClose }: DrawerTypes) => {
   );
 
   useEffect(() => {
-    getCategories();
+    getCategories({
+      variables: {
+        sortedBy: "created_at_DESC",
+        where: {
+          status: "ACTIVE",
+        },
+      },
+    });
   }, [getCategories]);
 
   // Close when clicking outside
@@ -48,8 +55,6 @@ const Drawer = ({ isOpen, onClose }: DrawerTypes) => {
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
-
-  console.log(data);
 
   return (
     <div className="fixed inset-0 z-50 flex bg-black bg-opacity-50">

@@ -6,7 +6,7 @@ import { useLazyQuery } from "@apollo/client";
 
 // Apollo and APIs
 import { QUERY_BRANDINGS } from "@/api/branding";
-import { QUERY_CATEGORIES } from "@/api/category";
+import { QUERY_CATEGORIES_HEADER } from "@/api/category";
 
 // components
 import Select from "@/components/select";
@@ -25,6 +25,7 @@ import { GetBrandingResponse } from "@/types/branding";
 import useFilter from "../../product/hooks/useFilter/page";
 import { CancelIcon, FilterIcon, NextIcon } from "@/icons/page";
 import useFetchProducts from "../../product/hooks/useFetchProduct";
+import { GetHeaderCategoriesResponse } from "@/types/header-category";
 
 const filters: any = [
   { label: "Most expensive", value: "price_DESC" },
@@ -35,7 +36,7 @@ export default function Category() {
   const params = useParams();
   const router = useRouter();
   const filter = useFilter();
-  const fetchProducts = useFetchProducts({ filter: filter.data });
+  const fetchAllProducts = useFetchProducts({ filter: filter.data });
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
 
   const [categoryId, setCategoryId] = React.useState<string>("");
@@ -45,11 +46,6 @@ export default function Category() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
   };
-
-  React.useEffect(() => {
-    const name = getQueryParam("name");
-    setCategoryName(name);
-  }, []);
 
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
   const toggleOpenDrawer = () => {
@@ -77,42 +73,45 @@ export default function Category() {
     value: brand.id,
   }));
 
-  const [getCategories, { data: categoryData }] = useLazyQuery(
-    QUERY_CATEGORIES,
-    {
+  const [getCategories, { data: categoryData }] =
+    useLazyQuery<GetHeaderCategoriesResponse>(QUERY_CATEGORIES_HEADER, {
       fetchPolicy: "no-cache",
-    }
-  );
-
-  const fetchSubCategories = async () => {
-    const res = await getCategories({
-      variables: {
-        where: {
-          parent_id: categoryId,
-          status: "ACTIVE",
-        },
-        sortedBy: "created_at_ASC",
-      },
     });
 
-    if (res?.data?.getCategories?.total > 0) {
-      console.log("Query sub category");
-    } else {
-      console.log("Query product with category Id");
-      filter.dispatch({
-        type: filter.ACTION_TYPE.CATEGORY_ID,
-        payload: categoryId,
-      });
-    }
-  };
+  React.useEffect(() => {
+    const name = getQueryParam("name");
+    setCategoryName(name);
+  }, []);
 
   React.useEffect(() => {
     setCategoryId(id ?? "");
   }, [categoryId]);
 
   React.useEffect(() => {
-    fetchSubCategories();
-  }, [categoryId, getCategories]);
+    const res = getCategories({
+      variables: {
+        sortedBy: "created_at_DESC",
+        where: {
+          status: "ACTIVE",
+          parent_id: id,
+        },
+      },
+    });
+  }, [getCategories]);
+
+  React.useEffect(() => {
+    console.log("ID:", id);
+    filter.dispatch({
+      type: filter.ACTION_TYPE.CATEGORY_ID,
+      payload: id ?? "",
+    });
+  }, [
+    categoryData?.getCategories?.total !== undefined &&
+      categoryData.getCategories.total > 0,
+  ]);
+
+  // console.log("Total:", categoryData?.getCategories.total);
+  // console.log(fetchAllProducts);
 
   return (
     <>
@@ -135,20 +134,23 @@ export default function Category() {
                 }
               >
                 {categoryName}
-                {categoryData?.total > 0 && categoryData?.success && (
-                  <NextIcon size={16} className="text-gray-500" />
-                )}
+                {categoryData?.getCategories?.total !== undefined &&
+                  categoryData.getCategories.total > 0 && (
+                    <NextIcon size={16} className="text-gray-500" />
+                  )}
               </p>
               <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
-                {categoryData?.total > 0 &&
-                  categoryData?.success &&
-                  categoryData?.getCategories?.data?.map((val: Category) => (
+                {categoryData?.getCategories?.total !== undefined &&
+                  categoryData.getCategories.total > 0 &&
+                  categoryData?.getCategories?.data?.map((val) => (
                     <li
                       key={val.id}
                       className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
-                      onClick={() => {
-                        setCategoryId(val?.id);
-                      }}
+                      onClick={() =>
+                        router.push(
+                          `/category/${val.id}?name=${val.name.name_en}`
+                        )
+                      }
                     >
                       <span>{val?.name?.name_en}</span>
                     </li>
@@ -225,13 +227,13 @@ export default function Category() {
                 />
               </div>
             </div>
-            {fetchProducts?.loading ? (
+            {fetchAllProducts?.loading ? (
               <div className="w-full flex items-center justify-center">
                 <p className="text-gray-500 text-sm">Loading...</p>
               </div>
-            ) : fetchProducts.total ?? 0 > 0 ? (
+            ) : fetchAllProducts.total ?? 0 > 0 ? (
               <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
-                {fetchProducts?.data?.map((product: ProductData) => (
+                {fetchAllProducts?.data?.map((product: ProductData) => (
                   <ProductCard
                     key={product.id}
                     id={product.id}
@@ -252,7 +254,7 @@ export default function Category() {
               <Pagination
                 filter={filter.data}
                 totalPage={Math.ceil(
-                  (fetchProducts.total ?? 0) / filter.data.limit
+                  (fetchAllProducts.total ?? 0) / filter.data.limit
                 )}
                 onPageChange={(e) => {
                   filter.dispatch({
@@ -279,7 +281,7 @@ export default function Category() {
           </div>
           <div className="w-full">
             <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
-              {categoryData?.getCategories?.data?.map((val: Category) => (
+              {categoryData?.getCategories?.data?.map((val) => (
                 <li
                   key={val?.id}
                   className="flex items-start justify-between cursor-pointer hover:bg-gray-200 w-full py-1 px-2 rounded"
