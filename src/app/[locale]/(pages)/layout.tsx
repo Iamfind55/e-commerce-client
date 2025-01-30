@@ -1,22 +1,11 @@
 "use client";
 
+import "../globals.css";
+import { ReactNode } from "react";
 import Header from "../components/header/page";
 import Footer from "../components/footer/page";
-import "../globals.css";
-import {
-  CalendarIcon,
-  OutlineHomeIcon,
-  TimeIcon,
-  TransactionIcon,
-} from "@/icons/page";
-import { ReactNode } from "react";
 import { Link, usePathname } from "@/navigation";
-
-// export const metadata = {
-//   title: "Tiktokshop",
-//   description:
-//     "We are the represent of tiktok for selling best product to you.",
-// };
+import { CartIcon, CircleUser, HomeIcon, ShopIcon } from "@/icons/page";
 
 type MenuItem = {
   icon: ReactNode;
@@ -32,28 +21,28 @@ export default function RootLayout({
   const pathname = usePathname();
   const mobileMenuItems: MenuItem[] = [
     {
-      icon: <OutlineHomeIcon size={18} />,
+      icon: <HomeIcon size={18} />,
       menu: "Home",
-      route: "/client",
+      route: "/",
     },
     {
-      icon: <CalendarIcon size={16} />,
-      menu: "Search",
-      route: "/doctor/booking-history",
+      icon: <ShopIcon size={16} />,
+      menu: "Shop",
+      route: "/shop",
     },
     {
-      icon: <TimeIcon size={16} />,
+      icon: <CartIcon size={16} />,
       menu: "My cart",
-      route: "/doctor/schadule",
+      route: "/cart",
     },
     {
-      icon: <TransactionIcon size={18} />,
+      icon: <CircleUser size={18} />,
       menu: "My account",
-      route: "/doctor/transaction",
+      route: "/customer",
     },
   ];
 
-  const activeClassName = "text-secondary";
+  const activeClassName = "text-neon_pink";
   const inactiveClassName = "text-gray-500";
 
   return (
@@ -61,7 +50,7 @@ export default function RootLayout({
       <Header />
       {children}
       <Footer />
-      <div className="block sm:hidden sticky bottom-0 z-10 bg-white border">
+      <div className="block sm:hidden sticky -bottom-2 z-10 bg-white border">
         <div className="bg-white pt-4 pb-4 block lg:hidden w-full">
           <div className="w-full flex items-center justify-around">
             {mobileMenuItems.map((item) => {
