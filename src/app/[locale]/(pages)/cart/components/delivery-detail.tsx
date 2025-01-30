@@ -32,7 +32,7 @@ export default function DeliveryDetails() {
               <div className="text-gray-500 flex items-start justify-start flex-col">
                 <p className="text-sm">{product?.name}.</p>
                 <p className="text-xs">
-                  ${product?.price}&nbsp;&nbsp;({product?.quantity} items)
+                  ${product?.price.toFixed(2)}&nbsp;&nbsp;({product?.quantity} items)
                 </p>
               </div>
             </div>

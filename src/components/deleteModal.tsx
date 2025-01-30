@@ -63,14 +63,14 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }: Props) => {
                 <div className="flex items-center justify-center gap-4">
                   <button
                     type="button"
-                    className="py-2.5 px-5 ms-3 text-xs font-medium text-white focus:outline-none bg-neon_pink rounded py-2 focus:z-10 focus:ring-4"
+                    className="py-2.5 px-5 ms-3 text-xs font-medium text-black focus:outline-none bg-gray-200 rounded py-2 focus:z-10 focus:ring-4"
                     onClick={onClose}
                   >
                     No, cancel
                   </button>
                   <button
                     type="button"
-                    className="text-white bg-neon_blue focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded py-2 text-xs inline-flex items-center px-5 py-2.5 text-center"
+                    className="text-white bg-neon_pink focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded py-2 text-xs inline-flex items-center px-5 py-2.5 text-center"
                     onClick={() => {
                       onConfirm();
                       onClose();

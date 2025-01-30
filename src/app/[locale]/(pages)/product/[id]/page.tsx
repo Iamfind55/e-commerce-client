@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { useParams } from "next/navigation";
 import RatingStar from "@/components/ratingStar";
 import React, { useState, useEffect } from "react";
@@ -38,21 +39,9 @@ export default function ProductDetails() {
   const dispatch = useDispatch();
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
 
-  // const handleAddToCart = () => {
-  //   dispatch(
-  //     addToCart({
-  //       id: props?.productData.id,
-  //       name: props?.productData.name.name_en,
-  //       price: props.productData.price,
-  //       quantity: 1,
-  //       cover_image: props.productData.cover_image,
-  //       in_stock: props?.quantity,
-  //     })
-  //   );
-  // };
-
-  const [quantity, setQuantity] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
+  const [tab, setTab] = React.useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(1);
   const [totalPrice, setTotalPrice] = useState<number>(price);
 
   const [getProduct, { data: productData }] = useLazyQuery<GetProductResponse>(
@@ -114,7 +103,7 @@ export default function ProductDetails() {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
 
-  const [tab, setTab] = React.useState<number>(1);
+  const token = Cookies.get("auth_token");
 
   return (
     <div className="flex items-center justify-center bg-bg_color py-0 sm:py-6">
@@ -194,18 +183,23 @@ export default function ProductDetails() {
                   type="button"
                   title="Add to cart"
                   onClick={() => {
-                    dispatch(
-                      addToCart({
-                        id: productData?.getProduct?.data?.id ?? "",
-                        name: productData?.getProduct?.data?.name.name_en ?? "",
-                        price: productData?.getProduct?.data?.price ?? 0,
-                        quantity: quantity ?? 1,
-                        cover_image:
-                          productData?.getProduct?.data?.cover_image ?? "",
-                        in_stock:
-                          productData?.getProduct?.data?.quantity ?? 100,
-                      })
-                    );
+                    if (!token) {
+                      router.push("/cus-signin");
+                    } else {
+                      dispatch(
+                        addToCart({
+                          id: productData?.getProduct?.data?.id ?? "",
+                          name:
+                            productData?.getProduct?.data?.name.name_en ?? "",
+                          price: productData?.getProduct?.data?.price ?? 0,
+                          quantity: quantity ?? 1,
+                          cover_image:
+                            productData?.getProduct?.data?.cover_image ?? "",
+                          in_stock:
+                            productData?.getProduct?.data?.quantity ?? 100,
+                        })
+                      );
+                    }
                   }}
                 />
               </div>

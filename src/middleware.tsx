@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 // Protected paths for which authentication is required
 const protectedPaths = ["/customer"];
 const protectedClient = ["/client"];
+const protectedCart = ["/cart"];
 const intlMiddleware = createMiddleware({
   locales: ["en", "th", "vi", "zh", "ms"],
   defaultLocale: "en",
@@ -55,6 +56,16 @@ export function middleware(req: NextRequest) {
       }
     } else {
       return NextResponse.redirect(new URL(`/${locale}/`, req.url));
+    }
+  }
+
+  if (protectedCart.some((path) => normalizedPathname.startsWith(path))) {
+    if (token) {
+      if (type !== "CUSTOMER") {
+        return NextResponse.redirect(new URL(`/${locale}/cus-signin`, req.url));
+      }
+    } else {
+      return NextResponse.redirect(new URL(`/${locale}/cus-signin`, req.url));
     }
   }
 

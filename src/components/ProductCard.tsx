@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 
 // components
@@ -12,22 +13,30 @@ import { ProductData } from "@/types/product";
 import { truncateText } from "@/utils/letterLimitation";
 
 // images
+import { useRouter } from "@/navigation";
 import { stripHtml } from "@/utils/stripHtml";
 import { addToCart } from "@/redux/slice/cartSlice";
 
 export default function ProductCard(props: ProductData) {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const token = Cookies.get("auth_token");
+
   const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        id: props?.id,
-        name: props?.name.name_en,
-        price: props.price,
-        quantity: 1,
-        cover_image: props.cover_image,
-        in_stock: props?.quantity ?? 0,
-      })
-    );
+    if (!token) {
+      router.push("/cus-signin");
+    } else {
+      dispatch(
+        addToCart({
+          id: props?.id,
+          name: props?.name.name_en,
+          price: props.price,
+          quantity: 1,
+          cover_image: props.cover_image,
+          in_stock: props?.quantity ?? 0,
+        })
+      );
+    }
   };
   return (
     <div className="cursor-pointer flex items-start justify-start flex-col select-none gap-2 w-auto rounded border hover:shadow-lg transition-all duration-300">

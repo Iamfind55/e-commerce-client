@@ -106,7 +106,7 @@ export default function PaymentDetails({ tab, setTab }: PaymentDetailsProps) {
           </div>
           <div className="w-full flex items-center justify-between px-2">
             <h1 className="py-2 text-sm">{t("_total")}:</h1>
-            <p className="py-1 px-3 rounded text-sm">${total}</p>
+            <p className="py-1 px-3 rounded text-sm">${total.toFixed(2)}</p>
           </div>
         </div>
       </div>

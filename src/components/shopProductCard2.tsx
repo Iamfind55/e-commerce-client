@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 // components
 import { CheckCircleIcon } from "@/icons/page";
@@ -10,7 +11,6 @@ import { stripHtml } from "@/utils/stripHtml";
 import { ShopProductData } from "@/types/shop";
 import { truncateText } from "@/utils/letterLimitation";
 
-
 // redux
 import { useRouter } from "@/navigation";
 import { useDispatch } from "react-redux";
@@ -19,8 +19,22 @@ import { addToCart } from "@/redux/slice/cartSlice";
 export default function ShopProductCard2(props: ShopProductData) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const token = Cookies.get("auth_token");
   const handleAddToCart = () => {
-    dispatch(addToCart({ id: props?.productData.id, name: props?.productData.name.name_en, price: props.productData.price, quantity: 1, cover_image: props.productData.cover_image, in_stock: props?.quantity }));
+    if (!token) {
+      router.push("/cus-signin");
+    } else {
+      dispatch(
+        addToCart({
+          id: props?.productData.id,
+          name: props?.productData.name.name_en,
+          price: props.productData.price,
+          quantity: 1,
+          cover_image: props.productData.cover_image,
+          in_stock: props?.quantity,
+        })
+      );
+    }
   };
 
   return (
