@@ -11,7 +11,6 @@ import { ProductData, ShopProduct } from "@/types/product";
 
 // api and images
 import { QUERY_SHOP_SINGLE_PRODUCT } from "@/api/shop";
-import category01 from "/public/images/category01.webp";
 
 export default function OrderCardComponent(props: ShopProduct) {
   const defaultProductData: ProductData = {
@@ -83,7 +82,7 @@ export default function OrderCardComponent(props: ShopProduct) {
               className="rounded object-cover"
               src={
                 !props.productData.cover_image
-                  ? category01
+                  ? "/images/category01.webp"
                   : props?.productData.cover_image
               }
               alt=""

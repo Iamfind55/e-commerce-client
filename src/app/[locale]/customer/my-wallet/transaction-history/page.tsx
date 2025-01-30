@@ -8,7 +8,6 @@ import { RootState } from "@/redux/store";
 import Breadcrumb from "@/components/breadCrumb";
 
 // images
-import category01 from "/public/images/category01.webp";
 import { useTranslations } from "next-intl";
 import { truncateText } from "@/utils/letterLimitation";
 import IconButton from "@/components/iconButton";
@@ -176,7 +175,11 @@ export default function TransactionHistory() {
                 <div className="w-full flex items-start justify-start gap-4">
                   <Image
                     className="rounded"
-                    src={val?.payment_slip ? val?.payment_slip : category01}
+                    src={
+                      val?.payment_slip
+                        ? val?.payment_slip
+                        : "/images/category01.webp"
+                    }
                     alt={val?.identifier}
                     width={60}
                     height={60}

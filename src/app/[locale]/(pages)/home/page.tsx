@@ -23,8 +23,6 @@ import { QUERY_BANNERS } from "@/api/banner";
 import { QUERY_CATEGORIES } from "@/api/category";
 import { QUERY_BEST_SELLING_PRODUCTS, QUERY_PRODUCTS } from "@/api/product";
 
-// images
-import category01 from "/public/images/category01.webp";
 
 export default function Home() {
   const t = useTranslations("homePage");
@@ -147,7 +145,7 @@ export default function Home() {
                 >
                   <Image
                     className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
-                    src={image.image ?? category01}
+                    src={image.image ?? "/images/category01.webp"}
                     alt={image.name?.name_en ?? "default"}
                     width={200}
                     height={600}

@@ -8,7 +8,6 @@ import { RootState } from "@/redux/store";
 import Breadcrumb from "@/components/breadCrumb";
 
 // images
-import category01 from "/public/images/category01.webp";
 import { useTranslations } from "next-intl";
 import { truncateText } from "@/utils/letterLimitation";
 import IconButton from "@/components/iconButton";
@@ -111,7 +110,7 @@ export default function PurchaseHistory() {
                           src={
                             product?.cover_image
                               ? product?.cover_image
-                              : category01
+                              : "/images/category01.webp"
                           }
                           alt={product.name}
                           width={60}
@@ -171,7 +170,7 @@ export default function PurchaseHistory() {
                 <div className="w-full flex items-start justify-start gap-4">
                   <Image
                     className="rounded"
-                    src={category01}
+                    src="/images/category01.webp"
                     alt="image-01"
                     width={60}
                     height={60}

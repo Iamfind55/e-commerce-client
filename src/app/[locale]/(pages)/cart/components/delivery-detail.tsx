@@ -4,9 +4,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useTranslations } from "next-intl";
 
-// images
-import category01 from "/public/images/category01.webp";
-
 export default function DeliveryDetails() {
   const t = useTranslations("myCartPage");
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -23,7 +20,11 @@ export default function DeliveryDetails() {
             >
               <Image
                 className="rounded"
-                src={product?.cover_image ? product?.cover_image : category01}
+                src={
+                  product?.cover_image
+                    ? product?.cover_image
+                    : "/images/category01.webp"
+                }
                 alt={product?.name}
                 width={60}
                 height={60}

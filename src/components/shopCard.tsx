@@ -10,7 +10,6 @@ import { ShopIcon } from "@/icons/page";
 import { ShopData } from "@/types/shop";
 import { formatDate } from "@/utils/dateFormat";
 import { truncateText } from "@/utils/letterLimitation";
-import defaultImage from "/public/images/default-image.webp";
 
 export default function ShopCard(props: ShopData) {
   const router = useRouter();
@@ -20,7 +19,7 @@ export default function ShopCard(props: ShopData) {
         <div className="w-full h-[14vh]">
           <Image
             className="w-full h-full object-cover rounded-tl-md rounded-tr-md"
-            src={props?.image?.cover || defaultImage}
+            src={props?.image?.cover || "/images/default-image.webp"}
             alt={props?.fullname || "Shop"}
             width={24}
             height={24}
@@ -30,7 +29,7 @@ export default function ShopCard(props: ShopData) {
         <div className="absolute top-16">
           <Image
             className="w-16 h-16 mb-3 rounded-full shadow-md border-2 border-white"
-            src={props?.image?.logo || defaultImage}
+            src={props?.image?.logo || "/images/default-image.webp"}
             alt={props?.fullname}
             width={24}
             height={24}

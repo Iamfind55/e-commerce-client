@@ -22,11 +22,6 @@ import Drawer from "@/components/drawer";
 import DropdownComponent from "@/components/dropdown";
 
 // images
-import EnglishFlag from "/public/images/english-flag.webp";
-import ThaiFlag from "/public/images/thai-flag.webp";
-import VietnamFlag from "/public/images/vietnam-flag.webp";
-import ChinesFlag from "/public/images/chines-flag.webp";
-import MalaysiaFlag from "/public/images/malaysia-flag.webp";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
@@ -182,7 +177,12 @@ export default function Navbar() {
                     locale="en"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image src={EnglishFlag} alt="" height={20} width={20} />
+                    <Image
+                      src="/images/english-flag.webp"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
                     {t("_english")}
                   </Link>
                 </div>
@@ -192,7 +192,12 @@ export default function Navbar() {
                     locale="th"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image src={ThaiFlag} alt="" height={20} width={20} />
+                    <Image
+                      src="/images/thai-flag.webp"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
                     {t("_thai")}
                   </Link>
                 </div>
@@ -202,7 +207,12 @@ export default function Navbar() {
                     locale="vi"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image src={VietnamFlag} alt="" height={20} width={20} />
+                    <Image
+                      src="/images/vietnam-flag.webp"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
                     {t("_vietnam")}
                   </Link>
                 </div>
@@ -212,7 +222,12 @@ export default function Navbar() {
                     locale="zh"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image src={ChinesFlag} alt="" height={20} width={20} />
+                    <Image
+                      src="/images/chines-flag.webp"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
                     {t("_china")}
                   </Link>
                 </div>
@@ -222,7 +237,12 @@ export default function Navbar() {
                     locale="ms"
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
-                    <Image src={MalaysiaFlag} alt="" height={20} width={20} />
+                    <Image
+                      src="/images/malaysia-flag.webp"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
                     {t("_malaysia")}
                   </Link>
                 </div>

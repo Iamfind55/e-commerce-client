@@ -12,9 +12,6 @@ import {
   removeFromCart,
 } from "@/redux/slice/cartSlice";
 
-// images
-import category01 from "/public/images/category01.webp";
-
 export default function MyCartDetails() {
   const t = useTranslations("myCartPage");
   const dispatch = useDispatch();
@@ -82,7 +79,9 @@ export default function MyCartDetails() {
                     <Image
                       className="rounded"
                       src={
-                        product?.cover_image ? product?.cover_image : category01
+                        product?.cover_image
+                          ? product?.cover_image
+                          : "/images/category01.webp"
                       }
                       alt={product.name}
                       width={60}
@@ -148,7 +147,7 @@ export default function MyCartDetails() {
             <div className="w-full flex items-start justify-start gap-4">
               <Image
                 className="rounded"
-                src={category01}
+                src="/images/category01.webp"
                 alt="image-01"
                 width={60}
                 height={60}

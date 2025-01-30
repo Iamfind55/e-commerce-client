@@ -28,7 +28,6 @@ import {
 
 // images
 import { IShopSocial, IUserData } from "@/types/user";
-import DefaultImage from "/public/images/default-image.webp";
 import DeleteModal from "@/components/deleteModal";
 
 export default function ShopDetails() {
@@ -324,7 +323,7 @@ export default function ShopDetails() {
                       />
                     ) : (
                       <Image
-                        src={DefaultImage}
+                        src="/images/default-image.webp"
                         width={100}
                         height={100}
                         alt="Image preview"
@@ -397,7 +396,7 @@ export default function ShopDetails() {
                         />
                       ) : (
                         <Image
-                          src={DefaultImage}
+                          src="/images/default-image.webp"
                           width={100}
                           height={100}
                           alt="Image preview"

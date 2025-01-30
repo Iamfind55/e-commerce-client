@@ -23,8 +23,6 @@ import {
   WalletIcon,
 } from "@/icons/page";
 
-// images
-import DafultImage from "/public/images/default-image.webp";
 
 type MenuItem = {
   icon: ReactNode;
@@ -116,7 +114,11 @@ export default function RootLayout({
           <div className="w-1/4 hidden sm:flex flex-col gap-2 shadow rounded-md bg-white">
             <div className="w-full bg-neon_pink p-6 rounded-tr-md rounded-tl-md">
               <Image
-                src={customer?.image ? customer?.image : DafultImage}
+                src={
+                  customer?.image
+                    ? customer?.image
+                    : "/images/default-image.webp"
+                }
                 alt="Logo"
                 width={80}
                 height={80}

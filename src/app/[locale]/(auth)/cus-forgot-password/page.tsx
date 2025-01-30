@@ -14,7 +14,6 @@ import { useToast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import Textfield from "@/components/textField";
 import IconButton from "@/components/iconButton";
-import ForgotImage from "../../../../../public/images/forgot-password.svg";
 
 export default function CustomerForgotPasword() {
   const router = useRouter();
@@ -87,7 +86,7 @@ export default function CustomerForgotPasword() {
             <Link href="/">
               <Image
                 className="rounded-full"
-                src={ForgotImage}
+                src="/images/forgot-password.svg"
                 alt=""
                 width={200}
                 height={200}

@@ -15,7 +15,6 @@ import BestSellingComponent from "../components/best-selling";
 
 // utils, icons, hook and types
 import { GetShopResponse } from "@/types/shop";
-import category01 from "/public/images/category01.webp";
 
 export default function Shop() {
   const params = useParams();
@@ -45,7 +44,7 @@ export default function Shop() {
           backgroundImage: `url(${
             shopData?.getShop?.data?.image?.cover
               ? shopData?.getShop?.data?.image?.cover
-              : category01.src
+              : "/images/category01.webp"
           })`,
         }}
       >
@@ -56,7 +55,7 @@ export default function Shop() {
               src={
                 shopData?.getShop?.data?.image?.logo
                   ? shopData?.getShop?.data?.image?.logo
-                  : category01
+                  : "/images/category01.webp"
               }
               alt="product-01"
               width={100}

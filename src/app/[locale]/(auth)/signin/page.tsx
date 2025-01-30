@@ -19,11 +19,6 @@ import { MUTATION_SHOP_SIGN_IN } from "@/api/auth";
 import { useToast } from "@/utils/toast";
 import { ILogins } from "@/types/login";
 
-// images
-import sliderImage01 from "/public/images/login-image-01.webp";
-import sliderImage02 from "/public/images/login-image-02.webp";
-import sliderImage03 from "/public/images/login-image-03.webp";
-
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -118,9 +113,9 @@ export default function Login() {
   };
 
   const sliderImages = [
-    { id: "1", image: sliderImage01.src, name: "Slider Image 1" },
-    { id: "2", image: sliderImage02.src, name: "Slider Image 2" },
-    { id: "3", image: sliderImage03.src, name: "Slider Image 3" },
+    { id: "1", image: "/images/login-image-01.webp", name: "Slider Image 1" },
+    { id: "2", image: "/images/login-image-02.webp", name: "Slider Image 2" },
+    { id: "3", image: "/images/login-image-03.webp", name: "Slider Image 3" },
   ];
 
   const sliderTexts = [

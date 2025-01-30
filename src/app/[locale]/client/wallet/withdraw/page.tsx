@@ -10,7 +10,6 @@ import Breadcrumb from "@/components/breadCrumb";
 import DatePicker from "@/components/datePicker";
 
 // icons, hooks and utils
-import category01 from "/public/images/category01.webp";
 import TransactionCard from "@/components/trasactionCard";
 import useFilter from "../../products/hooks/useFilter/page";
 import { page_limits, transaction_status } from "@/utils/option";
@@ -135,7 +134,7 @@ export default function WithdrawHistory() {
                   <div className="flex items-start justify-start gap-4">
                     <Image
                       className="rounded"
-                      src={category01}
+                      src="/images/category01.webp"
                       alt="Voucher"
                       width={60}
                       height={60}
@@ -156,7 +155,7 @@ export default function WithdrawHistory() {
                   <div className="flex items-start justify-start gap-4">
                     <Image
                       className="rounded"
-                      src={category01}
+                      src="/images/category01.webp"
                       alt="Voucher"
                       width={60}
                       height={60}
@@ -195,7 +194,7 @@ export default function WithdrawHistory() {
               title="BTC Conversion rate : $1.00"
               amount="$4,150.00"
               receive_amount="$4,190.00"
-              image={category01.src}
+              image="/images/category01.webp"
             />
             <TransactionCard
               date="2024-08-18 10:21:55"
@@ -203,7 +202,7 @@ export default function WithdrawHistory() {
               title="BTC Conversion rate : $1.00"
               amount="$4,150.00"
               receive_amount="$4,190.00"
-              image={category01.src}
+              image="/images/category01.webp"
             />
           </div>
           <div className="flex items-start justify-center py-2 gap-4">

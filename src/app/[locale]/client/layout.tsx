@@ -32,14 +32,6 @@ import {
 import "../globals.css";
 import DropdownComponent from "@/components/dropdown";
 
-// images
-import ThaiFlag from "/public/images/thai-flag.webp";
-import Logo from "/public/images/tiktokshop-logo.webp";
-import ChinesFlag from "/public/images/chines-flag.webp";
-import EnglishFlag from "/public/images/english-flag.webp";
-import VietnamFlag from "/public/images/vietnam-flag.webp";
-import MalaysiaFlag from "/public/images/malaysia-flag.webp";
-
 type MenuItem = {
   icon: ReactNode;
   menu: string;
@@ -172,7 +164,12 @@ export default function RootLayout({
         >
           <div className="h-[10vh] flex items-center justify-around bg-gray-400">
             {!isCollapsed && (
-              <Image src={Logo} alt="Logo" width={150} height={100} />
+              <Image
+                src="/images/tiktokshop-logo.webp"
+                alt="Logo"
+                width={150}
+                height={100}
+              />
             )}
           </div>
           <div className="flex items-center justify-between flex-col h-[85vh]">
@@ -285,7 +282,12 @@ export default function RootLayout({
                       locale="en"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
-                      <Image src={EnglishFlag} alt="" height={20} width={20} />
+                      <Image
+                        src="/images/english-flag.webp"
+                        alt=""
+                        height={20}
+                        width={20}
+                      />
                       {t("_english")}
                     </NavigateLink>
                   </div>
@@ -295,7 +297,12 @@ export default function RootLayout({
                       locale="th"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
-                      <Image src={ThaiFlag} alt="" height={20} width={20} />
+                      <Image
+                        src="/images/thai-flag.webp"
+                        alt=""
+                        height={20}
+                        width={20}
+                      />
                       {t("_thai")}
                     </NavigateLink>
                   </div>
@@ -305,7 +312,12 @@ export default function RootLayout({
                       locale="vi"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
-                      <Image src={VietnamFlag} alt="" height={20} width={20} />
+                      <Image
+                        src="/images/vietnam-flag.webp"
+                        alt=""
+                        height={20}
+                        width={20}
+                      />
                       {t("_vietnam")}
                     </NavigateLink>
                   </div>
@@ -315,7 +327,12 @@ export default function RootLayout({
                       locale="zh"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
-                      <Image src={ChinesFlag} alt="" height={20} width={20} />
+                      <Image
+                        src="/images/chines-flag.webp"
+                        alt=""
+                        height={20}
+                        width={20}
+                      />
                       {t("_china")}
                     </NavigateLink>
                   </div>
@@ -325,7 +342,12 @@ export default function RootLayout({
                       locale="ms"
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
-                      <Image src={MalaysiaFlag} alt="" height={20} width={20} />
+                      <Image
+                        src="/images/malaysia-flag.webp"
+                        alt=""
+                        height={20}
+                        width={20}
+                      />
                       {t("_malaysia")}
                     </NavigateLink>
                   </div>

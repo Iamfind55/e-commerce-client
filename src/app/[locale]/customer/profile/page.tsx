@@ -18,7 +18,6 @@ import { signIn } from "@/redux/slice/customerAuthSlice";
 
 // images and icons
 import { SaveIcon } from "@/icons/page";
-import DefaultImage from "/public/images/default-image.webp";
 import { ICustomers, IPaymentMethod } from "@/types/customer-auth";
 
 // APIs
@@ -307,7 +306,7 @@ export default function ProfileManagement() {
                   />
                 ) : (
                   <Image
-                    src={DefaultImage}
+                    src="/images/default-image.webp"
                     width={100}
                     height={100}
                     alt="Image preview"

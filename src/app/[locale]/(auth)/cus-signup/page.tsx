@@ -18,7 +18,6 @@ import { ICustomerSignup } from "@/types/customer-auth";
 import { MUTATION_CUSTOMER_REGISTER } from "@/api/customer-auth";
 
 // images
-import backgroundImage from "../../../../../public/images/background-image.png";
 import { signIn } from "@/redux/slice/customerAuthSlice";
 
 export default function CustomerRegister() {
@@ -118,7 +117,7 @@ export default function CustomerRegister() {
     <>
       <div
         style={{
-          backgroundImage: `url(${backgroundImage.src})`,
+          backgroundImage: `url("/images/background-image.png")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

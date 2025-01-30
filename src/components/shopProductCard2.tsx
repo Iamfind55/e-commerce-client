@@ -10,8 +10,6 @@ import { stripHtml } from "@/utils/stripHtml";
 import { ShopProductData } from "@/types/shop";
 import { truncateText } from "@/utils/letterLimitation";
 
-// images
-import category01 from "/public/images/category01.webp";
 
 // redux
 import { useRouter } from "@/navigation";
@@ -43,7 +41,7 @@ export default function ShopProductCard2(props: ShopProductData) {
               className="rounded object-cover"
               src={
                 !props.productData.cover_image
-                  ? category01
+                  ? "/images/category01.webp"
                   : props?.productData.cover_image
               }
               alt=""

@@ -21,9 +21,6 @@ import { stripHtml } from "@/utils/stripHtml";
 import { ProductData } from "@/types/product";
 import { truncateText } from "@/utils/letterLimitation";
 
-// images
-import category01 from "/public/images/category01.webp";
-
 interface VIPProductCardProps extends ProductData {
   selectedIds: string[];
   handleCheckboxChange: (productId: string) => void;
@@ -133,7 +130,7 @@ export default function VIPProductCard({
           <div className="w-full h-[150px] object-cover flex items-center justify-center">
             <Image
               className="rounded object-cover"
-              src={!cover_image ? category01 : cover_image}
+              src={!cover_image ? "/images/category01.webp" : cover_image}
               alt=""
               width={120}
               height={120}
@@ -390,7 +387,7 @@ export default function VIPProductCard({
                           >
                             <Image
                               className="rounded object-cover"
-                              src={value ? value : category01}
+                              src={value ? value : "/images/category01.webp"}
                               alt=""
                               width={120}
                               height={120}

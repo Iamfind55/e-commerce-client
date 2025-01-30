@@ -17,9 +17,6 @@ import { Link, useRouter } from "@/navigation";
 import { ICustomerLogin } from "@/types/customer-auth";
 import { MUTATION_CUSTOMER_LOGIN } from "@/api/customer-auth";
 
-// images
-import backgroundImage from "../../../../../public/images/background-image.png";
-
 export default function CustomerLogin() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -104,7 +101,7 @@ export default function CustomerLogin() {
     <>
       <div
         style={{
-          backgroundImage: `url(${backgroundImage.src})`,
+          backgroundImage: `url("/images/background-image.png")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

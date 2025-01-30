@@ -12,7 +12,6 @@ import { useToast } from "@/utils/toast";
 import IconButton from "@/components/iconButton";
 import Password from "@/components/passwordTextField";
 import { IPasswordWithConfirm } from "@/types/login";
-import ForgotImage from "../../../../../public/images/forgot-password.svg";
 
 import { MUTATION_CUSTOMER_RESET_PASSWORD } from "@/api/customer-auth";
 
@@ -80,7 +79,7 @@ export default function CustomerResetPassword() {
           <Link href="/">
             <Image
               className="rounded-full"
-              src={ForgotImage}
+              src="/images/forgot-password.svg"
               alt=""
               width={200}
               height={200}

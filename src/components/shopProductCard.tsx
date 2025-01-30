@@ -15,8 +15,6 @@ import { stripHtml } from "@/utils/stripHtml";
 import { truncateText } from "@/utils/letterLimitation";
 import { ProductData, ShopProduct } from "@/types/product";
 
-// images
-import category01 from "/public/images/category01.webp";
 
 export default function ShopProductCard(props: ShopProduct) {
   const defaultProductData: ProductData = {
@@ -83,7 +81,7 @@ export default function ShopProductCard(props: ShopProduct) {
               className="rounded object-cover"
               src={
                 !props.productData.cover_image
-                  ? category01
+                  ? "/images/category01.webp"
                   : props?.productData.cover_image
               }
               alt=""
@@ -345,7 +343,7 @@ export default function ShopProductCard(props: ShopProduct) {
                           >
                             <Image
                               className="rounded object-cover"
-                              src={value ? value : category01}
+                              src={value ? value : "/images/category01.webp"}
                               alt=""
                               width={120}
                               height={120}

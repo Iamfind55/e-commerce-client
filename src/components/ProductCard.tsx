@@ -11,7 +11,6 @@ import { ProductData } from "@/types/product";
 import { truncateText } from "@/utils/letterLimitation";
 
 // images
-import defaultImage from "/public/images/default-image.webp";
 import { stripHtml } from "@/utils/stripHtml";
 
 export default function ProductCard(props: ProductData) {
@@ -20,7 +19,7 @@ export default function ProductCard(props: ProductData) {
       <div className="max-w-sm bg-white rounded">
         <Image
           className="rounded"
-          src={props.cover_image || defaultImage}
+          src={props.cover_image || "/images/default-image.webp"}
           alt={props.name?.name_en || ""}
           width={300}
           height={100}

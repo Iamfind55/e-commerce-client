@@ -17,7 +17,6 @@ import { useLazyQuery } from "@apollo/client";
 import IconButton from "@/components/iconButton";
 import ProductCard from "@/components/ProductCard";
 import ThumbnailSwiper from "@/components/thumbnailSwiper";
-import defaultImage from "/public/images/default-image.webp";
 
 // icons and utils
 import {
@@ -131,7 +130,7 @@ export default function ProductDetails() {
                 <p className="text-sm">Liyang Store</p>
                 <Image
                   className="rounded"
-                  src={defaultImage}
+                  src="/images/default-image.webp"
                   alt=""
                   width={50}
                   height={50}
@@ -286,7 +285,7 @@ export default function ProductDetails() {
                       src={
                         product?.cover_image
                           ? product.cover_image
-                          : defaultImage
+                          : "/images/default-image.webp"
                       }
                       alt={product.name?.name_en}
                       width={100}
