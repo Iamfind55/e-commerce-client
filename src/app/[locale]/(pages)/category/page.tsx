@@ -192,6 +192,7 @@ export default function Category() {
                     description={product.description}
                     cover_image={product.cover_image}
                     total_star={product.total_star}
+                    quantity={product.quantity}
                   />
                 ))}
               </div>

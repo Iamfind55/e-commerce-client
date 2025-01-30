@@ -178,7 +178,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/english-flag.webp"
+                      src="/images/english-flag.png"
                       alt=""
                       height={20}
                       width={20}
@@ -193,8 +193,8 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/thai-flag.webp"
-                      alt=""
+                      src="/images/thai-flag.png"
+                      alt="Thai"
                       height={20}
                       width={20}
                     />
@@ -208,7 +208,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/vietnam-flag.webp"
+                      src="/images/vietnam-flag.png"
                       alt=""
                       height={20}
                       width={20}
@@ -223,7 +223,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/chines-flag.webp"
+                      src="/images/chines-flag.png"
                       alt=""
                       height={20}
                       width={20}
@@ -238,7 +238,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/malaysia-flag.webp"
+                      src="/images/malaysia-flag.jpg"
                       alt=""
                       height={20}
                       width={20}

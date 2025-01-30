@@ -95,7 +95,7 @@ export default function MyCartDetails() {
                     </div>
                   </div>
                 </td>
-                <td className="text-xs">${product.price}</td>
+                <td className="text-xs">${product.price.toFixed(2)}</td>
                 <td>
                   <div className="flex items-center justify-start gap-6 rounded py-2 px-4">
                     <button
@@ -131,7 +131,7 @@ export default function MyCartDetails() {
               <td colSpan={6}>
                 <div className="flex items-start justify-end py-4 gap-4 pr-6">
                   <p>{t("_total")}:</p>
-                  <p className="font-bold">${subTotal}</p>
+                  <p className="font-bold">${subTotal.toFixed(2)}</p>
                 </div>
               </td>
             </tr>

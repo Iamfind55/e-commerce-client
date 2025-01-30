@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
 
 // components
 import { CartIcon } from "@/icons/page";
@@ -12,8 +13,22 @@ import { truncateText } from "@/utils/letterLimitation";
 
 // images
 import { stripHtml } from "@/utils/stripHtml";
+import { addToCart } from "@/redux/slice/cartSlice";
 
 export default function ProductCard(props: ProductData) {
+  const dispatch = useDispatch();
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: props?.id,
+        name: props?.name.name_en,
+        price: props.price,
+        quantity: 1,
+        cover_image: props.cover_image,
+        in_stock: props?.quantity ?? 0,
+      })
+    );
+  };
   return (
     <div className="cursor-pointer flex items-start justify-start flex-col select-none gap-2 w-auto rounded border hover:shadow-lg transition-all duration-300">
       <div className="max-w-sm bg-white rounded">
@@ -42,8 +57,8 @@ export default function ProductCard(props: ProductData) {
             >
               View
             </Link>
-            <Link
-              href={`/product/${props.id}`}
+            <button
+              onClick={() => handleAddToCart()}
               className="w-full sm:w-auto text-second_black border border-neon_blue rounded flex items-center justify-center px-3 py-1 mt-0 text-xs text-center text-base rounded focus:outline-none"
             >
               Add to
@@ -51,7 +66,7 @@ export default function ProductCard(props: ProductData) {
                 size={16}
                 className="text-second_black animate-bounce"
               />
-            </Link>
+            </button>
           </div>
         </div>
       </div>

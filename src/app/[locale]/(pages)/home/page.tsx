@@ -23,7 +23,6 @@ import { QUERY_BANNERS } from "@/api/banner";
 import { QUERY_CATEGORIES } from "@/api/category";
 import { QUERY_BEST_SELLING_PRODUCTS, QUERY_PRODUCTS } from "@/api/product";
 
-
 export default function Home() {
   const t = useTranslations("homePage");
   const [getBanners, { data }] = useLazyQuery<GetBannersResponse>(
@@ -169,6 +168,7 @@ export default function Home() {
                     description={product.description}
                     cover_image={product.cover_image}
                     total_star={product.total_star}
+                    quantity={product.quantity}
                   />
                 )
               )}

@@ -28,10 +28,28 @@ import {
 import { stripHtml } from "@/utils/stripHtml";
 import { truncateText } from "@/utils/letterLimitation";
 import { AwardIcon, CartIcon, MinusIcon, PlusIcon } from "@/icons/page";
+import { useRouter } from "@/navigation";
+import { addToCart } from "@/redux/slice/cartSlice";
+import { useDispatch } from "react-redux";
 
 export default function ProductDetails() {
+  const router = useRouter();
   const params = useParams();
+  const dispatch = useDispatch();
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
+
+  // const handleAddToCart = () => {
+  //   dispatch(
+  //     addToCart({
+  //       id: props?.productData.id,
+  //       name: props?.productData.name.name_en,
+  //       price: props.productData.price,
+  //       quantity: 1,
+  //       cover_image: props.productData.cover_image,
+  //       in_stock: props?.quantity,
+  //     })
+  //   );
+  // };
 
   const [quantity, setQuantity] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
@@ -69,8 +87,6 @@ export default function ProductDetails() {
       },
     });
   }, [getSimilarProducts]);
-
-  console.log("Similar product:", similarProductData);
 
   React.useEffect(() => {
     getProduct({
@@ -177,11 +193,20 @@ export default function ProductDetails() {
                   isFront={true}
                   type="button"
                   title="Add to cart"
-                />
-                <IconButton
-                  className="rounded text-white p-2 w-auto mt-4 italic text-sm bg-neon_blue"
-                  type="button"
-                  title="Buy now"
+                  onClick={() => {
+                    dispatch(
+                      addToCart({
+                        id: productData?.getProduct?.data?.id ?? "",
+                        name: productData?.getProduct?.data?.name.name_en ?? "",
+                        price: productData?.getProduct?.data?.price ?? 0,
+                        quantity: quantity ?? 1,
+                        cover_image:
+                          productData?.getProduct?.data?.cover_image ?? "",
+                        in_stock:
+                          productData?.getProduct?.data?.quantity ?? 100,
+                      })
+                    );
+                  }}
                 />
               </div>
             </div>
@@ -278,14 +303,15 @@ export default function ProductDetails() {
                 (product) => (
                   <div
                     key={product.id}
-                    className="w-full flex items-start justify-start gap-2 cursor-pointer py-2 rounded hover:bg-gray-200"
+                    className="w-full flex items-start justify-start gap-2 cursor-pointer py-2 rounded border border-white hover:border hover:border-neon_pink"
+                    onClick={() => router.push(`/product/${product.id}`)}
                   >
                     <Image
                       className="rounded"
                       src={
                         product?.cover_image
                           ? product.cover_image
-                          : "/images/default-image.webp"
+                          : "/images/default-image.png"
                       }
                       alt={product.name?.name_en}
                       width={100}
