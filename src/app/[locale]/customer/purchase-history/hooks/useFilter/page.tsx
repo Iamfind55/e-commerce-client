@@ -1,19 +1,21 @@
-import { IFilter } from "@/types/product";
+import { IOrderFilter } from "@/types/order";
 import moment from "moment";
 import React from "react";
 
 // Define the type for actions
 type Action =
-  | { type: "status"; payload: string | null }
+  | { type: "order_no"; payload: string | null }
+  | { type: "order_status"; payload: string | null }
   | { type: "page"; payload: number | 1 }
   | { type: "created_at_start_date"; payload: string | null }
   | { type: "created_at_end_date"; payload: string | null };
 
 // Initial state
-const initialState: IFilter = {
+const initialState: IOrderFilter = {
   limit: 10,
   page: 1,
-  status: null,
+  order_no: null,
+  order_status: null,
   createdAtBetween: {
     startDate: null,
     endDate: null,
@@ -21,13 +23,14 @@ const initialState: IFilter = {
 };
 
 const ACTION_TYPE = {
-  STATUS: "status",
+  ORDER_NO: "order_no",
+  ORDER_STATUS: "order_status",
   PAGE: "page",
   CREATED_AT_START_DATE: "created_at_start_date",
   CREATED_AT_END_DATE: "created_at_end_date",
 } as const;
 
-const reducer = (state: IFilter, action: Action): IFilter => {
+const reducer = (state: IOrderFilter, action: Action): IOrderFilter => {
   const startDate = moment(state.createdAtBetween.startDate);
   const endDate = moment(state.createdAtBetween.endDate);
 
@@ -72,8 +75,11 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           }),
       };
 
-    case ACTION_TYPE.STATUS:
-      return { ...state, status: action.payload || null, page: 1 };
+    case ACTION_TYPE.ORDER_NO:
+      return { ...state, order_no: action.payload || null, page: 1 };
+
+    case ACTION_TYPE.ORDER_STATUS:
+      return { ...state, order_status: action.payload || null, page: 1 };
 
     case ACTION_TYPE.PAGE:
       return { ...state, page: action.payload };

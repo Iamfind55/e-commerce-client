@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useTranslations } from "next-intl";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -16,6 +16,7 @@ import { BackIcon } from "@/icons/page";
 import Loading from "@/components/loading";
 import IconButton from "@/components/iconButton";
 import { GetCustomerWalletResponse } from "@/types/wallet";
+import { clearCart } from "@/redux/slice/cartSlice";
 
 interface PaymentDetailsProps {
   tab: number;
@@ -23,6 +24,7 @@ interface PaymentDetailsProps {
 }
 
 export default function PaymentDetails({ tab, setTab }: PaymentDetailsProps) {
+  const dispatch = useDispatch();
   const t = useTranslations("myCartPage");
   const h = useTranslations("homePage");
   const [total, setTotal] = React.useState<number>(0);
@@ -72,6 +74,7 @@ export default function PaymentDetails({ tab, setTab }: PaymentDetailsProps) {
           message: "Create order successful!",
           duration: 3000,
         });
+        dispatch(clearCart());
         handleNext();
       } else {
         errorMessage({

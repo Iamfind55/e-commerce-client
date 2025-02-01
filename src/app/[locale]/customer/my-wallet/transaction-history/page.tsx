@@ -19,6 +19,7 @@ import Pagination from "@/components/pagination";
 import useFetchCustomerTransactionHistories from "../hooks/useFetchCusTransaction";
 import useFilter from "../hooks/useFilter/page";
 import { CloseEyeIcon } from "@/icons/page";
+import { formatDateTimeToDate } from "@/utils/dateFormat";
 
 export default function TransactionHistory() {
   const t = useTranslations("myCartPage");
@@ -134,7 +135,9 @@ export default function TransactionHistory() {
                     <td className="text-xs">{items.amount}</td>
                     <td className="text-xs">${items.coin_type}</td>
                     <td>
-                      <p className="text-xs">{items.created_at}</p>
+                      <p className="text-xs">
+                        {formatDateTimeToDate(items.created_at)}
+                      </p>
                     </td>
                     <td className="text-xs">
                       <StatusBadge
