@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
 import { useLazyQuery, useMutation } from "@apollo/client";
 
@@ -15,7 +15,13 @@ import DeleteModal from "@/components/deleteModal";
 import DropdownComponent from "@/components/dropdown";
 
 // icons and images
-import { CancelIcon, PlusIcon, SaveIcon, SettingIcon } from "@/icons/page";
+import {
+  BackIcon,
+  CancelIcon,
+  PlusIcon,
+  SaveIcon,
+  SettingIcon,
+} from "@/icons/page";
 
 // APIs
 import { QUERY_CITIES, QUERY_COUNTRIES, QUERY_STATES } from "@/api/country";
@@ -35,6 +41,8 @@ import {
 } from "@/types/country";
 import { useToast } from "@/utils/toast";
 import { CustomerAddress, GetCustomerAddressesResponse } from "@/types/address";
+import { setAddressId } from "@/redux/slice/shippingSlice";
+import { RootState } from "@/redux/store";
 
 export type ReportItem = {
   title: string;
@@ -42,7 +50,13 @@ export type ReportItem = {
   detail: string;
 };
 
-export default function ShippingInformation() {
+interface PropsDetails {
+  tab: number;
+  setTab: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export default function ShippingInformation({ tab, setTab }: PropsDetails) {
+  const dispatch = useDispatch();
   const t = useTranslations("myCartPage");
   const g = useTranslations("global");
   const { customer } = useSelector((state: any) => state.customerAuth);
@@ -61,6 +75,7 @@ export default function ShippingInformation() {
   const [stateId, setStateId] = React.useState<string>("");
   const [stateName, setStateName] = React.useState<string>("");
   const [cityName, setCityName] = React.useState<string>("");
+
   const [createAddress] = useMutation(MUTATION_CREATE_CUSTOMER_ADDRESS);
   const [updateAddress] = useMutation(MUTATION_UPDATE_CUSTOMER_ADDRESS);
   const [deleteAddress] = useMutation(MUTATION_DELETE_CUSTOMER_ADDRESS);
@@ -315,6 +330,28 @@ export default function ShippingInformation() {
     }
   };
 
+  const handleNext = () => {
+    setTab(tab + 1);
+  };
+
+  const handlePrevious = () => {
+    setTab(tab - 1);
+  };
+
+  // To store the default address ID on redux
+  React.useEffect(() => {
+    if (addressesData?.getCustomerAddresses?.data) {
+      const usedAddress = addressesData.getCustomerAddresses.data.find(
+        (address) => address.is_used === true
+      );
+      if (usedAddress) {
+        dispatch(setAddressId(usedAddress.id));
+      }
+    }
+  }, [addressesData]);
+
+  const addressId = useSelector((state: RootState) => state.shipping.addressId);
+
   return (
     <>
       <div className="w-full flex items-start justify-start flex-col gap-2">
@@ -434,6 +471,25 @@ export default function ShippingInformation() {
             </button>
           </div>
         </div>
+      </div>
+
+      <div className={`w-full flex items-start justify-between px-4`}>
+        <IconButton
+          className="rounded text-gray-500 p-2 w-auto mt-4 text-xs italic border border-gray-500"
+          icon={<BackIcon />}
+          isFront={true}
+          type="button"
+          title={t("_back_button")}
+          onClick={() => handlePrevious()}
+        />
+        <IconButton
+          className={`rounded p-2 w-auto mt-4 text-xs ${
+            !addressId ? "bg-gray-100 text-gray-500" : "bg-neon_pink text-white"
+          }`}
+          title={t("_continue_button")}
+          type="button"
+          onClick={() => handleNext()}
+        />
       </div>
 
       {/* Modal for Add/Edit Address */}

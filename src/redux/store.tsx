@@ -7,6 +7,7 @@ import { TypedUseSelectorHook, useSelector } from "react-redux";
 import cartReducer from "./slice/cartSlice";
 import { Authslice } from "./slice/authSlice";
 import counterReducer from "./slice/counterSlice";
+import shippingReducer from "./slice/shippingSlice";
 import customerAuthReducer from "./slice/customerAuthSlice";
 
 const persistConfig = {
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   auth: Authslice.reducer,
   cart: cartReducer,
   customerAuth: customerAuthReducer,
+  shipping: shippingReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -11,8 +11,14 @@ import {
   increaseQuantity,
   removeFromCart,
 } from "@/redux/slice/cartSlice";
+import IconButton from "@/components/iconButton";
 
-export default function MyCartDetails() {
+interface PropsDetails {
+  tab: number;
+  setTab: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export default function MyCartDetails({ tab, setTab }: PropsDetails) {
   const t = useTranslations("myCartPage");
   const dispatch = useDispatch();
   const [subTotal, setSubTotal] = React.useState<number>(0);
@@ -28,6 +34,10 @@ export default function MyCartDetails() {
 
   const handleDecreaseQuantity = (id: string) => {
     dispatch(decreaseQuantity(id));
+  };
+
+  const handleNext = () => {
+    setTab(tab + 1);
   };
 
   React.useEffect(() => {
@@ -147,8 +157,12 @@ export default function MyCartDetails() {
             <div className="w-full flex items-start justify-start gap-4">
               <Image
                 className="rounded"
-                src="/images/category01.webp"
-                alt="image-01"
+                src={
+                  val?.cover_image
+                    ? val?.cover_image
+                    : "/images/category01.webp"
+                }
+                alt={val.name}
                 width={60}
                 height={60}
               />
@@ -197,6 +211,15 @@ export default function MyCartDetails() {
           <p className="text-sm text-gray-500">{t("_sub_total")}:</p>
           <p className="text-md">${subTotal.toFixed(2)}</p>
         </div>
+      </div>
+
+      <div className={`w-full flex items-end justify-end`}>
+        <IconButton
+          className={`rounded text-white p-2 bg-neon_pink w-auto mt-4 text-xs border border-neon_pink`}
+          title={t("_continue_button")}
+          type="button"
+          onClick={() => handleNext()}
+        />
       </div>
     </div>
   );
