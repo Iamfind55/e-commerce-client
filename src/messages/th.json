@@ -20,6 +20,8 @@
     "_popular_products": "สินค้ายอดนิยม",
     "_recommended_products": "สินค้าแนะนำ",
     "_view_more_button": "ดูเพิ่มเติม",
+    "_be_seller": "เป็นผู้ขาย",
+    "_my_account": "บัญชีของฉัน",
 
     "_about_us": "เกี่ยวกับเรา",
     "_about_us_benefits": "ประโยชน์ของการใช้งานแพลตฟอร์ม",
@@ -228,27 +230,6 @@
     "_confirmation_description": "ชำระเงินสำเร็จ!",
     "_continue_shopping_button": "ดำเนินการช้อปปิ้งต่อ"
   },
-
-  "global": {
-    "_edit_button": "แก้ไข",
-    "_delete_button": "ลบ",
-    "_close_button": "ปิด",
-    "_save_button": "บันทึก",
-    "_saving_button": "กำลังบันทึก....",
-    "_address": "ที่อยู่",
-    "_postal_code": "รหัสไปรษณีย์",
-    "_postal_code_placeholder": "กรอกรหัสไปรษณีย์....",
-    "_city": "เมือง",
-    "_province": "จังหวัด",
-    "_country": "ประเทศ",
-    "_telephone": "โทรศัพท์",
-    "_telephone_placeholder": "กรอกหมายเลขโทรศัพท์....",
-    "_email": "อีเมล",
-    "_email_placeholder": "กรอกอีเมล....",
-    "_contact_person": "ผู้ติดต่อ",
-    "_contact_person_placeholder": "กรอกชื่อผู้ติดต่อ...."
-  },
-
   "_terms_conditions": {
     "_terms_condition_intro_title": "I. คำนำ",
     "_terms_condition_01": "1.1. ยินดีต้อนรับสู่แพลตฟอร์มการค้าผ่าน TikTokShop ที่สามารถเข้าถึงได้จากอินเทอร์เฟซเว็บไซต์หรือแอปพลิเคชันมือถือ (TikTokShop) ก่อนที่คุณจะใช้เว็บไซต์ TikTokShop หรือสร้างบัญชี TikTokShop (‘บัญชี’) กรุณาอ่านข้อกำหนดและเงื่อนไขการให้บริการและขั้นตอนการดำเนินงานของแพลตฟอร์มอีคอมเมิร์ซ TikTokShop อย่างละเอียดเพื่อเข้าใจสิทธิและข้อผูกพันทางกฎหมายของคุณต่อ TikTokShop และบริษัทย่อยหรือพันธมิตรของ TikTokShop (รวมเรียกว่า ‘TikTokShop’, หรือ ‘เรา’, ‘ของเรา’) บริการที่เรามีหรือเสนอ ได้แก่ (ก) เว็บไซต์ TikTokShop, (ข) บริการที่ให้โดยเว็บไซต์ TikTokShop และซอฟต์แวร์ลูกค้าของ TikTokShop ที่สามารถเข้าถึงได้จากเว็บไซต์ TikTokShop, และ (ค) ข้อมูลทั้งหมด ลิงก์ ฟังก์ชัน ข้อความ รูปภาพ กราฟิก ดนตรี เสียง วิดีโอ (รวมถึงการถ่ายทอดสด) ข้อความ แท็ก เนื้อหา โปรแกรม ซอฟต์แวร์ แอปพลิเคชันบริการ หรือวัสดุอื่นๆ ที่มีอยู่ในเว็บไซต์ TikTokShop หรือบริการที่เกี่ยวข้อง ('เนื้อหา') คุณลักษณะใหม่ที่เพิ่มเข้ามาหรือขยายไปสู่บริการต้องปฏิบัติตามข้อกำหนดการให้บริการเหล่านี้ ข้อกำหนดการให้บริการเหล่านี้จะใช้กับการใช้งานบริการของ TikTokShop",
@@ -476,5 +457,68 @@
     "_other_questions_concerns_or_complaints_title": "14. คำถาม, ความกังวล หรือการร้องเรียนอื่นๆ:",
     "_other_questions_concerns_or_complaints_01": "หากคุณมีคำถามหรือความกังวลเกี่ยวกับการปฏิบัติด้านความเป็นส่วนตัวของเรา กรุณาติดต่อเราที่.",
     "_other_questions_concerns_or_complaints_02": "กรุณาระบุชื่อ, ข้อมูลติดต่อ และลักษณะของคำขอของคุณเพื่อที่เราจะสามารถตอบกลับคุณได้อย่างเหมาะสม."
+  },
+
+  "category_page": {
+    "_all_category": "หมวดหมู่ทั้งหมด",
+    "_home": "หน้าแรก",
+    "_price_range": "ช่วงราคา",
+    "_branding": "ยี่ห้อ:",
+    "_sort_by": "เรียงตาม:",
+    "_most_expensive": "แพงที่สุด",
+    "_cheapest": "ถูกที่สุด"
+  },
+
+  "shop_page": {
+    "_all_shop": "ร้านทั้งหมด",
+    "_shop": "ร้าน",
+    "_total": "ทั้งหมด",
+    "_search": "ค้นหา....",
+    "_newest": "ใหม่ที่สุด",
+    "_visit_shop_button": "เยี่ยมชมร้าน",
+    "_total_product": "จำนวนสินค้าทั้งหมด",
+    "_shop_since": "ร้านตั้งแต่",
+    "_email": "อีเมล์",
+    "_details": "รายละเอียด",
+    "_view": "ดู",
+    "_shop_home": "หน้าหลักร้าน",
+    "_best_selling": "ขายดี",
+    "_all_product": "สินค้าทั้งหมด",
+    "_new_arrival": "สินค้ามาใหม่",
+    "_best_selling_product": "สินค้าขายดี"
+  },
+
+  "product_detail": {
+    "_comments": "ความคิดเห็น",
+    "_seller": "ผู้ขาย",
+    "_price": "ราคา",
+    "_quantity": "จำนวน",
+    "_total_price": "ราคารวม",
+    "_available": "มีสินค้า",
+    "_add_to_cart": "เพิ่มลงในตะกร้า",
+    "_product_details": "รายละเอียดสินค้า",
+    "_all_comments": "ความคิดเห็นทั้งหมด",
+    "_related_products": "สินค้าที่เกี่ยวข้อง"
+  },
+
+  "global": {
+    "_apply_button": "สมัครตอนนี้",
+    "_edit_button": "แก้ไข",
+    "_delete_button": "ลบ",
+    "_close_button": "ปิด",
+    "_save_button": "บันทึก",
+    "_saving_button": "กำลังบันทึก....",
+    "_address": "ที่อยู่",
+    "_postal_code": "รหัสไปรษณีย์",
+    "_postal_code_placeholder": "กรอกรหัสไปรษณีย์....",
+    "_city": "เมือง",
+    "_province": "จังหวัด",
+    "_country": "ประเทศ",
+    "_telephone": "โทรศัพท์",
+    "_telephone_placeholder": "กรอกหมายเลขโทรศัพท์....",
+    "_email": "อีเมล",
+    "_email_placeholder": "กรอกอีเมล....",
+    "_contact_person": "ผู้ติดต่อ",
+    "_contact_person_placeholder": "กรอกชื่อผู้ติดต่อ...."
   }
 }

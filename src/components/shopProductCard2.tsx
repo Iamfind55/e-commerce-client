@@ -3,8 +3,8 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 
 // components
-import { CheckCircleIcon } from "@/icons/page";
 import { CartIcon } from "@/icons/page";
+import { CheckCircleIcon } from "@/icons/page";
 
 // icons and utilities, type and hooks
 import { stripHtml } from "@/utils/stripHtml";
@@ -15,8 +15,10 @@ import { truncateText } from "@/utils/letterLimitation";
 import { useRouter } from "@/navigation";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/slice/cartSlice";
+import { useTranslations } from "next-intl";
 
 export default function ShopProductCard2(props: ShopProductData) {
+  const t = useTranslations("shop_page");
   const router = useRouter();
   const dispatch = useDispatch();
   const token = Cookies.get("auth_token");
@@ -95,21 +97,12 @@ export default function ShopProductCard2(props: ShopProductData) {
                 className="w-full sm:w-auto bg-neon_pink text-white flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none"
                 onClick={() => router.push(`/product/${props.productData.id}`)}
               >
-                View
+                {t("_view")}
               </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* <ul className="text-gray-500 text-sm">
-        {cart.map((item) => (
-          <li key={item.id}>
-            {item.name} - ${item.price} x {item.quantity}
-            <button onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
-          </li>
-        ))}
-      </ul> */}
     </>
   );
 }

@@ -24,6 +24,7 @@ export default function MyCartDetails({ tab, setTab }: PropsDetails) {
   const [subTotal, setSubTotal] = React.useState<number>(0);
 
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartCount = cartItems.length;
   const handleRemoveFromCart = (id: string) => {
     dispatch(removeFromCart(id));
   };
@@ -213,14 +214,16 @@ export default function MyCartDetails({ tab, setTab }: PropsDetails) {
         </div>
       </div>
 
-      <div className={`w-full flex items-end justify-end`}>
-        <IconButton
-          className={`rounded text-white p-2 bg-neon_pink w-auto mt-4 text-xs border border-neon_pink`}
-          title={t("_continue_button")}
-          type="button"
-          onClick={() => handleNext()}
-        />
-      </div>
+      {cartCount > 0 && (
+        <div className={`w-full flex items-end justify-end`}>
+          <IconButton
+            className={`rounded text-white p-2 bg-neon_pink w-auto mt-4 text-xs border border-neon_pink`}
+            title={t("_continue_button")}
+            type="button"
+            onClick={() => handleNext()}
+          />
+        </div>
+      )}
     </div>
   );
 }

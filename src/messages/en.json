@@ -20,6 +20,8 @@
     "_popular_products": "Popular products",
     "_recommended_products": "Recommended products",
     "_view_more_button": "View more",
+    "_be_seller": "Be seller",
+    "_my_account":"My account",
 
     "_about_us": "About us",
     "_about_us_benefits": "The benefits of plateform use",
@@ -227,26 +229,6 @@
     "_confirmation_title": "Payment Successful!",
     "_confirmation_description": "Payment Successful!",
     "_continue_shopping_button": "Continue Shopping"
-  },
-
-  "global": {
-    "_edit_button": "Edit",
-    "_delete_button": "Delete",
-    "_close_button": "Close",
-    "_save_button": "Save",
-    "_saving_button": "Saving....",
-    "_address": "Address",
-    "_postal_code": "Postal code",
-    "_postal_code_placeholder": "Enter postal code....",
-    "_city": "City",
-    "_province": "Province",
-    "_country": "Country",
-    "_telephone": "Telephone",
-    "_telephone_placeholder": "Enter telephone....",
-    "_email": "Email",
-    "_email_placeholder": "Enter email....",
-    "_contact_person": "Contact person",
-    "_contact_person_placeholder": "Enter contact person...."
   },
 
   "terms_conditions": {
@@ -467,7 +449,7 @@
     "_withdrawal_of_consent_title": "13.1 Withdrawal of consent:",
     "_withdrawal_of_consent_01": "13.1.1. You may withdraw your consent to the collection, use and disclosure of your personal data in our possession or control by sending an email to our Personal Data Protection Officer. However, your withdrawal of consent may mean that we cannot continue to evaluate your application and any information you have provided.",
     "_withdrawal_of_consent_02": "13.1.2. When you share YouTube content, in addition to withdrawing your consent to us by email in accordance with Section 13.1.1.",
-    
+
     "_requests_access_or_correct_title": "13.2. Requests to access or correct personal data",
     "_requests_access_or_correct_01": "13.2.1. If you have an account with us, you can personally access and correct your personal data currently in our possession or control through the account settings page of this platform. If you do not have an account with us, you can request access to and correction of your personal data currently in our possession or control by submitting a written request to us. We need you to provide sufficient information to determine your identity and the nature of your request so that we can process your request. Therefore, please send your written request to our Personal Data Protection Officer.",
     "_requests_access_or_correct_02": "13.2.2. We may charge you a reasonable fee to process your request to access your personal data. If we choose to charge, we will provide you with a written estimate of the fees we will charge. Please note that we are not required to respond to or process your access request unless you agree to pay the fee.",
@@ -476,5 +458,68 @@
     "_other_questions_concerns_or_complaints_title": "14. Other questions, concerns or complaints:",
     "_other_questions_concerns_or_complaints_01": "If you have any questions or concerns about our privacy practices, please feel free to contact us at.",
     "_other_questions_concerns_or_complaints_02": "Please include your name, contact information, and the nature of your request so that we can respond to your letter appropriately."
+  },
+
+  "category_page": {
+    "_all_category": "All categories",
+    "_home": "Home",
+    "_price_range": "Price range",
+    "_branding": "Branding:",
+    "_sort_by": "Sort by:",
+    "_most_expensive": "Most expensive",
+    "_cheapest": "Cheapest"
+  },
+
+  "shop_page": {
+    "_all_shop": "All shops",
+    "_shop": "Shops",
+    "_total": "Total",
+    "_search": "Search....",
+    "_newest": "Newest",
+    "_visit_shop_button": "Visit shop",
+    "_total_product": "Total products",
+    "_shop_since": "Shop since",
+    "_email": "Email",
+    "_details": "Details",
+    "_view": "View",
+    "_shop_home": "Shop home",
+    "_best_selling": "Best selling",
+    "_all_product": "All products",
+    "_new_arrival": "New arrival products",
+    "_best_selling_product": "Best selling products"
+  },
+
+  "product_detail": {
+    "_comments": "Comments",
+    "_seller": "Seller",
+    "_price": "Price",
+    "_quantity": "Quantity",
+    "_total_price": "Total price",
+    "_available": "Available",
+    "_add_to_cart": "Add to cart",
+    "_product_details": "Product details",
+    "_all_comments": "All comments",
+    "_related_products": "Related products"
+  },
+
+  "global": {
+    "_apply_button": "Apply now",
+    "_edit_button": "Edit",
+    "_delete_button": "Delete",
+    "_close_button": "Close",
+    "_save_button": "Save",
+    "_saving_button": "Saving....",
+    "_address": "Address",
+    "_postal_code": "Postal code",
+    "_postal_code_placeholder": "Enter postal code....",
+    "_city": "City",
+    "_province": "Province",
+    "_country": "Country",
+    "_telephone": "Telephone",
+    "_telephone_placeholder": "Enter telephone....",
+    "_email": "Email",
+    "_email_placeholder": "Enter email....",
+    "_contact_person": "Contact person",
+    "_contact_person_placeholder": "Enter contact person...."
   }
 }

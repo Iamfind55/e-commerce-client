@@ -23,16 +23,18 @@ import { CancelIcon, FilterIcon } from "@/icons/page";
 import { GetBrandingResponse } from "@/types/branding";
 import useFilter from "../product/hooks/useFilter/page";
 import useFetchProducts from "../product/hooks/useFetchProduct";
-
-const filters: any = [
-  { label: "Most expensive", value: "price_DESC" },
-  { label: "Cheapest", value: "price_ASC" },
-];
+import { useTranslations } from "next-intl";
 
 export default function Category() {
   const router = useRouter();
   const filter = useFilter();
+  const g = useTranslations("global");
+  const t = useTranslations("category_page");
   const fetchProducts = useFetchProducts({ filter: filter.data });
+  const filters: any = [
+    { label: t("_most_expensive"), value: "price_DESC" },
+    { label: t("_cheapest"), value: "price_ASC" },
+  ];
 
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
   const toggleOpenDrawer = () => {
@@ -90,7 +92,7 @@ export default function Category() {
           <div className="w-1/4 hidden sm:flex items-start justify-center flex-col gap-1 p-2 rounded shadow-md">
             <div className="w-full border-b border-gray-200 py-2">
               <h1 className="text-sm text-sm cursor-pointer hover:bg-gray-100 pl-4 py-1 rounded">
-                All categories
+                {t("_all_category")}
               </h1>
             </div>
             <div className="w-full">
@@ -113,7 +115,7 @@ export default function Category() {
             <div className="w-full">
               <div className="border rounded w-full p-2">
                 <div className="bg-white rounded">
-                  <h1 className="text-sm">Price range</h1>
+                  <h1 className="text-sm">{t("_price_range")}</h1>
                 </div>
                 <div className="p-4">
                   <div className="relative mb-6">
@@ -134,8 +136,8 @@ export default function Category() {
             <div className="w-full">
               <Breadcrumb
                 items={[
-                  { label: "Home", value: "/" },
-                  { label: "All category", value: "/category" },
+                  { label: t("_home"), value: "/" },
+                  { label: t("_all_category"), value: "/category" },
                 ]}
               />
             </div>
@@ -144,7 +146,7 @@ export default function Category() {
                 {brands && brands.length > 0 && (
                   <Select
                     name="brand"
-                    title="Brand"
+                    title={t("_branding")}
                     option={brands}
                     className="h-8"
                     onChange={(e) => {
@@ -157,7 +159,7 @@ export default function Category() {
                 )}
                 <Select
                   name="filter"
-                  title="Sort by"
+                  title={t("_sort_by")}
                   option={filters}
                   className="h-8"
                   onChange={(e) => {
@@ -215,6 +217,7 @@ export default function Category() {
           </div>
         </div>
       </div>
+
       <BottomDrawer
         isOpen={openDrawer}
         onClose={toggleOpenDrawer}
@@ -224,7 +227,7 @@ export default function Category() {
       >
         <div className="w-full bg-white pb-6 mb-6 items-start justify-center flex-col gap-1 p-2 shadow-md">
           <div className="w-full border-b border-gray-200 py-2">
-            <h1 className="text-sm text-gray-500">All categories</h1>
+            <h1 className="text-sm text-gray-500">{t("_all_category")}</h1>
           </div>
           <div className="w-full">
             <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
@@ -244,7 +247,7 @@ export default function Category() {
           <div className="w-full mb-6">
             <div className="border rounded w-full p-2">
               <div className="bg-white rounded">
-                <h1 className="text-sm">Price range</h1>
+                <h1 className="text-sm text-gray-500">{t("_price_range")}</h1>
               </div>
               <div className="p-4">
                 <div className="relative mb-6">
@@ -262,7 +265,7 @@ export default function Category() {
                 <IconButton
                   className="rounded text-base p-2 w-full mt-4 mb-6 italic text-sm bg-neon_pink"
                   type="button"
-                  title="Apply now"
+                  title={g("_apply_button")}
                   onClick={() => toggleOpenDrawer()}
                 />
               </div>

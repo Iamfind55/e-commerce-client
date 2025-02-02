@@ -16,11 +16,14 @@ import { truncateText } from "@/utils/letterLimitation";
 import { useRouter } from "@/navigation";
 import { stripHtml } from "@/utils/stripHtml";
 import { addToCart } from "@/redux/slice/cartSlice";
+import { useTranslations } from "next-intl";
 
 export default function ProductCard(props: ProductData) {
   const dispatch = useDispatch();
   const router = useRouter();
   const token = Cookies.get("auth_token");
+  const s = useTranslations("shop_page");
+  const p = useTranslations("product_detail");
 
   const handleAddToCart = () => {
     if (!token) {
@@ -65,13 +68,13 @@ export default function ProductCard(props: ProductData) {
               href={`/product/${props.id}`}
               className="w-full sm:w-auto bg-neon_pink text-white flex items-center justify-center px-3 py-1 text-xs text-center rounded focus:outline-none"
             >
-              View
+              {s("_view")}
             </Link>
             <button
               onClick={() => handleAddToCart()}
               className="w-full sm:w-auto text-second_black border border-neon_blue rounded flex items-center justify-center px-3 py-1 mt-0 text-xs text-center text-base rounded focus:outline-none"
             >
-              Add to
+              {p("_add_to_cart")}
               <CartIcon
                 size={16}
                 className="text-second_black animate-bounce"

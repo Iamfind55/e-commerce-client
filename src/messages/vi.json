@@ -20,6 +20,8 @@
     "_popular_products": "Sản phẩm phổ biến",
     "_recommended_products": "Sản phẩm đề xuất",
     "_view_more_button": "Xem thêm",
+    "_be_seller": "Trở thành người bán",
+    "_my_account": "Tài khoản của tôi",
 
     "_about_us": "Về chúng tôi",
     "_about_us_benefits": "Lợi ích khi sử dụng nền tảng",
@@ -227,26 +229,6 @@
     "_confirmation_title": "Thanh toán thành công!",
     "_confirmation_description": "Thanh toán thành công!",
     "_continue_shopping_button": "Tiếp tục mua sắm"
-  },
-
-  "global": {
-    "_edit_button": "Chỉnh sửa",
-    "_delete_button": "Xóa",
-    "_close_button": "Đóng",
-    "_save_button": "Lưu",
-    "_saving_button": "Đang lưu....",
-    "_address": "Địa chỉ",
-    "_postal_code": "Mã bưu điện",
-    "_postal_code_placeholder": "Nhập mã bưu điện....",
-    "_city": "Thành phố",
-    "_province": "Tỉnh/Thành",
-    "_country": "Quốc gia",
-    "_telephone": "Số điện thoại",
-    "_telephone_placeholder": "Nhập số điện thoại....",
-    "_email": "Email",
-    "_email_placeholder": "Nhập email....",
-    "_contact_person": "Người liên hệ",
-    "_contact_person_placeholder": "Nhập tên người liên hệ...."
   },
 
   "terms_conditions": {
@@ -476,5 +458,68 @@
     "_other_questions_concerns_or_complaints_title": "14. Các câu hỏi, mối quan tâm hoặc khiếu nại khác:",
     "_other_questions_concerns_or_complaints_01": "Nếu bạn có bất kỳ câu hỏi hoặc mối quan tâm nào về các hoạt động quyền riêng tư của chúng tôi, vui lòng liên hệ với chúng tôi tại.",
     "_other_questions_concerns_or_complaints_02": "Vui lòng cung cấp tên, thông tin liên lạc và bản chất yêu cầu của bạn để chúng tôi có thể phản hồi lại bạn một cách thích hợp."
+  },
+
+  "category_page": {
+    "_all_category": "Tất cả danh mục",
+    "_home": "Trang chủ",
+    "_price_range": "Khoảng giá",
+    "_branding": "Thương hiệu:",
+    "_sort_by": "Sắp xếp theo:",
+    "_most_expensive": "Đắt nhất",
+    "_cheapest": "Rẻ nhất"
+  },
+
+  "shop_page": {
+    "_all_shop": "Tất cả cửa hàng",
+    "_shop": "Cửa hàng",
+    "_total": "Tổng cộng",
+    "_search": "Tìm kiếm....",
+    "_newest": "Mới nhất",
+    "_visit_shop_button": "Thăm cửa hàng",
+    "_total_product": "Tổng số sản phẩm",
+    "_shop_since": "Cửa hàng từ",
+    "_email": "Email",
+    "_details": "Chi tiết",
+    "_view": "Xem",
+    "_shop_home": "Trang chủ cửa hàng",
+    "_best_selling": "Bán chạy nhất",
+    "_all_product": "Tất cả sản phẩm",
+    "_new_arrival": "Sản phẩm mới",
+    "_best_selling_product": "Sản phẩm bán chạy nhất"
+  },
+
+  "product_detail": {
+    "_comments": "Bình luận",
+    "_seller": "Người bán",
+    "_price": "Giá",
+    "_quantity": "Số lượng",
+    "_total_price": "Tổng giá",
+    "_available": "Còn hàng",
+    "_add_to_cart": "Thêm vào giỏ hàng",
+    "_product_details": "Chi tiết sản phẩm",
+    "_all_comments": "Tất cả bình luận",
+    "_related_products": "Sản phẩm liên quan"
+  },
+
+  "global": {
+    "_apply_button": "Nộp đơn ngay",
+    "_edit_button": "Chỉnh sửa",
+    "_delete_button": "Xóa",
+    "_close_button": "Đóng",
+    "_save_button": "Lưu",
+    "_saving_button": "Đang lưu....",
+    "_address": "Địa chỉ",
+    "_postal_code": "Mã bưu điện",
+    "_postal_code_placeholder": "Nhập mã bưu điện....",
+    "_city": "Thành phố",
+    "_province": "Tỉnh/Thành",
+    "_country": "Quốc gia",
+    "_telephone": "Số điện thoại",
+    "_telephone_placeholder": "Nhập số điện thoại....",
+    "_email": "Email",
+    "_email_placeholder": "Nhập email....",
+    "_contact_person": "Người liên hệ",
+    "_contact_person_placeholder": "Nhập tên người liên hệ...."
   }
 }

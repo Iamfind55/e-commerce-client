@@ -20,6 +20,8 @@
     "_popular_products": "Produk popular",
     "_recommended_products": "Produk disyorkan",
     "_view_more_button": "Lihat lebih banyak",
+    "_be_seller": "Jadi penjual",
+    "_my_account": "Akaun saya",
 
     "_about_us": "Tentang kami",
     "_about_us_benefits": "Manfaat menggunakan platform",
@@ -227,26 +229,6 @@
     "_confirmation_title": "Pembayaran Berjaya!",
     "_confirmation_description": "Pembayaran Berjaya!",
     "_continue_shopping_button": "Teruskan Membeli-belah"
-  },
-
-  "global": {
-    "_edit_button": "Edit",
-    "_delete_button": "Padam",
-    "_close_button": "Tutup",
-    "_save_button": "Simpan",
-    "_saving_button": "Sedang menyimpan....",
-    "_address": "Alamat",
-    "_postal_code": "Poskod",
-    "_postal_code_placeholder": "Masukkan poskod....",
-    "_city": "Bandar",
-    "_province": "Negeri",
-    "_country": "Negara",
-    "_telephone": "Telefon",
-    "_telephone_placeholder": "Masukkan nombor telefon....",
-    "_email": "E-mel",
-    "_email_placeholder": "Masukkan e-mel....",
-    "_contact_person": "Orang hubungan",
-    "_contact_person_placeholder": "Masukkan nama orang hubungan...."
   },
 
   "terms_conditions": {
@@ -476,5 +458,68 @@
     "_other_questions_concerns_or_complaints_title": "14. Soalan, kebimbangan atau aduan lain:",
     "_other_questions_concerns_or_complaints_01": "Jika anda mempunyai sebarang soalan atau kebimbangan mengenai amalan privasi kami, sila hubungi kami di.",
     "_other_questions_concerns_or_complaints_02": "Sila sertakan nama, maklumat hubungan, dan sifat permintaan anda supaya kami dapat memberikan respons yang sesuai."
+  },
+
+  "category_page": {
+    "_all_category": "Semua kategori",
+    "_home": "Laman utama",
+    "_price_range": "Julat harga",
+    "_branding": "Penjenamaan:",
+    "_sort_by": "Susun ikut:",
+    "_most_expensive": "Paling mahal",
+    "_cheapest": "Paling murah"
+  },
+
+  "shop_page": {
+    "_all_shop": "Semua kedai",
+    "_shop": "Kedai",
+    "_total": "Jumlah",
+    "_search": "Carian....",
+    "_newest": "Terkini",
+    "_visit_shop_button": "Lawati kedai",
+    "_total_product": "Jumlah produk",
+    "_shop_since": "Kedai sejak",
+    "_email": "Emel",
+    "_details": "Butiran",
+    "_view": "Lihat",
+    "_shop_home": "Halaman utama kedai",
+    "_best_selling": "Paling laris",
+    "_all_product": "Semua produk",
+    "_new_arrival": "Produk baru",
+    "_best_selling_product": "Produk paling laris"
+  },
+
+  "product_detail": {
+    "_comments": "Komen",
+    "_seller": "Penjual",
+    "_price": "Harga",
+    "_quantity": "Kuantiti",
+    "_total_price": "Jumlah harga",
+    "_available": "Tersedia",
+    "_add_to_cart": "Tambah ke troli",
+    "_product_details": "Butiran produk",
+    "_all_comments": "Semua komen",
+    "_related_products": "Produk berkaitan"
+  },
+
+  "global": {
+    "_apply_button": "Mohon sekarang",
+    "_edit_button": "Edit",
+    "_delete_button": "Padam",
+    "_close_button": "Tutup",
+    "_save_button": "Simpan",
+    "_saving_button": "Sedang menyimpan....",
+    "_address": "Alamat",
+    "_postal_code": "Poskod",
+    "_postal_code_placeholder": "Masukkan poskod....",
+    "_city": "Bandar",
+    "_province": "Negeri",
+    "_country": "Negara",
+    "_telephone": "Telefon",
+    "_telephone_placeholder": "Masukkan nombor telefon....",
+    "_email": "E-mel",
+    "_email_placeholder": "Masukkan e-mel....",
+    "_contact_person": "Orang hubungan",
+    "_contact_person_placeholder": "Masukkan nama orang hubungan...."
   }
 }

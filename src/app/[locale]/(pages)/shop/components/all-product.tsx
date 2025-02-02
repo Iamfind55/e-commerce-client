@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 // components
 import Pagination from "@/components/pagination";
@@ -10,6 +11,7 @@ import useFetchShopProducts from "../hooks/useFetchShopProduct";
 import useShopProductFilter from "../hooks/useFilterShopProduct/page";
 
 export default function AllProductComponent() {
+  const t = useTranslations("shop_page");
   const filter = useShopProductFilter();
   const fetchShopProducts = useFetchShopProducts({ filter: filter.data });
 
@@ -19,7 +21,7 @@ export default function AllProductComponent() {
         <div className="container">
           <div className="flex flex-col items-start justify-start gap-2">
             <p className="text-second_black text-sm sm:text-md">
-              List of all products:
+              {t("_all_product")}:
             </p>
             {fetchShopProducts?.loading ? (
               "Loading..."

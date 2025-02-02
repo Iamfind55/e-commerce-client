@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useLazyQuery } from "@apollo/client";
 
 // Apollo and APIs
@@ -27,17 +28,18 @@ import { CancelIcon, FilterIcon, NextIcon } from "@/icons/page";
 import useFetchProducts from "../../product/hooks/useFetchProduct";
 import { GetHeaderCategoriesResponse } from "@/types/header-category";
 
-const filters: any = [
-  { label: "Most expensive", value: "price_DESC" },
-  { label: "Cheapest", value: "price_ASC" },
-];
-
 export default function Category() {
   const params = useParams();
   const router = useRouter();
   const filter = useFilter();
+  const g = useTranslations("global");
+  const t = useTranslations("category_page");
   const fetchAllProducts = useFetchProducts({ filter: filter.data });
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
+  const filters: any = [
+    { label: t("_most_expensive"), value: "price_DESC" },
+    { label: t("_cheapest"), value: "price_ASC" },
+  ];
 
   const [categoryId, setCategoryId] = React.useState<string>("");
   const [categoryName, setCategoryName] = React.useState<string | null>(null);
@@ -88,7 +90,7 @@ export default function Category() {
   }, [categoryId]);
 
   React.useEffect(() => {
-    const res = getCategories({
+    getCategories({
       variables: {
         sortedBy: "created_at_DESC",
         where: {
@@ -110,9 +112,6 @@ export default function Category() {
       categoryData.getCategories.total > 0,
   ]);
 
-  // console.log("Total:", categoryData?.getCategories.total);
-  // console.log(fetchAllProducts);
-
   return (
     <>
       <div className="flex items-center justify-center">
@@ -123,7 +122,7 @@ export default function Category() {
                 className="text-sm cursor-pointer hover:bg-gray-100 pl-2 py-1 rounded"
                 onClick={() => router.push("/category")}
               >
-                All categories
+                {t("_all_category")}
               </h1>
             </div>
             <div className="w-full">
@@ -160,7 +159,7 @@ export default function Category() {
             <div className="w-full">
               <div className="border rounded w-full p-2">
                 <div className="bg-white rounded">
-                  <h1 className="text-sm">Price range</h1>
+                  <h1 className="text-sm">{t("_price_range")}</h1>
                 </div>
                 <div className="p-4">
                   <div className="relative mb-6">
@@ -181,8 +180,8 @@ export default function Category() {
             <div className="w-full">
               <Breadcrumb
                 items={[
-                  { label: "Home", value: "/" },
-                  { label: "All category", value: "/category" },
+                  { label: t("_home"), value: "/" },
+                  { label: t("_all_category"), value: "/category" },
                   { label: `${categoryName}`, value: `/category/${id}` },
                 ]}
               />
@@ -202,7 +201,7 @@ export default function Category() {
                 {brands && brands.length > 0 && (
                   <Select
                     name="brand"
-                    title="Brand"
+                    title={t("_branding")}
                     option={brands}
                     className="h-8"
                     onChange={(e) => {
@@ -215,7 +214,7 @@ export default function Category() {
                 )}
                 <Select
                   name="filter"
-                  title="Sort by"
+                  title={t("_sort_by")}
                   option={filters}
                   className="h-8"
                   onChange={(e) => {
@@ -277,7 +276,7 @@ export default function Category() {
       >
         <div className="w-full bg-white pb-6 mb-6 items-start justify-center flex-col gap-1 p-2 shadow-md">
           <div className="w-full border-b border-gray-200 py-2">
-            <h1 className="text-sm text-neon_blue">All categories</h1>
+            <h1 className="text-sm text-neon_blue">{t("_all_category")}</h1>
           </div>
           <div className="w-full">
             <ul className="w-full flex items-start justify-start flex-col gap-1 text-xs text-second_black p-2">
@@ -295,7 +294,7 @@ export default function Category() {
           <div className="w-full">
             <div className="border rounded w-full p-2">
               <div className="bg-white rounded">
-                <h1 className="text-sm">Price range</h1>
+                <h1 className="text-sm">{t("_price_range")}</h1>
               </div>
               <div className="p-4">
                 <div className="relative mb-6">
@@ -315,7 +314,7 @@ export default function Category() {
             <IconButton
               className="rounded text-base p-2 w-full mt-4 mb-6 italic text-sm bg-neon_pink"
               type="button"
-              title="Apply now"
+              title={g("_apply_button")}
               onClick={() => toggleOpenDrawer()}
             />
           </div>

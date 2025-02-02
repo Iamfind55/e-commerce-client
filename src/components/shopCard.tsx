@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 // components
-import { Link, useRouter } from "@/navigation";
+import { useRouter } from "@/navigation";
 import IconButton from "./iconButton";
 
 // icons, utils, hook
@@ -13,6 +14,7 @@ import { truncateText } from "@/utils/letterLimitation";
 
 export default function ShopCard(props: ShopData) {
   const router = useRouter();
+  const t = useTranslations("shop_page");
   return (
     <div className="flex items-center justify-center cursor-pointer w-full md:w-fit bg-white rounded-lg hover:shadow gap-4">
       <div className="w-full flex flex-col items-center relative">
@@ -21,8 +23,8 @@ export default function ShopCard(props: ShopData) {
             className="w-full h-full object-cover rounded-tl-md rounded-tr-md"
             src={props?.image?.cover || "/images/default-image.webp"}
             alt={props?.fullname || "Shop"}
-            width={24}
-            height={24}
+            width={1200}
+            height={800}
           />
         </div>
 
@@ -31,8 +33,8 @@ export default function ShopCard(props: ShopData) {
             className="w-16 h-16 mb-3 rounded-full shadow-md border-2 border-white"
             src={props?.image?.logo || "/images/default-image.webp"}
             alt={props?.fullname}
-            width={24}
-            height={24}
+            width={100}
+            height={100}
           />
         </div>
 
@@ -49,9 +51,11 @@ export default function ShopCard(props: ShopData) {
           </p>
           <div className="flex items-center justify-center flex-col gap-2">
             <p className="text-xs text-gray-500">
-              Shop since {formatDate(props?.created_at ?? "")}
+              {t("_shop_since")} {formatDate(props?.created_at ?? "")}
             </p>
-            <p className="text-xs text-gray-500">Total products: 12343</p>
+            <p className="text-xs text-gray-500">
+              {t("_total_product")}: 12343
+            </p>
             <div className="my-2 f-full flex flex-col items-center justify-center">
               <div className="flex flex-col gap-2 w-full">
                 <IconButton
@@ -59,7 +63,7 @@ export default function ShopCard(props: ShopData) {
                   icon={<ShopIcon size={20} />}
                   isFront={true}
                   type="button"
-                  title="Visit shop"
+                  title={t("_visit_shop_button")}
                   onClick={() => router.push(`/shop/${props?.id}`)}
                 />
               </div>

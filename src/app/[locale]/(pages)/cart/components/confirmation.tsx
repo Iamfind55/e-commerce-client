@@ -7,6 +7,7 @@ import IconButton from "@/components/iconButton";
 
 export default function Confirmation() {
   const t = useTranslations("myCartPage");
+  const h = useTranslations("homePage");
   const router = useRouter();
   return (
     <>
@@ -30,10 +31,10 @@ export default function Confirmation() {
               title={t("_continue_shopping_button")}
             />
             <IconButton
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/customer/purchase-history")}
               className="rounded bg-neon_blue text-white p-2 w-auto mt-4 text-xs"
               type="button"
-              title="View details"
+              title={h("_details")}
             />
           </div>
         </div>

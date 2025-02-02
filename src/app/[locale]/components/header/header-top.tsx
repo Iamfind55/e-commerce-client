@@ -20,7 +20,7 @@ export default function HeaderTop() {
           href="/signup"
           className="text-xs cursor-pointer rounded py-1 px-4 border border-white"
         >
-          Be a Seller
+          {t("_be_seller")}
         </Link>
       </div>
     </div>

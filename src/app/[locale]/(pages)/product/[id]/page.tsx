@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import RatingStar from "@/components/ratingStar";
 import React, { useState, useEffect } from "react";
@@ -15,9 +16,12 @@ import {
 import { useLazyQuery } from "@apollo/client";
 
 // components
+import { useRouter } from "@/navigation";
 import IconButton from "@/components/iconButton";
 import ProductCard from "@/components/ProductCard";
 import ThumbnailSwiper from "@/components/thumbnailSwiper";
+
+import { addToCart } from "@/redux/slice/cartSlice";
 
 // icons and utils
 import {
@@ -29,14 +33,15 @@ import {
 import { stripHtml } from "@/utils/stripHtml";
 import { truncateText } from "@/utils/letterLimitation";
 import { AwardIcon, CartIcon, MinusIcon, PlusIcon } from "@/icons/page";
-import { useRouter } from "@/navigation";
-import { addToCart } from "@/redux/slice/cartSlice";
-import { useDispatch } from "react-redux";
+import { useTranslations } from "next-intl";
 
 export default function ProductDetails() {
   const router = useRouter();
   const params = useParams();
   const dispatch = useDispatch();
+  const s = useTranslations("shop_page");
+  const t = useTranslations("product_detail");
+  const token = Cookies.get("auth_token");
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
 
   const [price, setPrice] = useState<number>(0);
@@ -103,8 +108,6 @@ export default function ProductDetails() {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
 
-  const token = Cookies.get("auth_token");
-
   return (
     <div className="flex items-center justify-center bg-bg_color py-0 sm:py-6">
       <div className="container w-full flex items-start justify-start flex-col gap-4 text-gray-500">
@@ -125,12 +128,13 @@ export default function ProductDetails() {
                 rating={productData?.getProduct?.data?.total_star ?? 3}
               />
               <p className="text-xs">
-                ({productData?.getProduct?.data?.total_comment ?? 0} comments)
+                ({productData?.getProduct?.data?.total_comment ?? 0}{" "}
+                {t("_comments")})
               </p>
             </div>
             <div className="border-b w-full"></div>
             <div className="w-full flex items-center justify-start gap-6">
-              <p className="text-sm">Seller</p>
+              <p className="text-sm">{t("_seller")}</p>
               <div className="flex items-center justify-start gap-2">
                 <p className="text-sm">Liyang Store</p>
                 <Image
@@ -144,12 +148,12 @@ export default function ProductDetails() {
             </div>
             <div className="border-b w-full"></div>
             <div className="w-full flex items-center justify-start gap-6">
-              <p className="text-sm">Price</p>
+              <p className="text-sm">{t("_price")}</p>
               <h1 className="text-xl">${price}</h1>
             </div>
             <div className="border-b w-full"></div>
             <div className="w-full flex items-center justify-start gap-6">
-              <p className="text-sm">Quantity</p>
+              <p className="text-sm">{t("_quantity")}</p>
               <div className="flex items-center justify-start gap-6 border rounded py-2 px-4">
                 <button
                   className="rounded-full bg-gray-300 text-white cursor-pointer"
@@ -166,13 +170,14 @@ export default function ProductDetails() {
                 </button>
               </div>
               <p className="text-sm">
-                ({productData?.getProduct?.data?.quantity ?? 10} Available)
+                ({productData?.getProduct?.data?.quantity ?? 10}{" "}
+                {t("_available")})
               </p>
             </div>
             <div className="border-b w-full"></div>
             <div>
               <div className="w-full flex items-center justify-start gap-6">
-                <p className="text-sm">Total Price:</p>
+                <p className="text-sm">{t("_total_price")}:</p>
                 <h1 className="text-xl">${totalPrice}</h1>
               </div>
               <div className="w-full flex items-start justify-start gap-4">
@@ -181,7 +186,7 @@ export default function ProductDetails() {
                   icon={<CartIcon />}
                   isFront={true}
                   type="button"
-                  title="Add to cart"
+                  title={t("_add_to_cart")}
                   onClick={() => {
                     if (!token) {
                       router.push("/cus-signin");
@@ -221,7 +226,7 @@ export default function ProductDetails() {
                       }`}
                       onClick={() => setTab(1)}
                     >
-                      <span>Product details</span>
+                      <span>{t("_product_details")}</span>
                     </button>
                   </li>
                   <li className="me-2" role="presentation">
@@ -233,7 +238,7 @@ export default function ProductDetails() {
                       }`}
                       onClick={() => setTab(2)}
                     >
-                      <span>All comments</span>
+                      <span>{t("_all_comments")}</span>
                     </button>
                   </li>
                 </ul>
@@ -249,14 +254,14 @@ export default function ProductDetails() {
                     </p>
                   </div>
                 )}
-                {tab === 2 && "Comment"}
+                {tab === 2 && t("_comments") + "...."}
               </div>
             </div>
 
             <div className="flex flex-col items-start justify-start gap-2 border-t py-2">
               <div className="flex items-center justify-between w-full">
                 <p className="text-second_black text-sm sm:text-md">
-                  Related products:
+                  {t("_related_products")}:
                 </p>
               </div>
               <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
@@ -280,19 +285,23 @@ export default function ProductDetails() {
           <div className="w-full sm:w-1/4 order-1 sm:order-2 rounded bg-white">
             <div className="w-full flex items-start justify-between flex-col p-2">
               <div className="w-full flex items-start justify-between border-b py-4">
-                <p className="text-xs">Seller</p>
+                <p className="text-xs">{t("_seller")}</p>
                 <AwardIcon className="text-neon_pink" size={24} />
               </div>
               <div className="w-full flex items-start justify-start gap-2 flex-col py-2">
                 <p className="text-xs">Poakue PK shop</p>
                 <div className="w-full border rounded p-4 gap-2 flex items-center justify-center flex-col">
                   <RatingStar rating={4.5} />
-                  <p className="text-xs">Tatal comment: (1230) comments</p>
+                  <p className="text-xs">
+                    {t("_all_comments")}: (1230) {t("_comments")}
+                  </p>
                 </div>
               </div>
             </div>
             <div className="w-full flex items-start justify-start gap-2 flex-col p-2">
-              <h1 className="w-full border-b pb-2">Best selling products:</h1>
+              <h1 className="w-full border-b pb-2">
+                {s("_best_selling_product")}:
+              </h1>
               {bestSellProductData?.getBestSellingProducts?.data?.map(
                 (product) => (
                   <div

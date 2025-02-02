@@ -20,7 +20,9 @@
     "_popular_products": "流行产品",
     "_recommended_products": "推荐产品",
     "_view_more_button": "查看更多",
-
+    "_be_seller": "成为卖家",
+    "_my_account": "我的账户",
+    
     "_about_us": "关于我们",
     "_about_us_benefits": "平台使用的好处",
     "_benefits_01": "1. 不用担心货源问题，平台采用ERP管理系统，整合了大量电商平台的优质货源，我们只需上架我们认为易于销售的产品。",
@@ -227,26 +229,6 @@
     "_confirmation_title": "支付成功！",
     "_confirmation_description": "支付成功！",
     "_continue_shopping_button": "继续购物"
-  },
-
-  "global": {
-    "_edit_button": "编辑",
-    "_delete_button": "删除",
-    "_close_button": "关闭",
-    "_save_button": "保存",
-    "_saving_button": "正在保存....",
-    "_address": "地址",
-    "_postal_code": "邮政编码",
-    "_postal_code_placeholder": "请输入邮政编码....",
-    "_city": "城市",
-    "_province": "省份",
-    "_country": "国家",
-    "_telephone": "电话",
-    "_telephone_placeholder": "请输入电话号码....",
-    "_email": "电子邮件",
-    "_email_placeholder": "请输入电子邮件....",
-    "_contact_person": "联系人",
-    "_contact_person_placeholder": "请输入联系人姓名...."
   },
 
   "terms_conditions": {
@@ -476,5 +458,68 @@
     "_other_questions_concerns_or_complaints_title": "14. 其他问题、关注或投诉:",
     "_other_questions_concerns_or_complaints_01": "如果您对我们的隐私实践有任何问题或担忧，请随时与我们联系。",
     "_other_questions_concerns_or_complaints_02": "请提供您的姓名、联系方式和请求的性质，以便我们能够适当地回应您的来信。"
+  },
+
+  "category_page": {
+    "_all_category": "所有类别",
+    "_home": "首页",
+    "_price_range": "价格范围",
+    "_branding": "品牌：",
+    "_sort_by": "排序方式：",
+    "_most_expensive": "最贵",
+    "_cheapest": "最便宜"
+  },
+
+  "shop_page": {
+    "_all_shop": "所有商店",
+    "_shop": "商店",
+    "_total": "总计",
+    "_search": "搜索....",
+    "_newest": "最新",
+    "_visit_shop_button": "访问商店",
+    "_total_product": "总商品",
+    "_shop_since": "开店时间",
+    "_email": "电子邮件",
+    "_details": "详情",
+    "_view": "查看",
+    "_shop_home": "商店首页",
+    "_best_selling": "畅销",
+    "_all_product": "所有产品",
+    "_new_arrival": "新到货",
+    "_best_selling_product": "畅销商品"
+  },
+
+  "product_detail": {
+    "_comments": "评论",
+    "_seller": "卖家",
+    "_price": "价格",
+    "_quantity": "数量",
+    "_total_price": "总价",
+    "_available": "有货",
+    "_add_to_cart": "加入购物车",
+    "_product_details": "产品详情",
+    "_all_comments": "所有评论",
+    "_related_products": "相关产品"
+  },
+
+  "global": {
+    "_apply_button": "立即申请",
+    "_edit_button": "编辑",
+    "_delete_button": "删除",
+    "_close_button": "关闭",
+    "_save_button": "保存",
+    "_saving_button": "正在保存....",
+    "_address": "地址",
+    "_postal_code": "邮政编码",
+    "_postal_code_placeholder": "请输入邮政编码....",
+    "_city": "城市",
+    "_province": "省份",
+    "_country": "国家",
+    "_telephone": "电话",
+    "_telephone_placeholder": "请输入电话号码....",
+    "_email": "电子邮件",
+    "_email_placeholder": "请输入电子邮件....",
+    "_contact_person": "联系人",
+    "_contact_person_placeholder": "请输入联系人姓名...."
   }
 }

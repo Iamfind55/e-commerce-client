@@ -13,14 +13,15 @@ import ShopHomeComponent from "../components/shop-home";
 import AllProductComponent from "../components/all-product";
 import BestSellingComponent from "../components/best-selling";
 
-// utils, icons, hook and types
+// Types
 import { GetShopResponse } from "@/types/shop";
+import { useTranslations } from "next-intl";
 
 export default function Shop() {
   const params = useParams();
+  const t = useTranslations("shop_page");
   const [tab, setTab] = React.useState<number>(1);
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
-
   const [getShop, { data: shopData }] = useLazyQuery<GetShopResponse>(
     QUERY_SHOP,
     {
@@ -67,12 +68,16 @@ export default function Shop() {
               </p>
               <p className="text-gray-500 text-md text-xs">
                 {shopData?.getShop?.data?.email && (
-                  <span>Email: {shopData?.getShop?.data?.email}</span>
+                  <span>
+                    {t("_email")}: {shopData?.getShop?.data?.email}
+                  </span>
                 )}
               </p>
               <p className="text-xs text-gray-500">
                 {shopData?.getShop?.data?.remark && (
-                  <span>Details: {shopData?.getShop?.data?.remark}</span>
+                  <span>
+                    {t("_details")}: {shopData?.getShop?.data?.remark}
+                  </span>
                 )}
               </p>
             </div>
@@ -95,7 +100,7 @@ export default function Shop() {
                       tab === 1 && "text-neon_pink"
                     }`}
                   >
-                    <p className="text-sm">Shop home</p>
+                    <p className="text-sm">{t("_shop_home")}</p>
                   </div>
                 </button>
               </li>
@@ -112,7 +117,7 @@ export default function Shop() {
                       tab === 2 && "text-neon_pink"
                     }`}
                   >
-                    <p className="text-sm">Best selling</p>
+                    <p className="text-sm">{t("_best_selling")}</p>
                   </div>
                 </button>
               </li>
@@ -129,7 +134,7 @@ export default function Shop() {
                       tab === 3 && "text-neon_pink"
                     }`}
                   >
-                    <p className="text-sm">All products</p>
+                    <p className="text-sm">{t("_all_product")}</p>
                   </div>
                 </button>
               </li>

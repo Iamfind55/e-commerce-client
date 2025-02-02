@@ -11,7 +11,7 @@ import { Link, usePathname } from "@/navigation";
 import {
   ArrowDownIcon,
   CartIcon,
-  DashboardIcon,
+  CircleUser,
   LanguageIcon,
   MenuIcon,
   ProductIcon,
@@ -35,8 +35,8 @@ export default function Navbar() {
   const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
 
   // query from redux
-  const cartItems = useSelector((state: RootState) => state.cart.items);
   // const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   const cartCount = cartItems.length;
 
   const toggleOpenDrawer = () => {
@@ -158,10 +158,10 @@ export default function Navbar() {
             <DropdownComponent
               className="w-56 cursor-pointer"
               head={
-                <div className="flex items-start justify-start gap-1 text-white text-sm cursor-pointer hover:text-neon_pink">
+                <div className="flex items-start justify-start gap-1 text-white text-sm cursor-pointer hover:text-neon_pink group">
                   <LanguageIcon
                     size={16}
-                    className="cursor-pointer text-white hover:text-neon_pink mt-1"
+                    className="cursor-pointer text-white mt-1 group-hover:text-neon_pink"
                   />
                   <p className="hidden sm:block">{t("_languages")}</p>
                 </div>
@@ -254,8 +254,8 @@ export default function Navbar() {
                   href="/customer"
                   className="flex items-center justify-center cursor-pointer text-sm hover:text-neon_pink"
                 >
-                  <DashboardIcon size={12} />
-                  &nbsp;Dashboard
+                  <CircleUser size={18} />
+                  &nbsp;{t("_my_account")}
                 </Link>
               </div>
             ) : (

@@ -1,16 +1,18 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 // components
 import ShopCard from "@/components/shopCard";
+import EmptyPage from "@/components/emptyPage";
 import Breadcrumb from "@/components/breadCrumb";
+import ShopPagination from "./components/pagination";
 import DropdownComponent from "@/components/dropdown";
 
 // icons, utils, hooks
-import EmptyPage from "@/components/emptyPage";
 import useFilter from "./hooks/useFilter/page";
-import ShopPagination from "./components/pagination";
-import { FilterIcon, SearchIcon } from "@/icons/page";
 import useFetchShops from "./hooks/useFetchShop";
+import { FilterIcon, SearchIcon } from "@/icons/page";
 
 const dropdownOptions = [
   { label: "VIP1", value: 1 },
@@ -23,6 +25,8 @@ const dropdownOptions = [
 export default function Shop() {
   const filter = useFilter();
   const fetchProducts = useFetchShops({ filter: filter.data });
+  const t = useTranslations("shop_page");
+  const c = useTranslations("category_page");
 
   return (
     <>
@@ -30,20 +34,23 @@ export default function Shop() {
         <div className="container">
           <Breadcrumb
             items={[
-              { label: "Home", value: "/" },
-              { label: "All shops", value: "/shop" },
+              { label: c("_home"), value: "/" },
+              { label: t("_all_shop"), value: "/shop" },
             ]}
           />
           <div className="py-4">
             <div className="flex items-center justify-between p-2">
               <p className="text-gray-500 text-sm sm:text-xs">
-                Total: {fetchProducts.total} Shops
+                {t("_total")}: {fetchProducts.total} {t("_shop")}
               </p>
 
               <div className="flex items-start justify-start gap-4">
                 <div>
-                  <label htmlFor="simple-search" className="sr-only">
-                    Search
+                  <label
+                    htmlFor="simple-search"
+                    className="sr-only text-gray-500"
+                  >
+                    {t("_search")}
                   </label>
                   <div className="relative w-full">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -53,7 +60,7 @@ export default function Shop() {
                       required
                       type="text"
                       id="simple-search"
-                      placeholder="Search.."
+                      placeholder={t("_search")}
                       onChange={(e) => {
                         filter.dispatch({
                           type: filter.ACTION_TYPE.KEYWORD,
@@ -85,7 +92,7 @@ export default function Shop() {
                         });
                       }}
                     >
-                      Newest
+                      {t("_newest")}
                     </div>
                     {dropdownOptions.map((option) => (
                       <div
@@ -111,11 +118,11 @@ export default function Shop() {
                 <p className="text-gray-500 text-sm">Loading...</p>
               </div>
             ) : fetchProducts?.total ?? 0 > 0 ? (
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-2 sm:mx-0 mx-2">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-2 sm:mx-0 mx-2">
                 {fetchProducts?.data?.map((shop) => (
                   <div
                     key={shop.id}
-                    className="flex items-center justify-center"
+                    className="flex items-start justify-center"
                   >
                     <ShopCard {...shop} />
                   </div>

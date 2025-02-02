@@ -1,5 +1,9 @@
 "use client";
 
+import React from "react";
+import { useTranslations } from "next-intl";
+
+// icons
 import {
   CartIcon,
   CheckCircleIcon,
@@ -8,26 +12,19 @@ import {
   LocationIcon,
   NextIcon,
 } from "@/icons/page";
-import React from "react";
-import MyCartDetails from "./components/cart-detail";
-import { useRouter } from "@/navigation";
-import ShippingInformation from "./components/shipping-detail";
-import DeliveryDetails from "./components/delivery-detail";
-import PaymentDetails from "./components/pyment-detail";
-import { useTranslations } from "next-intl";
+
+// components
 import Confirmation from "./components/confirmation";
+import MyCartDetails from "./components/cart-detail";
+import PaymentDetails from "./components/pyment-detail";
+import DeliveryDetails from "./components/delivery-detail";
+import ShippingInformation from "./components/shipping-detail";
+
 export default function MyCart() {
   const t = useTranslations("myCartPage");
   const u = useTranslations("homePage");
-  const router = useRouter();
   const [tab, setTab] = React.useState<number>(1);
-  const handleBack = () => {
-    if (tab > 1) {
-      setTab(tab - 1);
-    } else {
-      router.push("/");
-    }
-  };
+
   return (
     <div className="flex items-center justify-center bg-bg_color">
       <div className="container px-4 py-6 flex items-start justify-start flex-col gap-4">
@@ -36,14 +33,11 @@ export default function MyCart() {
             <ul className="flex flex-wrap items-center justify-center -mb-px text-sm font-medium text-center gap-0 sm:gap-4 rounded">
               <li className="me-2" role="presentation">
                 <button
-                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${
-                    tab === 1 ? "text-base text-sm" : "text-b_text"
-                  }`}
-                  onClick={() => setTab(1)}
+                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 >
                   <div
                     className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                      tab === 1 && "text-neon_pink"
+                      tab === 1 ? "text-neon_pink" : "cursor-not-allowed"
                     }`}
                   >
                     <CartIcon size={26} />
@@ -54,14 +48,11 @@ export default function MyCart() {
               <NextIcon className="text-gray-300 text-xl" />
               <li className="me-2" role="presentation">
                 <button
-                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${
-                    tab === 2 ? "text-base text-sm" : "text-b_text"
-                  }`}
-                  onClick={() => setTab(2)}
+                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 >
                   <div
                     className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                      tab === 2 && "text-neon_pink"
+                      tab === 2 ? "text-neon_pink" : "cursor-not-allowed"
                     }`}
                   >
                     <LocationIcon size={26} />
@@ -74,14 +65,11 @@ export default function MyCart() {
               <NextIcon className="text-gray-300 text-xl" />
               <li className="me-2" role="presentation">
                 <button
-                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${
-                    tab === 3 ? "text-base text-sm" : "text-b_text"
-                  }`}
-                  onClick={() => setTab(3)}
+                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 >
                   <div
                     className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                      tab === 3 && "text-neon_pink"
+                      tab === 3 ? "text-neon_pink" : "cursor-not-allowed"
                     }`}
                   >
                     <DeliveryIcon size={26} />
@@ -94,14 +82,11 @@ export default function MyCart() {
               <NextIcon className="text-gray-300 text-xl" />
               <li className="me-2" role="presentation">
                 <button
-                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${
-                    tab === 4 ? "text-base text-sm" : "text-b_text"
-                  }`}
-                  onClick={() => setTab(4)}
+                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 >
                   <div
                     className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                      tab === 4 && "text-neon_pink"
+                      tab === 4 ? "text-neon_pink" : "cursor-not-allowed"
                     }`}
                   >
                     <DollarIcon size={26} />
@@ -112,14 +97,11 @@ export default function MyCart() {
               <NextIcon className="text-gray-300 text-xl" />
               <li className="me-2" role="presentation">
                 <button
-                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${
-                    tab === 5 ? "text-base text-sm" : "text-b_text"
-                  }`}
-                  onClick={() => setTab(5)}
+                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 >
                   <div
                     className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                      tab === 5 && "text-neon_pink"
+                      tab === 5 ? "text-neon_pink" : "cursor-not-allowed"
                     }`}
                   >
                     <CheckCircleIcon size={26} />
