@@ -102,7 +102,6 @@ export default function Category() {
   }, [getCategories]);
 
   React.useEffect(() => {
-    console.log("ID:", id);
     filter.dispatch({
       type: filter.ACTION_TYPE.CATEGORY_ID,
       payload: id ?? "",

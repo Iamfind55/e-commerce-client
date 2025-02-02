@@ -101,6 +101,7 @@ export interface CreatedAtBetween {
 export interface IShopProductFilter {
   limit: number;
   page: number;
+  shop_id: string | null;
   status?: string | null;
   keyword?: string | null;
   quantity?: number | null;

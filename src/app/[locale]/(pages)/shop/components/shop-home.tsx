@@ -11,7 +11,7 @@ import EmptyPage from "@/components/emptyPage";
 import useFetchShopProducts from "../hooks/useFetchShopProduct";
 import useShopProductFilter from "../hooks/useFilterShopProduct/page";
 
-export default function ShopHomeComponent() {
+export default function ShopHomeComponent({ shop_id }: { shop_id: string }) {
   const t = useTranslations("shop_page");
   const filter = useShopProductFilter();
   const currentDate = moment().format("YYYY-MM-DD");
@@ -22,7 +22,11 @@ export default function ShopHomeComponent() {
       type: filter.ACTION_TYPE.CREATED_AT_START_DATE,
       payload: currentDate,
     });
-  }, []);
+    filter.dispatch({
+      type: filter.ACTION_TYPE.SHOP_ID,
+      payload: shop_id,
+    });
+  }, [shop_id]);
 
   return (
     <>

@@ -4,6 +4,7 @@ import { IShopProductFilter } from "@/types/shop";
 
 // Define the type for actions
 type Action =
+  | { type: "shop_id"; payload: string | null }
   | { type: "status"; payload: string | null }
   | { type: "page"; payload: number | 1 }
   | { type: "keyword"; payload: string | null }
@@ -14,8 +15,9 @@ type Action =
 
 // Initial state
 const initialState: IShopProductFilter = {
-  limit: 5,
+  limit: 15,
   page: 1,
+  shop_id: null,
   status: null,
   keyword: null,
   quantity: null,
@@ -27,6 +29,7 @@ const initialState: IShopProductFilter = {
 };
 
 const ACTION_TYPE = {
+  SHOP_ID: "shop_id",
   STATUS: "status",
   KEYWORD: "keyword",
   PAGE: "page",
@@ -83,6 +86,9 @@ const reducer = (
             page: 1,
           }),
       };
+
+    case ACTION_TYPE.SHOP_ID:
+      return { ...state, shop_id: action.payload || null, page: 1 };
 
     case ACTION_TYPE.STATUS:
       return { ...state, status: action.payload || null, page: 1 };

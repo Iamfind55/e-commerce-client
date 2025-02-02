@@ -53,13 +53,10 @@ export default function ShopCard(props: ShopData) {
             <p className="text-xs text-gray-500">
               {t("_shop_since")} {formatDate(props?.created_at ?? "")}
             </p>
-            <p className="text-xs text-gray-500">
-              {t("_total_product")}: 12343
-            </p>
             <div className="my-2 f-full flex flex-col items-center justify-center">
               <div className="flex flex-col gap-2 w-full">
                 <IconButton
-                  className="rounded text-white p-2 w-auto mt-4 text-xs bg-neon_pink"
+                  className="rounded text-white p-2 w-auto mt-2 text-xs bg-neon_pink"
                   icon={<ShopIcon size={20} />}
                   isFront={true}
                   type="button"

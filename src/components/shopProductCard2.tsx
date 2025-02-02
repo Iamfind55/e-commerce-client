@@ -22,6 +22,7 @@ export default function ShopProductCard2(props: ShopProductData) {
   const router = useRouter();
   const dispatch = useDispatch();
   const token = Cookies.get("auth_token");
+
   const handleAddToCart = () => {
     if (!token) {
       router.push("/cus-signin");
@@ -68,7 +69,7 @@ export default function ShopProductCard2(props: ShopProductData) {
           <div className="p-3 flex items-start justify-start flex-col gap-1">
             <div className="w-full flex items-center justify-start gap-2">
               <i className="text-xs sm:text-md text-second_black font-normal sm:font-bold tracking-tight">
-                {truncateText(`${props?.productData.name.name_en}`, 20)}
+                {truncateText(`${props?.productData.name.name_en}`, 25)}
               </i>
             </div>
             <p className="text-gray-500 font-normal text-xs">

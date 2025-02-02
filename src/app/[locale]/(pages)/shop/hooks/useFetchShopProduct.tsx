@@ -1,16 +1,19 @@
 import React from "react";
 import moment from "moment";
-
-// api
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_SHOP_PRODUCTS } from "@/api/shop";
-
-// type and utils
 import { GetShopProductsResponse, IShopProductFilter } from "@/types/shop";
 
 const useFetchShopProducts = ({ filter }: { filter: IShopProductFilter }) => {
-  const { limit, page, keyword, quantity, createdAtBetween, sortedBy } = filter;
-
+  const {
+    limit,
+    page,
+    keyword,
+    quantity,
+    createdAtBetween,
+    sortedBy,
+    shop_id,
+  } = filter;
   const [getShopProducts, { data, loading }] =
     useLazyQuery<GetShopProductsResponse>(QUERY_SHOP_PRODUCTS, {
       fetchPolicy: "no-cache",
@@ -19,7 +22,6 @@ const useFetchShopProducts = ({ filter }: { filter: IShopProductFilter }) => {
   const specificDate = moment(createdAtBetween?.startDate);
   const last60Days = specificDate.subtract(60, "days").format("YYYY-MM-DD");
 
-  console.log("Sorted BY:", sortedBy);
   const fetchShopProducts = () => {
     getShopProducts({
       variables: {
@@ -28,7 +30,7 @@ const useFetchShopProducts = ({ filter }: { filter: IShopProductFilter }) => {
         ...(sortedBy && { sortedBy: sortedBy }),
         where: {
           status: "ACTIVE",
-          shop_id: "2023676a-5e57-4cb5-a076-18f16b951439",
+          ...(shop_id && { shop_id: shop_id }),
           ...(keyword && { keyword: keyword }),
           ...(quantity && { quantity: quantity }),
           ...(createdAtBetween?.startDate && {
@@ -45,8 +47,6 @@ const useFetchShopProducts = ({ filter }: { filter: IShopProductFilter }) => {
   React.useEffect(() => {
     fetchShopProducts();
   }, [filter, getShopProducts]);
-
-  console.log("Data:", data);
 
   return {
     getShopProducts,

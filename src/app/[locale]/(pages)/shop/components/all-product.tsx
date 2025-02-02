@@ -10,10 +10,17 @@ import EmptyPage from "@/components/emptyPage";
 import useFetchShopProducts from "../hooks/useFetchShopProduct";
 import useShopProductFilter from "../hooks/useFilterShopProduct/page";
 
-export default function AllProductComponent() {
+export default function AllProductComponent({ shop_id }: { shop_id: string }) {
   const t = useTranslations("shop_page");
   const filter = useShopProductFilter();
   const fetchShopProducts = useFetchShopProducts({ filter: filter.data });
+
+  React.useEffect(() => {
+    filter.dispatch({
+      type: filter.ACTION_TYPE.SHOP_ID,
+      payload: shop_id,
+    });
+  }, [shop_id]);
 
   return (
     <>

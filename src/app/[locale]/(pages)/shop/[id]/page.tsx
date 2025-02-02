@@ -37,6 +37,8 @@ export default function Shop() {
     });
   }, [getShop]);
 
+  console.log(id);
+
   return (
     <>
       <div
@@ -59,8 +61,10 @@ export default function Shop() {
                   : "/images/category01.webp"
               }
               alt="product-01"
-              width={100}
-              height={100}
+              width={150}
+              height={150}
+              priority
+              quality={100}
             />
             <div className="w-11/12 sm:w-4/5 flex items-center justify-center flex-col gap-2">
               <p className="text-md text-black">
@@ -145,9 +149,9 @@ export default function Shop() {
             className="p-2 bg-white text-second_black mt-6 flex items-start justify-start flex-col"
           >
             <div className="w-full bg-white text-black">
-              {tab === 1 && <ShopHomeComponent />}
-              {tab === 2 && <BestSellingComponent />}
-              {tab === 3 && <AllProductComponent />}
+              {tab === 1 && <ShopHomeComponent shop_id={id || ""} />}
+              {tab === 2 && <BestSellingComponent shop_id={id || ""} />}
+              {tab === 3 && <AllProductComponent shop_id={id || ""} />}
             </div>
           </div>
         </div>

@@ -1,15 +1,10 @@
 import React from "react";
-
-// api
-import { useLazyQuery } from "@apollo/client";
-
-// type and utils
 import { QUERY_SHOPS } from "@/api/shop";
+import { useLazyQuery } from "@apollo/client";
 import { GetShopsResponse, IShopFilter } from "@/types/shop";
 
 const useFetchShops = ({ filter }: { filter: IShopFilter }) => {
   const { limit, page, keyword, shop_vip, created_at_DESC } = filter;
-
   const [getShops, { data, loading }] = useLazyQuery<GetShopsResponse>(
     QUERY_SHOPS,
     {
@@ -17,7 +12,6 @@ const useFetchShops = ({ filter }: { filter: IShopFilter }) => {
     }
   );
 
-  // console.log("Filters:", limit, page, keyword, shop_vip, created_at_DESC);
   const fetchShops = () => {
     getShops({
       variables: {

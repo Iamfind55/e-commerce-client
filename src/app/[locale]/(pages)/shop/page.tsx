@@ -24,9 +24,9 @@ const dropdownOptions = [
 
 export default function Shop() {
   const filter = useFilter();
-  const fetchProducts = useFetchShops({ filter: filter.data });
   const t = useTranslations("shop_page");
   const c = useTranslations("category_page");
+  const fetchProducts = useFetchShops({ filter: filter.data });
 
   return (
     <>
