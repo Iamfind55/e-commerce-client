@@ -212,7 +212,7 @@ export default function CustomerRegister() {
                 Already have an account?
               </p>
               <Link
-                href="/customer-signin"
+                href="/cus-signin"
                 className="font-bold underline text-neon_pink text-sm italic"
               >
                 Sign In

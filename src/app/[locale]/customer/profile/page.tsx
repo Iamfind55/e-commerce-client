@@ -13,11 +13,9 @@ import IconButton from "@/components/iconButton";
 import Password from "@/components/passwordTextField";
 
 // utils
+import { SaveIcon } from "@/icons/page";
 import { useToast } from "@/utils/toast";
 import { signIn } from "@/redux/slice/customerAuthSlice";
-
-// images and icons
-import { SaveIcon } from "@/icons/page";
 import { ICustomers, IPaymentMethod } from "@/types/customer-auth";
 
 // APIs
@@ -27,6 +25,7 @@ import {
   QUERY_CUSTOMER_PAYMENT_METHOD,
 } from "@/api/customer";
 import { GetPaymentResponse } from "@/types/paymentMethod";
+import { useTranslations } from "next-intl";
 
 interface CloudinaryResponse {
   secure_url?: string;
@@ -34,6 +33,8 @@ interface CloudinaryResponse {
 
 export default function ProfileManagement() {
   const dispatch = useDispatch();
+  const t = useTranslations("manage_profile");
+  const i = useTranslations("instrument_panel");
   const { errorMessage, successMessage } = useToast();
   const [file, setFile] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -277,8 +278,8 @@ export default function ProfileManagement() {
       <div className="w-full flex items-start justify-start flex-col gap-2">
         <Breadcrumb
           items={[
-            { label: "Customer", value: "/customer" },
-            { label: "Purchase history", value: "/purchase-history" },
+            { label: i("_customer"), value: "/customer" },
+            { label: t("_my_profile"), value: "/profile" },
           ]}
         />
         <div className="w-full flex items-start justify-start flex-col gap-4">
@@ -316,7 +317,7 @@ export default function ProfileManagement() {
               </div>
               <div className="flex items-start justify-start flex-col gap-3">
                 <label className="block text-gray-500 text-xs">
-                  Upload shop logo
+                  {t("_upload_logo")}
                 </label>
                 <input
                   type="file"
@@ -333,7 +334,7 @@ export default function ProfileManagement() {
                     htmlFor="file-upload"
                     className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink text-white"
                   >
-                    Select new
+                    {t("_select_new")}
                   </label>
                 </div>
               </div>
@@ -341,8 +342,8 @@ export default function ProfileManagement() {
 
             <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
               <Textfield
-                placeholder="Enter first name...."
-                title="First name"
+                placeholder={t("_first_name_placeholder")}
+                title={t("_first_name")}
                 name="firstName"
                 id="firstName"
                 type="text"
@@ -356,8 +357,8 @@ export default function ProfileManagement() {
                 }
               />
               <Textfield
-                placeholder="Enter lastname...."
-                title="Last name"
+                placeholder={t("_last_name_placeholder")}
+                title={t("_last_name")}
                 name="lastName"
                 id="lastName"
                 type="text"
@@ -371,8 +372,8 @@ export default function ProfileManagement() {
                 }
               />
               <Textfield
-                placeholder="Enter phone number...."
-                title="Phone number"
+                placeholder={t("_phone_number_placeholder")}
+                title={t("_phone_number")}
                 name="phone_number"
                 id="phone_number"
                 type="text"
@@ -386,8 +387,8 @@ export default function ProfileManagement() {
                 }
               />
               <Textfield
-                placeholder="Enter your email...."
-                title="Email address"
+                placeholder={"_email_placeholder"}
+                title={t("_email")}
                 name="email"
                 id="email"
                 type="text"
@@ -401,8 +402,8 @@ export default function ProfileManagement() {
                 }
               />
               <Textfield
-                placeholder="Enter your username...."
-                title="Username"
+                placeholder={t("_username_placeholder")}
+                title={t("_username")}
                 name="username"
                 id="username"
                 type="text"
@@ -416,8 +417,8 @@ export default function ProfileManagement() {
                 }
               />
               <Password
-                placeholder="Enter password...."
-                title="Password"
+                placeholder={t("_password_placeholder")}
+                title={t("_password")}
                 name="password"
                 id="password"
                 value={profileData.password || ""}
@@ -429,8 +430,8 @@ export default function ProfileManagement() {
                 }
               />
               <Password
-                placeholder="Confirm password...."
-                title="Confirm password"
+                placeholder={t("_confirm_password_placeholder")}
+                title={t("_confirm_password")}
                 name="confirm_password"
                 id="confirm_password"
                 value={profileData.password || ""}
@@ -445,7 +446,11 @@ export default function ProfileManagement() {
             <div className="w-full flex items-end justify-end px-4 sm:px-0">
               <IconButton
                 className={`w-full sm:w-auto rounded p-2 text-xs bg-neon_pink text-white`}
-                title={isLoading ? "Submiting...." : "Update profile"}
+                title={
+                  isLoading
+                    ? t("_submiting_button")
+                    : t("_update_profile_button")
+                }
                 icon={isLoading ? <Loading /> : <SaveIcon size={18} />}
                 isFront={true}
                 type="submit"
@@ -458,13 +463,13 @@ export default function ProfileManagement() {
             className="w-full flex items-start justify-start flex-col gap-4 bg-white rounded p-4"
           >
             <div className="w-full border-b py-1">
-              <p className="text-sm text-gray-500">Payment setting:</p>
+              <p className="text-sm text-gray-500">{t("_payment_setting")}:</p>
             </div>
             <div className="w-full flex items-start justify-start flex-col gap-4">
-              <p className="text-sm">Virtual currency payment method:</p>
+              <p className="text-sm">{t("_payment_title")}:</p>
               <Textfield
-                placeholder="Enter your wallet address...."
-                title="Wallet address USDT"
+                placeholder={t("_wallet_address_placeholder")}
+                title={t("_wallet_address")}
                 name="wallet_address"
                 id="wallet_address"
                 type="text"
@@ -479,10 +484,10 @@ export default function ProfileManagement() {
             </div>
 
             <div className="w-full flex items-start justify-start flex-col gap-2">
-              <p className="text-sm">Bank payment method:</p>
+              <p className="text-sm">{t("_bank_payment_method")}:</p>
               <Textfield
-                placeholder="Enter bank name...."
-                title="Banck name"
+                placeholder={t("_bank_name_placeholder")}
+                title={t("_bank_name")}
                 name="bank_name"
                 id="bank_name"
                 type="text"
@@ -495,8 +500,8 @@ export default function ProfileManagement() {
                 }
               />
               <Textfield
-                placeholder="Enter back account name...."
-                title="Bank account name"
+                placeholder={t("_bank_account_name_placeholder")}
+                title={t("_bank_account_name")}
                 name="bank_account_name"
                 id="bank_account_name"
                 type="text"
@@ -509,8 +514,8 @@ export default function ProfileManagement() {
                 }
               />
               <Textfield
-                placeholder="Enter bank account number...."
-                title="Bank account number"
+                placeholder={t("_bank_account_number_placeholder")}
+                title={t("_bank_account_number")}
                 name="bank_account_number"
                 id="bank_account_number"
                 type="number"
@@ -527,7 +532,7 @@ export default function ProfileManagement() {
             <div className="w-full flex items-end justify-end px-4 sm:px-0">
               <IconButton
                 className={`w-full sm:w-auto rounded p-2 text-xs bg-neon_pink text-white`}
-                title={isLoading ? "Submiting...." : "Update"}
+                title={isLoading ? t("_submiting_button") : t("_update_button")}
                 icon={isLoading ? <Loading /> : <SaveIcon size={18} />}
                 isFront={true}
                 type="submit"

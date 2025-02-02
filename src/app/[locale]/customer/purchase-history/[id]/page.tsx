@@ -12,11 +12,14 @@ import { formatDate } from "@/utils/dateFormat";
 import Breadcrumb from "@/components/breadCrumb";
 import { truncateText } from "@/utils/letterLimitation";
 import { GetCustomerOrderDetailResponse } from "@/types/order";
+import { useTranslations } from "next-intl";
 
 export default function PurchaseHistoryDetails() {
   const params = useParams();
+  const i = useTranslations("instrument_panel");
+  const t = useTranslations("purchase_history");
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
-  const [getCusOrderDetails, { data, loading }] =
+  const [getCusOrderDetails, { data }] =
     useLazyQuery<GetCustomerOrderDetailResponse>(
       QUERY_CUSTOMER_ORDERS_DETAILS,
       {
@@ -28,7 +31,7 @@ export default function PurchaseHistoryDetails() {
     getCusOrderDetails({
       variables: {
         where: {
-          order_no: "1738428599925004",
+          order_no: id,
         },
       },
     });
@@ -39,33 +42,36 @@ export default function PurchaseHistoryDetails() {
       <div className="w-full flex items-start justify-start flex-col gap-2">
         <Breadcrumb
           items={[
-            { label: "Customer", value: "/customer" },
-            { label: "Purchase history", value: "/purchase-history" },
-            { label: "Purchase history detail", value: "/purchase-history/id" },
+            { label: i("_customer"), value: "/customer" },
+            { label: t("_purchase_history"), value: "/purchase-history" },
+            {
+              label: t("_purchase_history_detail"),
+              value: "/purchase-history/id",
+            },
           ]}
         />
         <div className="flex items-start justify-start flex-col w-full rounded p-4 bg-white gap-4">
           <div className="flex items-center justify-center w-full">
-            <h1 className="uppercase underline">Invoice:</h1>
+            <h1 className="uppercase underline">{t("_invoice")}:</h1>
           </div>
 
           <div className="flex items-start justify-between w-full">
             <div>
-              <p className="text-xs font-bold">Details:</p>
+              <p className="text-xs font-bold">{t("_detail")}:</p>
               <p className="text-xs">
-                Order status:&nbsp;
+                {t("_order_status")}:&nbsp;
                 <span>
                   {data?.customerGetOrderDetails?.data[0].order_status}
                 </span>
               </p>
               <p className="text-xs">
-                Delivery type:&nbsp;
+                {t("_delivery_type")}:&nbsp;
                 <span>
                   {data?.customerGetOrderDetails?.data[0].delivery_type}
                 </span>
               </p>
               <p className="text-xs">
-                Payment status:&nbsp;
+                {t("_payment_status")}:&nbsp;
                 <span>
                   {data?.customerGetOrderDetails?.data[0].payment_status}
                 </span>
@@ -74,13 +80,13 @@ export default function PurchaseHistoryDetails() {
 
             <div>
               <p className="text-xs font-bold">
-                Invoice:&nbsp;
+                {t("_invoice_no")}:&nbsp;
                 <span className="font-normal">
                   {data?.customerGetOrderDetails?.data[0].order_no}
                 </span>
               </p>
               <p className="text-xs font-bold">
-                Date:&nbsp;
+                {t("_created_at")}:&nbsp;
                 <span className="font-normal">
                   {formatDate(
                     data?.customerGetOrderDetails?.data[0]?.created_at ?? ""
@@ -95,16 +101,16 @@ export default function PurchaseHistoryDetails() {
               <thead className="text-xs text-gray-600 uppercase bg-gray-100">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Product
+                    {i("_product")}
                   </th>
                   <th scope="col" className="px-6 py-3 text-center">
-                    Price
+                    {t("_price")}
                   </th>
                   <th scope="col" className="px-6 py-3 text-center">
-                    Quantity
+                    {t("_quantity")}
                   </th>
                   <th scope="col" className="px-6 py-3 text-center">
-                    Total price
+                    {t("_sub_total")}
                   </th>
                 </tr>
               </thead>
@@ -145,7 +151,7 @@ export default function PurchaseHistoryDetails() {
                 ))}
                 <tr className="bg-gray-100 font-semibold text-gray-800">
                   <td colSpan={3} className="px-6 py-4 text-right">
-                    Grand Total:
+                    {t("_total_price")}:
                   </td>
                   <td className="px-6 py-4 text-center">
                     $

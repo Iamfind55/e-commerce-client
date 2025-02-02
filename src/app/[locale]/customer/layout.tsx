@@ -15,14 +15,13 @@ import Header from "../components/header/page";
 
 // icons
 import {
-  CartIcon,
   CircleUser,
   DashboardIcon,
   LogoutIcon,
   PurchaseIcon,
   WalletIcon,
 } from "@/icons/page";
-
+import { useTranslations } from "next-intl";
 
 type MenuItem = {
   icon: ReactNode;
@@ -36,6 +35,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("instrument_panel");
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
@@ -47,55 +47,45 @@ export default function RootLayout({
   const menuItems: MenuItem[] = [
     {
       icon: <DashboardIcon size={16} />,
-      menu: "Instrument panel",
+      menu: t("_instrument_panel"),
       route: "/customer/instrument-panel",
     },
     {
       icon: <PurchaseIcon size={16} />,
-      menu: "Purchase history",
+      menu: t("_purchase_history"),
       route: "/customer/purchase-history",
     },
     {
       icon: <WalletIcon size={16} />,
-      menu: "My wallet",
+      menu: t("_wallet"),
       route: "/customer/my-wallet",
     },
-    // {
-    //   icon: <NewsIcon size={16} />,
-    //   menu: "News and event",
-    //   route: "/customer/news-events",
-    // },
     {
       icon: <CircleUser size={16} />,
-      menu: "Manage profile",
+      menu: t("_manage_profile"),
       route: "/customer/profile",
     },
   ];
 
   const mobileMenuItems: MenuItem[] = [
     {
-      icon: <CartIcon size={16} />,
-      menu: "Instrument panel",
+      icon: <DashboardIcon size={16} />,
+      menu: t("_instrument_panel"),
       route: "/customer/instrument-panel",
     },
     {
-      icon: <CartIcon size={16} />,
-      menu: "Purchase history",
+      icon: <PurchaseIcon size={16} />,
+      menu: t("_purchase_history"),
       route: "/customer/purchase-history",
     },
     {
       icon: <WalletIcon size={16} />,
-      menu: "My wallet",
+      menu: t("_wallet"),
       route: "/customer/my-wallet",
     },
     {
       icon: <CircleUser size={16} />,
-      menu: "News and event",
-      route: "/customer/news-events",
-    },
-    {
-      icon: <CircleUser size={16} />,
-      menu: "Profile",
+      menu: t("_manage_profile"),
       route: "/customer/profile",
     },
   ];
@@ -157,7 +147,7 @@ export default function RootLayout({
                 className="w-full flex items-center justify-center gap-2 text-sm bg-gray-500 mt-6 py-2 rounded-br-md rounded-bl-md cursor-pointer"
               >
                 <LogoutIcon size={18} />
-                <span>Logout</span>
+                <span>{t("_logout")}</span>
               </div>
             </div>
           </div>

@@ -47,24 +47,25 @@ export type ReportItem = {
 export default function InstrumentPanel() {
   const t = useTranslations("myCartPage");
   const g = useTranslations("global");
+  const i = useTranslations("instrument_panel");
   const { customer } = useSelector((state: any) => state.customerAuth);
   const { errorMessage, successMessage } = useToast();
 
   const reportItems: ReportItem[] = [
     {
-      title: "Products",
+      title: i("_product"),
       amount: 5,
-      detail: "In your shipping cart",
+      detail: i("_in_your_shipping_cart"),
     },
     {
-      title: "Products",
+      title: i("_product"),
       amount: 15,
-      detail: "In your orders",
+      detail: i("_in_your_order"),
     },
     {
-      title: "Products",
+      title: i("_product"),
       amount: 25,
-      detail: "You ordered",
+      detail: i("_your_order"),
     },
   ];
 
@@ -339,8 +340,8 @@ export default function InstrumentPanel() {
       <div className="w-full flex items-start justify-start flex-col gap-2">
         <Breadcrumb
           items={[
-            { label: "Customer", value: "/customer" },
-            { label: "Instrument panel", value: "/instrucment-panel" },
+            { label: i("_customer"), value: "/customer" },
+            { label: i("_instrument_panel"), value: "/instrucment-panel" },
           ]}
         />
         <div className="w-full flex items-start justify-between gap-4 mt-4">
@@ -350,7 +351,7 @@ export default function InstrumentPanel() {
         </div>
         <div className="bg-white w-full flex items-start justify-start flex-col gap-4 mt-4 p-4 rounded">
           <p className="w-full text-sm text-gray-500 border-b border-gray-200 pb-1">
-            Set default shipping address:
+            {i("_address_title")}:
           </p>
           <div className="w-full grid grid-cols-1 gap-4 lg:grid-cols-2">
             {addressesData?.getCustomerAddresses?.data?.map((row) => (
@@ -380,7 +381,7 @@ export default function InstrumentPanel() {
                         onClick={() => handleSetDefaultAddress(row.id)}
                         className="w-full text-xs flex items-center justify-start text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4"
                       >
-                        Set as default
+                        {i("_set_default")}
                       </button>
                       <button
                         onClick={() => {

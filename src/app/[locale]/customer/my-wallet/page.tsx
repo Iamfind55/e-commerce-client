@@ -1,12 +1,10 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { QRCodeCanvas } from "qrcode.react";
 
-import Breadcrumb from "@/components/breadCrumb";
-import IconButton from "@/components/iconButton";
-import MyModal from "@/components/modal";
-import Textfield from "@/components/textField";
-import WalletCard from "@/components/walletCard";
+// icons and utils
 import {
   LinkIcon,
   LockIcon,
@@ -16,21 +14,30 @@ import {
   TrashIcon,
   WithdrawIcon,
 } from "@/icons/page";
-import Image from "next/image";
-import { QRCodeCanvas } from "qrcode.react";
-import TransactionHistory from "./transaction-history/page";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { QUERY_CUSTOMER_WALLET } from "@/api/wallet";
-import { GetCustomerWalletResponse, ICutomerRecharge } from "@/types/wallet";
 import { useToast } from "@/utils/toast";
+import { QUERY_CUSTOMER_WALLET } from "@/api/wallet";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { MUTATION_CUSTOMER_RECHARGE } from "@/api/recharge";
+import { GetCustomerWalletResponse, ICutomerRecharge } from "@/types/wallet";
+
+// components
+import MyModal from "@/components/modal";
 import Loading from "@/components/loading";
+import Textfield from "@/components/textField";
+import Breadcrumb from "@/components/breadCrumb";
+import IconButton from "@/components/iconButton";
+import WalletCard from "@/components/walletCard";
+import TransactionHistory from "./transaction-history/page";
+import { useTranslations } from "next-intl";
 
 interface CloudinaryResponse {
   secure_url?: string;
 }
 
 export default function CustomerWallet() {
+  const t = useTranslations("my_wallet");
+  const p = useTranslations("purchase_history");
+  const i = useTranslations("instrument_panel");
   const { errorMessage, successMessage } = useToast();
   const [qrcode, setQrcode] = React.useState<string>("");
   const [cover, setCover] = React.useState<File | null>(null);
@@ -116,13 +123,13 @@ export default function CustomerWallet() {
 
     return [
       {
-        title: "Frozen Balance",
+        title: t("_frozen_balance"),
         amount: `$${totalFrozenBalance}`,
         percent: 3,
         icon: <LockIcon size={38} className="text-neon_pink" />,
       },
       {
-        title: "Total Balance",
+        title: t("_total_balance"),
         amount: `$${totalBalance}`,
         percent: 12,
         icon: <WithdrawIcon size={38} className="text-green-500" />,
@@ -190,15 +197,13 @@ export default function CustomerWallet() {
     <>
       <Breadcrumb
         items={[
-          { label: "Customer", value: "/customer" },
-          { label: "My wallet", value: "/customer/my-wallet" },
+          { label: i("_customer"), value: "/customer" },
+          { label: t("_my_wallet"), value: "/customer/my-wallet" },
         ]}
       />
       <div className="mt-2 rounded flex items-start justify-start flex-col gap-2 py-4 text-gray-500">
         {loading ? (
-          <p className="text-gray-500 text-center">
-            Loading wallet information...
-          </p>
+          <p className="text-gray-500 text-center">Loading....</p>
         ) : (
           <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 px-4 sm:px-0">
             {reportItems.map((item, index) => (
@@ -220,7 +225,7 @@ export default function CustomerWallet() {
                 </div>
                 <div className="flex items-start justify-start flex-col gap-2">
                   <p className="text-md font-medium text-gray-500">
-                    Offline wallet recharge
+                    {t("_offline_wallet_recharge")}
                   </p>
                 </div>
               </div>
@@ -240,10 +245,10 @@ export default function CustomerWallet() {
             className="w-full bg-white rounded flex items-start justify-start flex-col p-4"
             onSubmit={handleSubmitForm}
           >
-            <p className="text-md font-medium">Top-Up Your Wallet Balance:</p>
+            <p className="text-md font-medium">{t("_top_up_title")}:</p>
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
               <div className="flex items-start justify-start gap-2 py-2">
-                <p className="text-sm">Select type:</p>
+                <p className="text-sm">{t("_select_type")}:</p>
                 <div className="flex items-start justify-start gap-4">
                   <div className="flex items-center mb-4">
                     <input
@@ -314,7 +319,7 @@ export default function CustomerWallet() {
                 </div>
               </div>
               <div className="w-full flex items-center justify-between gap-4">
-                <p className="text-sm w-auto">Amount:</p>
+                <p className="text-sm w-auto">{t("_amount")}:</p>
                 <div className="w-full flex items-center justify-start gap-6 border rounded py-2 px-4">
                   <button
                     className="rounded-full bg-gray-300 text-white cursor-pointer"
@@ -348,9 +353,9 @@ export default function CustomerWallet() {
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
               <Textfield
                 name="transactionId"
-                placeholder="Enter your transaction ID...."
+                placeholder={t("_transaction_id_placeholder")}
                 id="transaction_id"
-                title="Transaction ID"
+                title={t("_transaction_id")}
                 required
                 color="text-gray-500"
                 value={rechargeData.account_number}
@@ -365,7 +370,7 @@ export default function CustomerWallet() {
 
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
               <div className="border-b w-full pb-1">
-                <p className="text-xs">Upload recharge voucher:</p>
+                <p className="text-xs">{t("_update_recharge_voucher")}:</p>
               </div>
               <div className="flex items-start justify-start gap-4">
                 <div className="flex items-center justify-start gap-6">
@@ -380,7 +385,7 @@ export default function CustomerWallet() {
                     htmlFor="cover-upload"
                     className="w-auto border text-xs text-gray-500 rounded flex items-center justify-center cursor-pointer px-4 py-2"
                   >
-                    <PlusIcon size={16} /> Upload
+                    <PlusIcon size={16} /> {t("_upload_button")}
                   </label>
                 </div>
 
@@ -408,14 +413,14 @@ export default function CustomerWallet() {
 
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
               <div className="border-b w-full pb-1">
-                <p className="text-xs">Recharge Information:</p>
+                <p className="text-xs">{t("_recharge_into_title")}:</p>
               </div>
               <div className="w-full">
                 <div className="flex items-start justify-between">
-                  <p className="text-xs">Amount conversion rate:</p>
+                  <p className="text-xs">{t("_amount_conversion_rate")}:</p>
                   <p className="text-black text-sm">1.00</p>
                 </div>
-                <p className="text-xs mt-4">Account address:</p>
+                <p className="text-xs mt-4">{t("_account_address")}:</p>
                 <div className="w-full flex items-start justify-between">
                   <p className="text-xs font-medium">
                     TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw
@@ -444,7 +449,9 @@ export default function CustomerWallet() {
             <div className="w-full">
               <IconButton
                 className="rounded bg-neon_pink text-white p-2 w-auto mt-4 text-sm"
-                title={isLoading ? "Submiting...." : "Recharge"}
+                title={
+                  isLoading ? t("_submiting_button") : t("_recharge_button")
+                }
                 icon={isLoading ? <Loading /> : <WithdrawIcon size={18} />}
                 isFront={true}
                 type="submit"

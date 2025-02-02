@@ -20,7 +20,8 @@ import { page_limits, product_status } from "@/utils/option";
 
 export default function PurchaseHistory() {
   const router = useRouter();
-  const t = useTranslations("myCartPage");
+  const t = useTranslations("purchase_history");
+  const i = useTranslations("instrument_panel");
   const filter = useFilter();
   const fetchOrders = useFetchCustomerOrders({ filter: filter.data });
 
@@ -29,8 +30,8 @@ export default function PurchaseHistory() {
       <div className="w-full flex items-start justify-start flex-col gap-2">
         <Breadcrumb
           items={[
-            { label: "Customer", value: "/customer" },
-            { label: "Purchase history", value: "/purchase-history" },
+            { label: i("_customer"), value: "/customer" },
+            { label: t("_purchase_history"), value: "/purchase-history" },
           ]}
         />
 
@@ -48,7 +49,7 @@ export default function PurchaseHistory() {
               <div className="flex items-start justify-statr gap-2">
                 <Select
                   name="status"
-                  title="Status"
+                  title={t("_status")}
                   option={product_status}
                   className="h-8"
                   onChange={(e) => {
@@ -61,7 +62,7 @@ export default function PurchaseHistory() {
                 <div className="flex items-end justify-start gap-2">
                   <DatePicker
                     name="start_date"
-                    title="Start date"
+                    title={t("_start_date")}
                     className="h-8"
                     value={filter?.state?.createdAtBetween?.startDate ?? ""}
                     onChange={(e) => {
@@ -73,7 +74,7 @@ export default function PurchaseHistory() {
                   />
                   <DatePicker
                     name="end_date"
-                    title="End date"
+                    title={t("_end_date")}
                     className="h-8"
                     value={filter?.state?.createdAtBetween?.endDate ?? ""}
                     onChange={(e) => {
@@ -90,28 +91,28 @@ export default function PurchaseHistory() {
               <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
                 <tr className="border-b border-gray">
                   <th scope="col" className="py-3 pl-1">
-                    Order no
+                    {t("_order_no")}
                   </th>
                   <th scope="col" className="py-3 pl-1 text-center">
-                    price
+                    {t("_price")}
                   </th>
                   <th scope="col" className="py-3 pl-1 text-center">
-                    quantity
+                    {t("_quantity")}
                   </th>
                   <th scope="col" className="py-3 pl-1 text-center">
-                    delivery
+                    {t("_delivery")}
                   </th>
                   <th scope="col" className="py-3 pl-1 text-center">
-                    payment
+                    {t("_payment")}
                   </th>
                   <th scope="col" className="py-3 pl-1 text-center">
-                    created at
+                    {t("_created_at")}
                   </th>
                   <th
                     scope="col"
                     className="py-3 pl-1 flex items-center justify-center"
                   >
-                    Actions
+                    {t("_action")}
                   </th>
                 </tr>
               </thead>
@@ -159,12 +160,11 @@ export default function PurchaseHistory() {
                         <IconButton
                           className="rounded border text-gray-500 p-0 w-auto text-xs"
                           type="button"
-                          title="Pay"
-                          // onClick={}
+                          title={t("_pay_button")}
                         />
                         <IconButton
                           className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                          title="Cancel"
+                          title={t("_cancel_button")}
                           type="submit"
                         />
                       </td>
@@ -172,7 +172,7 @@ export default function PurchaseHistory() {
                       <td className="pl-2 py-4 flex items-center justify-center gap-2">
                         <IconButton
                           className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                          title="Details"
+                          title={t("_detail")}
                           type="button"
                           onClick={() =>
                             router.push(`/purchase-history/${order.order_no}`)
@@ -235,18 +235,18 @@ export default function PurchaseHistory() {
                       <IconButton
                         className="rounded border text-gray-500 p-2 w-auto text-xs"
                         type="button"
-                        title="Cancel"
+                        title={t("_cancel_button")}
                       />
                       <IconButton
                         className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                        title="Pay"
+                        title={t("_pay_button")}
                         type="submit"
                       />
                     </div>
                   ) : (
                     <IconButton
                       className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                      title="Details"
+                      title={t("_detail")}
                       type="button"
                       onClick={() =>
                         router.push(`/purchase-history/${val.order_no}`)

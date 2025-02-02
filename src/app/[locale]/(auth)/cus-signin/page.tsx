@@ -151,7 +151,7 @@ export default function CustomerLogin() {
                 Do not have an account yet?
               </p>
               <Link
-                href="/customer-signup"
+                href="/cus-signup"
                 className="font-bold underline text-neon_pink text-sm italic"
               >
                 Sign Up
