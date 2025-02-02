@@ -122,13 +122,13 @@ export default function Home() {
   }, [data]);
 
   return (
-    <div className="my-4 sm:my-6">
+    <div className="my-2 sm:my-6">
       <div className="flex items-center justify-center flex-col gap-6">
         <div className="container flex flex-col gap-6 px-2 sm:px-0">
           <div className="h-auto w-full">
             <GlobalSlider
               images={bannersByPosition["1"] || []}
-              height="h-[50vh]"
+              height="h-[20vh] sm:h-[50vh]"
               slidePerview={1}
             />
           </div>
@@ -174,7 +174,7 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+          {/* <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannersByPosition["2"] &&
               bannersByPosition["2"]
                 .slice(0, 2) // Limit to the first 2 images
@@ -186,13 +186,29 @@ export default function Home() {
                     alt={image.name}
                     width={200}
                     height={500}
+                    quality={100}
                   />
                 ))}
+          </div> */}
+          <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
+            {bannersByPosition["2"] &&
+              bannersByPosition["2"].slice(0, 2).map((image) => (
+                <div key={image.id} className="relative w-full h-[220px]">
+                  <Image
+                    className="rounded-md cursor-pointer"
+                    src={image.image || ""}
+                    alt={image.name}
+                    layout="fill"
+                    objectFit="cover"
+                    quality={100}
+                  />
+                </div>
+              ))}
           </div>
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannersByPosition["2"] || []}
-              height="h-[36vh]"
+              height="h-[20vh]"
               slidePerview={1}
             />
           </div>
@@ -204,7 +220,7 @@ export default function Home() {
               {popularProduct?.getProducts?.data?.map(
                 (product: ProductData, index: number) => (
                   <ProductCard
-                    key={product.id}
+                    key={product.id + index}
                     id={product.id}
                     price={product.price}
                     name={product.name}
@@ -218,23 +234,24 @@ export default function Home() {
           </div>
           <div className="hidden sm:flex w-full h-auto grid grid-cols-2 gap-4 lg:grid-cols-2">
             {bannersByPosition["3"] &&
-              bannersByPosition["3"]
-                .slice(0, 2)
-                .map((image) => (
+              bannersByPosition["3"].slice(0, 2).map((image) => (
+                <div key={image.id} className="relative w-full h-[220px]">
                   <Image
                     key={image.id}
-                    className="w-full h-full rounded-md cursor-pointer"
+                    className="rounded-md cursor-pointer"
                     src={image.image || ""}
                     alt={image.name}
-                    width={200}
-                    height={500}
+                    layout="fill"
+                    objectFit="cover"
+                    quality={100}
                   />
-                ))}
+                </div>
+              ))}
           </div>
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannersByPosition["3"]}
-              height="h-[36vh]"
+              height="h-[20vh]"
               slidePerview={1}
             />
           </div>
@@ -272,20 +289,23 @@ export default function Home() {
               bannersByPosition["4"]
                 .slice(0, 2) // Limit to the first 2 images
                 .map((image) => (
-                  <Image
-                    key={image.id}
-                    className="w-full h-full rounded-md cursor-pointer"
-                    src={image.image || ""}
-                    alt={image.name}
-                    width={200}
-                    height={500}
-                  />
+                  <div key={image.id} className="relative w-full h-[220px]">
+                    <Image
+                      key={image.id}
+                      className="w-full h-full rounded-md cursor-pointer"
+                      src={image.image || ""}
+                      alt={image.name}
+                      layout="fill"
+                      objectFit="cover"
+                      quality={100}
+                    />
+                  </div>
                 ))}
           </div>
           <div className="block sm:hidden h-auto w-full">
             <GlobalSlider
               images={bannersByPosition["4"]}
-              height="h-[36vh]"
+              height="h-[20vh]"
               slidePerview={1}
             />
           </div>

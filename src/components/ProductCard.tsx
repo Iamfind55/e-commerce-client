@@ -45,8 +45,9 @@ export default function ProductCard(props: ProductData) {
           className="rounded"
           src={props.cover_image || "/images/default-image.webp"}
           alt={props.name?.name_en || ""}
-          width={300}
-          height={100}
+          width={500}
+          height={300}
+          quality={100}
         />
         <div className="p-3 flex items-start justify-start flex-col gap-2">
           <div className="w-full flex items-center justify-start flex-col gap-2">

@@ -56,11 +56,11 @@ const GlobalSlider: React.FC<GlobalSliderProps> = ({
             <div className="flex items-start justify-start gap-4 flex-col py-6">
               <div className={`w-full ${height} text-black relative`}>
                 <Image
-                  className="w-full h-full object-cover rounded"
                   src={image.image || ""}
                   alt={image.name || "Banner"}
-                  width={200}
-                  height={250}
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full object-cover rounded"
                 />
               </div>
               {hasText && text[index] && (
