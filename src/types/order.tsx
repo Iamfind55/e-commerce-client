@@ -36,3 +36,35 @@ export interface GetCustomerOrderResponse {
     error?: ErrorDetails;
   };
 }
+
+export interface ProductName {
+  name_en: string;
+}
+
+export interface IOrderDetailData {
+  id: string;
+  order_no: string;
+  product_name: string;
+  product_cover_image: string;
+  sku: string;
+  spu: string;
+  quantity: number;
+  price: number;
+  product_id: string;
+  order_id: string;
+  status: string;
+  payment_status: string;
+  order_status: string;
+  delivery_type: string;
+  customer_id: string;
+  created_at: string;
+}
+
+export interface GetCustomerOrderDetailResponse {
+  customerGetOrderDetails: {
+    success: boolean;
+    total: number;
+    data: IOrderDetailData[];
+    error?: ErrorDetails;
+  };
+}

@@ -38,3 +38,35 @@ export const QUERY_CUSTOMER_ORDERS = gql`
     }
   }
 `;
+
+export const QUERY_CUSTOMER_ORDERS_DETAILS = gql`
+  query CustomerGetOrderDetails($where: OrderDetailWhereInput!) {
+    customerGetOrderDetails(where: $where) {
+      success
+      total
+      data {
+        id
+        order_no
+        product_name
+        product_cover_image
+        sku
+        spu
+        quantity
+        price
+        product_id
+        order_id
+        status
+        payment_status
+        order_status
+        delivery_type
+        customer_id
+        created_at
+      }
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

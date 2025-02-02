@@ -1,33 +1,29 @@
 "use client";
 
-import Image from "next/image";
-import { useSelector } from "react-redux";
+import { Link, useRouter } from "@/navigation";
+import { useTranslations } from "next-intl";
 
 // components
-import { RootState } from "@/redux/store";
-import Breadcrumb from "@/components/breadCrumb";
-
-// images
-import { useTranslations } from "next-intl";
-import { truncateText } from "@/utils/letterLimitation";
-import IconButton from "@/components/iconButton";
-import StatusBadge from "@/components/status";
 import Select from "@/components/select";
-import { page_limits, product_status } from "@/utils/option";
+import StatusBadge from "@/components/status";
+import IconButton from "@/components/iconButton";
+import Breadcrumb from "@/components/breadCrumb";
 import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
+
+// hooks and utils
 import useFilter from "./hooks/useFilter/page";
+import { truncateText } from "@/utils/letterLimitation";
+import { formatDateTimeToDate } from "@/utils/dateFormat";
 import useFetchCustomerOrders from "./hooks/useFetchOrder";
-import { formatDate, formatDateTimeToDate } from "@/utils/dateFormat";
-import { Link } from "@/navigation";
+import { page_limits, product_status } from "@/utils/option";
 
 export default function PurchaseHistory() {
+  const router = useRouter();
   const t = useTranslations("myCartPage");
   const filter = useFilter();
   const fetchOrders = useFetchCustomerOrders({ filter: filter.data });
-  console.log(fetchOrders);
 
-  const cartItems = useSelector((state: RootState) => state.cart.items);
   return (
     <>
       <div className="w-full flex items-start justify-start flex-col gap-2">
@@ -145,26 +141,45 @@ export default function PurchaseHistory() {
                       </p>
                     </td>
                     <td className="text-xs text-center">
-                      <StatusBadge status={order.payment_status} />
+                      <StatusBadge
+                        status={
+                          order.payment_status === "COMPLETED"
+                            ? "completed"
+                            : "failed"
+                        }
+                      />
                     </td>
                     <td>
                       <p className="text-xs text-center">
                         {formatDateTimeToDate(order.created_at)}
                       </p>
                     </td>
-                    <td className="pl-2 py-4 flex items-center justify-center gap-2">
-                      <IconButton
-                        className="rounded border text-gray-500 p-2 w-auto text-xs"
-                        type="button"
-                        title="Pay"
-                        // onClick={}
-                      />
-                      <IconButton
-                        className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                        title="Cancel"
-                        type="submit"
-                      />
-                    </td>
+                    {order.payment_status === "FAILED" ? (
+                      <td className="pl-2 py-4 flex items-center justify-center gap-2">
+                        <IconButton
+                          className="rounded border text-gray-500 p-0 w-auto text-xs"
+                          type="button"
+                          title="Pay"
+                          // onClick={}
+                        />
+                        <IconButton
+                          className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
+                          title="Cancel"
+                          type="submit"
+                        />
+                      </td>
+                    ) : (
+                      <td className="pl-2 py-4 flex items-center justify-center gap-2">
+                        <IconButton
+                          className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
+                          title="Details"
+                          type="button"
+                          onClick={() =>
+                            router.push(`/purchase-history/${order.order_no}`)
+                          }
+                        />
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -215,18 +230,29 @@ export default function PurchaseHistory() {
                     </div>
                     <StatusBadge status={val.payment_status} />
                   </div>
-                  <div className="w-full flex items-start justify-between">
-                    <IconButton
-                      className="rounded border text-gray-500 p-2 w-auto text-xs"
-                      type="button"
-                      title="Cancel"
-                    />
+                  {val?.payment_status === "FAILED" ? (
+                    <div className="w-full flex items-start justify-between">
+                      <IconButton
+                        className="rounded border text-gray-500 p-2 w-auto text-xs"
+                        type="button"
+                        title="Cancel"
+                      />
+                      <IconButton
+                        className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
+                        title="Pay"
+                        type="submit"
+                      />
+                    </div>
+                  ) : (
                     <IconButton
                       className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                      title="Pay"
-                      type="submit"
+                      title="Details"
+                      type="button"
+                      onClick={() =>
+                        router.push(`/purchase-history/${val.order_no}`)
+                      }
                     />
-                  </div>
+                  )}
                 </div>
               </div>
             ))}
