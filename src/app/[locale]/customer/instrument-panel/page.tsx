@@ -37,6 +37,7 @@ import {
 } from "@/types/country";
 import { useToast } from "@/utils/toast";
 import { CustomerAddress, GetCustomerAddressesResponse } from "@/types/address";
+import { QUERY_CUSTOMER_DASHBOARD } from "@/api/dashboard";
 
 export type ReportItem = {
   title: string;
@@ -51,24 +52,6 @@ export default function InstrumentPanel() {
   const { customer } = useSelector((state: any) => state.customerAuth);
   const { errorMessage, successMessage } = useToast();
 
-  const reportItems: ReportItem[] = [
-    {
-      title: i("_product"),
-      amount: 5,
-      detail: i("_in_your_shipping_cart"),
-    },
-    {
-      title: i("_product"),
-      amount: 15,
-      detail: i("_in_your_order"),
-    },
-    {
-      title: i("_product"),
-      amount: 25,
-      detail: i("_your_order"),
-    },
-  ];
-
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -82,6 +65,10 @@ export default function InstrumentPanel() {
   const [stateId, setStateId] = React.useState<string>("");
   const [stateName, setStateName] = React.useState<string>("");
   const [cityName, setCityName] = React.useState<string>("");
+  const [orderResults, setOrderResults] = React.useState<Record<string, any>>(
+    {}
+  );
+
   const [createAddress] = useMutation(MUTATION_CREATE_CUSTOMER_ADDRESS);
   const [updateAddress] = useMutation(MUTATION_UPDATE_CUSTOMER_ADDRESS);
   const [deleteAddress] = useMutation(MUTATION_DELETE_CUSTOMER_ADDRESS);
@@ -149,6 +136,27 @@ export default function InstrumentPanel() {
       fetchPolicy: "no-cache",
     }
   );
+
+  const [getOrders] = useLazyQuery<GetCustomerAddressesResponse>(
+    QUERY_CUSTOMER_DASHBOARD,
+    { fetchPolicy: "no-cache" }
+  );
+  React.useEffect(() => {
+    const statuses = ["SUCCESS", "FAILED", "CANCELLED"];
+
+    statuses.forEach(async (status) => {
+      const { data } = await getOrders({
+        variables: { where: { order_status: status } },
+      });
+
+      if (data) {
+        setOrderResults((prev) => ({
+          ...prev,
+          [status]: data,
+        }));
+      }
+    });
+  }, [getOrders]);
 
   React.useEffect(() => {
     getAddresses({
@@ -334,6 +342,27 @@ export default function InstrumentPanel() {
       });
     }
   };
+
+  const reportItems: ReportItem[] = [
+    {
+      title: i("_product"),
+      amount:
+        orderResults?.FAILED?.customerGetOrderDashboard?.data?.total_order,
+      detail: i("_in_your_shipping_cart"),
+    },
+    {
+      title: i("_product"),
+      amount:
+        orderResults?.CANCELLED?.customerGetOrderDashboard?.data?.total_order,
+      detail: i("_in_your_order"),
+    },
+    {
+      title: i("_product"),
+      amount:
+        orderResults?.SUCCESS?.customerGetOrderDashboard?.data?.total_order,
+      detail: i("_your_order"),
+    },
+  ];
 
   return (
     <>

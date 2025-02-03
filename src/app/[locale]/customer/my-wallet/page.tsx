@@ -124,13 +124,13 @@ export default function CustomerWallet() {
     return [
       {
         title: t("_frozen_balance"),
-        amount: `$${totalFrozenBalance}`,
+        amount: `${totalFrozenBalance}`,
         percent: 3,
         icon: <LockIcon size={38} className="text-neon_pink" />,
       },
       {
         title: t("_total_balance"),
-        amount: `$${totalBalance}`,
+        amount: `${totalBalance}`,
         percent: 12,
         icon: <WithdrawIcon size={38} className="text-green-500" />,
       },
@@ -163,7 +163,7 @@ export default function CustomerWallet() {
       const res = await customerRecharge({
         variables: {
           data: {
-            amout_recharged: rechargeData.amout_recharged,
+            amount_recharged: rechargeData.amout_recharged,
             coin_type: rechargeData.coin_type,
             account_number: rechargeData.account_number,
             image: data.secure_url || "",

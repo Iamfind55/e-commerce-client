@@ -15,7 +15,7 @@ const useFetchCustomerTransactionHistories = ({
 }: {
   filter: ITransactionFilter;
 }) => {
-  const { limit, page, status, createdAtBetween } = filter;
+  const { limit, page, identifier, createdAtBetween } = filter;
 
   const [getCustomerTransactions, { data, loading }] =
     useLazyQuery<GetCustomerTransactionResponse>(
@@ -32,7 +32,7 @@ const useFetchCustomerTransactionHistories = ({
         limit: limit,
         page: page,
         where: {
-          ...(status && { status: status }),
+          ...(identifier && { identifier: identifier }),
           ...(createdAtBetween?.startDate &&
             createdAtBetween.endDate && {
               createdAtBetween: {

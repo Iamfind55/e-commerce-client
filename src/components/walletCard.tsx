@@ -1,3 +1,4 @@
+import { formatNumber } from "@/utils/formatNumber";
 import React, { InputHTMLAttributes, ReactNode } from "react";
 
 interface cardProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -16,7 +17,9 @@ export default function WalletCard(props: cardProps) {
         </div>
         <div className="flex items-start justify-start flex-col gap-2">
           <p className="text-md font-medium text-gray-500">{props?.title}</p>
-          <h3 className="text-lg font-medium text-gray-500">{props?.amount}</h3>
+          <h3 className="text-lg font-medium text-gray-500">
+            ${formatNumber(parseFloat(props?.amount ?? "0"))}
+          </h3>
         </div>
       </div>
     </div>

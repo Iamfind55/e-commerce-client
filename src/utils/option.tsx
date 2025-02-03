@@ -9,6 +9,19 @@ export const product_status: any = [
   { label: "Inactive", value: "INACTIVE" },
 ];
 
+export const payment_type: any = [
+  { label: "Recharge", value: "RECHARGE" },
+  { label: "Withdraw", value: "WITHDRAW" },
+];
+
+export const order_status: any = [
+  { label: "Success", value: "SUCCESS" },
+  { label: "Failed", value: "FAILED" },
+  { label: "Processing", value: "PROCESSING" },
+  { label: "Canceled", value: "CANCELLED" },
+  { label: "No pick-up", value: "NO_PICKUP" },
+];
+
 export const notification_status: any = [
   { label: "All", value: "ALL" },
   { label: "Read", value: "READ" },

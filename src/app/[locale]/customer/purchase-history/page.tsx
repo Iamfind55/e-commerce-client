@@ -1,7 +1,10 @@
 "use client";
 
-import { Link, useRouter } from "@/navigation";
+import React from "react";
+
 import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/navigation";
+import { useMutation } from "@apollo/client";
 
 // components
 import Select from "@/components/select";
@@ -12,18 +15,109 @@ import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
 
 // hooks and utils
+import { useToast } from "@/utils/toast";
 import useFilter from "./hooks/useFilter/page";
 import { truncateText } from "@/utils/letterLimitation";
 import { formatDateTimeToDate } from "@/utils/dateFormat";
 import useFetchCustomerOrders from "./hooks/useFetchOrder";
-import { page_limits, product_status } from "@/utils/option";
+import { page_limits, order_status } from "@/utils/option";
+
+import {
+  MUTATION_CANCEL_FAILED_ORDER,
+  MUTATION_PAY_FAILED_ORDER,
+} from "@/api/payment";
 
 export default function PurchaseHistory() {
   const router = useRouter();
   const t = useTranslations("purchase_history");
   const i = useTranslations("instrument_panel");
+  const { errorMessage, successMessage } = useToast();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const filter = useFilter();
   const fetchOrders = useFetchCustomerOrders({ filter: filter.data });
+
+  const [rePayFailedOrder] = useMutation(MUTATION_PAY_FAILED_ORDER);
+  const [cancelOrder] = useMutation(MUTATION_CANCEL_FAILED_ORDER);
+
+  const handleRepayFailedOrder = async (orderId: string) => {
+    setIsLoading(true);
+
+    if (!orderId) {
+      errorMessage({
+        message: "Invalid order id!",
+        duration: 3000,
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const res = await rePayFailedOrder({
+        variables: {
+          payOrderFailedId: orderId,
+        },
+      });
+      if (res?.data?.payOrderFailed.success) {
+        successMessage({
+          message: "Payment successfull!",
+          duration: 3000,
+        });
+
+        fetchOrders.refetch();
+      } else {
+        errorMessage({
+          message: res?.data?.payOrderFailed?.error.details,
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      errorMessage({
+        message: "Unexpected error. Try again later!",
+        duration: 3000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCancelOrder = async (orderId: string) => {
+    setIsLoading(true);
+    if (!orderId) {
+      errorMessage({
+        message: "Invalid order id!",
+        duration: 3000,
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const res = await cancelOrder({
+        variables: {
+          cancelOrderFailedId: orderId,
+        },
+      });
+      if (res?.data?.cancelOrderFailed.success) {
+        successMessage({
+          message: "Payment successfull!",
+          duration: 3000,
+        });
+        fetchOrders.refetch();
+      } else {
+        errorMessage({
+          message: res?.data?.cancelOrderFailed?.error.details,
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      errorMessage({
+        message: "Unexpected error. Try again later!",
+        duration: 3000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -50,7 +144,7 @@ export default function PurchaseHistory() {
                 <Select
                   name="status"
                   title={t("_status")}
-                  option={product_status}
+                  option={order_status}
                   className="h-8"
                   onChange={(e) => {
                     filter.dispatch({
@@ -144,9 +238,15 @@ export default function PurchaseHistory() {
                     <td className="text-xs text-center">
                       <StatusBadge
                         status={
-                          order.payment_status === "COMPLETED"
-                            ? "completed"
-                            : "failed"
+                          order.order_status === "SUCCESS"
+                            ? "success"
+                            : order.order_status === "FAILED"
+                            ? "failed"
+                            : order.order_status === "PROCESSING"
+                            ? "pending"
+                            : order.order_status === "CANCELLED"
+                            ? "cancelled"
+                            : "No pick-up"
                         }
                       />
                     </td>
@@ -160,12 +260,16 @@ export default function PurchaseHistory() {
                         <IconButton
                           className="rounded border text-gray-500 p-0 w-auto text-xs"
                           type="button"
-                          title={t("_pay_button")}
+                          title={isLoading ? "Paying...." : t("_pay_button")}
+                          onClick={() => handleRepayFailedOrder(order.id)}
                         />
                         <IconButton
                           className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                          title={t("_cancel_button")}
-                          type="submit"
+                          title={
+                            isLoading ? "Canceling...." : t("_cancel_button")
+                          }
+                          type="button"
+                          onClick={() => handleCancelOrder(order.id)}
                         />
                       </td>
                     ) : (
@@ -175,7 +279,7 @@ export default function PurchaseHistory() {
                           title={t("_detail")}
                           type="button"
                           onClick={() =>
-                            router.push(`/purchase-history/${order.order_no}`)
+                            router.push(`purchase-history/${order.order_no}`)
                           }
                         />
                       </td>
@@ -234,13 +338,17 @@ export default function PurchaseHistory() {
                     <div className="w-full flex items-start justify-between">
                       <IconButton
                         className="rounded border text-gray-500 p-2 w-auto text-xs"
+                        title={
+                          isLoading ? "Canceling...." : t("_cancel_button")
+                        }
                         type="button"
-                        title={t("_cancel_button")}
+                        onClick={() => handleCancelOrder(val.id)}
                       />
                       <IconButton
                         className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                        title={t("_pay_button")}
-                        type="submit"
+                        title={isLoading ? "Paying...." : t("_pay_button")}
+                        type="button"
+                        onClick={() => handleRepayFailedOrder(val.id)}
                       />
                     </div>
                   ) : (

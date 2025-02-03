@@ -113,6 +113,7 @@ export default function ProfileManagement() {
     try {
       let data: CloudinaryResponse = {};
       if (file) {
+        console.log("I have file");
         const _formData = new FormData();
         _formData.append("file", file);
         _formData.append(
@@ -130,13 +131,14 @@ export default function ProfileManagement() {
         data = (await response.json()) as CloudinaryResponse; // Type assertion
       }
 
+      console.log(profileData.image);
       const res = await customerProfile({
         variables: {
           data: {
             firstName: profileData.firstName,
             lastName: profileData.lastName,
             username: profileData.username,
-            ...(profileData.password && { password: profileData.password }), // Conditionally include password
+            ...(profileData.password && { password: profileData.password }),
             email: profileData.email,
             phone_number: profileData.phone_number,
             dob: profileData.dob,
@@ -156,10 +158,11 @@ export default function ProfileManagement() {
         dispatch(
           signIn({
             ...updatedData,
-            image: data.secure_url,
+            image: data.secure_url ? data.secure_url : profileData.image,
             created_at: updatedData.created || "",
           })
         );
+        setFile(null);
       } else {
         errorMessage({
           message: result?.error?.details || "An error occurred",

@@ -10,7 +10,7 @@ import { GetCustomerOrderResponse, IOrderFilter } from "@/types/order";
 const useFetchCustomerOrders = ({ filter }: { filter: IOrderFilter }) => {
   const { limit, page, order_no, order_status, createdAtBetween } = filter;
 
-  const [getCustomerOrders, { data, loading }] =
+  const [getCustomerOrders, { data, loading, refetch }] =
     useLazyQuery<GetCustomerOrderResponse>(QUERY_CUSTOMER_ORDERS, {
       fetchPolicy: "no-cache",
     });
@@ -44,6 +44,7 @@ const useFetchCustomerOrders = ({ filter }: { filter: IOrderFilter }) => {
     getCustomerOrders,
     fetchCustomerOrders,
     loading,
+    refetch,
     data: data?.customerGetOrders?.data?.map((items, index) => ({
       ...items,
       no: index + 1,

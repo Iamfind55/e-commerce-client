@@ -4,7 +4,7 @@ import React from "react";
 
 // Define the type for actions
 type Action =
-  | { type: "status"; payload: string | null }
+  | { type: "identifier"; payload: string | null }
   | { type: "page"; payload: number | 1 }
   | { type: "created_at_start_date"; payload: string | null }
   | { type: "created_at_end_date"; payload: string | null };
@@ -13,7 +13,7 @@ type Action =
 const initialState: IFilter = {
   limit: 10,
   page: 1,
-  status: null,
+  identifier: null,
   createdAtBetween: {
     startDate: null,
     endDate: null,
@@ -21,7 +21,7 @@ const initialState: IFilter = {
 };
 
 const ACTION_TYPE = {
-  STATUS: "status",
+  IDENTIFIER: "identifier",
   PAGE: "page",
   CREATED_AT_START_DATE: "created_at_start_date",
   CREATED_AT_END_DATE: "created_at_end_date",
@@ -72,8 +72,8 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           }),
       };
 
-    case ACTION_TYPE.STATUS:
-      return { ...state, status: action.payload || null, page: 1 };
+    case ACTION_TYPE.IDENTIFIER:
+      return { ...state, identifier: action.payload || null, page: 1 };
 
     case ACTION_TYPE.PAGE:
       return { ...state, page: action.payload };

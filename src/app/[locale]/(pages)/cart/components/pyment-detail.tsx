@@ -27,9 +27,9 @@ export default function PaymentDetails({ tab, setTab }: PaymentDetailsProps) {
   const dispatch = useDispatch();
   const t = useTranslations("myCartPage");
   const h = useTranslations("homePage");
+  const { errorMessage, successMessage } = useToast();
   const [total, setTotal] = React.useState<number>(0);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const { errorMessage, successMessage } = useToast();
   const addressId = useSelector((state: RootState) => state.shipping.addressId);
 
   const [createOrder] = useMutation(MUTATION_CREATE_ORDER);

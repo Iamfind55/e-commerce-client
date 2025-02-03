@@ -1,29 +1,39 @@
 "use client";
 
-import Image from "next/image";
+import { useMemo } from "react";
+import { useRouter } from "@/navigation";
 import { useTranslations } from "next-intl";
 
 // images, utils
 import { CloseEyeIcon } from "@/icons/page";
-import { product_status } from "@/utils/option";
+import { payment_type } from "@/utils/option";
 import useFilter from "../hooks/useFilter/page";
 import { truncateText } from "@/utils/letterLimitation";
-import { formatDateTimeToDate } from "@/utils/dateFormat";
+import { formatDate, formatDateTimeToDate } from "@/utils/dateFormat";
 import useFetchCustomerTransactionHistories from "../hooks/useFetchCusTransaction";
 
 //components
 import Select from "@/components/select";
 import StatusBadge from "@/components/status";
-import IconButton from "@/components/iconButton";
 import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
+import IconButton from "@/components/iconButton";
 
 export default function TransactionHistory() {
+  const router = useRouter();
   const t = useTranslations("my_wallet");
   const p = useTranslations("purchase_history");
   const filter = useFilter();
+  const memoizedFilter = useMemo(
+    () => ({
+      ...filter.data,
+      identifier: filter.data.identifier ?? undefined,
+    }),
+    [filter.data]
+  );
+
   const fetchCustomerTransactions = useFetchCustomerTransactionHistories({
-    filter: filter.data,
+    filter: memoizedFilter,
   });
 
   return (
@@ -37,11 +47,11 @@ export default function TransactionHistory() {
                 <Select
                   name="status"
                   title={p("_status")}
-                  option={product_status}
+                  option={payment_type}
                   className="h-8"
                   onChange={(e) => {
                     filter.dispatch({
-                      type: filter.ACTION_TYPE.STATUS,
+                      type: filter.ACTION_TYPE.IDENTIFIER,
                       payload: e.target.value,
                     });
                   }}
@@ -95,12 +105,12 @@ export default function TransactionHistory() {
                   <th scope="col" className="py-3 pl-1">
                     {p("_status")}
                   </th>
-                  <th
+                  {/* <th
                     scope="col"
                     className="py-3 pl-1 flex items-center justify-center"
                   >
                     {p("_action")}
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
               <tbody>
@@ -117,23 +127,32 @@ export default function TransactionHistory() {
                         </p>
                       </div>
                     </td>
-                    <td className="text-xs">{items.amount}</td>
+                    <td className="text-xs">{items.amount.toFixed(2)}</td>
                     <td className="text-xs">${items.coin_type}</td>
                     <td>
-                      <p className="text-xs">
-                        {formatDateTimeToDate(items.created_at)}
-                      </p>
+                      <p className="text-xs">{formatDate(items.created_at)}</p>
                     </td>
-                    <td className="text-xs">
+                    <td className="text-xs my-2">
                       <StatusBadge
                         status={
                           items.status === "ACTIVE" ? "completed" : "failed"
                         }
                       />
                     </td>
-                    <td className="pl-2 py-4 flex items-center justify-center gap-2">
-                      <CloseEyeIcon />
-                    </td>
+                    {/* <td className="pl-2 py-4 flex items-center justify-center gap-2">
+                      <IconButton
+                        className="rounded border text-white p-0 w-auto text-xs bg-neon_pink"
+                        type="button"
+                        title="Details"
+                        icon={<CloseEyeIcon size={16} />}
+                        isFront={true}
+                        onClick={() =>
+                          router.push(
+                            `my-wallet/transaction-history/${items.id}`
+                          )
+                        }
+                      />
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -161,24 +180,15 @@ export default function TransactionHistory() {
                 className="w-full flex items-start justify-start flex-col gap-2 border rounded p-2 my-2"
               >
                 <div className="w-full flex items-start justify-start gap-4">
-                  <Image
-                    className="rounded"
-                    src={
-                      val?.payment_slip
-                        ? val?.payment_slip
-                        : "/images/category01.webp"
-                    }
-                    alt={val?.identifier}
-                    width={60}
-                    height={60}
-                  />
-                  <p className="text-xs">{val?.identifier}</p>
+                  <p className="text-md font-bold">{val?.identifier}</p>
                 </div>
                 <div className="w-full flex items-end justify-between">
                   <div className="w-full flex items-start justify-between flex-col gap-1">
                     <div className="flex items-start justify-start">
                       <p className="text-xs text-gray-500">{p("_price")}: </p>
-                      <p className="text-xs">&nbsp;&nbsp;${val?.amount}</p>
+                      <p className="text-xs">
+                        &nbsp;&nbsp;${val?.amount.toFixed(2)}
+                      </p>
                     </div>
                     <div className="flex items-start justify-start">
                       <p className="text-xs text-gray-500">{p("_quantity")}:</p>
@@ -186,13 +196,24 @@ export default function TransactionHistory() {
                     </div>
                     <div className="flex items-start justify-start">
                       <p className="text-xs text-gray-500">{t("_date")}: </p>
-                      <p className="text-xs">&nbsp;&nbsp;{val.created_at}</p>
+                      <p className="text-xs">
+                        &nbsp;&nbsp;{formatDate(val.created_at)}
+                      </p>
                     </div>
                     <StatusBadge status={val?.status} />
                   </div>
-                  <div className="w-full flex items-start justify-between">
-                    <CloseEyeIcon />
-                  </div>
+                  {/* <div className="w-full flex items-start justify-end">
+                    <IconButton
+                      className="rounded border text-white p-0 w-auto text-xs bg-neon_pink"
+                      type="button"
+                      title="Details"
+                      icon={<CloseEyeIcon size={16} />}
+                      isFront={true}
+                      onClick={() =>
+                        router.push(`my-wallet/transaction-history/${val.id}`)
+                      }
+                    />
+                  </div> */}
                 </div>
               </div>
             ))}
