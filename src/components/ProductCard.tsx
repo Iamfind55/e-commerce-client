@@ -46,7 +46,10 @@ export default function ProductCard(props: ProductData) {
       <div className="max-w-sm bg-white rounded">
         <Image
           className="rounded"
-          src={props.cover_image || "/images/default-image.webp"}
+          src={
+            props.cover_image ||
+            "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
+          }
           alt={props.name?.name_en || ""}
           width={500}
           height={300}

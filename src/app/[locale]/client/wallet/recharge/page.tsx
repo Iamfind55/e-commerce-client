@@ -134,7 +134,7 @@ export default function RechargeHistory() {
                   <div className="flex items-start justify-start gap-4">
                     <Image
                       className="rounded"
-                      src="/images/category01.webp"
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                       alt="Voucher"
                       width={60}
                       height={60}
@@ -155,7 +155,7 @@ export default function RechargeHistory() {
                   <div className="flex items-start justify-start gap-4">
                     <Image
                       className="rounded"
-                      src="/images/category01.webp"
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                       alt="Voucher"
                       width={60}
                       height={60}
@@ -194,7 +194,7 @@ export default function RechargeHistory() {
               title="BTC Conversion rate : $1.00"
               amount="$4,150.00"
               receive_amount="$4,190.00"
-              image="/images/category01.webp"
+              image="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
             />
             <TransactionCard
               date="2024-08-18 10:21:55"
@@ -202,7 +202,7 @@ export default function RechargeHistory() {
               title="BTC Conversion rate : $1.00"
               amount="$4,150.00"
               receive_amount="$4,190.00"
-              image="/images/category01.webp"
+              image="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
             />
           </div>
           <div className="flex items-start justify-center py-2 gap-4">

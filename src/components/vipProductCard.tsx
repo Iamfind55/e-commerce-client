@@ -130,7 +130,11 @@ export default function VIPProductCard({
           <div className="w-full h-[150px] object-cover flex items-center justify-center">
             <Image
               className="rounded object-cover"
-              src={!cover_image ? "/images/category01.webp" : cover_image}
+              src={
+                !cover_image
+                  ? "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                  : cover_image
+              }
               alt=""
               width={120}
               height={120}
@@ -387,7 +391,11 @@ export default function VIPProductCard({
                           >
                             <Image
                               className="rounded object-cover"
-                              src={value ? value : "/images/category01.webp"}
+                              src={
+                                value
+                                  ? value
+                                  : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                              }
                               alt=""
                               width={120}
                               height={120}

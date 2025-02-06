@@ -101,7 +101,7 @@ export default function CustomerLogin() {
     <>
       <div
         style={{
-          backgroundImage: `url("/images/background-image.png")`,
+          backgroundImage: `url("https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860065/background-image_gam233.png")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

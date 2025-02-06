@@ -47,7 +47,7 @@ export default function Shop() {
           backgroundImage: `url(${
             shopData?.getShop?.data?.image?.cover
               ? shopData?.getShop?.data?.image?.cover
-              : "/images/category01.webp"
+              : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
           })`,
         }}
       >
@@ -58,7 +58,7 @@ export default function Shop() {
               src={
                 shopData?.getShop?.data?.image?.logo
                   ? shopData?.getShop?.data?.image?.logo
-                  : "/images/category01.webp"
+                  : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
               }
               alt="product-01"
               width={150}

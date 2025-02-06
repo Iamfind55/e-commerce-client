@@ -107,7 +107,7 @@ export default function RootLayout({
                 src={
                   customer?.image
                     ? customer?.image
-                    : "/images/default-image.webp"
+                    : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
                 }
                 alt="Logo"
                 width={80}

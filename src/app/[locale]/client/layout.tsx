@@ -165,7 +165,7 @@ export default function RootLayout({
           <div className="h-[10vh] flex items-center justify-around bg-gray-400">
             {!isCollapsed && (
               <Image
-                src="/images/tiktokshop-logo.webp"
+                src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/tiktokshop-logo_rcmbaq.png"
                 alt="Logo"
                 width={150}
                 height={100}
@@ -283,7 +283,7 @@ export default function RootLayout({
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image
-                        src="/images/english-flag.webp"
+                        src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/english-flag_uw3b7q.jpg"
                         alt=""
                         height={20}
                         width={20}
@@ -298,7 +298,7 @@ export default function RootLayout({
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image
-                        src="/images/thai-flag.webp"
+                        src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/thai-flag_xwryfh.webp"
                         alt=""
                         height={20}
                         width={20}
@@ -313,7 +313,7 @@ export default function RootLayout({
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image
-                        src="/images/vietnam-flag.webp"
+                        src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/vietnam-flag_xjendw.webp"
                         alt=""
                         height={20}
                         width={20}
@@ -328,7 +328,7 @@ export default function RootLayout({
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image
-                        src="/images/chines-flag.webp"
+                        src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/chines-flag_xzrvve.webp"
                         alt=""
                         height={20}
                         width={20}
@@ -343,7 +343,7 @@ export default function RootLayout({
                       className="w-full text-sm flex items-center justify-start gap-2"
                     >
                       <Image
-                        src="/images/malaysia-flag.webp"
+                        src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860058/malaysia-flag_vi6rzw.webp"
                         alt=""
                         height={20}
                         width={20}

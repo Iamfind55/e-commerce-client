@@ -15,7 +15,6 @@ import { stripHtml } from "@/utils/stripHtml";
 import { truncateText } from "@/utils/letterLimitation";
 import { ProductData, ShopProduct } from "@/types/product";
 
-
 export default function ShopProductCard(props: ShopProduct) {
   const defaultProductData: ProductData = {
     id: "",
@@ -81,7 +80,7 @@ export default function ShopProductCard(props: ShopProduct) {
               className="rounded object-cover"
               src={
                 !props.productData.cover_image
-                  ? "/images/category01.webp"
+                  ? "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                   : props?.productData.cover_image
               }
               alt=""
@@ -343,7 +342,11 @@ export default function ShopProductCard(props: ShopProduct) {
                           >
                             <Image
                               className="rounded object-cover"
-                              src={value ? value : "/images/category01.webp"}
+                              src={
+                                value
+                                  ? value
+                                  : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                              }
                               alt=""
                               width={120}
                               height={120}

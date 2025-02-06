@@ -57,7 +57,7 @@ export default function DeliveryDetails({ tab, setTab }: PropsDetails) {
                 src={
                   product?.cover_image
                     ? product?.cover_image
-                    : "/images/category01.webp"
+                    : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                 }
                 alt={product?.name}
                 width={60}

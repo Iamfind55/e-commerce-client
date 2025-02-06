@@ -21,7 +21,10 @@ export default function ShopCard(props: ShopData) {
         <div className="w-full h-[14vh]">
           <Image
             className="w-full h-full object-cover rounded-tl-md rounded-tr-md"
-            src={props?.image?.cover || "/images/default-image.webp"}
+            src={
+              props?.image?.cover ||
+              "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
+            }
             alt={props?.fullname || "Shop"}
             width={1200}
             height={800}
@@ -31,7 +34,10 @@ export default function ShopCard(props: ShopData) {
         <div className="absolute top-16">
           <Image
             className="w-16 h-16 mb-3 rounded-full shadow-md border-2 border-white"
-            src={props?.image?.logo || "/images/default-image.webp"}
+            src={
+              props?.image?.logo ||
+              "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
+            }
             alt={props?.fullname}
             width={100}
             height={100}

@@ -144,7 +144,10 @@ export default function Home() {
                 >
                   <Image
                     className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
-                    src={image.image ?? "/images/category01.webp"}
+                    src={
+                      image.image ??
+                      "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                    }
                     alt={image.name?.name_en ?? "default"}
                     width={200}
                     height={600}

@@ -82,7 +82,7 @@ export default function OrderCardComponent(props: ShopProduct) {
               className="rounded object-cover"
               src={
                 !props.productData.cover_image
-                  ? "/images/category01.webp"
+                  ? "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                   : props?.productData.cover_image
               }
               alt=""

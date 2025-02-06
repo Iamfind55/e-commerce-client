@@ -323,7 +323,7 @@ export default function ShopDetails() {
                       />
                     ) : (
                       <Image
-                        src="/images/default-image.webp"
+                        src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
                         width={100}
                         height={100}
                         alt="Image preview"
@@ -396,7 +396,7 @@ export default function ShopDetails() {
                         />
                       ) : (
                         <Image
-                          src="/images/default-image.webp"
+                          src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
                           width={100}
                           height={100}
                           alt="Image preview"

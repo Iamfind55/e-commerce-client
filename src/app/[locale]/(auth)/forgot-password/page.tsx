@@ -58,7 +58,7 @@ export default function ForgotPasword() {
           <Link href="/">
             <Image
               className="rounded-full"
-              src="/images/forgot-password.svg"
+              src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/forgot-password_qszlno.svg"
               alt=""
               width={200}
               height={200}

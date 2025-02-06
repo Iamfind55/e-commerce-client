@@ -139,7 +139,7 @@ export default function ProductDetails() {
                 <p className="text-sm">Liyang Store</p>
                 <Image
                   className="rounded"
-                  src="/images/default-image.webp"
+                  src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
                   alt=""
                   width={50}
                   height={50}

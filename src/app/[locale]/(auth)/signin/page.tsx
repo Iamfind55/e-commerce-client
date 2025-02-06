@@ -113,9 +113,24 @@ export default function Login() {
   };
 
   const sliderImages = [
-    { id: "1", image: "/images/login-image-01.webp", name: "Slider Image 1" },
-    { id: "2", image: "/images/login-image-02.webp", name: "Slider Image 2" },
-    { id: "3", image: "/images/login-image-03.webp", name: "Slider Image 3" },
+    {
+      id: "1",
+      image:
+        "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860058/login-image-01_oeytev.png",
+      name: "Slider Image 1",
+    },
+    {
+      id: "2",
+      image:
+        "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860058/login-image-02_rkedzx.png",
+      name: "Slider Image 2",
+    },
+    {
+      id: "3",
+      image:
+        "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860058/login-image-03_vil9am.png",
+      name: "Slider Image 3",
+    },
   ];
 
   const sliderTexts = [

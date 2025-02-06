@@ -92,7 +92,7 @@ export default function MyCartDetails({ tab, setTab }: PropsDetails) {
                       src={
                         product?.cover_image
                           ? product?.cover_image
-                          : "/images/category01.webp"
+                          : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                       }
                       alt={product.name}
                       width={60}
@@ -161,7 +161,7 @@ export default function MyCartDetails({ tab, setTab }: PropsDetails) {
                 src={
                   val?.cover_image
                     ? val?.cover_image
-                    : "/images/category01.webp"
+                    : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                 }
                 alt={val.name}
                 width={60}
