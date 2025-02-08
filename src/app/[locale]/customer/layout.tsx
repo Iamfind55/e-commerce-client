@@ -91,7 +91,7 @@ export default function RootLayout({
   ];
 
   const handleLogout = async () => {
-    Cookies.remove("auth_token");
+    Cookies?.remove("auth_token");
     dispatch(signOut());
     router.push("/cus-signin");
   };

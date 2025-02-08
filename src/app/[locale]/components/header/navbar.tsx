@@ -28,7 +28,7 @@ import { RootState } from "@/redux/store";
 export default function Navbar() {
   const pathname = usePathname();
   const t = useTranslations("homePage");
-  const token = Cookies.get("auth_token");
+  const token = Cookies?.get("auth_token");
   const headerRef = React.useRef<HTMLDivElement>(null);
   const [isSticky, setIsSticky] = React.useState(false);
   const [originalOffset, setOriginalOffset] = React.useState(0);

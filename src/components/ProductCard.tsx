@@ -21,7 +21,7 @@ import { useTranslations } from "next-intl";
 export default function ProductCard(props: ProductData) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const token = Cookies.get("auth_token");
+  const token = Cookies?.get("auth_token");
   const s = useTranslations("shop_page");
   const p = useTranslations("product_detail");
 

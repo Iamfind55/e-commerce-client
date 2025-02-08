@@ -41,7 +41,7 @@ export default function ProductDetails() {
   const dispatch = useDispatch();
   const s = useTranslations("shop_page");
   const t = useTranslations("product_detail");
-  const token = Cookies.get("auth_token");
+  const token = Cookies?.get("auth_token");
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
 
   const [price, setPrice] = useState<number>(0);

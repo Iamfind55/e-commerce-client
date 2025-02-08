@@ -21,7 +21,7 @@ export default function ShopProductCard2(props: ShopProductData) {
   const t = useTranslations("shop_page");
   const router = useRouter();
   const dispatch = useDispatch();
-  const token = Cookies.get("auth_token");
+  const token = Cookies?.get("auth_token");
 
   const handleAddToCart = () => {
     if (!token) {
