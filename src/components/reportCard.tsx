@@ -15,7 +15,7 @@ export default function ReportCard(props: cardProps) {
           <p className="text-xs text-gray-500">{props?.title}</p>
           <h3 className="text-lg text-gray-500">{props?.amount}</h3>
         </div>
-        <div className="bg-neon_blue group-hover:bg-neon_pink rounded-full p-3 transition-all duration-300">
+        <div className="bg-gray-400 group-hover:bg-neon_pink rounded-full p-3 transition-all duration-300">
           {props?.icon}
         </div>
       </div>

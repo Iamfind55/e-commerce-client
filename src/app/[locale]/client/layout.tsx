@@ -80,12 +80,12 @@ export default function RootLayout({
       children: [
         {
           icon: null,
-          menu: "Product List",
+          menu: "product list",
           route: "/client/products/product-list",
         },
         {
           icon: null,
-          menu: "Apply Product",
+          menu: "apply product",
           route: "/client/products/apply-product",
         },
       ],
@@ -103,23 +103,23 @@ export default function RootLayout({
         { icon: null, menu: "My wallet", route: "/client/wallet" },
         {
           icon: null,
-          menu: "Recharge history",
+          menu: "recharge history",
           route: "/client/wallet/recharge",
         },
         {
           icon: null,
-          menu: "Withdraw history",
+          menu: "withdraw history",
           route: "/client/wallet/withdraw",
         },
       ],
     },
     {
-      icon: <CartIcon size={16} />,
+      icon: <CartIcon size={18} />,
       menu: "Order management",
       route: "/client/order",
     },
     {
-      icon: <NotiIcon size={16} />,
+      icon: <NotiIcon size={18} />,
       menu: "Notifications",
       route: "/client/notification",
     },
@@ -130,7 +130,7 @@ export default function RootLayout({
     },
     {
       icon: <CircleUser size={16} />,
-      menu: "Member Only",
+      menu: "Member only",
       route: "/client/member-only",
     },
     {
@@ -158,11 +158,11 @@ export default function RootLayout({
     <div className="h-screen overflow-hidden">
       <div className="flex items-center justify-start">
         <div
-          className={`hidden sm:block border-r h-screen ${
+          className={`hidden sm:block h-screen ${
             isCollapsed ? "w-[5%]" : "w-1/5"
           }`}
         >
-          <div className="h-[10vh] flex items-center justify-around bg-gray-400">
+          <div className="h-[10vh] flex items-center justify-around bg-gray-800">
             {!isCollapsed && (
               <Image
                 src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/tiktokshop-logo_rcmbaq.png"
@@ -175,12 +175,14 @@ export default function RootLayout({
           <div className="flex items-center justify-between flex-col h-[85vh]">
             <div className="w-full flex flex-col gap-2 mt-4">
               {menuItems.map((item, index) => {
+                const languagePrefix = pathname.split("/")[1];
                 const isActive =
-                  pathname === item.route ||
+                  pathname === `/${languagePrefix}${item.route}` ||
                   (item.children &&
-                    item.children.some((child) => pathname === child.route));
+                    item.children.some(
+                      (child) => pathname === `/${languagePrefix}${child.route}`
+                    ));
                 const isMenuOpen = openMenus.includes(item.menu);
-
                 return (
                   <div key={index} className="w-full">
                     {/* Parent Menu */}
@@ -190,13 +192,13 @@ export default function RootLayout({
                           ? toggleMenu(item.menu)
                           : router.push(item.route)
                       }
-                      className={`flex items-center justify-between cursor-pointer px-6 py-1 ${
+                      className={`flex items-center justify-between cursor-pointer px-6 py-2 ${
                         isActive
                           ? "bg-gray-200 text-neon_pink"
                           : "text-gray-500 hover:bg-gray-100"
                       }`}
                     >
-                      <div className="flex items-center gap-2 text-xs">
+                      <div className="flex items-center gap-2 text-sm">
                         {item.icon}
                         <span>{item.menu}</span>
                       </div>
@@ -215,12 +217,14 @@ export default function RootLayout({
                     {item.children && isMenuOpen && (
                       <div className="ml-10">
                         {item.children.map((child, idx) => {
-                          const isChildActive = pathname === child.route;
+                          const languagePrefix = pathname.split("/")[1];
+                          const isChildActive =
+                            pathname === `/${languagePrefix}${child.route}`;
                           return (
                             <Link
                               href={child.route}
                               key={idx}
-                              className={`flex items-center justify-start gap-2 py-1 text-xs ${
+                              className={`flex items-center justify-start gap-3 py-1 text-sm ${
                                 isChildActive
                                   ? "text-neon_pink"
                                   : "text-gray-500 hover:text-neon_pink"
@@ -240,21 +244,21 @@ export default function RootLayout({
           </div>
         </div>
         <div className={`w-full ${isCollapsed ? "sm:w-[95%]" : "sm:w-4/5"}`}>
-          <div className="w-full h-[10vh] flex border-b items-center justify-between px-4 bg-gray-200">
+          <div className="w-full h-[10vh] flex items-center justify-between px-4 bg-gray-800">
             <div className="w-1/2 flex items-center justify-start gap-4">
               {isCollapsed ? (
                 <div className="hidden sm:block rounded-full p-1 cursor-pointer">
                   <ArrowNextIcon
                     size={24}
                     onClick={toggleSidebar}
-                    className="border text-gray-500 rounded-full hover:border-base hover:bg-base hover:text-white"
+                    className="border rounded-full hover:border-base hover:bg-base text-white"
                   />
                 </div>
               ) : (
-                <div className="hidden sm:block rounded-full p-1 cursor-pointer">
+                <div className="hidden sm:block rounded-full p-1 cursor-pointer text-white">
                   <MenuIcon
                     size={20}
-                    className="text-gray-500 cursor-pointer"
+                    className="cursor-pointer"
                     onClick={toggleSidebar}
                   />
                 </div>
@@ -267,7 +271,7 @@ export default function RootLayout({
                   <div className="flex items-start justify-start gap-1 text-white text-sm cursor-pointer hover:text-neon_pink">
                     <LanguageIcon
                       size={18}
-                      className="cursor-pointer text-gray-500 hover:text-neon_pink"
+                      className="cursor-pointer text-white hover:text-neon_pink"
                     />
                   </div>
                 }
@@ -276,7 +280,7 @@ export default function RootLayout({
                   id="dropdownDivider"
                   className="py-4 flex items-start gap-2 flex-col"
                 >
-                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <div className="w-full flex items-start gap-2 text-white hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
                     <NavigateLink
                       href={pathname}
                       locale="en"
@@ -356,10 +360,7 @@ export default function RootLayout({
               <DropdownComponent
                 className="w-44"
                 head={
-                  <NotiIcon
-                    size={22}
-                    className="text-gray-500 cursor-pointer"
-                  />
+                  <NotiIcon size={22} className="text-white cursor-pointer" />
                 }
               >
                 <div id="dropdownDivider">
@@ -428,7 +429,7 @@ export default function RootLayout({
                   }`}
                 >
                   {item?.icon}
-                  <p className="text-xs">{item?.menu}</p>
+                  <p className="text-sm">{item?.menu}</p>
                 </Link>
               );
             })}

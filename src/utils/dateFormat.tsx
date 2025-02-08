@@ -32,8 +32,7 @@ export function isWithinTimeRange(
   return timeDifference <= fiveMinutesInMs && timeDifference >= 0;
 }
 
-
 // 2025-02-01T04:21:44.945Z -> 2025-02-01
 export function formatDateTimeToDate(isoString: string) {
-  return isoString.split("T")[0];
+  return isoString.split("T")[0] || "";
 }
