@@ -92,7 +92,7 @@ export default function Navbar() {
             <Link href="/">
               <Image
                 className="rounded-full"
-                src="/images/tiktokshop-logo.png"
+                src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/tiktokshop-logo_rcmbaq.png"
                 alt=""
                 width={150}
                 height={100}
@@ -178,7 +178,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/english-flag.png"
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/english-flag_uw3b7q.jpg"
                       alt=""
                       height={20}
                       width={20}
@@ -193,7 +193,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/thai-flag.png"
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/thai-flag_xwryfh.webp"
                       alt="Thai"
                       height={20}
                       width={20}
@@ -208,7 +208,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/vietnam-flag.png"
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/vietnam-flag_xjendw.webp"
                       alt=""
                       height={20}
                       width={20}
@@ -223,7 +223,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/chines-flag.png"
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/chines-flag_xzrvve.webp"
                       alt=""
                       height={20}
                       width={20}
@@ -238,7 +238,7 @@ export default function Navbar() {
                     className="w-full text-sm flex items-center justify-start gap-2"
                   >
                     <Image
-                      src="/images/malaysia-flag.jpg"
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860058/malaysia-flag_vi6rzw.webp"
                       alt=""
                       height={20}
                       width={20}
