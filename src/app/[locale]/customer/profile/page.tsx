@@ -131,7 +131,6 @@ export default function ProfileManagement() {
         data = (await response.json()) as CloudinaryResponse; // Type assertion
       }
 
-      console.log(profileData.image);
       const res = await customerProfile({
         variables: {
           data: {

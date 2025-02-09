@@ -1,14 +1,9 @@
 import { gql } from "@apollo/client";
 
-export const QUERY_WALLET_INFO = gql`
+export const QUERY_SHOP_WALLET = gql`
   query GetShopWallet {
     getShopWallet {
       success
-      error {
-        message
-        code
-        details
-      }
       data {
         id
         name
@@ -17,9 +12,12 @@ export const QUERY_WALLET_INFO = gql`
         total_withdraw
         total_recharged
         total_withdraw_able_balance
-        shop_id
-        customer_id
         status
+      }
+      error {
+        message
+        code
+        details
       }
     }
   }

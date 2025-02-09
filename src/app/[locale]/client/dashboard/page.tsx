@@ -98,7 +98,7 @@ export default function DashboardPage() {
     <div className="text-b_text flex items-start justify-start flex-col gap-4">
       <Breadcrumb items={[{ label: "Dashboard", value: "/client" }]} />
       <div className="w-full flex items-start justify-between">
-        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="w-full grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
           {reportItems.map((item, index) => (
             <ReportCard
               key={index}

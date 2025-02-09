@@ -29,25 +29,28 @@ import {
 // images
 import { IShopSocial, IUserData } from "@/types/user";
 import DeleteModal from "@/components/deleteModal";
+import { useTranslations } from "next-intl";
+
+interface CloudinaryResponse {
+  secure_url?: string;
+}
 
 export default function ShopDetails() {
   const dispatch = useDispatch();
+  const t = useTranslations("shop_management");
   const { errorMessage, successMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
+
   const [file, setFile] = React.useState<File | null>(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const [queryShopSocials, { refetch }] = useLazyQuery(QUERY_SHOP_SOCIALS, {
-    fetchPolicy: "no-cache",
-    // fetchPolicy: "cache-and-network",
-  });
   const [cover, setCover] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview, setPreview] = React.useState<string | null>(null);
-  const [updateShopInfo] = useMutation(MUTATION_UPDATE_SHOP_PROFILE);
-  const [createShopSocial] = useMutation(MUTATION_CREATE_SHOP_SOCIAL);
-  const [deleteShopSocial] = useMutation(MUTATION_DELETE_SHOP_SOCIAL);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
+  const [errorMessages1, setErrorMessages1] = React.useState<string | null>(
+    null
+  );
   const [shopData, setShopData] = React.useState<IUserData>({
     id: "",
     fullname: "",
@@ -73,6 +76,13 @@ export default function ShopDetails() {
     status: "",
     created_at: "",
   });
+
+  const [queryShopSocials, { refetch }] = useLazyQuery(QUERY_SHOP_SOCIALS, {
+    fetchPolicy: "no-cache",
+  });
+  const [updateShopInfo] = useMutation(MUTATION_UPDATE_SHOP_PROFILE);
+  const [createShopSocial] = useMutation(MUTATION_CREATE_SHOP_SOCIAL);
+  const [deleteShopSocial] = useMutation(MUTATION_DELETE_SHOP_SOCIAL);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -103,18 +113,10 @@ export default function ShopDetails() {
   const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile1 = e.target.files?.[0];
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-    const maxSizeInBytes = 1024 * 1024;
 
     if (selectedFile1) {
       if (!allowedTypes.includes(selectedFile1.type)) {
-        setErrorMessages("Only JPG, JPEG, and PNG files are allowed.");
-        setCover(null);
-        setPreview1(null);
-        return;
-      }
-
-      if (selectedFile1.size > maxSizeInBytes) {
-        setErrorMessages("File size exceeds 1MB.");
+        setErrorMessages1("Only JPG, JPEG, and PNG files are allowed.");
         setCover(null);
         setPreview1(null);
         return;
@@ -176,6 +178,44 @@ export default function ShopDetails() {
     e.preventDefault();
     setIsLoading(true);
     try {
+      let shopLogo: CloudinaryResponse = {};
+      let shopCover: CloudinaryResponse = {};
+      if (file) {
+        const _formData = new FormData();
+        _formData.append("file", file);
+        _formData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+        );
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+          {
+            method: "POST",
+            body: _formData,
+          }
+        );
+        shopLogo = (await response.json()) as CloudinaryResponse; // Type assertion
+      }
+
+      if (cover) {
+        const _formData = new FormData();
+        _formData.append("file", cover);
+        _formData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+        );
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+          {
+            method: "POST",
+            body: _formData,
+          }
+        );
+        shopCover = (await response.json()) as CloudinaryResponse; // Type assertion
+      }
+
       const { data } = await updateShopInfo({
         variables: {
           data: {
@@ -186,9 +226,8 @@ export default function ShopDetails() {
             phone_number: shopData.phone_number,
             remark: shopData.remark,
             image: {
-              cover:
-                "https://img.freepik.com/free-vector/flat-shopping-center-twitter-header_23-2149330482.jpg",
-              logo: "https://img.freepik.com/premium-vector/shopping-logo-design_852937-4657.jpg?semt=ais_hybrid",
+              cover: shopCover.secure_url || shopData.image?.cover,
+              logo: shopLogo.secure_url || shopData.image?.logo,
             },
           },
         },
@@ -231,8 +270,6 @@ export default function ShopDetails() {
           }
 
           refetch();
-        } else {
-          console.log("No shop socials to create.");
         }
       } else {
         errorMessage({
@@ -241,9 +278,14 @@ export default function ShopDetails() {
         });
       }
     } catch (error) {
-      console.log("Error:", error);
+      errorMessage({
+        message: "Unexpected happen! Please wait.",
+        duration: 3000,
+      });
     } finally {
       setIsLoading(false);
+      setFile(null);
+      setCover(null);
     }
   };
 
@@ -299,23 +341,23 @@ export default function ShopDetails() {
           >
             <div className="w-full flex items-start justify-start flex-col gap-4">
               <div className="w-full border-b py-1">
-                <p className="text-sm text-gray-500">Basic information:</p>
+                <p className="text-sm text-gray-500">{t("_title")}:</p>
               </div>
 
               <div className="w-full flex items-start justify-start gap-6 my-4">
                 <div className="w-2/4 flex items-start justify-start gap-4">
                   <div>
-                    {shopData?.image?.logo ? (
+                    {preview ? (
                       <Image
-                        src={shopData?.image?.logo}
+                        src={preview}
                         width={100}
                         height={100}
                         alt="Image preview"
                         className="max-w-full h-auto border rounded"
                       />
-                    ) : preview ? (
+                    ) : shopData?.image?.logo ? (
                       <Image
-                        src={preview}
+                        src={shopData?.image?.logo}
                         width={100}
                         height={100}
                         alt="Image preview"
@@ -331,9 +373,9 @@ export default function ShopDetails() {
                       />
                     )}
                   </div>
-                  <div className="flex items-start justify-start flex-col gap-3">
+                  <div className="flex items-start justify-start flex-col gap-2">
                     <label className="block text-gray-500 text-xs">
-                      Upload shop logo
+                      {t("_upload_logo")}
                     </label>
                     <input
                       type="file"
@@ -350,7 +392,7 @@ export default function ShopDetails() {
                         htmlFor="file-upload"
                         className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
                       >
-                        Select new
+                        {t("_select_new")}
                       </label>
                     </div>
                   </div>
@@ -358,7 +400,7 @@ export default function ShopDetails() {
                 <div className="w-2/4 flex items-start justify-center flex-col gap-2">
                   <div className="flex items-center justify-start gap-6">
                     <label className="block text-gray-500 text-sm">
-                      Upload cover
+                      {t("_upload_cover")}
                     </label>
                     <input
                       type="file"
@@ -367,12 +409,15 @@ export default function ShopDetails() {
                       onChange={handleChangeCover}
                       className="block w-full hidden"
                     />
+                    {errorMessages1 && (
+                      <p className="text-red-500 text-xs">{errorMessages1}</p>
+                    )}
                     <div className="flex items-start justify-start gap-4 border rounded py-1 px-4 cursor-pointer">
                       <label
                         htmlFor="cover-upload"
                         className="text-xs text-gray-500 rounded flex items-center justify-center cursor-pointer"
                       >
-                        Select new
+                        {t("_select_new")}
                       </label>
                     </div>
                   </div>
@@ -381,24 +426,24 @@ export default function ShopDetails() {
                       {preview1 ? (
                         <Image
                           src={preview1}
-                          width={100}
-                          height={100}
+                          width={600}
+                          height={400}
                           alt="Image preview"
                           className="w-full h-32 object-cover border rounded"
                         />
                       ) : shopData?.image?.cover ? (
                         <Image
                           src={shopData?.image?.cover}
-                          width={100}
-                          height={100}
+                          width={600}
+                          height={400}
                           alt="Image preview"
                           className="w-full h-32 object-cover border rounded"
                         />
                       ) : (
                         <Image
                           src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
-                          width={100}
-                          height={100}
+                          width={600}
+                          height={400}
                           alt="Image preview"
                           className="w-full h-32 object-cover border rounded"
                         />
@@ -430,8 +475,8 @@ export default function ShopDetails() {
               </div>
               <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
                 <Textfield
-                  placeholder="Enter shop name...."
-                  title="Shop name"
+                  placeholder={t("_shop_name_placeholder")}
+                  title={t("_shop_name")}
                   name="fullname"
                   id="fullname"
                   type="text"
@@ -445,8 +490,8 @@ export default function ShopDetails() {
                   }
                 />
                 <Textfield
-                  placeholder="Enter username...."
-                  title="Username"
+                  placeholder={t("_username_placeholder")}
+                  title={t("_username")}
                   name="username"
                   id="username"
                   type="text"
@@ -460,8 +505,8 @@ export default function ShopDetails() {
                   }
                 />
                 <Textfield
-                  placeholder="Enter phone number...."
-                  title="Phone number"
+                  placeholder={t("_phone_number_placeholder")}
+                  title={t("_phone_number")}
                   name="phone_number"
                   id="phone_number"
                   type="text"
@@ -475,8 +520,8 @@ export default function ShopDetails() {
                   }
                 />
                 <Textfield
-                  placeholder="Enter shop email...."
-                  title="Shop email"
+                  placeholder={t("_email_placeholder")}
+                  title={t("_email")}
                   name="email"
                   id="email"
                   type="text"
@@ -490,12 +535,11 @@ export default function ShopDetails() {
                   }
                 />
                 <Password
-                  placeholder="Enter password...."
-                  title="Password"
+                  title={t("_password")}
                   name="password"
                   id="password"
                   required
-                  value={shopData.password || ""}
+                  value={shopData.password || "************"}
                   onChange={(e) =>
                     setShopData({
                       ...shopData,
@@ -504,8 +548,7 @@ export default function ShopDetails() {
                   }
                 />
                 <Textfield
-                  placeholder="Active"
-                  title="Status"
+                  title={t("_status")}
                   name="status"
                   id="status"
                   type="text"
@@ -514,8 +557,8 @@ export default function ShopDetails() {
                 />
               </div>
               <Textfield
-                placeholder="Enter remark...."
-                title="Remark"
+                placeholder={t("_remark_placeholder")}
+                title={t("_remark")}
                 name="remark"
                 id="remark"
                 type="text"
@@ -653,13 +696,15 @@ export default function ShopDetails() {
             </ul> */}
 
               <div className="w-full border-b py-1">
-                <p className="text-sm text-gray-500">Social media:</p>
+                <p className="text-sm text-gray-500">
+                  {t("_social_media_detail")}:
+                </p>
               </div>
               <div className="w-full flex item-start justify-start gap-2">
                 <div className="w-4/5 flex item-start justify-start gap-2">
                   <Textfield
-                    placeholder="Enter name...."
-                    title="Name"
+                    placeholder={t("_name_placeholder")}
+                    title={t("_name")}
                     name="name"
                     id="name"
                     type="text"
@@ -667,8 +712,8 @@ export default function ShopDetails() {
                     onChange={handleInputChange}
                   />
                   <Textfield
-                    placeholder="Enter link...."
-                    title="Link"
+                    placeholder={t("_link_placeholder")}
+                    title={t("_link")}
                     name="link"
                     id="link"
                     type="text"
@@ -679,7 +724,7 @@ export default function ShopDetails() {
                 <div className="text-1/5 flex items-center justify-start">
                   <IconButton
                     className="rounded bg-neon_blue border text-white text-xs mt-4"
-                    title="Add"
+                    title={t("_add_button")}
                     icon={<PlusIcon size={18} className="text-pink" />}
                     isFront={true}
                     type="button"
@@ -691,7 +736,7 @@ export default function ShopDetails() {
               {records.length > 0 && (
                 <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
                   <p className="text-xs text-gray-500">
-                    List of new social media:
+                    {t("_social_media_detail")}:
                   </p>
                   {records.map((record, index) => (
                     <div
@@ -716,7 +761,7 @@ export default function ShopDetails() {
               {socials.length > 0 && (
                 <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
                   <p className="text-xs text-gray-500">
-                    List of all social media:
+                    {t("_social_media_detail")}:
                   </p>
                   {socials.map((social, index) => (
                     <div
@@ -746,14 +791,14 @@ export default function ShopDetails() {
             <div className="flex items-center justify-start gap-4 mt-4">
               <IconButton
                 className="rounded text-neon_pink p-2 border bg-white text-xs"
-                title="Back"
+                title={t("_back_button")}
                 icon={<BackIcon size={18} className="text-pink" />}
                 isFront={true}
                 type="button"
               />
               <IconButton
                 className={`rounded p-2 text-xs bg-neon_blue text-white`}
-                title={isLoading ? "Saving...." : "Save Change"}
+                title={isLoading ? t("_saving_button") : t("_save_button")}
                 icon={isLoading ? <Loading /> : ""}
                 isFront={true}
                 type="submit"

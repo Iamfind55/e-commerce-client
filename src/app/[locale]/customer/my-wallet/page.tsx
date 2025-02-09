@@ -18,7 +18,7 @@ import { useToast } from "@/utils/toast";
 import { QUERY_CUSTOMER_WALLET } from "@/api/wallet";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { MUTATION_CUSTOMER_RECHARGE } from "@/api/recharge";
-import { GetCustomerWalletResponse, ICutomerRecharge } from "@/types/wallet";
+import { GetCustomerWalletResponse, IRecharge } from "@/types/wallet";
 
 // components
 import MyModal from "@/components/modal";
@@ -36,7 +36,6 @@ interface CloudinaryResponse {
 
 export default function CustomerWallet() {
   const t = useTranslations("my_wallet");
-  const p = useTranslations("purchase_history");
   const i = useTranslations("instrument_panel");
   const { errorMessage, successMessage } = useToast();
   const [qrcode, setQrcode] = React.useState<string>("");
@@ -47,7 +46,7 @@ export default function CustomerWallet() {
   const [isOpenQRModal, setIsOpenQRModal] = React.useState<boolean>(false);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const [transactionId, setTransactionId] = React.useState<string | null>(null);
-  const [rechargeData, setRechargeData] = React.useState<ICutomerRecharge>({
+  const [rechargeData, setRechargeData] = React.useState<IRecharge>({
     amout_recharged: 1,
     coin_type: "",
     account_number: "",
@@ -185,7 +184,7 @@ export default function CustomerWallet() {
       }
     } catch (error) {
       errorMessage({
-        message: "Failed to update profile. Please try again.",
+        message: "Unexpected error happened!",
         duration: 3000,
       });
     } finally {
@@ -263,7 +262,7 @@ export default function CustomerWallet() {
                           coin_type: e.target.value,
                         }))
                       }
-                      checked={rechargeData.coin_type === "erc20"}
+                      checked={rechargeData.coin_type === "ERC20"}
                     />
                     <label
                       htmlFor="erc20-coin"

@@ -17,7 +17,7 @@ export default function ProductLists() {
           { label: "product-list", value: "/product-list" },
         ]}
       />
-      <div className="my-2 flex items-end justify-between gap-2 bg-white py-2 px-4">
+      <div className="my-2 flex items-end justify-between gap-2 bg-white py-2 px-0 sm:px-4">
         <div className="w-full">
           <div className="mb-b">
             <ul className="flex flex-wrap items-start justify-start text-sm font-medium text-center gap-0 sm:gap-4 border-b">
@@ -62,22 +62,6 @@ export default function ProductLists() {
                     }`}
                   >
                     <p className="hidden sm:block text-sm">Un shelf</p>
-                  </div>
-                </button>
-              </li>
-              <li className="me-2" role="presentation">
-                <button
-                  className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
-                  onClick={() => setTab(4)}
-                >
-                  <div
-                    className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                      tab === 4 && "text-neon_pink"
-                    }`}
-                  >
-                    <p className="hidden sm:block text-sm">
-                      Off-shelf application
-                    </p>
                   </div>
                 </button>
               </li>

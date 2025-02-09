@@ -7,8 +7,8 @@ import React, { ReactNode } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslations } from "next-intl";
 import { logout } from "@/redux/slice/authSlice";
-import { Link as NavigateLink } from "@/navigation";
-import { usePathname, useRouter } from "next/navigation";
+import { Link as NavigateLink, usePathname } from "@/navigation";
+import { useRouter, usePathname as useNextPathName } from "next/navigation";
 
 // components
 import {
@@ -16,6 +16,7 @@ import {
   ArrowDownIcon,
   ArrowNextIcon,
   CallIcon,
+  CancelIcon,
   CartIcon,
   CircleIcon,
   CircleUser,
@@ -31,6 +32,7 @@ import {
 } from "@/icons/page";
 import "../globals.css";
 import DropdownComponent from "@/components/dropdown";
+import ShopDrawer from "@/components/shopDrawer";
 
 type MenuItem = {
   icon: ReactNode;
@@ -47,16 +49,22 @@ export default function RootLayout({
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
-  const activeClassName = "text-base";
-  const t = useTranslations("homePage");
-  const inactiveClassName = "text-gray-500";
+  const nextPathname = useNextPathName();
 
+  const t = useTranslations("homePage");
+  const s = useTranslations("shop_sidebar");
+  const locale = nextPathname.split("/")[1];
+
+  const [openDrawer, setIsOpenDrawer] = React.useState<boolean>(false);
+  const [openMenus, setOpenMenus] = React.useState<string[]>([]);
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  const [openMenus, setOpenMenus] = React.useState<string[]>([]);
+  const toggleOpenDrawer = () => {
+    setIsOpenDrawer(!openDrawer);
+  };
 
   // Toggle the dropdown menu
   const toggleMenu = (menu: string) => {
@@ -70,72 +78,72 @@ export default function RootLayout({
   const menuItems: MenuItem[] = [
     {
       icon: <OutlineHomeIcon size={16} />,
-      menu: "Dashboard",
+      menu: s("_dashboard"),
       route: "/client",
     },
     {
       icon: <AppleIcon size={16} />,
-      menu: "Products",
+      menu: s("_product"),
       route: "/client/products",
       children: [
         {
           icon: null,
-          menu: "product list",
+          menu: s("_all_product"),
           route: "/client/products/product-list",
         },
         {
           icon: null,
-          menu: "apply product",
+          menu: s("_apply_new_product"),
           route: "/client/products/apply-product",
         },
       ],
     },
     {
       icon: <ShopIcon size={16} />,
-      menu: "Shop management",
+      menu: s("_shop_management"),
       route: "/client/shop",
     },
     {
       icon: <WalletIcon size={16} />,
-      menu: "Wallet management",
+      menu: s("_finance"),
       route: "/client/wallet",
       children: [
-        { icon: null, menu: "My wallet", route: "/client/wallet" },
+        { icon: null, menu: s("_wallet"), route: "/client/wallet" },
         {
           icon: null,
-          menu: "recharge history",
+          menu: s("_recharge_history"),
           route: "/client/wallet/recharge",
         },
         {
           icon: null,
-          menu: "withdraw history",
+          menu: s("_withdraw_history"),
           route: "/client/wallet/withdraw",
         },
       ],
     },
     {
       icon: <CartIcon size={18} />,
-      menu: "Order management",
+      menu: s("_order_management"),
       route: "/client/order",
     },
     {
       icon: <NotiIcon size={18} />,
-      menu: "Notifications",
+      menu: s("_notification"),
       route: "/client/notification",
     },
     {
       icon: <CallIcon size={16} />,
-      menu: "Contact Us",
+      menu: s("_contact_us"),
       route: "/client/contact-us",
     },
     {
       icon: <CircleUser size={16} />,
-      menu: "Member only",
+      menu: s("_member_only"),
       route: "/client/member-only",
     },
     {
       icon: <VIPIcon size={16} />,
-      menu: "Apply VIP product",
+      menu: s("_apply_VIP_product"),
       route: "/client/apply-vip-product",
     },
   ];
@@ -176,11 +184,22 @@ export default function RootLayout({
             <div className="w-full flex flex-col gap-2 mt-4">
               {menuItems.map((item, index) => {
                 const languagePrefix = pathname.split("/")[1];
+                const routePath = item.route.startsWith("/")
+                  ? item.route
+                  : `/${item.route}`;
+
+                // Ensure languagePrefix does not duplicate in `item.route`
+                const fullRoute = routePath.startsWith(`/${languagePrefix}`)
+                  ? routePath
+                  : `/${languagePrefix}${routePath}`.replace(/\/{2,}/g, "/");
+
                 const isActive =
-                  pathname === `/${languagePrefix}${item.route}` ||
+                  pathname === fullRoute ||
                   (item.children &&
                     item.children.some(
-                      (child) => pathname === `/${languagePrefix}${child.route}`
+                      (child) =>
+                        pathname ===
+                        `/${languagePrefix}${child.route.replace(/^\/+/, "")}`
                     ));
                 const isMenuOpen = openMenus.includes(item.menu);
                 return (
@@ -192,7 +211,7 @@ export default function RootLayout({
                           ? toggleMenu(item.menu)
                           : router.push(item.route)
                       }
-                      className={`flex items-center justify-between cursor-pointer px-6 py-2 ${
+                      className={`flex items-center justify-between cursor-pointer px-2 py-2 ${
                         isActive
                           ? "bg-gray-200 text-neon_pink"
                           : "text-gray-500 hover:bg-gray-100"
@@ -200,7 +219,9 @@ export default function RootLayout({
                     >
                       <div className="flex items-center gap-2 text-sm">
                         {item.icon}
-                        <span>{item.menu}</span>
+                        <span className={`${isCollapsed ? "hidden" : "block"}`}>
+                          {item.menu}
+                        </span>
                       </div>
                       {item.children && (
                         <span className="text-gray-400">
@@ -215,11 +236,24 @@ export default function RootLayout({
 
                     {/* Child Menus */}
                     {item.children && isMenuOpen && (
-                      <div className="ml-10">
+                      <div className={`${isCollapsed ? "ml-2" : "ml-6"}`}>
                         {item.children.map((child, idx) => {
                           const languagePrefix = pathname.split("/")[1];
-                          const isChildActive =
-                            pathname === `/${languagePrefix}${child.route}`;
+                          const childRoutePath = child.route.startsWith("/")
+                            ? child.route
+                            : `/${child.route}`;
+
+                          const fullChildRoute = childRoutePath.startsWith(
+                            `/${languagePrefix}`
+                          )
+                            ? childRoutePath
+                            : `/${languagePrefix}${childRoutePath}`.replace(
+                                /\/{2,}/g,
+                                "/"
+                              );
+
+                          const isChildActive = pathname === fullChildRoute;
+
                           return (
                             <Link
                               href={child.route}
@@ -230,8 +264,10 @@ export default function RootLayout({
                                   : "text-gray-500 hover:text-neon_pink"
                               }`}
                             >
-                              <CircleIcon size={10} />
-                              <span>{child.menu}</span>
+                              {!isCollapsed && <CircleIcon size={10} />}
+                              <span className={`${isCollapsed && "text-xs"}`}>
+                                {child.menu}
+                              </span>
                             </Link>
                           );
                         })}
@@ -244,8 +280,8 @@ export default function RootLayout({
           </div>
         </div>
         <div className={`w-full ${isCollapsed ? "sm:w-[95%]" : "sm:w-4/5"}`}>
-          <div className="w-full h-[10vh] flex items-center justify-between px-4 bg-gray-800">
-            <div className="w-1/2 flex items-center justify-start gap-4">
+          <div className="w-full h-[10vh] flex items-center justify-between px-4 bg-gray-700">
+            <div className="hidden sm:block w-1/2 flex items-center justify-start gap-4 ">
               {isCollapsed ? (
                 <div className="hidden sm:block rounded-full p-1 cursor-pointer">
                   <ArrowNextIcon
@@ -264,6 +300,15 @@ export default function RootLayout({
                 </div>
               )}
             </div>
+            <div className="block sm:hidden w-1/2 flex items-center justify-start gap-4 ">
+              <div className="rounded-full p-1 cursor-pointer text-white">
+                <MenuIcon
+                  size={20}
+                  className="cursor-pointer"
+                  onClick={toggleOpenDrawer}
+                />
+              </div>
+            </div>
             <div className="w-1/2 flex items-center justify-end gap-3">
               <DropdownComponent
                 className="w-56 cursor-pointer"
@@ -280,7 +325,13 @@ export default function RootLayout({
                   id="dropdownDivider"
                   className="py-4 flex items-start gap-2 flex-col"
                 >
-                  <div className="w-full flex items-start gap-2 text-white hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <div
+                    className={`w-full flex items-start gap-2 cursor-pointer hover:bg-gray-200 py-2 px-4 ${
+                      locale === "en"
+                        ? "text-neon_pink bg-gray-200 rounded"
+                        : "text-gray-500"
+                    }`}
+                  >
                     <NavigateLink
                       href={pathname}
                       locale="en"
@@ -295,7 +346,13 @@ export default function RootLayout({
                       {t("_english")}
                     </NavigateLink>
                   </div>
-                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <div
+                    className={`w-full flex items-start gap-2 cursor-pointer hover:bg-gray-200 py-2 px-4 ${
+                      locale === "th"
+                        ? "text-neon_pink bg-gray-200 rounded"
+                        : "text-gray-500"
+                    }`}
+                  >
                     <NavigateLink
                       href={pathname}
                       locale="th"
@@ -310,7 +367,13 @@ export default function RootLayout({
                       {t("_thai")}
                     </NavigateLink>
                   </div>
-                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <div
+                    className={`w-full flex items-start gap-2 cursor-pointer hover:bg-gray-200 py-2 px-4 ${
+                      locale === "vi"
+                        ? "text-neon_pink bg-gray-200 rounded"
+                        : "text-gray-500"
+                    }`}
+                  >
                     <NavigateLink
                       href={pathname}
                       locale="vi"
@@ -325,7 +388,13 @@ export default function RootLayout({
                       {t("_vietnam")}
                     </NavigateLink>
                   </div>
-                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <div
+                    className={`w-full flex items-start gap-2 cursor-pointer hover:bg-gray-200 py-2 px-4 ${
+                      locale === "zh"
+                        ? "text-neon_pink bg-gray-200 rounded"
+                        : "text-gray-500"
+                    }`}
+                  >
                     <NavigateLink
                       href={pathname}
                       locale="zh"
@@ -340,7 +409,13 @@ export default function RootLayout({
                       {t("_china")}
                     </NavigateLink>
                   </div>
-                  <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <div
+                    className={`w-full flex items-start gap-2 cursor-pointer hover:bg-gray-200 py-2 px-4 ${
+                      locale === "ms"
+                        ? "text-neon_pink bg-gray-200 rounded"
+                        : "text-gray-500"
+                    }`}
+                  >
                     <NavigateLink
                       href={pathname}
                       locale="ms"
@@ -415,27 +490,105 @@ export default function RootLayout({
           </div>
         </div>
       </div>
-      <div className="block sm:hidden sticky bottom-0 z-10 bg-white">
-        <div className="bg-white pt-4 pb-4 block lg:hidden w-full">
-          <div className="w-full flex items-center justify-around">
-            {mobileMenuItems.map((item, index) => {
-              const isActive = pathname === item.route;
+
+      <ShopDrawer isOpen={openDrawer} onClose={toggleOpenDrawer}>
+        <div className="flex items-center justify-between flex-col h-[85vh]">
+          <div className="w-full flex flex-col gap-2">
+            {menuItems.map((item, index) => {
+              const languagePrefix = pathname.split("/")[1];
+              const routePath = item.route.startsWith("/")
+                ? item.route
+                : `/${item.route}`;
+
+              // Ensure languagePrefix does not duplicate in `item.route`
+              const fullRoute = routePath.startsWith(`/${languagePrefix}`)
+                ? routePath
+                : `/${languagePrefix}${routePath}`.replace(/\/{2,}/g, "/");
+
+              const isActive =
+                pathname === fullRoute ||
+                (item.children &&
+                  item.children.some(
+                    (child) =>
+                      pathname ===
+                      `/${languagePrefix}${child.route.replace(/^\/+/, "")}`
+                  ));
+              const isMenuOpen = openMenus.includes(item.menu);
               return (
-                <Link
-                  key={index + 1}
-                  href={item?.route}
-                  className={`flex flex-col items-center cursor-pointer ${
-                    isActive ? activeClassName : inactiveClassName
-                  }`}
-                >
-                  {item?.icon}
-                  <p className="text-sm">{item?.menu}</p>
-                </Link>
+                <div key={index} className="w-full">
+                  {/* Parent Menu */}
+                  <div
+                    onClick={() =>
+                      item.children
+                        ? toggleMenu(item.menu)
+                        : router.push(item.route)
+                    }
+                    className={`flex items-center justify-between cursor-pointer px-2 py-2 ${
+                      isActive
+                        ? "bg-gray-200 text-neon_pink"
+                        : "text-gray-500 hover:bg-gray-100"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 text-sm">
+                      {item.icon}
+                      <span className={`${isCollapsed ? "hidden" : "block"}`}>
+                        {item.menu}
+                      </span>
+                    </div>
+                    {item.children && (
+                      <span className="text-gray-400">
+                        {isMenuOpen ? (
+                          <ArrowDownIcon size={18} />
+                        ) : (
+                          <NextIcon size={16} />
+                        )}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Child Menus */}
+                  {item.children && isMenuOpen && (
+                    <div className="ml-5">
+                      {item.children.map((child, idx) => {
+                        const languagePrefix = pathname.split("/")[1];
+                        const childRoutePath = child.route.startsWith("/")
+                          ? child.route
+                          : `/${child.route}`;
+
+                        const fullChildRoute = childRoutePath.startsWith(
+                          `/${languagePrefix}`
+                        )
+                          ? childRoutePath
+                          : `/${languagePrefix}${childRoutePath}`.replace(
+                              /\/{2,}/g,
+                              "/"
+                            );
+
+                        const isChildActive = pathname === fullChildRoute;
+
+                        return (
+                          <Link
+                            href={child.route}
+                            key={idx}
+                            className={`flex items-center justify-start gap-3 py-1 text-sm ${
+                              isChildActive
+                                ? "text-neon_pink"
+                                : "text-gray-500 hover:text-neon_pink"
+                            }`}
+                          >
+                            <CircleIcon size={10} />
+                            <span className="text-xs">{child.menu}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
         </div>
-      </div>
+      </ShopDrawer>
     </div>
   );
 }
