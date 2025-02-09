@@ -314,7 +314,7 @@ export default function ProductDetails() {
                       src={
                         product?.cover_image
                           ? product.cover_image
-                          : "/images/default-image.png"
+                          : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
                       }
                       alt={product.name?.name_en}
                       width={100}

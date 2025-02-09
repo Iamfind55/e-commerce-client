@@ -11,8 +11,8 @@ export interface ITransactionTypes {
 export interface ITransactionFilter {
   limit: number;
   page: number;
-  identifier?: string;
-  coin_type?: string;
+  identifier?: string | null;
+  coin_type?: string | null;
   status?: string | null;
   createdAtBetween: CreatedAtBetween;
 }
@@ -27,6 +27,16 @@ export interface ItransactionData {
   created_at: string;
   customer_id: string;
   payment_slip: string;
+  transaction_status: string;
+}
+
+export interface GetShopTransactionResponse {
+  shopGetTransactionHistories: {
+    success: boolean;
+    total: number;
+    data: ItransactionData[];
+    error?: ErrorDetails;
+  };
 }
 
 export interface GetCustomerTransactionResponse {

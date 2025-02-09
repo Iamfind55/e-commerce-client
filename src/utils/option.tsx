@@ -66,3 +66,9 @@ export const transaction_status: any = [
   { label: "Completed", value: "COMPLETED" },
   { label: "Failed", value: "FAILED" },
 ];
+
+export const coin_types: any = [
+  { label: "ERC20", value: "ERC20" },
+  { label: "TRC20", value: "TRC20" },
+  { label: "BTC", value: "BTC" },
+];

@@ -668,6 +668,22 @@
     "_apply_withdraw": "申请提现"
   },
 
+  "shop_recharge": {
+    "_finance": "财务",
+    "_recharge_history": "充值历史",
+    "_withdraw_history": "提现历史",
+    "_show_number": "显示号码",
+    "_coin_type": "币种",
+    "_start_date": "开始日期",
+    "_end_date": "结束日期",
+    "_id": "ID",
+    "_voucher": "代金券",
+    "_amount": "金额",
+    "_received_amount": "收到金额",
+    "_method": "方法",
+    "_status": "状态",
+    "_created_at": "创建日期"
+  },
   "global": {
     "_apply_button": "立即申请",
     "_edit_button": "编辑",

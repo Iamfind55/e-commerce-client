@@ -668,6 +668,22 @@
     "_apply_withdraw": "ขอถอนเงิน"
   },
 
+  "shop_recharge": {
+    "_finance": "การเงิน",
+    "_recharge_history": "ประวัติการเติมเงิน",
+    "_withdraw_history": "ประวัติการถอนเงิน",
+    "_show_number": "แสดงหมายเลข",
+    "_coin_type": "ประเภทเหรียญ",
+    "_start_date": "วันที่เริ่มต้น",
+    "_end_date": "วันที่สิ้นสุด",
+    "_id": "รหัส",
+    "_voucher": "บัตรกำนัล",
+    "_amount": "จำนวนเงิน",
+    "_received_amount": "จำนวนเงินที่ได้รับ",
+    "_method": "วิธีการ",
+    "_status": "สถานะ",
+    "_created_at": "วันที่สร้าง"
+  },
   "global": {
     "_apply_button": "สมัครตอนนี้",
     "_edit_button": "แก้ไข",

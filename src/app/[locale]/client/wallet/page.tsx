@@ -46,8 +46,7 @@ export default function ShopWallet() {
   const [withdrawQuantity, setWithdrawQuantity] = React.useState<number>(20);
   // const [transactionId, setTransactionId] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
-  const [selectedCoinType, setSelectedCoinType] =
-    React.useState<string>("erc20");
+
   const [rechargeData, setRechargeData] = React.useState<IRecharge>({
     amout_recharged: 1,
     coin_type: "",
@@ -280,7 +279,7 @@ export default function ShopWallet() {
         <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {reportItems.map((item, index) => (
             <WalletCard
-              key={index}
+              key={index + 1}
               title={item.title}
               amount={item.amount}
               icon={item.icon}
@@ -658,7 +657,7 @@ export default function ShopWallet() {
 
             <div className="w-full flex items-center justify-between px-3">
               <p>
-                {selectedCoinType.toUpperCase()} / {withdrawQuantity}
+                {withdrawData.coin_type.toUpperCase()} / {withdrawQuantity}
               </p>
               <IconButton
                 className="rounded bg-neon_pink text-white p-2 w-auto mt-4 text-sm"

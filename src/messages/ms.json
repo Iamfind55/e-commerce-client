@@ -668,6 +668,22 @@
     "_apply_withdraw": "Mohon pengeluaran"
   },
 
+  "shop_recharge": {
+    "_finance": "Kewangan",
+    "_recharge_history": "Sejarah tambah nilai",
+    "_withdraw_history": "Sejarah pengeluaran",
+    "_show_number": "Tunjukkan nombor",
+    "_coin_type": "Jenis syiling",
+    "_start_date": "Tarikh mula",
+    "_end_date": "Tarikh tamat",
+    "_id": "ID",
+    "_voucher": "Baucar",
+    "_amount": "Jumlah",
+    "_received_amount": "Jumlah diterima",
+    "_method": "Kaedah",
+    "_status": "Status",
+    "_created_at": "Tarikh dicipta"
+  },
   "global": {
     "_apply_button": "Mohon sekarang",
     "_edit_button": "Edit",

@@ -668,6 +668,22 @@
     "_apply_withdraw": "Đăng ký rút tiền"
   },
 
+  "shop_recharge": {
+    "_finance": "Tài chính",
+    "_recharge_history": "Lịch sử nạp tiền",
+    "_withdraw_history": "Lịch sử rút tiền",
+    "_show_number": "Hiển thị số",
+    "_coin_type": "Loại tiền",
+    "_start_date": "Ngày bắt đầu",
+    "_end_date": "Ngày kết thúc",
+    "_id": "ID",
+    "_voucher": "Phiếu giảm giá",
+    "_amount": "Số tiền",
+    "_received_amount": "Số tiền nhận được",
+    "_method": "Phương thức",
+    "_status": "Trạng thái",
+    "_created_at": "Ngày tạo"
+  },
   "global": {
     "_apply_button": "Nộp đơn ngay",
     "_edit_button": "Chỉnh sửa",

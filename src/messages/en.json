@@ -668,6 +668,23 @@
     "_apply_withdraw": "Apply for withdrawal"
   },
 
+  "shop_recharge": {
+    "_finance": "Finance",
+    "_recharge_history": "Recharge history",
+    "_withdraw_history": "Withdraw history",
+    "_show_number": "Show number",
+    "_coin_type": "Coin type",
+    "_start_date": "Start date",
+    "_end_date": "End date",
+    "_id": "ID",
+    "_voucher": "Voucher",
+    "_amount": "Amount",
+    "_received_amount": "Received amount",
+    "_method": "Method",
+    "_status": "Status",
+    "_created_at": "Created at"
+  },
+
   "global": {
     "_apply_button": "Apply now",
     "_edit_button": "Edit",
