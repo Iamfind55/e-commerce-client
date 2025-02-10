@@ -14,8 +14,11 @@ import { CheckCircleIcon } from "@/icons/page";
 import { stripHtml } from "@/utils/stripHtml";
 import { truncateText } from "@/utils/letterLimitation";
 import { ProductData, ShopProduct } from "@/types/product";
+import { useTranslations } from "next-intl";
 
 export default function ShopProductCard(props: ShopProduct) {
+  const t = useTranslations("shop_product_list");
+
   const defaultProductData: ProductData = {
     id: "",
     name: { name_en: "" },
@@ -38,7 +41,6 @@ export default function ShopProductCard(props: ShopProduct) {
     product_vip: null,
     created_at: null,
   };
-
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
   const [productId, setProductId] = React.useState<string>("");
   const [productData, setProductData] =
@@ -89,7 +91,7 @@ export default function ShopProductCard(props: ShopProduct) {
             />
           </div>
           <div className="p-3 flex items-start justify-start flex-col gap-1">
-            <div className="w-full flex items-center justify-start gap-2">
+            <div className="w-full flex items-center justify-center gap-2">
               <i className="text-xs sm:text-md text-second_black font-normal sm:font-bold tracking-tight">
                 {truncateText(`${props?.productData.name.name_en}`, 20)}
               </i>
@@ -102,15 +104,15 @@ export default function ShopProductCard(props: ShopProduct) {
             </p>
             <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
-              &nbsp; In stock / 12934.
+              &nbsp; {t("_in_stock")} / {props?.quantity}.
             </p>
             <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
-              &nbsp; Already on shelf.
+              &nbsp; {t("_already_on_shelf")}.
             </p>
             <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
-              &nbsp; Active.
+              &nbsp; {t("_active")}.
             </p>
             <div className="w-full flex flex-col sm:flex-row md:flex-row items-center justify-between gap-2 mt-2">
               <div>
@@ -123,7 +125,7 @@ export default function ShopProductCard(props: ShopProduct) {
                   handleOpenModal();
                 }}
               >
-                View
+                {t("_view")}
               </button>
             </div>
           </div>
@@ -138,10 +140,10 @@ export default function ShopProductCard(props: ShopProduct) {
       >
         <div className="rounded bg-white w-full p-4">
           <h4 className="text-gray-500 text-lg mb-3">
-            First Impressions Baby Girls Top and Bloomer Set, Created for Macys
+            {productData?.name.name_en}
           </h4>
           <div className="border-b-2 border-gray-300">
-            <p className="text-sm text-gray-500">Basic infomation</p>
+            <p className="text-sm text-gray-500">{t("_basic_info")}</p>
           </div>
           <div className="my-4 flex items-start justify-start flex-col gap-4">
             <div className="w-full flex items-start justify-start gap-2">
@@ -149,7 +151,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Product name
+                {t("_product_name")}
               </label>
               <input
                 required
@@ -165,7 +167,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Categories
+                {t("_categories")}
               </label>
               <div className="flex items-start justify-start gap-6">
                 {productData?.categories?.map((val) => (
@@ -183,7 +185,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Brand
+                {t("_brand")}
               </label>
               <input
                 required
@@ -199,7 +201,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Sku
+                {t("_sku")}
               </label>
               <input
                 required
@@ -215,7 +217,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Spu
+                {t("_spu")}
               </label>
               <input
                 required
@@ -231,7 +233,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Sort by
+                {t("_sort_by")}
               </label>
               <input
                 required
@@ -247,7 +249,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Status
+                {t("_status")}
               </label>
               <input
                 required
@@ -263,7 +265,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                URL
+                {t("_url")}
               </label>
               <input
                 required
@@ -278,7 +280,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Description
+                {t("_description")}
               </label>
               <textarea
                 required
@@ -294,7 +296,7 @@ export default function ShopProductCard(props: ShopProduct) {
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Images
+                {t("_images")}
               </label>
               <div className="w-11/12">
                 <div className="relative overflow-x-auto">
@@ -305,31 +307,31 @@ export default function ShopProductCard(props: ShopProduct) {
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Images
+                          {t("_images")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Label
+                          {t("_label")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Sort
+                          {t("_sort")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Cover image
+                          {t("_cover_image")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Image description
+                          {t("_image_description")}
                         </th>
                       </tr>
                     </thead>
@@ -343,9 +345,9 @@ export default function ShopProductCard(props: ShopProduct) {
                             <Image
                               className="rounded object-cover"
                               src={
-                                value
-                                  ? value
-                                  : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                                value && !value.includes("http")
+                                  ? "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                                  : value
                               }
                               alt=""
                               width={120}
@@ -369,7 +371,7 @@ export default function ShopProductCard(props: ShopProduct) {
             <div className="w-full flex items-center justify-end gap-4">
               <IconButton
                 type="button"
-                title="Cancel"
+                title={t("_cancel_button")}
                 onClick={handleOpenModal}
                 className="rounded bg-neon_pink p-2 w-auto text-white text-xs"
               />

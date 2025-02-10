@@ -4,8 +4,10 @@ import React from "react";
 
 // Define the type for actions
 type Action =
+  | { type: "shopProductStatus"; payload: string | null }
   | { type: "status"; payload: string | null }
   | { type: "page"; payload: number | 1 }
+  | { type: "limit"; payload: number | 10 }
   | { type: "keyword"; payload: string | null }
   | { type: "brand_id"; payload: string | null }
   | { type: "category_id"; payload: string | null }
@@ -19,6 +21,7 @@ type Action =
 const initialState: IFilter = {
   limit: 10,
   page: 1,
+  shopProductStatus: null,
   status: null,
   keyword: null,
   brand_id: null,
@@ -33,6 +36,8 @@ const initialState: IFilter = {
 };
 
 const ACTION_TYPE = {
+  LIMIT: "limit",
+  SHOPPRODUCTSTATUS: "shopProductStatus",
   STATUS: "status",
   KEYWORD: "keyword",
   PAGE: "page",
@@ -90,6 +95,9 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           }),
       };
 
+    case ACTION_TYPE.SHOPPRODUCTSTATUS:
+      return { ...state, shopProductStatus: action.payload || null, page: 1 };
+
     case ACTION_TYPE.STATUS:
       return { ...state, status: action.payload || null, page: 1 };
 
@@ -110,6 +118,9 @@ const reducer = (state: IFilter, action: Action): IFilter => {
 
     case ACTION_TYPE.PRICE_BETWEEN:
       return { ...state, price_between: action.payload || null, page: 1 };
+
+    case ACTION_TYPE.LIMIT:
+      return { ...state, limit: action.payload };
 
     case ACTION_TYPE.PAGE:
       return { ...state, page: action.payload };

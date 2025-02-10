@@ -9,6 +9,11 @@ export const product_status: any = [
   { label: "Inactive", value: "INACTIVE" },
 ];
 
+// export const shop_product_status: any = [
+//   { label: "On shelf", value: "ON_SHELF" },
+//   { label: "Un shelf", value: "UN_SHELF" },
+// ];
+
 export const payment_type: any = [
   { label: "Recharge", value: "RECHARGE" },
   { label: "Withdraw", value: "WITHDRAW" },

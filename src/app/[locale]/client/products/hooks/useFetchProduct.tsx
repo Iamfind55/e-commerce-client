@@ -17,8 +17,26 @@ interface FetchShopProductsResponse {
 
 const useFetchShopProducts = ({ filter }: { filter: IFilter }) => {
   const { user } = useSelector((state: any) => state.auth);
-  const { limit, page, status, keyword, createdAtBetween, category_id } =
-    filter;
+  const {
+    limit,
+    page,
+    shopProductStatus,
+    status,
+    keyword,
+    createdAtBetween,
+    category_id,
+  } = filter;
+
+  console.log(
+    limit,
+    page,
+    shopProductStatus,
+    status,
+    keyword,
+    createdAtBetween,
+    category_id
+  );
+
   const [getShopProducts, { data }] = useLazyQuery<FetchShopProductsResponse>(
     QUERY_SHOP_PRODUCTS,
     {
@@ -36,6 +54,7 @@ const useFetchShopProducts = ({ filter }: { filter: IFilter }) => {
           shop_id: user.id,
           ...(category_id && { category_id: category_id }),
           ...(status && { status: status }),
+          ...(shopProductStatus && { shopProductStatus: shopProductStatus }),
           ...(keyword && { keyword: keyword }),
           ...(createdAtBetween?.startDate &&
             createdAtBetween.endDate && {
