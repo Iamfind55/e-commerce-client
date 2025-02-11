@@ -727,6 +727,12 @@
     "_confirm_title": "确认是否申请此产品?"
   },
 
+  "contact_page": {
+    "_dashboard": "仪表板",
+    "_contact_us": "联系我们",
+    "_description": "如有任何问题，请联系客户服务团队获取帮助。"
+  },
+
   "global": {
     "_apply_button": "立即申请",
     "_edit_button": "编辑",

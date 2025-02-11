@@ -727,6 +727,12 @@
     "_confirm_title": "Confirm if you want to apply this product?"
   },
 
+  "contact_page": {
+    "_dashboard": "Dashboard",
+    "_contact_us": "Contact us",
+    "_description": "Reach out to our customer service team for assistance with any issues."
+  },
+
   "global": {
     "_apply_button": "Apply now",
     "_edit_button": "Edit",

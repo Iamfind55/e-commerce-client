@@ -727,6 +727,12 @@
     "_confirm_title": "Sahkan jika anda ingin aplikasikan produk ini?"
   },
 
+  "contact_page": {
+    "_dashboard": "Papan pemuka",
+    "_contact_us": "Hubungi kami",
+    "_description": "Hubungi pasukan khidmat pelanggan kami untuk mendapatkan bantuan mengenai sebarang masalah."
+  },
+
   "global": {
     "_apply_button": "Mohon sekarang",
     "_edit_button": "Edit",
