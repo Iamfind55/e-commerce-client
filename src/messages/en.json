@@ -733,6 +733,13 @@
     "_description": "Reach out to our customer service team for assistance with any issues."
   },
 
+  "apply_vip_product": {
+    "_apply_vip_product": "Apply VIP products",
+    "_filter_title": "Filter products by VIPs:",
+    "_founded_prdduct": "List of all products:",
+    "_select_all": "Select all"
+  },
+
   "global": {
     "_apply_button": "Apply now",
     "_edit_button": "Edit",

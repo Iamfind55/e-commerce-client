@@ -733,6 +733,13 @@
     "_description": "ติดต่อทีมบริการลูกค้าของเราเพื่อขอความช่วยเหลือเกี่ยวกับปัญหาใด ๆ"
   },
 
+  "apply_vip_product": {
+    "_apply_vip_product": "ใช้ผลิตภัณฑ์ VIP",
+    "_filter_title": "กรองผลิตภัณฑ์ตาม VIPs:",
+    "_founded_prdduct": "รายการผลิตภัณฑ์ทั้งหมด:",
+    "_select_all": "เลือกทั้งหมด"
+  },
+
   "global": {
     "_apply_button": "สมัครตอนนี้",
     "_edit_button": "แก้ไข",

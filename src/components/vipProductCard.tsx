@@ -1,9 +1,10 @@
 import React from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 // APIs and apollo
 import { useLazyQuery } from "@apollo/client";
-import { QUERY_SHOP_SINGLE_PRODUCT } from "@/api/shop";
+import { QUERY_SINGLE_PRODUCT } from "@/api/product";
 
 // components
 import MyModal from "./modal";
@@ -18,11 +19,11 @@ import {
 
 // icons and untils
 import { stripHtml } from "@/utils/stripHtml";
-import { ProductData } from "@/types/product";
+import { GetProductResponse, ProductData } from "@/types/product";
 import { truncateText } from "@/utils/letterLimitation";
 
 interface VIPProductCardProps extends ProductData {
-  selectedIds: string[];
+  selectedProducts: { id: string; quantity: number }[];
   handleCheckboxChange: (productId: string) => void;
 }
 
@@ -32,10 +33,13 @@ export default function VIPProductCard({
   description,
   cover_image,
   price,
+  quantity,
   product_vip,
-  selectedIds,
+  selectedProducts,
   handleCheckboxChange,
 }: VIPProductCardProps) {
+  const t = useTranslations("shop_product_list");
+  const selectedIds = selectedProducts.map((product) => product.id);
   const defaultProductData: ProductData = {
     id: "",
     name: { name_en: "" },
@@ -57,8 +61,8 @@ export default function VIPProductCard({
     product_vip: null,
     created_at: null,
   };
-  const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
   const [productId, setProductId] = React.useState<string>("");
+  const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
   const [productData, setProductData] =
     React.useState<ProductData>(defaultProductData);
 
@@ -66,23 +70,22 @@ export default function VIPProductCard({
     setIsOpenModal(!isOpenModal);
   };
 
-  const [getShopSingleProducts] = useLazyQuery(QUERY_SHOP_SINGLE_PRODUCT, {
+  const [getProduct] = useLazyQuery<GetProductResponse>(QUERY_SINGLE_PRODUCT, {
     fetchPolicy: "no-cache",
   });
-
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getShopSingleProducts({
+        const res = await getProduct({
           variables: {
-            getShopProductId: productId,
+            getProductId: productId,
           },
         });
-        if (res.data.getShopProduct.success) {
-          setProductData(res.data.getShopProduct.data.productData);
+        if (res?.data?.getProduct.success) {
+          setProductData(res.data.getProduct.data);
         }
       } catch (error) {
-        console.log("Error:", error);
+        // console.log("Error:", error);
       }
     };
 
@@ -112,7 +115,7 @@ export default function VIPProductCard({
           {/* Checkbox - Top-Right */}
           <div className="absolute top-0 right-0">
             {product_vip === 1 ? (
-              <div className="flex items-center justify-center gap-1 text-white bg-neon_blue py-1 px-4 rounded-tr-xl rounded-bl-xl">
+              <div className="flex items-center justify-center gap-1 text-white bg-neon_pink py-1 px-4 rounded-tr-xl rounded-bl-xl">
                 <p className="text-xs">VIP</p>{" "}
                 <VIP1Icon size={16} className="text-white" />
               </div>
@@ -151,15 +154,16 @@ export default function VIPProductCard({
             </p>
             <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
-              &nbsp; In stock / 12934.
+              &nbsp; {t("_in_stock")} / {quantity}.
             </p>
             <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
-              &nbsp; Already on shelf.
+              {/* &nbsp; {t("_already_on_shelf")} */}
+              &nbsp;{t("_can_apply_product")}.
             </p>
             <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
-              &nbsp; Active.
+              &nbsp; {t("_active")}.
             </p>
             <div className="w-full flex flex-col sm:flex-row md:flex-row items-center justify-between gap-2 mt-2">
               <div>
@@ -172,7 +176,7 @@ export default function VIPProductCard({
                   handleOpenModal();
                 }}
               >
-                View
+                {t("_view")}
               </button>
             </div>
           </div>
@@ -187,10 +191,10 @@ export default function VIPProductCard({
       >
         <div className="rounded bg-white w-full p-4">
           <h4 className="text-gray-500 text-lg mb-3">
-            First Impressions Baby Girls Top and Bloomer Set, Created for Macys
+            {productData?.name.name_en}
           </h4>
           <div className="border-b-2 border-gray-300">
-            <p className="text-sm text-gray-500">Basic infomation</p>
+            <p className="text-sm text-gray-500">{t("_basic_info")}</p>
           </div>
           <div className="my-4 flex items-start justify-start flex-col gap-4">
             <div className="w-full flex items-start justify-start gap-2">
@@ -198,7 +202,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Product name
+                {t("_product_name")}
               </label>
               <input
                 required
@@ -214,15 +218,15 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Categories
+                {t("_categories")}
               </label>
               <div className="flex items-start justify-start gap-6">
-                {productData?.category_ids?.map((val) => (
+                {productData?.categories?.map((val) => (
                   <span
-                    key={val}
+                    key={val.id}
                     className="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded-md"
                   >
-                    {val}
+                    {val.name.name_en}
                   </span>
                 ))}
               </div>
@@ -232,7 +236,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Brand
+                {t("_brand")}
               </label>
               <input
                 required
@@ -248,7 +252,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Sku
+                {t("_sku")}
               </label>
               <input
                 required
@@ -264,7 +268,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Spu
+                {t("_spu")}
               </label>
               <input
                 required
@@ -280,7 +284,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Sort by
+                {t("_sort_by")}
               </label>
               <input
                 required
@@ -296,7 +300,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Status
+                {t("_status")}
               </label>
               <input
                 required
@@ -312,7 +316,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                URL
+                {t("_url")}
               </label>
               <input
                 required
@@ -327,7 +331,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Description
+                {t("_description")}
               </label>
               <textarea
                 required
@@ -343,7 +347,7 @@ export default function VIPProductCard({
                 htmlFor="product_name"
                 className="text-gray-500 text-xs w-1/12"
               >
-                Images
+                {t("_images")}
               </label>
               <div className="w-11/12">
                 <div className="relative overflow-x-auto">
@@ -354,37 +358,37 @@ export default function VIPProductCard({
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Images
+                          {t("_images")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Label
+                          {t("_label")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Sort
+                          {t("_sort")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Cover image
+                          {t("_cover_image")}
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-gray-500 border"
                         >
-                          Image description
+                          {t("_image_description")}
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {productData?.images?.map((value, index) => (
-                        <tr className="bg-white border" key={value + 1}>
+                      {productData?.images?.map((value) => (
+                        <tr className="bg-white border" key={value}>
                           <th
                             scope="row"
                             className="px-6 py-4 whitespace-nowrap border"
@@ -392,9 +396,9 @@ export default function VIPProductCard({
                             <Image
                               className="rounded object-cover"
                               src={
-                                value
-                                  ? value
-                                  : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                                value && !value.includes("http")
+                                  ? "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                                  : value
                               }
                               alt=""
                               width={120}
@@ -418,7 +422,7 @@ export default function VIPProductCard({
             <div className="w-full flex items-center justify-end gap-4">
               <IconButton
                 type="button"
-                title="Cancel"
+                title={t("_cancel_button")}
                 onClick={handleOpenModal}
                 className="rounded bg-neon_pink p-2 w-auto text-white text-xs"
               />

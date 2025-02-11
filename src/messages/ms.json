@@ -733,6 +733,13 @@
     "_description": "Hubungi pasukan khidmat pelanggan kami untuk mendapatkan bantuan mengenai sebarang masalah."
   },
 
+  "apply_vip_product": {
+    "_apply_vip_product": "Terapkan produk VIP",
+    "_filter_title": "Tapis produk mengikut VIPs:",
+    "_founded_prdduct": "Senarai semua produk:",
+    "_select_all": "Pilih semua"
+  },
+
   "global": {
     "_apply_button": "Mohon sekarang",
     "_edit_button": "Edit",

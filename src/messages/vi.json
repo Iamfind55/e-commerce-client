@@ -733,6 +733,13 @@
     "_description": "Liên hệ với đội ngũ dịch vụ khách hàng của chúng tôi để được hỗ trợ với bất kỳ vấn đề nào."
   },
 
+  "apply_vip_product": {
+    "_apply_vip_product": "Áp dụng sản phẩm VIP",
+    "_filter_title": "Lọc sản phẩm theo VIPs:",
+    "_founded_prdduct": "Danh sách tất cả sản phẩm:",
+    "_select_all": "Chọn tất cả"
+  },
+
   "global": {
     "_apply_button": "Nộp đơn ngay",
     "_edit_button": "Chỉnh sửa",

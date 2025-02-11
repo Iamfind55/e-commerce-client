@@ -733,6 +733,13 @@
     "_description": "如有任何问题，请联系客户服务团队获取帮助。"
   },
 
+  "apply_vip_product": {
+    "_apply_vip_product": "应用VIP产品",
+    "_filter_title": "按VIP筛选产品:",
+    "_founded_prdduct": "所有产品列表:",
+    "_select_all": "全选"
+  },
+
   "global": {
     "_apply_button": "立即申请",
     "_edit_button": "编辑",
