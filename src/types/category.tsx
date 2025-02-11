@@ -1,3 +1,12 @@
+// type Category = {
+//   id: string;
+//   name: {
+//     name_en: string;
+//   };
+//   parent_id: string | null;
+//   image: string | null;
+// };
+
 type Category = {
   id: string;
   name: {
@@ -5,6 +14,7 @@ type Category = {
   };
   parent_id: string | null;
   image: string | null;
+  subcategories?: Category[]; // Allow nesting of subcategories
 };
 
 type ErrorDetails = {

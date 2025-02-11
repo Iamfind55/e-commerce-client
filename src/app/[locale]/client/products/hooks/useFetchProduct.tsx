@@ -27,16 +27,6 @@ const useFetchShopProducts = ({ filter }: { filter: IFilter }) => {
     category_id,
   } = filter;
 
-  console.log(
-    limit,
-    page,
-    shopProductStatus,
-    status,
-    keyword,
-    createdAtBetween,
-    category_id
-  );
-
   const [getShopProducts, { data }] = useLazyQuery<FetchShopProductsResponse>(
     QUERY_SHOP_PRODUCTS,
     {

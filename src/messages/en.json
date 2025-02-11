@@ -716,7 +716,15 @@
     "_sort": "Sort",
     "_cover_image": "Cover image",
     "_image_description": "Image description",
-    "_cancel_button": "Cancel"
+    "_cancel_button": "Cancel",
+    "_apply_product": "Apply product",
+    "_filter_title": "Filter product by category",
+    "_list_founded_product": "List of founded products",
+    "_can_apply_product": "Can apply product",
+    "_show_button": "Show",
+    "_up_shelf": "Up shelf",
+    "_apploy_button": "Apply",
+    "_confirm_title": "Confirm if you want to apply this product?"
   },
 
   "global": {

@@ -157,3 +157,16 @@ export const QUERY_SIMILAR_PRODUCT = gql`
     }
   }
 `;
+
+export const MUTATION_CREATE_SHOP_PRODUCT = gql`
+  mutation CreateShopProduct($data: CreateShopProductInput!) {
+    createShopProduct(data: $data) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

@@ -18,7 +18,7 @@ type Action =
 
 // Initial state
 const initialState: IFilter = {
-  limit: 10,
+  limit: 20,
   page: 1,
   status: null,
   keyword: null,
