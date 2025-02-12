@@ -18,10 +18,12 @@ import { login } from "@/redux/slice/authSlice";
 import { MUTATION_SHOP_SIGN_IN } from "@/api/auth";
 import { useToast } from "@/utils/toast";
 import { ILogins } from "@/types/login";
+import { useTranslations } from "next-intl";
 
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const t = useTranslations("shop_sign_in");
   const { successMessage, errorMessage } = useToast();
   const [shopSignIn] = useMutation(MUTATION_SHOP_SIGN_IN);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -135,24 +137,21 @@ export default function Login() {
 
   const sliderTexts = [
     {
-      title: "Tap into a massive buyer network",
-      description:
-        "Develop a lasting relationship with an exploding community of users already talking about your products on TikTok.",
+      title: t("_title1"),
+      description: t("_des1"),
     },
     {
-      title: "Access to scaleable ecosystems",
-      description:
-        "Support your business no matter the size. From product upload, logistics to post-sale management, you'll find the tools you need to grow.",
+      title: t("_title2"),
+      description: t("_des3"),
     },
     {
-      title: "Discover real-time insights",
-      description:
-        "Get instant access to real-time insights into your store's performance, including sales data, customer behavior, and more.",
+      title: t("_title1"),
+      description: t("_des3"),
     },
   ];
 
   return (
-    <div className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100">
+    <div className="h-screen flex items-center justify-center bg-white">
       <div className="h-screen w-full flex items-center justify-between">
         <div className="w-2/4 h-screen hidden sm:flex items-center justify-center px-6">
           <div className="w-4/5">
@@ -166,12 +165,12 @@ export default function Login() {
             />
           </div>
         </div>
-        <div className="w-full sm:w-2/4 bg-white text-black h-screen p-0 sm:p-6 flex items-center justify-center flex-col gap-6">
-          <h1 className="text-black text-title-xl2">Sign in</h1>
+        <div className="w-full sm:w-2/4 bg-black text-black h-screen p-0 sm:p-6 flex items-center justify-center flex-col gap-6">
+          <h1 className="text-white text-title-xl2">{t("_sign_in")}</h1>
           <form action="" className="w-4/5" onSubmit={handleSubmitForm}>
             <Textfield
-              placeholder="Enter username or email...."
-              title="Username or email"
+              placeholder={t("_username_email_placeholder")}
+              title={t("_username_email")}
               name="username"
               type="text"
               id="email"
@@ -179,8 +178,8 @@ export default function Login() {
               onChange={handleLogin}
             />
             <Password
-              placeholder="Enter password...."
-              title="Password"
+              placeholder={t("_password_placeholder")}
+              title={t("_password")}
               name="password"
               id="password"
               required
@@ -190,40 +189,24 @@ export default function Login() {
               href="/forgot-password"
               className="flex items-center justify-end w-full mt-2"
             >
-              <i className="text-xs text-b_text cursor-pointer hover:text-base hover:underline hover:text-xs">
-                Forgot password?
+              <i className="text-xs text-white cursor-pointer hover:text-base hover:underline hover:text-xs">
+                {t("_forgot_password")}
               </i>
             </Link>
             <IconButton
               className="rounded text-white p-2 bg-neon_pink w-full mt-4 text-xs"
               icon={isLoading ? "" : <NextIcon size={22} />}
               isFront={isLoading ? true : false}
-              title={isLoading ? "LOGING...." : "LOG IN"}
+              title={isLoading ? t("_loging_in_button") : t("_log_in_button")}
               type="submit"
             />
-            <div className="text-gray-500 text-sm flex items-center justify-center gap-4 mt-4 italic">
-              ----- OR -----
-            </div>
-            <div className="flex items-center justify-center gap-6 mt-6 mb-6">
-              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
-                <FacebookIcon size={18} />
-              </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
-                <GoogleIcon size={22} />
-              </div>
-              <div className="border rounded-full p-2 cursor-pointer hover:border-neon_pink text-b_text hover:text-neon_pink">
-                <AppleIcon size={18} />
-              </div>
-            </div>
             <div className="flex items-center justify-center gap-4 mt-4">
-              <p className="text-b_text text-sm italic">
-                Do not have an account yet?
-              </p>
+              <p className="text-white text-sm italic">{t("_not_account")}</p>
               <Link
                 href="/signup"
                 className="font-bold underline text-neon_pink text-sm italic"
               >
-                Sign up now
+                {t("_sign_up_button")}
               </Link>
             </div>
           </form>

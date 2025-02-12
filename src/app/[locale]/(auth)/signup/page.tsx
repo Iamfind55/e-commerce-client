@@ -17,9 +17,11 @@ import { useToast } from "@/utils/toast";
 
 // graphql API
 import { MUTATION_SHOP_REGISTER } from "@/api/auth";
+import { useTranslations } from "next-intl";
 
 export default function SignUp() {
   const router = useRouter();
+  const t = useTranslations("shop_sign_up");
   const { successMessage, errorMessage } = useToast();
   const [registerShop] = useMutation(MUTATION_SHOP_REGISTER);
   const [signupData, setSignupData] = React.useState<ISignups>({
@@ -84,13 +86,13 @@ export default function SignUp() {
       <div className="h-screen w-full flex flex-col sm:flex-row items-center justify-center">
         <div className="w-full sm:w-2/4 bg-white text-black h-screen py-4 sm:p-6 flex items-center justify-center flex-col gap-6">
           <h1 className="text-black text-lg sm:text-title-xl2 font-normal sm:font-bold">
-            Sign up
+            {t("_sign_up")}
           </h1>
           <form className="w-4/5" onSubmit={handleSubmitForm}>
             <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-1">
               <Textfield
-                placeholder="Enter your full name...."
-                title="Full name"
+                placeholder={t("_full_name_placeholder")}
+                title={t("_full_name")}
                 name="fullname"
                 id="fullname"
                 type="text"
@@ -98,8 +100,8 @@ export default function SignUp() {
                 onChange={handleChangeSignUpData}
               />
               <Textfield
-                placeholder="Enter username...."
-                title="Username"
+                placeholder={t("_username_placeholder")}
+                title={t("_username")}
                 name="username"
                 id="username"
                 type="text"
@@ -107,8 +109,8 @@ export default function SignUp() {
                 onChange={handleChangeSignUpData}
               />
               <Textfield
-                placeholder="Enter email address...."
-                title="Email"
+                placeholder={t("_email_placeholder")}
+                title={t("_email")}
                 name="email"
                 type="email"
                 id="email"
@@ -117,7 +119,7 @@ export default function SignUp() {
               />
               <Password
                 placeholder="strongPassword1@"
-                title="Password"
+                title={t("_password")}
                 name="password"
                 id="password"
                 required
@@ -125,7 +127,7 @@ export default function SignUp() {
               />
               <Password
                 placeholder="strongPassword1@"
-                title="Confirm password"
+                title={t("_confirm_password")}
                 name="confirm_password"
                 id="confirm_password"
                 required
@@ -142,12 +144,12 @@ export default function SignUp() {
                   htmlFor="link-checkbox"
                   className="ms-2 text-sm text-gray-500"
                 >
-                  By registering, you agree to our&nbsp;&nbsp;
+                  {t("_condition_title")}&nbsp;&nbsp;
                   <Link
                     href="/terms-condition"
                     className="text-neon_pink underline"
                   >
-                    Terms and conditions
+                    {t("_terms_and_conditions")}
                   </Link>
                 </label>
               </div>
@@ -156,18 +158,18 @@ export default function SignUp() {
             <IconButton
               className={`rounded p-2 text-xs w-full mt-2 text-xs bg-neon_pink text-white cursor-pointer`}
               icon={<NextIcon size={22} />}
-              title="REGISTER"
+              title={t("_register_button")}
               type="submit"
             />
             <div className="flex items-center justify-center gap-4 mt-4">
               <p className="text-b_text text-sm italic">
-                Already have an account?
+                {t("_already_have_account")}
               </p>
               <Link
                 href="/signin"
                 className="font-bold underline text-neon_pink text-sm italic"
               >
-                Sign In
+                {t("_sign_in_button")}
               </Link>
             </div>
           </form>
@@ -175,23 +177,20 @@ export default function SignUp() {
         <div className="h-auto sm:h-screen w-full sm:w-2/4 hidden sm:flex items-center justify-center flex-col gap-4 bg-black px-2 sm:px-6 py-4">
           <div className="w-4/5 flex items-start justify-center gap-4 sm:gap-6 flex-col">
             <h1 className="text-lg sm:text-title-medium font-bold">
-              Drive more sales and
+              {t("_tittle1")}
             </h1>
             <h1 className="text-lg sm:text-title-medium text-neon_pink font-bold">
-              grow with TikTok Shop.
+              {t("_tittle2")}
             </h1>
             <p className="text-md text-white">
-              TikTok Shop is a one-stop e-commerce solution for <br /> driving
-              brand growth and sales directly on TikTok, where <br />
-              entertainment becomes shoppable.
+              {t("_des1")} <br />
+              {t("_des2")} <br />
+              {t("_des3")}
             </p>
-            <p className="text-sm text-neon_blue">
-              70% of TikTok users discover new brands and products on TikTok.*
-            </p>
+            <p className="text-sm text-neon_blue">{t("_des4")}</p>
             <p className="text-gray-300 text-xs">
-              *Source: TikTok Marketing Science Global Retail Path to Purchase
-              (US Results) conducted by <br />
-              Material August 2020.
+              {t("_des5")} <br />
+              {t("_des6")}
             </p>
           </div>
         </div>

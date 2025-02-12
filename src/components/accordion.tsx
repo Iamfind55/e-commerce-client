@@ -1,5 +1,7 @@
-import { ArrowDownIcon, ArrowNextIcon, NextIcon } from "@/icons/page";
+"use client";
+
 import React, { useState } from "react";
+import { ArrowDownIcon, NextIcon } from "@/icons/page";
 
 interface AccordionProps {
   items: {
