@@ -807,6 +807,28 @@
     "_long_description": "To express our gratitude for your support and trust in TikTok Shop, we are excited to officially launch the TikTok Shop VIP Mall system! This initiative is our way of giving back to all the dedicated sellers who have contributed to our growth."
   },
 
+  "order_page": {
+    "_order_management": "Order management",
+    "_all": "All Orders",
+    "_no_pick_up": "No Pickup",
+    "_processed_order": "Processed Orders",
+    "_canceled_order": "Canceled Orders",
+    "_order": "Orders",
+    "_show": "Show",
+    "_search": "Search....",
+    "_start_date": "Start date",
+    "_end_date": "End date",
+    "_id": "ID",
+    "_order_no": "Order no",
+    "_total_product": "Total Products",
+    "_total_quantity": "Total Quantity",
+    "_toal_price": "Total Price",
+    "_payment_status": "Payment Status",
+    "_order_status": "Order Status",
+    "_date": "Date",
+    "_action": "Action"
+  },
+
   "global": {
     "_apply_button": "Apply now",
     "_edit_button": "Edit",

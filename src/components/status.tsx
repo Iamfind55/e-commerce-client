@@ -5,17 +5,23 @@ interface StatusBadgeProps {
 }
 
 const useStatus = {
-  ACTIVE: "active",
-  SUCCESS: "success",
-  INACTIVE: "inactive",
+  NO_PICKUP: "NO_PICKUP",
+  PROCESSING: "PROCESSING",
+  CANCELLED: "CANCELLED",
+  NOT_DELIVERY: "NOT_DELIVERY",
+  PACKING: "PACKING",
+  ON_THE_WAY: "ON_THE_WAY",
+  ACTIVE: "ACTIVE",
+  SUCCESS: "SUCCESS",
+  INACTIVE: "INACTIVE",
   DELETED: "deleted",
-  FAILED: "failed",
+  FAILED: "FAILED",
   LOCKED: "locked",
   BLOCKED: "blocked",
   PENDING: "pending",
   APPROVED: "approved",
   REGECTED: "rejected",
-  COMPLETED: "completed",
+  COMPLETED: "COMPLETED",
   CancelD: "canceled",
   CANCELED: "cancelled",
 };
@@ -49,6 +55,16 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
           weight: "bg-green-500",
         };
       case useStatus.DELETED:
+        return {
+          className: "bg-red-100 text-red-800",
+          weight: "bg-red-500",
+        };
+      case useStatus.NOT_DELIVERY:
+        return {
+          className: "bg-red-100 text-red-800",
+          weight: "bg-red-500",
+        };
+      case useStatus.NO_PICKUP:
         return {
           className: "bg-red-100 text-red-800",
           weight: "bg-red-500",
@@ -102,7 +118,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
     <span
       className={`${className} inline-flex items-center justify-center text-xs font-medium px-2.5 py-0.5 rounded-lg`}
     >
-      <span className={`w-2 h-2 me-1 mt-1 rounded-full ${weight}`}></span>
+      <span className={`w-2 h-2 me-1 rounded-full ${weight}`}></span>
       {status}
     </span>
   );

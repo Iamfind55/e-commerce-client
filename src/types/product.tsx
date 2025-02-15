@@ -83,6 +83,8 @@ export interface IFilter {
   page: number;
   identifier?: string | null;
   status?: string | null;
+  order_no?: string | null;
+  order_status?: string | null;
   shopProductStatus?: string | null;
   keyword?: string | null;
   brand_id?: string | null;

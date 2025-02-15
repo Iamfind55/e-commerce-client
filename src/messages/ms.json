@@ -807,6 +807,28 @@
     "_long_description": "Untuk menyatakan penghargaan kami atas sokongan dan kepercayaan anda terhadap TikTok Shop, kami teruja untuk melancarkan sistem TikTok Shop VIP Mall secara rasmi! Inisiatif ini adalah cara kami memberi kembali kepada semua peniaga berdedikasi yang telah menyumbang kepada pertumbuhan kami."
   },
 
+  "order_page": {
+    "_order_management": "Pengurusan pesanan",
+    "_all": "Semua pesanan",
+    "_no_pick_up": "Tidak diambil",
+    "_processed_order": "Pesanan yang diproses",
+    "_canceled_order": "Pesanan dibatalkan",
+    "_order": "Pesanan",
+    "_show": "Tunjukkan",
+    "_search": "Cari....",
+    "_start_date": "Tarikh mula",
+    "_end_date": "Tarikh tamat",
+    "_id": "ID",
+    "_order_no": "Nombor pesanan",
+    "_total_product": "Jumlah produk",
+    "_total_quantity": "Jumlah kuantiti",
+    "_toal_price": "Jumlah harga",
+    "_payment_status": "Status pembayaran",
+    "_order_status": "Status pesanan",
+    "_date": "Tarikh",
+    "_action": "Tindakan"
+  },
+
   "global": {
     "_apply_button": "Mohon sekarang",
     "_edit_button": "Edit",

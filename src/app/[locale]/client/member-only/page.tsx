@@ -61,7 +61,7 @@ export default function MemberOnly() {
             </div>
           </div>
         </div>
-        <div className="p-4 rounded-tr-lg rounded-tl-lg bg-gray-800 text-sm text-white mt-6">
+        <div className="w-full p-4 rounded-tr-lg rounded-tl-lg bg-gray-800 text-sm text-white mt-6">
           <p>{t("_long_description")}</p>
         </div>
       </div>

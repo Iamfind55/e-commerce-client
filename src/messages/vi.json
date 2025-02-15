@@ -807,6 +807,28 @@
     "_long_description": "Để thể hiện lòng biết ơn đối với sự hỗ trợ và tin tưởng của bạn dành cho TikTok Shop, chúng tôi rất vui mừng khi chính thức ra mắt hệ thống TikTok Shop VIP Mall! Chương trình này là cách chúng tôi tri ân tất cả các người bán tận tâm đã đóng góp vào sự phát triển của chúng tôi."
   },
 
+  "order_page": {
+    "_order_management": "Quản lý đơn hàng",
+    "_all": "Tất cả đơn hàng",
+    "_no_pick_up": "Chưa nhận hàng",
+    "_processed_order": "Đơn hàng đã xử lý",
+    "_canceled_order": "Đơn hàng đã hủy",
+    "_order": "Đơn hàng",
+    "_show": "Hiển thị",
+    "_search": "Tìm kiếm....",
+    "_start_date": "Ngày bắt đầu",
+    "_end_date": "Ngày kết thúc",
+    "_id": "ID",
+    "_order_no": "Mã đơn hàng",
+    "_total_product": "Tổng số sản phẩm",
+    "_total_quantity": "Tổng số lượng",
+    "_toal_price": "Tổng giá",
+    "_payment_status": "Trạng thái thanh toán",
+    "_order_status": "Trạng thái đơn hàng",
+    "_date": "Ngày",
+    "_action": "Hành động"
+  },
+
   "global": {
     "_apply_button": "Nộp đơn ngay",
     "_edit_button": "Chỉnh sửa",
