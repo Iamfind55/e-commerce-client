@@ -1,22 +1,29 @@
 import React from "react";
 import { useRouter } from "@/navigation";
+import { useTranslations } from "next-intl";
 
 // components
 import Select from "@/components/select";
 import MyModal from "@/components/modal";
+import Loading from "@/components/loading";
+import StatusBadge from "@/components/status";
+import EmptyPage from "@/components/emptyPage";
 import DatePicker from "@/components/datePicker";
 import IconButton from "@/components/iconButton";
 import Pagination from "@/components/pagination";
 import { CloseEyeIcon, DeliveryIcon, SearchIcon } from "@/icons/page";
 
 // utils
+import { useToast } from "@/utils/toast";
+import { IOrderData } from "@/types/order";
 import useFilter from "../hooks/useFilter";
-import StatusBadge from "@/components/status";
+import { page_limits } from "@/utils/option";
 import { formatDate } from "@/utils/dateFormat";
+import { QUERY_SHOP_WALLET } from "@/api/wallet";
 import useFetchShopOrders from "../hooks/useFetch";
-import { page_limits, stock } from "@/utils/option";
-import EmptyPage from "@/components/emptyPage";
-import { useTranslations } from "next-intl";
+import { GetShopWalletResponse } from "@/types/wallet";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { MUTATION_SHOP_CONFIRM_ORDER } from "@/api/order";
 
 interface PropsDetails {
   status: string;
@@ -26,13 +33,56 @@ export default function OrderLists({ status }: PropsDetails) {
   const filter = useFilter();
   const router = useRouter();
   const t = useTranslations("order_page");
-  const fetchShopOrders = useFetchShopOrders({ filter: filter.data });
-
+  const { successMessage, errorMessage } = useToast();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [openDeliveryModel, setOpenDeliveryModel] =
     React.useState<boolean>(false);
+  const [selectRow, setSelectRow] = React.useState<IOrderData | null>(null);
+
+  const fetchShopOrders = useFetchShopOrders({ filter: filter.data });
+  const [getShopWallet, { data }] = useLazyQuery<GetShopWalletResponse>(
+    QUERY_SHOP_WALLET,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
+  const [shopConfirmOrder] = useMutation(MUTATION_SHOP_CONFIRM_ORDER);
 
   const handleOpenDeliveryModal = () => {
     setOpenDeliveryModel(!openDeliveryModel);
+  };
+
+  const handleNavigate = () => {
+    router.push("/client/wallet");
+  };
+
+  const handlePurchaseAndShipping = async () => {
+    setIsLoading(true);
+    try {
+      const res = await shopConfirmOrder({
+        variables: {
+          shopConfirmOrderId: selectRow?.id,
+        },
+      });
+      if (res?.data?.shopConfirmOrder?.success) {
+        successMessage({
+          message: "Successful confirm and prepare to delivery",
+          duration: 3000,
+        });
+        handleOpenDeliveryModal();
+
+        fetchShopOrders.refetch();
+      } else {
+        errorMessage({
+          message: res?.data?.shopConfirmOrder?.error?.details,
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+      setSelectRow(null);
+    }
   };
 
   React.useEffect(() => {
@@ -41,6 +91,10 @@ export default function OrderLists({ status }: PropsDetails) {
       payload: status ?? "",
     });
   }, []);
+
+  React.useEffect(() => {
+    getShopWallet();
+  }, [getShopWallet]);
 
   return (
     <>
@@ -178,8 +232,22 @@ export default function OrderLists({ status }: PropsDetails) {
                       />
                       <DeliveryIcon
                         size={18}
-                        className="cursor-pointer hover:text-red-500"
-                        onClick={() => handleOpenDeliveryModal()}
+                        className={`${
+                          order.order_status === "NO_PICKUP"
+                            ? "cursor-pointer hover:text-red-500"
+                            : "cursor-not-allowed opacity-50"
+                        }`}
+                        onClick={() => {
+                          if (order.order_status === "NO_PICKUP") {
+                            setSelectRow(order);
+                            handleOpenDeliveryModal();
+                          } else {
+                            errorMessage({
+                              message: "You've already confirm this order!",
+                              duration: 3000,
+                            });
+                          }
+                        }}
                       />
                     </td>
                   </tr>
@@ -213,35 +281,59 @@ export default function OrderLists({ status }: PropsDetails) {
         className="w-11/12 sm:w-2/5"
       >
         <div className="flex items-start justify-start flex-col gap-4 rounded bg-white w-full p-4">
-          <h4 className="text-gray-500 text-md mb-3">
-            Please purchase the corresponding product and ship it
+          <h4 className="text-gray-500 text-md mb-2">
+            {(data?.getShopWallet?.data?.total_balance ?? 0) >
+            (selectRow?.total_price ?? 0)
+              ? t("_modal_title1")
+              : t("_modal_title2")}
           </h4>
-          <p className="text-sm text-black">
-            Product quantity purchased: &nbsp;
-            <span className="text-gray-500">1</span>
+          <p className="text-sm text-gray-500">
+            {t("_modal_total_product")}: &nbsp;
+            <span className="text-black">
+              {selectRow?.total_products} &nbsp;products
+            </span>
           </p>
-          <p className="text-sm text-black">
-            Wallet balance: &nbsp;
-            <span className="text-gray-500">$99.37</span>
+          <p className="text-sm text-gray-500">
+            {t("_modal_total_quantity")}: &nbsp;
+            <span className="text-black">
+              {selectRow?.total_quantity}&nbsp;quantities
+            </span>
           </p>
-          <p className="text-sm text-black">
-            To be paid: &nbsp;
-            <span className="text-gray-500">$1665.53</span>&nbsp;&nbsp;
-            {/* <span className="text-red-500">
-              Check whether the account balance is sufficient
-            </span> */}
+          <p className="text-sm text-gray-500">
+            {t("_modal_wallet_balance")}: &nbsp;
+            <span className="text-black">
+              ${data?.getShopWallet?.data?.total_balance.toFixed(2)}
+            </span>
+          </p>
+          <p className="text-sm text-gray-500">
+            {t("_modal_total_price")}: &nbsp;
+            <span className="text-black">
+              ${selectRow?.total_price.toFixed(2)}
+            </span>
           </p>
           <div className="w-full flex items-center justify-end gap-4">
             <IconButton
-              title="Close"
+              title={
+                (data?.getShopWallet?.data?.total_balance ?? 0) >
+                (selectRow?.total_price ?? 0)
+                  ? t("_close_button")
+                  : t("_recharge_button")
+              }
               type="button"
-              onClick={() => handleOpenDeliveryModal()}
+              onClick={() =>
+                (data?.getShopWallet?.data?.total_balance ?? 0) >
+                (selectRow?.total_price ?? 0)
+                  ? handleOpenDeliveryModal()
+                  : handleNavigate()
+              }
               className="rounded text-white bg-gray-500 w-auto text-xs hover:font-medium hover:shadow-md"
             />
             <IconButton
               type="button"
-              title="Purchase & Shipping"
-              //   onClick={() => handleOpenDeliveryModal()}
+              isFront={true}
+              title={t("_purchase_and_shopping")}
+              icon={isLoading ? <Loading /> : ""}
+              onClick={() => handlePurchaseAndShipping()}
               className="rounded bg-neon_pink text-white p-2 w-auto text-xs hover:font-medium hover:shadow-md"
             />
           </div>

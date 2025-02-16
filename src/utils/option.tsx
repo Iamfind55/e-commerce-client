@@ -33,10 +33,10 @@ export const notification_status: any = [
   { label: "Unread", value: "UNREAD" },
 ];
 
-export const stock: any = [
-  { label: "In stock", value: "stock" },
-  { label: "No inventory", value: "inventory" },
-];
+// export const stock: any = [
+//   { label: "In stock", value: "stock" },
+//   { label: "No inventory", value: "inventory" },
+// ];
 
 export const transactions: any = [
   { label: "Deposit", value: "deposit" },

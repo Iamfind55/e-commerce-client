@@ -7,7 +7,9 @@ import { GetShopOrderResponse } from "@/types/order";
 const useFetchShopOrders = ({ filter }: { filter: IFilter }) => {
   const { order_status, order_no, limit, page, createdAtBetween } = filter;
   const numericLimit = Number(limit);
-  const [shopGetOrders, { data }] = useLazyQuery<GetShopOrderResponse>(
+
+  console.log(order_no);
+  const [shopGetOrders, { data, refetch }] = useLazyQuery<GetShopOrderResponse>(
     QUERY_SHOP_ORDER,
     {
       fetchPolicy: "no-cache",
@@ -42,6 +44,7 @@ const useFetchShopOrders = ({ filter }: { filter: IFilter }) => {
   return {
     shopGetOrders,
     fetchShopOrders,
+    refetch,
     data: data?.shopGetOrders?.data?.map((order, index) => ({
       ...order,
       no: index + 1,

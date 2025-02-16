@@ -813,6 +813,7 @@
     "_no_pick_up": "No Pickup",
     "_processed_order": "Processed Orders",
     "_canceled_order": "Canceled Orders",
+    "_success_order": "Success Orders",
     "_order": "Orders",
     "_show": "Show",
     "_search": "Search....",
@@ -826,7 +827,32 @@
     "_payment_status": "Payment Status",
     "_order_status": "Order Status",
     "_date": "Date",
-    "_action": "Action"
+    "_action": "Action",
+    "_modal_title1": "Please confirm the corresponding product and ship it",
+    "_modal_title2": "Please recharge your wallet to be continue! Thank you",
+    "_modal_total_product": "Total product purchased",
+    "_modal_total_quantity": "Product quantity purchased",
+    "_modal_wallet_balance": "Wallet balance",
+    "_modal_total_price": "To be paid",
+    "_close_button": "Close",
+    "_recharge_button": "Recharge now",
+    "_purchase_and_shopping": "Purchase & Shipping",
+    "_order_list": "Order list",
+    "_order_list_detail": "Order list detail",
+    "_order_list_title": "List of all products on order",
+    "_immediate_delivery": "Immediate delivery"
+  },
+
+  "order_card": {
+    "_order_date": "Order Date",
+    "_payment_status": "Payment Status",
+    "_order_status": "Order Status",
+    "_sign_in_status": "Sign in Status",
+    "_order_quantity": "Order Quantity",
+    "_commodity_payment": "Commodity Payment",
+    "_order_payment": "Order Payment",
+    "_profit_rotio": "Profit ratio",
+    "_expected_revenue": "Expected revenue"
   },
 
   "global": {

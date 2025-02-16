@@ -806,13 +806,14 @@
     "_content5": "如果您有兴趣成为TikTok Shop的VIP商家，请与我们的管理员联系，获取有关升级流程的详细信息。感谢您的关注，期待您成为我们尊贵的VIP商家！",
     "_long_description": "为了表达我们对TikTok Shop的支持和信任，我们很高兴正式推出TikTok Shop VIP Mall系统！该计划是我们回馈所有为我们成长做出贡献的忠实商家的方式"
   },
-  
+
   "order_page": {
     "_order_management": "订单管理",
     "_all": "所有订单",
     "_no_pick_up": "未取货",
     "_processed_order": "已处理订单",
     "_canceled_order": "已取消订单",
+    "_success_order": "成功订单",
     "_order": "订单",
     "_show": "显示",
     "_search": "搜索....",
@@ -820,13 +821,38 @@
     "_end_date": "结束日期",
     "_id": "编号",
     "_order_no": "订单号",
-    "_total_product": "商品总数",
+    "_total_product": "总商品数",
     "_total_quantity": "总数量",
     "_toal_price": "总价格",
     "_payment_status": "支付状态",
     "_order_status": "订单状态",
     "_date": "日期",
-    "_action": "操作"
+    "_action": "操作",
+    "_modal_title1": "请确认相应的产品并发货",
+    "_modal_title2": "请充值您的钱包以继续！谢谢",
+    "_modal_total_product": "购买的商品总数",
+    "_modal_total_quantity": "购买的商品数量",
+    "_modal_wallet_balance": "钱包余额",
+    "_modal_total_price": "应付款项",
+    "_close_button": "关闭",
+    "_recharge_button": "立即充值",
+    "_purchase_and_shopping": "购买与发货",
+    "_order_list": "订单列表",
+    "_order_list_detail": "订单列表详情",
+    "_order_list_title": "订单中所有商品的列表",
+    "_immediate_delivery": "立即发货"
+  },
+
+  "order_card": {
+    "_order_date": "订单日期",
+    "_payment_status": "支付状态",
+    "_order_status": "订单状态",
+    "_sign_in_status": "登录状态",
+    "_order_quantity": "订单数量",
+    "_commodity_payment": "商品支付",
+    "_order_payment": "订单支付",
+    "_profit_rotio": "利润比例",
+    "_expected_revenue": "预期收入"
   },
 
   "global": {

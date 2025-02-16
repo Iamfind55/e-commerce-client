@@ -88,3 +88,17 @@ export const QUERY_SHOP_ORDER_DETAILS = gql`
     }
   }
 `;
+
+export const MUTATION_SHOP_CONFIRM_ORDER = gql`
+  mutation ShopConfirmOrder($shopConfirmOrderId: ID!) {
+    shopConfirmOrder(id: $shopConfirmOrderId) {
+      success
+      message
+      error {
+        code
+        details
+        message
+      }
+    }
+  }
+`;

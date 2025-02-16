@@ -813,6 +813,7 @@
     "_no_pick_up": "Chưa nhận hàng",
     "_processed_order": "Đơn hàng đã xử lý",
     "_canceled_order": "Đơn hàng đã hủy",
+    "_success_order": "Đơn hàng thành công",
     "_order": "Đơn hàng",
     "_show": "Hiển thị",
     "_search": "Tìm kiếm....",
@@ -826,7 +827,32 @@
     "_payment_status": "Trạng thái thanh toán",
     "_order_status": "Trạng thái đơn hàng",
     "_date": "Ngày",
-    "_action": "Hành động"
+    "_action": "Thao tác",
+    "_modal_title1": "Vui lòng xác nhận sản phẩm tương ứng và giao hàng",
+    "_modal_title2": "Vui lòng nạp tiền vào ví của bạn để tiếp tục! Cảm ơn",
+    "_modal_total_product": "Tổng số sản phẩm đã mua",
+    "_modal_total_quantity": "Số lượng sản phẩm đã mua",
+    "_modal_wallet_balance": "Số dư ví",
+    "_modal_total_price": "Số tiền phải thanh toán",
+    "_close_button": "Đóng",
+    "_recharge_button": "Nạp tiền ngay",
+    "_purchase_and_shopping": "Mua hàng & Giao hàng",
+    "_order_list": "Danh sách đơn hàng",
+    "_order_list_detail": "Chi tiết danh sách đơn hàng",
+    "_order_list_title": "Danh sách tất cả sản phẩm trong đơn hàng",
+    "_immediate_delivery": "Giao hàng ngay"
+  },
+
+  "order_card": {
+    "_order_date": "Ngày đặt hàng",
+    "_payment_status": "Tình trạng thanh toán",
+    "_order_status": "Tình trạng đơn hàng",
+    "_sign_in_status": "Tình trạng đăng nhập",
+    "_order_quantity": "Số lượng đơn hàng",
+    "_commodity_payment": "Thanh toán hàng hóa",
+    "_order_payment": "Thanh toán đơn hàng",
+    "_profit_rotio": "Tỷ lệ lợi nhuận",
+    "_expected_revenue": "Doanh thu kỳ vọng"
   },
 
   "global": {

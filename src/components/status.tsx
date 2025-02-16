@@ -99,6 +99,11 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
           className: "bg-yellow-200 text-yellow-600",
           weight: "bg-yellow-600",
         };
+      case useStatus.PROCESSING:
+        return {
+          className: "bg-yellow-200 text-yellow-600",
+          weight: "bg-yellow-600",
+        };
       case useStatus.BLOCKED:
         return {
           className: "bg-cyan-100 text-white",

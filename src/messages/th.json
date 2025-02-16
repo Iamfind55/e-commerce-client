@@ -810,9 +810,10 @@
   "order_page": {
     "_order_management": "การจัดการคำสั่งซื้อ",
     "_all": "คำสั่งซื้อทั้งหมด",
-    "_no_pick_up": "ไม่ได้รับสินค้า",
+    "_no_pick_up": "ยังไม่ได้รับสินค้า",
     "_processed_order": "คำสั่งซื้อที่ดำเนินการแล้ว",
     "_canceled_order": "คำสั่งซื้อที่ถูกยกเลิก",
+    "_success_order": "คำสั่งซื้อสำเร็จ",
     "_order": "คำสั่งซื้อ",
     "_show": "แสดง",
     "_search": "ค้นหา....",
@@ -821,12 +822,37 @@
     "_id": "รหัส",
     "_order_no": "หมายเลขคำสั่งซื้อ",
     "_total_product": "จำนวนสินค้าทั้งหมด",
-    "_total_quantity": "ปริมาณทั้งหมด",
+    "_total_quantity": "จำนวนรวม",
     "_toal_price": "ราคารวม",
     "_payment_status": "สถานะการชำระเงิน",
     "_order_status": "สถานะคำสั่งซื้อ",
     "_date": "วันที่",
-    "_action": "การดำเนินการ"
+    "_action": "การดำเนินการ",
+    "_modal_title1": "กรุณายืนยันสินค้าที่เกี่ยวข้องและจัดส่ง",
+    "_modal_title2": "กรุณาเติมเงินในกระเป๋าสตางค์ของคุณเพื่อดำเนินการต่อ! ขอบคุณค่ะ",
+    "_modal_total_product": "จำนวนสินค้าที่ซื้อทั้งหมด",
+    "_modal_total_quantity": "ปริมาณสินค้าที่ซื้อ",
+    "_modal_wallet_balance": "ยอดเงินในกระเป๋าสตางค์",
+    "_modal_total_price": "ยอดที่ต้องชำระ",
+    "_close_button": "ปิด",
+    "_recharge_button": "เติมเงินตอนนี้",
+    "_purchase_and_shopping": "ซื้อและจัดส่ง",
+    "_order_list": "รายการคำสั่งซื้อ",
+    "_order_list_detail": "รายละเอียดรายการคำสั่งซื้อ",
+    "_order_list_title": "รายการสินค้าทั้งหมดในการสั่งซื้อ",
+    "_immediate_delivery": "จัดส่งทันที"
+  },
+
+  "order_card": {
+    "_order_date": "วันที่สั่งซื้อ",
+    "_payment_status": "สถานะการชำระเงิน",
+    "_order_status": "สถานะคำสั่งซื้อ",
+    "_sign_in_status": "สถานะการลงชื่อเข้าใช้",
+    "_order_quantity": "จำนวนคำสั่งซื้อ",
+    "_commodity_payment": "การชำระเงินสำหรับสินค้าคงคลัง",
+    "_order_payment": "การชำระเงินคำสั่งซื้อ",
+    "_profit_rotio": "อัตรากำไร",
+    "_expected_revenue": "รายได้ที่คาดหวัง"
   },
 
   "global": {
