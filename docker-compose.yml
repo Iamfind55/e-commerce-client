@@ -1,13 +1,18 @@
-version: "3.8"
+version: "3.7"
 services:
-  nextjs-app:
-    container_name: nextjs-app
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
+  admin-nextjs:
+    build:
+      context: .
+    restart: always
+    networks:
+      - share-network
+    env_file:
+      - .env
     volumes:
-      - .:/app
-      - /app/node_modules
-    restart: unless-stopped
+      - ./public:/app/public
+      - ./.next:/app/.next
+    ports:
+      - "3000:3000" # Bind container port 3000 to host port 3000
+networks:
+  share-network:
+    external: true

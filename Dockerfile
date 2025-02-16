@@ -1,22 +1,20 @@
-FROM node:18
+# Use official Node.js image as base
+FROM node:18-alpine
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the container
+# Copy package.json and install dependencies
 COPY package*.json ./
-
-# Install project dependencies
 RUN npm install
 
-# Copy the entire React app to the container
+# Copy only required files
+COPY public public
+COPY package.json package.json
 COPY . .
 
-# Build the React app for production
-RUN npm run build
-
-# Expose a port (optional, if you need to access the app via a specific port)
+# Expose the correct port
 EXPOSE 3000
 
-# Define the command to start the application
+# Start Next.js in production mode
 CMD ["npm", "start"]
