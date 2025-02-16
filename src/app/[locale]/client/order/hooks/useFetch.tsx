@@ -1,14 +1,13 @@
 import React from "react";
+import { IFilter } from "@/types/product";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_SHOP_ORDER } from "@/api/order";
-import { IFilter } from "@/types/product";
 import { GetShopOrderResponse } from "@/types/order";
 
 const useFetchShopOrders = ({ filter }: { filter: IFilter }) => {
   const { order_status, order_no, limit, page, createdAtBetween } = filter;
   const numericLimit = Number(limit);
 
-  console.log(order_no);
   const [shopGetOrders, { data, refetch }] = useLazyQuery<GetShopOrderResponse>(
     QUERY_SHOP_ORDER,
     {

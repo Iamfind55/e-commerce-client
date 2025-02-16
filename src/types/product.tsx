@@ -91,6 +91,7 @@ export interface IFilter {
   category_id?: string | null;
   product_vip?: number | null;
   product_top?: boolean | null;
+  notification_type?: string | null;
   price_between?: [number, number] | null;
   createdAtBetween: CreatedAtBetween;
   price_sort?: string | null;

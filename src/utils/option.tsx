@@ -27,16 +27,21 @@ export const order_status: any = [
   { label: "No pick-up", value: "NO_PICKUP" },
 ];
 
-export const notification_status: any = [
-  { label: "All", value: "ALL" },
-  { label: "Read", value: "READ" },
-  { label: "Unread", value: "UNREAD" },
+export const notification_type_status: any = [
+  { label: "All", value: "" },
+  { label: "Dealer application", value: "DEALER_APPLICATION" },
+  { label: "Product application", value: "PRODUCT_APPLICATION" },
+  { label: "Withdrawal", value: "WITHDRAWAL" },
+  { label: "Recharge", value: "RECHARGE" },
+  { label: "Order", value: "ORDER" },
+  { label: "Inventory shipment", value: "INVENTORY_SHIPMENT" },
+  { label: "Fund punsih", value: "FUND_PUNISH" },
 ];
 
-// export const stock: any = [
-//   { label: "In stock", value: "stock" },
-//   { label: "No inventory", value: "inventory" },
-// ];
+export const stock: any = [
+  { label: "In stock", value: "stock" },
+  { label: "No inventory", value: "inventory" },
+];
 
 export const transactions: any = [
   { label: "Deposit", value: "deposit" },
