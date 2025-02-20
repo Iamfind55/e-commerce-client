@@ -25,11 +25,11 @@ import { GetShopWalletResponse } from "@/types/wallet";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { MUTATION_SHOP_CONFIRM_ORDER } from "@/api/order";
 
-interface PropsDetails {
-  status: string;
+interface OrderListDetailProps {
+  status?: string; // Make it optional to avoid type errors
 }
 
-export default function OrderLists({ status }: PropsDetails) {
+const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
   const filter = useFilter();
   const router = useRouter();
   const t = useTranslations("order_page");
@@ -98,6 +98,7 @@ export default function OrderLists({ status }: PropsDetails) {
 
   return (
     <>
+      <h1>Hello order list</h1>
       <div className="flex flex-col sm:flex-row items-start justify-between gap-6">
         <div className="w-full sm:w-2/5 flex items-start justify-start gap-2 mt-2 sm:mt-0">
           <div className="w-1/2">
@@ -341,4 +342,6 @@ export default function OrderLists({ status }: PropsDetails) {
       </MyModal>
     </>
   );
-}
+};
+
+export default OrderListDetail;

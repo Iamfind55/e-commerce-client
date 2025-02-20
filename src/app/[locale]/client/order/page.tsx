@@ -4,7 +4,7 @@ import React from "react";
 
 // components
 import { useTranslations } from "next-intl";
-import OrderListDetail from "./order-list/page";
+import OrderListDetail from "./order-list/OrderListDatails";
 import Breadcrumb from "@/components/breadCrumb";
 import { CancelIcon, CheckCircleIcon } from "@/icons/page";
 
