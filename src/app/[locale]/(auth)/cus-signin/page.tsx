@@ -132,7 +132,7 @@ export default function CustomerLogin() {
               onChange={handleCustomerLogin}
             />
             <Link
-              href="/customer-forgot-password"
+              href="/cus-forgot-password"
               className="flex items-center justify-end w-full mt-2"
             >
               <i className="text-xs text-b_text cursor-pointer hover:text-base hover:underline hover:text-xs">

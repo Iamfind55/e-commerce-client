@@ -41,4 +41,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 ## For build project by docker:
+first try to npm run build of no error occur then run below code:
 Cd to the folder want to build and then run: docker compose up --build -d
