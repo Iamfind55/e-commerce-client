@@ -15,6 +15,7 @@ import Select from "@/components/select";
 import StatusBadge from "@/components/status";
 import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
+import EmptyPage from "@/components/emptyPage";
 
 export default function TransactionHistory({
   fetchNew,
@@ -37,7 +38,6 @@ export default function TransactionHistory({
   });
 
   React.useEffect(() => {
-    console.log("I fetch new data");
     fetchCustomerTransactions.refetch();
   }, [fetchNew]);
 
@@ -103,59 +103,66 @@ export default function TransactionHistory({
                 </div>
               </div>
             </div>
-            <table className="w-full border rounded bg-gray overflow-x-auto text-left text-sm rtl:text-right mt-4">
-              <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
-                <tr className="border-b border-gray text-left ml-2">
-                  <th scope="col" className="py-3 pl-1">
-                    {t("_id")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1">
-                    {t("_transaction")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1">
-                    {t("_amount")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1">
-                    {t("_coin_type")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1">
-                    {t("_date")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1">
-                    {p("_status")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {fetchCustomerTransactions?.data?.map((items, index) => (
-                  <tr
-                    key={items.id}
-                    className="border-b border-gray bg-white hover:bg-gray py-6 text-gray-500"
-                  >
-                    <td className="pl-2 py-4">{index + 1}</td>
-                    <td>
-                      <div className="flex items-center justify-start gap-4">
-                        <p className="text-xs">
-                          {truncateText(items.identifier, 30)}
-                        </p>
-                      </div>
-                    </td>
-                    <td className="text-xs">{items.amount.toFixed(2)}</td>
-                    <td className="text-xs">${items.coin_type}</td>
-                    <td>
-                      <p className="text-xs">{formatDate(items.created_at)}</p>
-                    </td>
-                    <td className="text-xs my-2">
-                      <StatusBadge
-                        status={
-                          items.status === "ACTIVE" ? "completed" : "failed"
-                        }
-                      />
-                    </td>
+            {fetchCustomerTransactions.total ?? 0 > 0 ? (
+              <table className="w-full border rounded bg-gray overflow-x-auto text-left text-sm rtl:text-right mt-4">
+                <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
+                  <tr className="border-b border-gray text-left ml-2">
+                    <th scope="col" className="py-3 pl-1">
+                      {t("_id")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1">
+                      {t("_transaction")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1">
+                      {t("_amount")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1">
+                      {t("_coin_type")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1">
+                      {t("_date")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1">
+                      {p("_status")}
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {fetchCustomerTransactions?.data?.map((items, index) => (
+                    <tr
+                      key={items.id}
+                      className="border-b border-gray bg-white hover:bg-gray py-6 text-gray-500"
+                    >
+                      <td className="pl-2 py-4">{index + 1}</td>
+                      <td>
+                        <div className="flex items-center justify-start gap-4">
+                          <p className="text-xs">
+                            {truncateText(items.identifier, 30)}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="text-xs">{items.amount.toFixed(2)}</td>
+                      <td className="text-xs">${items.coin_type}</td>
+                      <td>
+                        <p className="text-xs">
+                          {formatDate(items.created_at)}
+                        </p>
+                      </td>
+                      <td className="text-xs my-2">
+                        <StatusBadge
+                          status={
+                            items.status === "ACTIVE" ? "completed" : "failed"
+                          }
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <EmptyPage />
+            )}
+
             <div className="w-full flex items-end justify-end mb-4">
               <Pagination
                 filter={filter.data}
@@ -172,53 +179,61 @@ export default function TransactionHistory({
             </div>
           </div>
 
-          <div className="block sm:hidden">
-            {fetchCustomerTransactions?.data?.map((val, index: number) => (
-              <div
-                key={val.id + index}
-                className="w-full flex items-start justify-start flex-col gap-2 border rounded p-2 my-2"
-              >
-                <div className="w-full flex items-start justify-start gap-4">
-                  <p className="text-md font-bold">{val?.identifier}</p>
-                </div>
-                <div className="w-full flex items-end justify-between">
-                  <div className="w-full flex items-start justify-between flex-col gap-1">
-                    <div className="flex items-start justify-start">
-                      <p className="text-xs text-gray-500">{p("_price")}: </p>
-                      <p className="text-xs">
-                        &nbsp;&nbsp;${val?.amount.toFixed(2)}
-                      </p>
+          {fetchCustomerTransactions?.total ?? 0 > 0 ? (
+            <div className="block sm:hidden">
+              {fetchCustomerTransactions?.data?.map((val, index: number) => (
+                <div
+                  key={val.id + index}
+                  className="w-full flex items-start justify-start flex-col gap-2 border rounded p-2 my-2"
+                >
+                  <div className="w-full flex items-start justify-start gap-4">
+                    <p className="text-md font-bold">{val?.identifier}</p>
+                  </div>
+                  <div className="w-full flex items-end justify-between">
+                    <div className="w-full flex items-start justify-between flex-col gap-1">
+                      <div className="flex items-start justify-start">
+                        <p className="text-xs text-gray-500">{p("_price")}: </p>
+                        <p className="text-xs">
+                          &nbsp;&nbsp;${val?.amount.toFixed(2)}
+                        </p>
+                      </div>
+                      <div className="flex items-start justify-start">
+                        <p className="text-xs text-gray-500">
+                          {p("_quantity")}:
+                        </p>
+                        <p className="text-xs">&nbsp;&nbsp;{val.coin_type}</p>
+                      </div>
+                      <div className="flex items-start justify-start">
+                        <p className="text-xs text-gray-500">{t("_date")}: </p>
+                        <p className="text-xs">
+                          &nbsp;&nbsp;{formatDate(val.created_at)}
+                        </p>
+                      </div>
+                      <StatusBadge status={val?.status} />
                     </div>
-                    <div className="flex items-start justify-start">
-                      <p className="text-xs text-gray-500">{p("_quantity")}:</p>
-                      <p className="text-xs">&nbsp;&nbsp;{val.coin_type}</p>
-                    </div>
-                    <div className="flex items-start justify-start">
-                      <p className="text-xs text-gray-500">{t("_date")}: </p>
-                      <p className="text-xs">
-                        &nbsp;&nbsp;{formatDate(val.created_at)}
-                      </p>
-                    </div>
-                    <StatusBadge status={val?.status} />
                   </div>
                 </div>
+              ))}
+              <div className="w-full flex items-center justify-center mb-4">
+                <Pagination
+                  filter={filter.data}
+                  totalPage={Math.ceil(
+                    (fetchCustomerTransactions.total ?? 0) / filter.data.limit
+                  )}
+                  onPageChange={(e) => {
+                    filter.dispatch({
+                      type: filter.ACTION_TYPE.PAGE,
+                      payload: e,
+                    });
+                  }}
+                />
               </div>
-            ))}
-            <div className="w-full flex items-center justify-center mb-4">
-              <Pagination
-                filter={filter.data}
-                totalPage={Math.ceil(
-                  (fetchCustomerTransactions.total ?? 0) / filter.data.limit
-                )}
-                onPageChange={(e) => {
-                  filter.dispatch({
-                    type: filter.ACTION_TYPE.PAGE,
-                    payload: e,
-                  });
-                }}
-              />
             </div>
-          </div>
+          ) : (
+            <div className="block sm:hidden">
+              <EmptyPage />
+            </div>
+          )}
         </div>
       </div>
     </>
