@@ -266,6 +266,7 @@ export default function InstrumentPanel() {
           },
         });
         if (res?.data?.createCustomerAddress.success) {
+          refetch();
           successMessage({
             message: "Create address successfull!",
             duration: 3000,

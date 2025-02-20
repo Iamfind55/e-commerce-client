@@ -26,6 +26,7 @@ import {
   MUTATION_CANCEL_FAILED_ORDER,
   MUTATION_PAY_FAILED_ORDER,
 } from "@/api/payment";
+import EmptyPage from "@/components/emptyPage";
 
 export default function PurchaseHistory() {
   const router = useRouter();
@@ -119,6 +120,8 @@ export default function PurchaseHistory() {
     }
   };
 
+  console.log(fetchOrders.total);
+
   return (
     <>
       <div className="w-full flex items-start justify-start flex-col gap-2">
@@ -210,83 +213,89 @@ export default function PurchaseHistory() {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {fetchOrders?.data?.map((order, index: number) => (
-                  <tr
-                    key={order.id + index}
-                    className="border-b border-gray bg-white hover:bg-gray py-6 text-gray-500 cursor-pointer"
-                  >
-                    <td className="pl-2">
-                      <Link
-                        href={`purchase-history/${order?.order_no}`}
-                        className="text-xs text-neon_pink underline"
-                      >
-                        {truncateText(order.order_no, 30)}
-                      </Link>
-                    </td>
-                    <td className="text-xs text-center">
-                      ${order.total_price.toFixed(2)}
-                    </td>
-                    <td className="text-xs text-center">
-                      {order.total_quantity}
-                    </td>
-                    <td>
-                      <p className="text-xs text-center">
-                        {order.delivery_type}
-                      </p>
-                    </td>
-                    <td className="text-xs text-center">
-                      <StatusBadge
-                        status={
-                          order.order_status === "SUCCESS"
-                            ? "success"
-                            : order.order_status === "FAILED"
-                            ? "failed"
-                            : order.order_status === "PROCESSING"
-                            ? "pending"
-                            : order.order_status === "CANCELLED"
-                            ? "cancelled"
-                            : "No pick-up"
-                        }
-                      />
-                    </td>
-                    <td>
-                      <p className="text-xs text-center">
-                        {formatDateTimeToDate(order.created_at)}
-                      </p>
-                    </td>
-                    {order.payment_status === "FAILED" ? (
-                      <td className="pl-2 py-4 flex items-center justify-center gap-2">
-                        <IconButton
-                          className="rounded border text-gray-500 p-0 w-auto text-xs"
-                          type="button"
-                          title={isLoading ? "Paying...." : t("_pay_button")}
-                          onClick={() => handleRepayFailedOrder(order.id)}
-                        />
-                        <IconButton
-                          className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                          title={
-                            isLoading ? "Canceling...." : t("_cancel_button")
-                          }
-                          type="button"
-                          onClick={() => handleCancelOrder(order.id)}
-                        />
+              {fetchOrders?.total ?? 0 > 0 ? (
+                <tbody>
+                  {fetchOrders?.data?.map((order, index: number) => (
+                    <tr
+                      key={order.id + index}
+                      className="border-b border-gray bg-white hover:bg-gray py-6 text-gray-500 cursor-pointer"
+                    >
+                      <td className="pl-2">
+                        <Link
+                          href={`purchase-history/${order?.order_no}`}
+                          className="text-xs text-neon_pink underline"
+                        >
+                          {truncateText(order.order_no, 30)}
+                        </Link>
                       </td>
-                    ) : (
-                      <td className="pl-2 py-4 flex items-center justify-center gap-2">
-                        <IconButton
-                          className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                          title={t("_detail")}
-                          type="button"
-                          onClick={() =>
-                            router.push(`purchase-history/${order.order_no}`)
+                      <td className="text-xs text-center">
+                        ${order.total_price.toFixed(2)}
+                      </td>
+                      <td className="text-xs text-center">
+                        {order.total_quantity}
+                      </td>
+                      <td>
+                        <p className="text-xs text-center">
+                          {order.delivery_type}
+                        </p>
+                      </td>
+                      <td className="text-xs text-center">
+                        <StatusBadge
+                          status={
+                            order.order_status === "SUCCESS"
+                              ? "success"
+                              : order.order_status === "FAILED"
+                              ? "failed"
+                              : order.order_status === "PROCESSING"
+                              ? "pending"
+                              : order.order_status === "CANCELLED"
+                              ? "cancelled"
+                              : "No pick-up"
                           }
                         />
                       </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
+                      <td>
+                        <p className="text-xs text-center">
+                          {formatDateTimeToDate(order.created_at)}
+                        </p>
+                      </td>
+                      {order.payment_status === "FAILED" ? (
+                        <td className="pl-2 py-4 flex items-center justify-center gap-2">
+                          <IconButton
+                            className="rounded border text-gray-500 p-0 w-auto text-xs"
+                            type="button"
+                            title={isLoading ? "Paying...." : t("_pay_button")}
+                            onClick={() => handleRepayFailedOrder(order.id)}
+                          />
+                          <IconButton
+                            className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
+                            title={
+                              isLoading ? "Canceling...." : t("_cancel_button")
+                            }
+                            type="button"
+                            onClick={() => handleCancelOrder(order.id)}
+                          />
+                        </td>
+                      ) : (
+                        <td className="pl-2 py-4 flex items-center justify-center gap-2">
+                          <IconButton
+                            className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
+                            title={t("_detail")}
+                            type="button"
+                            onClick={() =>
+                              router.push(`purchase-history/${order.order_no}`)
+                            }
+                          />
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              ) : (
+                <div>
+                  <EmptyPage />
+                </div>
+              )}
             </table>
             <div className="w-full flex items-end justify-end mb-4">
               <Pagination
@@ -303,82 +312,90 @@ export default function PurchaseHistory() {
               />
             </div>
           </div>
-          <div className="block sm:hidden">
-            {fetchOrders?.data?.map((val, index: number) => (
-              <div
-                key={val.id + index}
-                className="w-full flex items-start justify-start flex-col gap-2 border rounded p-2 my-2"
-              >
-                <div className="w-full flex items-start justify-start gap-4">
-                  <p className="text-xs">{val?.order_no}</p>
-                </div>
-                <div className="w-full flex items-end justify-between">
-                  <div className="w-full flex items-start justify-between flex-col gap-1">
-                    <div className="flex items-start justify-start">
-                      <p className="text-xs text-gray-500">{t("_price")}: </p>
-                      <p className="text-xs">&nbsp;&nbsp;${val?.total_price}</p>
-                    </div>
-                    <div className="flex items-start justify-start">
-                      <p className="text-xs text-gray-500">
-                        {t("_quantity")}:{" "}
-                      </p>
-                      <p className="text-xs">
-                        &nbsp;&nbsp;{val.total_quantity}
-                      </p>
-                    </div>
-                    <div className="flex items-start justify-start">
-                      <p className="text-xs text-gray-500">Date: </p>
-                      <p className="text-xs">
-                        &nbsp;&nbsp;{formatDateTimeToDate(val.created_at)}
-                      </p>
-                    </div>
-                    <StatusBadge status={val.payment_status} />
+          {fetchOrders?.total ?? 0 > 0 ? (
+            <div className="block sm:hidden">
+              {fetchOrders?.data?.map((val, index: number) => (
+                <div
+                  key={val.id + index}
+                  className="w-full flex items-start justify-start flex-col gap-2 border rounded p-2 my-2"
+                >
+                  <div className="w-full flex items-start justify-start gap-4">
+                    <p className="text-xs">{val?.order_no}</p>
                   </div>
-                  {val?.payment_status === "FAILED" ? (
-                    <div className="w-full flex items-start justify-between">
-                      <IconButton
-                        className="rounded border text-gray-500 p-2 w-auto text-xs"
-                        title={
-                          isLoading ? "Canceling...." : t("_cancel_button")
-                        }
-                        type="button"
-                        onClick={() => handleCancelOrder(val.id)}
-                      />
+                  <div className="w-full flex items-end justify-between">
+                    <div className="w-full flex items-start justify-between flex-col gap-1">
+                      <div className="flex items-start justify-start">
+                        <p className="text-xs text-gray-500">{t("_price")}: </p>
+                        <p className="text-xs">
+                          &nbsp;&nbsp;${val?.total_price}
+                        </p>
+                      </div>
+                      <div className="flex items-start justify-start">
+                        <p className="text-xs text-gray-500">
+                          {t("_quantity")}:{" "}
+                        </p>
+                        <p className="text-xs">
+                          &nbsp;&nbsp;{val.total_quantity}
+                        </p>
+                      </div>
+                      <div className="flex items-start justify-start">
+                        <p className="text-xs text-gray-500">Date: </p>
+                        <p className="text-xs">
+                          &nbsp;&nbsp;{formatDateTimeToDate(val.created_at)}
+                        </p>
+                      </div>
+                      <StatusBadge status={val.payment_status} />
+                    </div>
+                    {val?.payment_status === "FAILED" ? (
+                      <div className="w-full flex items-start justify-between">
+                        <IconButton
+                          className="rounded border text-gray-500 p-2 w-auto text-xs"
+                          title={
+                            isLoading ? "Canceling...." : t("_cancel_button")
+                          }
+                          type="button"
+                          onClick={() => handleCancelOrder(val.id)}
+                        />
+                        <IconButton
+                          className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
+                          title={isLoading ? "Paying...." : t("_pay_button")}
+                          type="button"
+                          onClick={() => handleRepayFailedOrder(val.id)}
+                        />
+                      </div>
+                    ) : (
                       <IconButton
                         className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                        title={isLoading ? "Paying...." : t("_pay_button")}
+                        title={t("_detail")}
                         type="button"
-                        onClick={() => handleRepayFailedOrder(val.id)}
+                        onClick={() =>
+                          router.push(`/purchase-history/${val.order_no}`)
+                        }
                       />
-                    </div>
-                  ) : (
-                    <IconButton
-                      className="rounded text-white p-2 bg-neon_pink w-auto text-xs"
-                      title={t("_detail")}
-                      type="button"
-                      onClick={() =>
-                        router.push(`/purchase-history/${val.order_no}`)
-                      }
-                    />
-                  )}
+                    )}
+                  </div>
                 </div>
+              ))}
+              <div className="w-full flex items-center justify-center mb-4">
+                <Pagination
+                  filter={filter.data}
+                  totalPage={Math.ceil(
+                    (fetchOrders.total ?? 0) / filter.data.limit
+                  )}
+                  onPageChange={(e) => {
+                    filter.dispatch({
+                      type: filter.ACTION_TYPE.PAGE,
+                      payload: e,
+                    });
+                  }}
+                />
               </div>
-            ))}
-            <div className="w-full flex items-center justify-center mb-4">
-              <Pagination
-                filter={filter.data}
-                totalPage={Math.ceil(
-                  (fetchOrders.total ?? 0) / filter.data.limit
-                )}
-                onPageChange={(e) => {
-                  filter.dispatch({
-                    type: filter.ACTION_TYPE.PAGE,
-                    payload: e,
-                  });
-                }}
-              />
             </div>
-          </div>
+          ) : (
+            <div>
+              <EmptyPage />
+            </div>
+          )}
         </div>
       </div>
     </>
