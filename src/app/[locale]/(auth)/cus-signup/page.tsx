@@ -125,7 +125,7 @@ export default function CustomerRegister() {
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        className="h-screen bg-bg_color flex items-center justify-center"
+        className="h-auto sm:h-screen bg-bg_color flex items-center justify-center py-2 sm:py-0"
       >
         <div className="rounded text-gray-500 w-11/12 sm:w-2/4 bg-white flex items-center justify-center flex-col gap-2 py-6">
           <CircleUser size={32} className="hidden sm:block" />
