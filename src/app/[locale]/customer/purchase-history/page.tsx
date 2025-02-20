@@ -125,12 +125,14 @@ export default function PurchaseHistory() {
   return (
     <>
       <div className="w-full flex items-start justify-start flex-col gap-2">
-        <Breadcrumb
-          items={[
-            { label: i("_customer"), value: "/customer" },
-            { label: t("_purchase_history"), value: "/purchase-history" },
-          ]}
-        />
+        <div className="w-full px-4 sm:px-0">
+          <Breadcrumb
+            items={[
+              { label: i("_customer"), value: "/customer" },
+              { label: t("_purchase_history"), value: "/purchase-history" },
+            ]}
+          />
+        </div>
 
         <div className="w-full mt-1 sm:mt-4 bg-white rounded p-4">
           <div className="w-full hidden sm:block">

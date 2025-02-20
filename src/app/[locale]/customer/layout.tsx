@@ -70,7 +70,7 @@ export default function RootLayout({
   const mobileMenuItems: MenuItem[] = [
     {
       icon: <DashboardIcon size={16} />,
-      menu: t("_instrument_panel"),
+      menu: "Home",
       route: "/customer/instrument-panel",
     },
     {
@@ -80,12 +80,12 @@ export default function RootLayout({
     },
     {
       icon: <WalletIcon size={16} />,
-      menu: t("_wallet"),
+      menu: "Wallet",
       route: "/customer/my-wallet",
     },
     {
       icon: <CircleUser size={16} />,
-      menu: t("_manage_profile"),
+      menu: "Profile",
       route: "/customer/profile",
     },
   ];
