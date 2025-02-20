@@ -135,7 +135,7 @@ export default function CustomerRegister() {
           </div>
           <form
             action=""
-            className="w-11/12 mt-2 grid grid-cols-1 gap-2 lg:grid-cols-2"
+            className="w-11/12 mt-2 grid grid-cols-1 gap-0 sm:gap-2 lg:grid-cols-2"
             onSubmit={handleSubmitForm}
           >
             <Textfield
@@ -184,7 +184,7 @@ export default function CustomerRegister() {
               name="dob"
               onChange={handleRegister}
               title="Date of birth"
-              className="h-8"
+              className="h-8 w-full"
             />
             <Password
               placeholder={s("_password")}
