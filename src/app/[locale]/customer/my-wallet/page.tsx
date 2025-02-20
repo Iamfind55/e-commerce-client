@@ -39,6 +39,7 @@ export default function CustomerWallet() {
   const i = useTranslations("instrument_panel");
   const { errorMessage, successMessage } = useToast();
   const [qrcode, setQrcode] = React.useState<string>("");
+  const [fetchNew, setFetchNew] = React.useState<boolean>(false);
   const [cover, setCover] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview1, setPreview1] = React.useState<string | null>(null);
@@ -172,6 +173,8 @@ export default function CustomerWallet() {
 
       if (res?.data?.customerRechargeBalance.success) {
         refetch();
+        handleOpenModal();
+        setFetchNew(!fetchNew);
         successMessage({
           message: "Recharge successfull!",
           duration: 3000,
@@ -189,6 +192,12 @@ export default function CustomerWallet() {
       });
     } finally {
       setIsLoading(false);
+      setRechargeData({
+        amout_recharged: 1,
+        coin_type: "",
+        account_number: "",
+        image: "",
+      });
     }
   };
 
@@ -231,7 +240,7 @@ export default function CustomerWallet() {
             </div>
           </div>
         )}
-        <TransactionHistory />
+        <TransactionHistory fetchNew={fetchNew} />
       </div>
 
       <MyModal

@@ -4,8 +4,9 @@ import React from "react";
 
 // Define the type for actions
 type Action =
-  | { type: "identifier"; payload: string | null }
   | { type: "page"; payload: number | 1 }
+  | { type: "limit"; payload: number | 10 }
+  | { type: "identifier"; payload: string | null }
   | { type: "created_at_start_date"; payload: string | null }
   | { type: "created_at_end_date"; payload: string | null };
 
@@ -21,8 +22,9 @@ const initialState: IFilter = {
 };
 
 const ACTION_TYPE = {
-  IDENTIFIER: "identifier",
   PAGE: "page",
+  LIMIT: "limit",
+  IDENTIFIER: "identifier",
   CREATED_AT_START_DATE: "created_at_start_date",
   CREATED_AT_END_DATE: "created_at_end_date",
 } as const;
@@ -77,6 +79,9 @@ const reducer = (state: IFilter, action: Action): IFilter => {
 
     case ACTION_TYPE.PAGE:
       return { ...state, page: action.payload };
+
+    case ACTION_TYPE.LIMIT:
+      return { ...state, limit: action.payload };
 
     default:
       return state;

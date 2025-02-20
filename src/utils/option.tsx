@@ -15,6 +15,7 @@ export const product_status: any = [
 // ];
 
 export const payment_type: any = [
+  { label: "All", value: "" },
   { label: "Recharge", value: "RECHARGE" },
   { label: "Withdraw", value: "WITHDRAW" },
 ];

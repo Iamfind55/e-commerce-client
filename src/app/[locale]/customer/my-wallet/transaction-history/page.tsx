@@ -1,15 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
-import { useRouter } from "@/navigation";
+import React, { useMemo } from "react";
 import { useTranslations } from "next-intl";
 
 // images, utils
-import { CloseEyeIcon } from "@/icons/page";
-import { payment_type } from "@/utils/option";
+import { page_limits, payment_type } from "@/utils/option";
 import useFilter from "../hooks/useFilter/page";
 import { truncateText } from "@/utils/letterLimitation";
-import { formatDate, formatDateTimeToDate } from "@/utils/dateFormat";
+import { formatDate } from "@/utils/dateFormat";
 import useFetchCustomerTransactionHistories from "../hooks/useFetchCusTransaction";
 
 //components
@@ -17,10 +15,12 @@ import Select from "@/components/select";
 import StatusBadge from "@/components/status";
 import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
-import IconButton from "@/components/iconButton";
 
-export default function TransactionHistory() {
-  const router = useRouter();
+export default function TransactionHistory({
+  fetchNew,
+}: {
+  fetchNew: boolean;
+}) {
   const t = useTranslations("my_wallet");
   const p = useTranslations("purchase_history");
   const filter = useFilter();
@@ -36,13 +36,32 @@ export default function TransactionHistory() {
     filter: memoizedFilter,
   });
 
+  React.useEffect(() => {
+    console.log("I fetch new data");
+    fetchCustomerTransactions.refetch();
+  }, [fetchNew]);
+
   return (
     <>
       <div className="bg-white rounded p-4 w-full flex items-start justify-start flex-col gap-2 mt-4">
         <h1 className="text-sm">{t("_transaction_title")}:</h1>
         <div className="w-full mt-2">
           <div className="w-full hidden sm:block">
-            <div className="flex flex-col sm:flex-row items-start justify-end gap-2">
+            <div className="flex flex-col sm:flex-row items-start justify-between gap-2">
+              <div className="w-1/4">
+                <Select
+                  name="status"
+                  title="Show"
+                  option={page_limits}
+                  className="h-8"
+                  onChange={(e) => {
+                    filter.dispatch({
+                      type: filter.ACTION_TYPE.LIMIT,
+                      payload: e.target.value,
+                    });
+                  }}
+                />
+              </div>
               <div className="flex items-start justify-statr gap-2">
                 <Select
                   name="status"
@@ -105,12 +124,6 @@ export default function TransactionHistory() {
                   <th scope="col" className="py-3 pl-1">
                     {p("_status")}
                   </th>
-                  {/* <th
-                    scope="col"
-                    className="py-3 pl-1 flex items-center justify-center"
-                  >
-                    {p("_action")}
-                  </th> */}
                 </tr>
               </thead>
               <tbody>
@@ -139,20 +152,6 @@ export default function TransactionHistory() {
                         }
                       />
                     </td>
-                    {/* <td className="pl-2 py-4 flex items-center justify-center gap-2">
-                      <IconButton
-                        className="rounded border text-white p-0 w-auto text-xs bg-neon_pink"
-                        type="button"
-                        title="Details"
-                        icon={<CloseEyeIcon size={16} />}
-                        isFront={true}
-                        onClick={() =>
-                          router.push(
-                            `my-wallet/transaction-history/${items.id}`
-                          )
-                        }
-                      />
-                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -202,18 +201,6 @@ export default function TransactionHistory() {
                     </div>
                     <StatusBadge status={val?.status} />
                   </div>
-                  {/* <div className="w-full flex items-start justify-end">
-                    <IconButton
-                      className="rounded border text-white p-0 w-auto text-xs bg-neon_pink"
-                      type="button"
-                      title="Details"
-                      icon={<CloseEyeIcon size={16} />}
-                      isFront={true}
-                      onClick={() =>
-                        router.push(`my-wallet/transaction-history/${val.id}`)
-                      }
-                    />
-                  </div> */}
                 </div>
               </div>
             ))}

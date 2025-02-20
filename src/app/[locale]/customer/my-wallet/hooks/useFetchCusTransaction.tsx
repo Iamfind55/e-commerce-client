@@ -16,8 +16,9 @@ const useFetchCustomerTransactionHistories = ({
   filter: ITransactionFilter;
 }) => {
   const { limit, page, identifier, createdAtBetween } = filter;
+  const numericLimit = Number(limit);
 
-  const [getCustomerTransactions, { data, loading }] =
+  const [getCustomerTransactions, { data, loading, refetch }] =
     useLazyQuery<GetCustomerTransactionResponse>(
       QUERY_CUSTOMER_TRANSACTION_HISTORIES,
       {
@@ -29,7 +30,7 @@ const useFetchCustomerTransactionHistories = ({
     getCustomerTransactions({
       variables: {
         orderBy: "created_at_DESC",
-        limit: limit,
+        limit: numericLimit,
         page: page,
         where: {
           ...(identifier && { identifier: identifier }),
@@ -54,6 +55,7 @@ const useFetchCustomerTransactionHistories = ({
     getCustomerTransactions,
     fetchCustomerTransactions,
     loading,
+    refetch,
     data: data?.customerGetTransactionHistories?.data?.map((items, index) => ({
       ...items,
       no: index + 1,
