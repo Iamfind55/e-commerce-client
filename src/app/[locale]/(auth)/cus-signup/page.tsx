@@ -19,10 +19,14 @@ import { MUTATION_CUSTOMER_REGISTER } from "@/api/customer-auth";
 
 // images
 import { signIn } from "@/redux/slice/customerAuthSlice";
+import { useTranslations } from "next-intl";
 
 export default function CustomerRegister() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const s = useTranslations("shop_sign_up");
+  const m = useTranslations("manage_profile");
+  const t = useTranslations("customer_auth");
   const { successMessage, errorMessage } = useToast();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
@@ -126,8 +130,8 @@ export default function CustomerRegister() {
         <div className="rounded text-gray-500 w-11/12 sm:w-2/4 bg-white flex items-center justify-center flex-col gap-2 py-6">
           <CircleUser size={32} className="hidden sm:block" />
           <div className="flex items-center justify-start sm:justify-center flex-col">
-            <p className="hidden sm:block text-lg">WELCOME TO TIKTOKSHOP</p>
-            <p className="text-sm">Create your account</p>
+            <p className="hidden sm:block text-lg">{t("_shop_welcome")}</p>
+            <p className="text-sm">{t("_create_account")}</p>
           </div>
           <form
             action=""
@@ -135,8 +139,8 @@ export default function CustomerRegister() {
             onSubmit={handleSubmitForm}
           >
             <Textfield
-              placeholder="Enter your firstname...."
-              title="First name"
+              placeholder={m("_first_name_placeholder")}
+              title={m("_first_name")}
               name="firstName"
               type="text"
               id="firstName"
@@ -144,32 +148,32 @@ export default function CustomerRegister() {
               onChange={handleRegister}
             />
             <Textfield
-              placeholder="Enter lastName...."
-              title="Last name"
+              placeholder={m("_last_name_placeholder")}
+              title={m("_last_name")}
               name="lastName"
               type="text"
               id="lastName"
               onChange={handleRegister}
             />
             <Textfield
-              placeholder="Enter your email...."
-              title="Email address"
+              placeholder={s("_email_placeholder")}
+              title={s("_email")}
               name="email"
               type="text"
               id="email"
               onChange={handleRegister}
             />
             <Textfield
-              placeholder="Enter your phone number...."
-              title="Phone number"
+              placeholder={m("_phone_number_placeholder")}
+              title={m("_phone_number")}
               name="phone_number"
               type="text"
               id="phone_number"
               onChange={handleRegister}
             />
             <Textfield
-              placeholder="Enter username...."
-              title="Username"
+              placeholder={m("_username_placeholder")}
+              title={m("_username")}
               name="username"
               type="text"
               id="username"
@@ -183,39 +187,38 @@ export default function CustomerRegister() {
               className="h-8"
             />
             <Password
-              placeholder="Enter password...."
-              title="Password"
+              placeholder={s("_password")}
+              title={s("_password")}
               name="password"
               id="password"
               required
               onChange={handleRegister}
             />
             <Password
-              placeholder="Confirm password...."
-              title="Confirm password"
+              placeholder={s("_confirm_password")}
+              title={s("_confirm_password")}
               name="confirm_password"
               id="confirm_password"
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              //   onChange={handleRegister}
             />
             <IconButton
               className="rounded text-white p-2 bg-neon_pink w-full mt-4 text-xs"
               icon={isLoading ? "" : <NextIcon size={22} />}
               isFront={isLoading ? true : false}
-              title={isLoading ? "Submiting...." : "Create Account"}
+              title={isLoading ? m("_submiting_button") : s("_sign_up")}
               type="submit"
             />
             <div className="flex items-center justify-center gap-4 mt-2 sm:mt-4">
               <p className="text-b_text text-sm italic">
-                Already have an account?
+                {s("_already_have_account")}
               </p>
               <Link
                 href="/cus-signin"
                 className="font-bold underline text-neon_pink text-sm italic"
               >
-                Sign In
+                {s("_sign_in_button")}
               </Link>
             </div>
           </form>

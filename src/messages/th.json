@@ -855,6 +855,28 @@
     "_expected_revenue": "รายได้ที่คาดหวัง"
   },
 
+  "customer_auth": {
+    "_welcome": "ยินดีต้อนรับ",
+    "_welcome_des": "เข้าสู่บัญชีของคุณ",
+    "_shop_welcome": "ยินดีต้อนรับสู่ TIKTOKSHOP",
+    "_create_account": "สร้างบัญชีของคุณ",
+    "_success": "สำเร็จ!",
+    "_forgot_success_title": "เราได้ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณแล้ว",
+    "_warm_message": "โปรดตรวจสอบกล่องจดหมายของคุณเพื่อดำเนินการต่อ",
+    "_back_signin": "กลับไปลงชื่อเข้าใช้",
+    "_forgot_password": "ลืมรหัสผ่าน?",
+    "_forgot_des1": "ป้อนอีเมลของคุณ แล้วเราจะส่งคำแนะนำในการรีเซ็ตรหัสผ่านให้คุณ",
+    "_forgot_des2": "ป้อนอีเมลที่ลงทะเบียนไว้กับ tiktokshop.online",
+    "_submiting_btn": "กำลังส่ง....",
+    "_reset_link_btn": "รับลิงก์รีเซ็ต",
+    "_reset_password": "รีเซ็ตรหัสผ่าน?",
+    "_new_password": "รหัสผ่านใหม่",
+    "_new_password_placeholder": "ป้อนรหัสผ่านใหม่....",
+    "_confirm_password": "ยืนยันรหัสผ่าน",
+    "_confirm_password_placeholder": "ยืนยันรหัสผ่าน....",
+    "_new_pass_btn": "ตั้งค่ารหัสผ่านใหม่"
+  },
+
   "global": {
     "_apply_button": "สมัครตอนนี้",
     "_edit_button": "แก้ไข",

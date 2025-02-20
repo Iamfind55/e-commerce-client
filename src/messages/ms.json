@@ -855,6 +855,28 @@
     "_expected_revenue": "Pendapatan Dijangka"
   },
 
+  "customer_auth": {
+    "_welcome": "SELAMAT DATANG",
+    "_welcome_des": "Log masuk ke akaun anda",
+    "_shop_welcome": "SELAMAT DATANG KE TIKTOKSHOP",
+    "_create_account": "Cipta akaun anda",
+    "_success": "Berjaya!",
+    "_forgot_success_title": "Pautan tetapan semula kata laluan telah dihantar ke e-mel anda",
+    "_warm_message": "Sila periksa peti masuk anda untuk meneruskan.",
+    "_back_signin": "KEMBALI KE LOG MASUK",
+    "_forgot_password": "Terlupa kata laluan?",
+    "_forgot_des1": "Masukkan e-mel anda, kami akan menghantar arahan untuk menetapkan semula kata laluan anda.",
+    "_forgot_des2": "Masukkan akaun e-mel yang didaftarkan di tiktokshop.online",
+    "_submiting_btn": "MENGHANTAR....",
+    "_reset_link_btn": "DAPATKAN PAUTAN TETAPAN SEMULA",
+    "_reset_password": "Tetapkan semula kata laluan?",
+    "_new_password": "Kata laluan baharu",
+    "_new_password_placeholder": "Masukkan kata laluan baharu....",
+    "_confirm_password": "Sahkan kata laluan",
+    "_confirm_password_placeholder": "Sahkan kata laluan....",
+    "_new_pass_btn": "TETAPKAN KATA LALUAN BAHARU"
+  },
+
   "global": {
     "_apply_button": "Mohon sekarang",
     "_edit_button": "Edit",

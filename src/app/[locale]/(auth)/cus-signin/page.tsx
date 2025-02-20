@@ -16,8 +16,12 @@ import { useMutation } from "@apollo/client";
 import { Link, useRouter } from "@/navigation";
 import { ICustomerLogin } from "@/types/customer-auth";
 import { MUTATION_CUSTOMER_LOGIN } from "@/api/customer-auth";
+import Loading from "@/components/loading";
+import { useTranslations } from "next-intl";
 
 export default function CustomerLogin() {
+  const s = useTranslations("shop_sign_in");
+  const t = useTranslations("customer_auth");
   const router = useRouter();
   const dispatch = useDispatch();
   const { successMessage, errorMessage } = useToast();
@@ -110,13 +114,13 @@ export default function CustomerLogin() {
         <div className="rounded text-gray-500 w-11/12 sm:w-2/5 bg-white flex items-center justify-center flex-col gap-2 py-6">
           <CircleUser size={32} />
           <div className="flex items-center justify-center flex-col">
-            <p className="text-lg">WELCOME</p>
-            <p className="text-sm">Login to your account</p>
+            <p className="text-lg">{t("_welcome")}</p>
+            <p className="text-sm">{t("_welcome_des")}</p>
           </div>
           <form action="" className="w-11/12 mt-2" onSubmit={handleSubmitForm}>
             <Textfield
-              placeholder="Enter username or email...."
-              title="Username or email"
+              placeholder={s("_username_email_placeholder")}
+              title={s("_username_email")}
               name="username"
               type="text"
               id="email"
@@ -124,8 +128,8 @@ export default function CustomerLogin() {
               onChange={handleCustomerLogin}
             />
             <Password
-              placeholder="Enter password...."
-              title="Password"
+              placeholder={s("_password_placeholder")}
+              title={s("_password")}
               name="password"
               id="password"
               required
@@ -136,25 +140,23 @@ export default function CustomerLogin() {
               className="flex items-center justify-end w-full mt-2"
             >
               <i className="text-xs text-b_text cursor-pointer hover:text-base hover:underline hover:text-xs">
-                Forgot password?
+                {s("_forgot_password")}
               </i>
             </Link>
             <IconButton
               className="rounded text-white p-2 bg-neon_pink w-full mt-4 text-xs"
-              icon={isLoading ? "" : <NextIcon size={22} />}
+              icon={isLoading ? <Loading /> : <NextIcon size={22} />}
               isFront={isLoading ? true : false}
-              title={isLoading ? "LOGING...." : "LOG IN"}
+              title={isLoading ? s("_loging_in_button") : s("_log_in_button")}
               type="submit"
             />
             <div className="flex items-center justify-center gap-4 mt-4">
-              <p className="text-b_text text-sm italic">
-                Do not have an account yet?
-              </p>
+              <p className="text-b_text text-sm italic">{s("_not_account")}</p>
               <Link
                 href="/cus-signup"
                 className="font-bold underline text-neon_pink text-sm italic"
               >
-                Sign Up
+                {s("_sign_up_button")}
               </Link>
             </div>
           </form>

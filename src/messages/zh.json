@@ -855,6 +855,28 @@
     "_expected_revenue": "预期收入"
   },
 
+  "customer_auth": {
+    "_welcome": "欢迎",
+    "_welcome_des": "登录您的账户",
+    "_shop_welcome": "欢迎来到TIKTOKSHOP",
+    "_create_account": "创建您的账户",
+    "_success": "成功!",
+    "_forgot_success_title": "重置密码链接已发送至您的邮箱",
+    "_warm_message": "请检查您的收件箱以继续。",
+    "_back_signin": "返回登录",
+    "_forgot_password": "忘记密码?",
+    "_forgot_des1": "输入您的电子邮件，我们将发送重置密码的说明。",
+    "_forgot_des2": "输入在tiktokshop.online注册的电子邮件账户",
+    "_submiting_btn": "提交中....",
+    "_reset_link_btn": "获取重置链接",
+    "_reset_password": "重置密码?",
+    "_new_password": "新密码",
+    "_new_password_placeholder": "输入新密码....",
+    "_confirm_password": "确认密码",
+    "_confirm_password_placeholder": "确认密码....",
+    "_new_pass_btn": "设置新密码"
+  },
+
   "global": {
     "_apply_button": "立即申请",
     "_edit_button": "编辑",

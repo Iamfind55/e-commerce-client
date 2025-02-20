@@ -855,6 +855,28 @@
     "_expected_revenue": "Doanh thu kỳ vọng"
   },
 
+  "customer_auth": {
+    "_welcome": "CHÀO MỪNG",
+    "_welcome_des": "Đăng nhập vào tài khoản của bạn",
+    "_shop_welcome": "CHÀO MỪNG ĐẾN TIKTOKSHOP",
+    "_create_account": "Tạo tài khoản của bạn",
+    "_success": "Thành công!",
+    "_forgot_success_title": "Một liên kết đặt lại mật khẩu đã được gửi đến email của bạn",
+    "_warm_message": "Vui lòng kiểm tra hộp thư đến để tiếp tục.",
+    "_back_signin": "QUAY LẠI ĐĂNG NHẬP",
+    "_forgot_password": "Quên mật khẩu?",
+    "_forgot_des1": "Nhập email của bạn, chúng tôi sẽ gửi hướng dẫn để đặt lại mật khẩu.",
+    "_forgot_des2": "Nhập email đã đăng ký trên tiktokshop.online",
+    "_submiting_btn": "ĐANG GỬI....",
+    "_reset_link_btn": "NHẬN LIÊN KẾT ĐẶT LẠI",
+    "_reset_password": "Đặt lại mật khẩu?",
+    "_new_password": "Mật khẩu mới",
+    "_new_password_placeholder": "Nhập mật khẩu mới....",
+    "_confirm_password": "Xác nhận mật khẩu",
+    "_confirm_password_placeholder": "Xác nhận mật khẩu....",
+    "_new_pass_btn": "ĐẶT MẬT KHẨU MỚI"
+  },
+
   "global": {
     "_apply_button": "Nộp đơn ngay",
     "_edit_button": "Chỉnh sửa",
