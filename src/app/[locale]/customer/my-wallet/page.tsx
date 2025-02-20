@@ -27,7 +27,7 @@ import Textfield from "@/components/textField";
 import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
 import WalletCard from "@/components/walletCard";
-import TransactionHistory from "./transaction-history/page";
+import TransactionHistory from "./transaction-history/TransactionHistory";
 import { useTranslations } from "next-intl";
 
 interface CloudinaryResponse {
