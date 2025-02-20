@@ -184,39 +184,39 @@ export default function PurchaseHistory() {
                 </div>
               </div>
             </div>
-            <table className="w-full border rounded bg-gray overflow-x-auto text-left text-sm rtl:text-right mt-4 pl-2">
-              <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
-                <tr className="border-b border-gray">
-                  <th scope="col" className="py-3 pl-1">
-                    ID
-                  </th>
-                  <th scope="col" className="py-3 pl-1">
-                    {t("_order_no")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1 text-center">
-                    {t("_price")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1 text-center">
-                    {t("_quantity")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1 text-center">
-                    {t("_delivery")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1 text-center">
-                    {t("_payment")}
-                  </th>
-                  <th scope="col" className="py-3 pl-1 text-center">
-                    {t("_created_at")}
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3 pl-1 flex items-center justify-center"
-                  >
-                    {t("_action")}
-                  </th>
-                </tr>
-              </thead>
-              {fetchOrders?.total ?? 0 > 0 ? (
+            {fetchOrders?.total ?? 0 > 0 ? (
+              <table className="w-full border rounded bg-gray overflow-x-auto text-left text-sm rtl:text-right mt-4 pl-2">
+                <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
+                  <tr className="border-b border-gray">
+                    <th scope="col" className="py-3 pl-1">
+                      ID
+                    </th>
+                    <th scope="col" className="py-3 pl-1">
+                      {t("_order_no")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1 text-center">
+                      {t("_price")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1 text-center">
+                      {t("_quantity")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1 text-center">
+                      {t("_delivery")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1 text-center">
+                      {t("_payment")}
+                    </th>
+                    <th scope="col" className="py-3 pl-1 text-center">
+                      {t("_created_at")}
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3 pl-1 flex items-center justify-center"
+                    >
+                      {t("_action")}
+                    </th>
+                  </tr>
+                </thead>
                 <tbody>
                   {fetchOrders?.data?.map((order, index: number) => (
                     <tr
@@ -238,10 +238,8 @@ export default function PurchaseHistory() {
                       <td className="text-xs text-center">
                         {order.total_quantity}
                       </td>
-                      <td>
-                        <p className="text-xs text-center">
-                          {order.delivery_type}
-                        </p>
+                      <td className="text-xs text-center">
+                        {order.delivery_type}
                       </td>
                       <td className="text-xs text-center">
                         <StatusBadge
@@ -258,10 +256,8 @@ export default function PurchaseHistory() {
                           }
                         />
                       </td>
-                      <td>
-                        <p className="text-xs text-center">
-                          {formatDateTimeToDate(order.created_at)}
-                        </p>
+                      <td className="text-xs text-center">
+                        {formatDateTimeToDate(order.created_at)}
                       </td>
                       {order.payment_status === "FAILED" ? (
                         <td className="pl-2 py-4 flex items-center justify-center gap-2">
@@ -295,12 +291,10 @@ export default function PurchaseHistory() {
                     </tr>
                   ))}
                 </tbody>
-              ) : (
-                <div>
-                  <EmptyPage />
-                </div>
-              )}
-            </table>
+              </table>
+            ) : (
+              <EmptyPage />
+            )}
             <div className="w-full flex items-end justify-end mb-4">
               <Pagination
                 filter={filter.data}
@@ -373,7 +367,9 @@ export default function PurchaseHistory() {
                         title={t("_detail")}
                         type="button"
                         onClick={() =>
-                          router.push(`/purchase-history/${val.order_no}`)
+                          router.push(
+                            `/customer/purchase-history/${val.order_no}`
+                          )
                         }
                       />
                     )}
@@ -396,7 +392,7 @@ export default function PurchaseHistory() {
               </div>
             </div>
           ) : (
-            <div>
+            <div className="block sm:hidden">
               <EmptyPage />
             </div>
           )}

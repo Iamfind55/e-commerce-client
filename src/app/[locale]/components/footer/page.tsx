@@ -16,7 +16,7 @@ export default function Footer() {
               <Link href="/">
                 <Image
                   className="rounded-full"
-                  src="/images/tiktokshop-logo.png"
+                  src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/tiktokshop-logo_rcmbaq.png"
                   alt=""
                   width={150}
                   height={100}
