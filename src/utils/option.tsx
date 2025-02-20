@@ -20,6 +20,8 @@ export const payment_type: any = [
 ];
 
 export const order_status: any = [
+  { label: "All", value: "" },
+  { label: "Success", value: "SUCCESS" },
   { label: "Success", value: "SUCCESS" },
   { label: "Failed", value: "FAILED" },
   { label: "Processing", value: "PROCESSING" },

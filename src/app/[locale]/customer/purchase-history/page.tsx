@@ -188,6 +188,9 @@ export default function PurchaseHistory() {
               <thead className="sticky top-0 bg-gray text-xs uppercase bg-white">
                 <tr className="border-b border-gray">
                   <th scope="col" className="py-3 pl-1">
+                    ID
+                  </th>
+                  <th scope="col" className="py-3 pl-1">
                     {t("_order_no")}
                   </th>
                   <th scope="col" className="py-3 pl-1 text-center">
@@ -220,6 +223,7 @@ export default function PurchaseHistory() {
                       key={order.id + index}
                       className="border-b border-gray bg-white hover:bg-gray py-6 text-gray-500 cursor-pointer"
                     >
+                      <td className="text-xs text-center">{index + 1}</td>
                       <td className="pl-2">
                         <Link
                           href={`purchase-history/${order?.order_no}`}
