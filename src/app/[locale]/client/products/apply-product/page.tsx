@@ -16,6 +16,7 @@ import { ArrowDownIcon, NextIcon } from "@/icons/page";
 import useFilter from "@/app/[locale]/(pages)/product/hooks/useFilter/page";
 import useFetchProducts from "@/app/[locale]/(pages)/product/hooks/useFetchProduct";
 import { useTranslations } from "next-intl";
+import EmptyPage from "@/components/emptyPage";
 
 export default function ApplyProduct() {
   const t = useTranslations("shop_product_list");
@@ -158,11 +159,17 @@ export default function ApplyProduct() {
         <p className="text-gray-500 text-xs mt-4">
           {t("_list_founded_product")}:
         </p>
-        <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
-          {fetchShopProduct?.data?.map((product) => (
-            <ProductCard2 key={product.id} {...product} />
-          ))}
-        </div>
+        {fetchShopProduct?.total ?? 0 > 0 ? (
+          <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
+            {fetchShopProduct?.data?.map((product) => (
+              <ProductCard2 key={product.id} {...product} />
+            ))}
+          </div>
+        ) : (
+          <div className="w-full items-start justify-center">
+            <EmptyPage />
+          </div>
+        )}
         <div className="w-full flex items-end justify-end mb-4">
           <Pagination
             filter={filter.data}

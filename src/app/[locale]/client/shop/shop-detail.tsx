@@ -216,6 +216,9 @@ export default function ShopDetails() {
         shopCover = (await response.json()) as CloudinaryResponse; // Type assertion
       }
 
+      console.log("Cover", shopCover.secure_url);
+      console.log("Profile", shopLogo.secure_url);
+
       const { data } = await updateShopInfo({
         variables: {
           data: {
@@ -273,7 +276,7 @@ export default function ShopDetails() {
         }
       } else {
         errorMessage({
-          message: data.updateShopInformation.error || "Update profile failed!",
+          message: data.updateShopInformation.error.details,
           duration: 3000,
         });
       }

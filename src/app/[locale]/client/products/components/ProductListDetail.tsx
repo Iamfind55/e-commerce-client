@@ -121,7 +121,7 @@ export default function ProductListDetail({ status, title }: PropsDetails) {
               <ShopProductCard key={product.id} {...product} />
             ))}
           </div>
-          <div className="w-full flex items-end justify-end mb-4">
+          <div className="w-full flex sm:items-end items-center sm:justify-end justify-center mb-4">
             <Pagination
               filter={filter.data}
               totalPage={Math.ceil(

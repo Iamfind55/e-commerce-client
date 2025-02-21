@@ -437,11 +437,11 @@ export default function ProductCard2(props: ProductData) {
       <MyModal
         isOpen={isOpenShelfModal}
         onClose={handleOpenShelfModal}
-        className="w-2/4"
+        className="w-11/12 sm:w-2/4"
       >
-        <div className="text-gray-500 flex items-center justify-center flex-col gap-6">
+        <div className="text-gray-500 flex items-center justify-center flex-col gap-6 p-4">
           <div className="w-full flex items-center justify-center flex-col gap-2">
-            <h1 className="text-lg">{t("_confirm_title")}</h1>
+            <h1 className="text-md sm:text-lg">{t("_confirm_title")}</h1>
             <p className="text-xs">{productData?.name.name_en}</p>
           </div>
           <div className="w-full flex items-center justify-center gap-4">
