@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { useMutation } from "@apollo/client";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useMutation } from "@apollo/client";
 
 // components
 import Password from "@/components/passwordTextField";
@@ -17,12 +18,15 @@ import { useToast } from "@/utils/toast";
 
 // graphql API
 import { MUTATION_SHOP_REGISTER } from "@/api/auth";
-import { useTranslations } from "next-intl";
+import Loading from "@/components/loading";
 
 export default function SignUp() {
   const router = useRouter();
   const t = useTranslations("shop_sign_up");
+  const c = useTranslations("customer_auth");
   const { successMessage, errorMessage } = useToast();
+  const [isAgree, setIsAgree] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [registerShop] = useMutation(MUTATION_SHOP_REGISTER);
   const [signupData, setSignupData] = React.useState<ISignups>({
     fullname: "",
@@ -46,6 +50,14 @@ export default function SignUp() {
       errorMessage({ message: "Passwords do not match!", duration: 3000 });
       return;
     }
+    if (!isAgree) {
+      errorMessage({
+        message: "Please check Agree out terms & condition!",
+        duration: 3000,
+      });
+      return;
+    }
+    setIsLoading(true);
     try {
       const { data } = await registerShop({
         variables: {
@@ -63,9 +75,10 @@ export default function SignUp() {
           message: "Signup successful!",
           duration: 3000,
         });
+
         // Store the token in cookies
-        document.cookie = `auth_token=${data.shopRegister.data.token}; path=/; max-age=3600`;
-        router.push("/client");
+        // document.cookie = `auth_token=${data.shopRegister.data.token}; path=/; max-age=3600`;
+        router.push("/signin");
       } else {
         errorMessage({
           message: data.shopRegister.error?.message || "Signup failed!",
@@ -73,22 +86,27 @@ export default function SignUp() {
         });
       }
     } catch (error) {
-      console.error("Error during signup:", error);
       errorMessage({
         message: "An unexpected error occurred during signup.",
         duration: 3000,
       });
+    } finally {
+      setIsLoading(false);
+      setIsAgree(false);
     }
   };
 
   return (
     <div className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100">
       <div className="h-screen w-full flex flex-col sm:flex-row items-center justify-center">
-        <div className="w-full sm:w-2/4 bg-white text-black h-screen py-4 sm:p-6 flex items-center justify-center flex-col gap-6">
+        <div className="w-full sm:w-2/4 bg-white text-black h-screen p-2 sm:p-6 flex items-center justify-center flex-col gap-6">
           <h1 className="text-black text-lg sm:text-title-xl2 font-normal sm:font-bold">
             {t("_sign_up")}
           </h1>
-          <form className="w-4/5" onSubmit={handleSubmitForm}>
+          <form
+            className="w-full border px-2 py-4 rounded"
+            onSubmit={handleSubmitForm}
+          >
             <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-1">
               <Textfield
                 placeholder={t("_full_name_placeholder")}
@@ -139,6 +157,7 @@ export default function SignUp() {
                   type="checkbox"
                   value=""
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-2"
+                  onChange={() => setIsAgree(true)}
                 />
                 <label
                   htmlFor="link-checkbox"
@@ -157,9 +176,11 @@ export default function SignUp() {
             <br />
             <IconButton
               className={`rounded p-2 text-xs w-full mt-2 text-xs bg-neon_pink text-white cursor-pointer`}
-              icon={<NextIcon size={22} />}
-              title={t("_register_button")}
+              icon={isLoading ? <Loading /> : <NextIcon size={22} />}
+              title={isLoading ? c("_submiting_btn") : t("_register_button")}
+              isFront={isLoading ? true : false}
               type="submit"
+              // disabled
             />
             <div className="flex items-center justify-center gap-4 mt-4">
               <p className="text-b_text text-sm italic">

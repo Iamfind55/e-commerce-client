@@ -19,8 +19,8 @@ import { useTranslations } from "next-intl";
 
 export default function CustomerResetPassword() {
   const router = useRouter();
-  const { successMessage, errorMessage } = useToast();
   const t = useTranslations("customer_auth");
+  const { successMessage, errorMessage } = useToast();
   const [resetPassword] = useMutation(MUTATION_CUSTOMER_RESET_PASSWORD);
   const [token, setToken] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);

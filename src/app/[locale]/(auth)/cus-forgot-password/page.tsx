@@ -19,8 +19,8 @@ import { useTranslations } from "next-intl";
 
 export default function CustomerForgotPasword() {
   const router = useRouter();
-  const t = useTranslations("customer_auth");
   const g = useTranslations("global");
+  const t = useTranslations("customer_auth");
   const { successMessage, errorMessage } = useToast();
   const [email, setEmail] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
