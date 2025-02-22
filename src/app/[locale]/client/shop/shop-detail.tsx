@@ -164,13 +164,19 @@ export default function ShopDetails() {
         });
         if (data.deleteShopSocial.success) {
           refetch();
-          console.log("I refetch");
+          errorMessage({
+            message: "Delete shop social successful!",
+            duration: 3000,
+          });
         } else {
           errorMessage({ message: "Something went wrong!", duration: 3000 });
         }
       }
     } catch (error) {
-      console.log("Error:", error);
+      errorMessage({
+        message: "Sorry, Unexpected error happend!",
+        duration: 3000,
+      });
     }
   };
 
@@ -224,7 +230,7 @@ export default function ShopDetails() {
           data: {
             fullname: shopData.fullname,
             username: shopData.username,
-            password: shopData.password,
+            ...(shopData.password && { password: shopData.password }),
             email: shopData.email,
             phone_number: shopData.phone_number,
             remark: shopData.remark,
