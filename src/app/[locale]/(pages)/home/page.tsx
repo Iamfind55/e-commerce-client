@@ -312,7 +312,7 @@ export default function Home() {
               slidePerview={1}
             />
           </div>
-          <div className="hidden sm:block text-second_black flex items-start justify-start flex-col gap-6">
+          {/* <div className="hidden sm:block text-second_black flex items-start justify-start flex-col gap-6">
             <h3 className="text-second_black text-md sm:text-lg uppercase">
               {t("_about_us")}:
             </h3>
@@ -570,7 +570,7 @@ export default function Home() {
                 {t("_other_categories_additional_info_03")}
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

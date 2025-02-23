@@ -16,37 +16,47 @@ export default function Footer() {
               <Link href="/">
                 <Image
                   className="rounded-full"
-                  src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/tiktokshop-logo_rcmbaq.png"
+                  src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740281086/logo2_dwqmfv.png"
                   alt=""
-                  width={150}
-                  height={100}
+                  width={250}
+                  height={200}
                 />
               </Link>
               <p className="text-sm text-white">{t("_footer_title")}</p>
+
+              <p className="text-sm text-white">
+                Email:&nbsp;
+                <Link
+                  href="mailto:info@tiktokshop.online"
+                  className="underline hover:text-neon_pink"
+                >
+                  info@tiktokshop.online
+                </Link>
+              </p>
             </div>
             <div className="mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
               <h1 className="text-white text-sm font-bold">{t("_details")}:</h1>
               <Link
                 href="/terms-condition"
-                className="text-white text-xs hover:underline"
+                className="text-white text-xs hover:underline hover:text-neon_pink"
               >
                 {t("_terms_conditions")}
               </Link>
               <Link
                 href="/refund-policy"
-                className="text-white text-xs hover:underline"
+                className="text-white text-xs hover:underline hover:text-neon_pink"
               >
                 {t("_refund_policy")}
               </Link>
               <Link
                 href="/support-policy"
-                className="text-white text-xs hover:underline"
+                className="text-white text-xs hover:underline hover:text-neon_pink"
               >
                 {t("_support_policy")}
               </Link>
               <Link
                 href="/privacy-policy"
-                className="text-white text-xs hover:underline"
+                className="text-white text-xs hover:underline hover:text-neon_pink"
               >
                 {t("_privacy_policy")}
               </Link>

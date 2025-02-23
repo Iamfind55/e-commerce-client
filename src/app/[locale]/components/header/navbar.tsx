@@ -82,7 +82,7 @@ export default function Navbar() {
           ref={headerRef}
           className="container mx-auto flex items-center justify-between bg-second_black px-4"
         >
-          <div className="flex items-start justify-center gap-6">
+          <div className="flex items-center justify-center gap-6">
             <button
               onClick={toggleOpenDrawer}
               className="hidden sm:block border border-white rounded p-1"
@@ -92,10 +92,10 @@ export default function Navbar() {
             <Link href="/">
               <Image
                 className="rounded-full"
-                src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/tiktokshop-logo_rcmbaq.png"
+                src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740281086/logo2_dwqmfv.png"
                 alt=""
-                width={150}
-                height={100}
+                width={250}
+                height={200}
               />
             </Link>
           </div>
@@ -244,6 +244,21 @@ export default function Navbar() {
                       width={20}
                     />
                     {t("_malaysia")}
+                  </Link>
+                </div>
+                <div className="w-full flex items-start gap-2 text-gray-500 hover:text-second_black cursor-pointer hover:bg-gray-200 py-2 px-4">
+                  <Link
+                    href={pathname}
+                    locale="fr"
+                    className="w-full text-sm flex items-center justify-start gap-2"
+                  >
+                    <Image
+                      src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740287269/franch-flag_hgcujs.webp"
+                      alt=""
+                      height={20}
+                      width={20}
+                    />
+                    {t("_french")}
                   </Link>
                 </div>
               </div>

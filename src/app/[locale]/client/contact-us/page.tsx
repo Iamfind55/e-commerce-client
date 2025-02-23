@@ -1,5 +1,6 @@
 import Breadcrumb from "@/components/breadCrumb";
 import { TelegramIcon } from "@/icons/page";
+import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
 
 export default function ContactUs() {
@@ -29,6 +30,19 @@ export default function ContactUs() {
           </div>
         </div>
       </a>
+      <div className="flex items-center justify-center flex-col gap-3 text-gray-500 cursor-pointer">
+        <div className="w-2/5 bg-white text-center p-4 rounded">
+          <p className="text-sm text-gray-500">
+            Email:&nbsp;
+            <Link
+              href="mailto:info@tiktokshop.online"
+              className="underline hover:text-neon_pink"
+            >
+              info@tiktokshop.online
+            </Link>
+          </p>
+        </div>
+      </div>
     </>
   );
 }

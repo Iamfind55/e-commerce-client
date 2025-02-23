@@ -13,6 +13,7 @@
     "_thai": "Thai",
     "_china": "China",
     "_malaysia": "Malay",
+    "_french": "French",
     "_login_button": "Login",
     "_my_cart": "My cart",
     "_categories": "Categories",
@@ -545,7 +546,7 @@
 
   "my_wallet": {
     "_my_wallet": "My wallet",
-    "_frozen_balance": "Frezen Balance",
+    "_frozen_balance": "Pending balance",
     "_total_balance": "Total Balance",
     "_offline_wallet_recharge": "Offline Wallet Recharge",
     "_transaction_title": "Transaction details",
@@ -603,7 +604,7 @@
 
   "shop_sidebar": {
     "_comment": "Comment:: This is for shop sidebar",
-    "_dashboard": "Dashboard",
+    "_dashboard": "Home",
     "_product": "Product",
     "_all_product": "All product",
     "_apply_new_product": "Apply new",
@@ -615,7 +616,7 @@
     "_withdraw_history": "Withdraw history",
     "_notification": "Notification",
     "_contact_us": "Contact us",
-    "_member_only": "Member only",
+    "_member_only": "VIP Access",
     "_apply_VIP_product": "Apply VIP product"
   },
 
@@ -655,7 +656,7 @@
     "_wallet_balance": "Wallet balance",
     "_recharged": "Recharged",
     "_withdrawal": "Withdrawal",
-    "_frozen_balance": "Frozen balance",
+    "_frozen_balance": "Pending balance",
     "_withdrawal_balance": "Withdrawal balance",
     "_finance": "Finance",
     "_wallet": "My wallet",
@@ -728,7 +729,7 @@
   },
 
   "contact_page": {
-    "_dashboard": "Dashboard",
+    "_dashboard": "Home",
     "_contact_us": "Contact us",
     "_description": "Reach out to our customer service team for assistance with any issues."
   },
@@ -785,8 +786,8 @@
   },
 
   "member_page": {
-    "_dashboard": "Dashboard",
-    "_member_only": "Members only",
+    "_dashboard": "Home",
+    "_member_only": "VIP Access",
     "_vip_level": "VIP Levels",
     "_vip_level1": "1. Upgrade VIP1: The accumulated amount deposited in the I store is 15,000 USDT, the reward is 1,500 USDT, the profit point is increased to 25%, the daily traffic can reach 3,000-5,000 people, the VIP store function can be opened!, and fixed national international stations can be opened",
     "_vip_level2": "2. Upgrade the VIP2 store to deposit a cumulative amount of 30,000 USDT and receive a reward of 3,000 USDT. The profit point is increased to 30%. The daily traffic can reach 5,000-8,000 people. The VIP business post function can be activated, and the national international service station can be opened!",

@@ -16,7 +16,6 @@ import {
   ArrowDownIcon,
   ArrowNextIcon,
   CallIcon,
-  CancelIcon,
   CartIcon,
   CircleIcon,
   CircleUser,
@@ -173,10 +172,11 @@ export default function RootLayout({
           <div className="h-[10vh] flex items-center justify-around bg-gray-800">
             {!isCollapsed && (
               <Image
-                src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860059/tiktokshop-logo_rcmbaq.png"
-                alt="Logo"
-                width={150}
-                height={100}
+                className="rounded-full"
+                src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740281086/logo2_dwqmfv.png"
+                alt=""
+                width={250}
+                height={200}
               />
             )}
           </div>
@@ -428,6 +428,27 @@ export default function RootLayout({
                         width={20}
                       />
                       {t("_malaysia")}
+                    </NavigateLink>
+                  </div>
+                  <div
+                    className={`w-full flex items-start gap-2 cursor-pointer hover:bg-gray-200 py-2 px-4 ${
+                      locale === "fr"
+                        ? "text-neon_pink bg-gray-200 rounded"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    <NavigateLink
+                      href={pathname}
+                      locale="ms"
+                      className="w-full text-sm flex items-center justify-start gap-2"
+                    >
+                      <Image
+                        src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740287269/franch-flag_hgcujs.webp"
+                        alt=""
+                        height={20}
+                        width={20}
+                      />
+                      {t("_french")}
                     </NavigateLink>
                   </div>
                 </div>

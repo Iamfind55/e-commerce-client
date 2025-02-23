@@ -8,7 +8,7 @@ const protectedPaths = ["/customer"];
 const protectedClient = ["/client"];
 const protectedCart = ["/cart"];
 const intlMiddleware = createMiddleware({
-  locales: ["en", "th", "vi", "zh", "ms"],
+  locales: ["en", "th", "vi", "zh", "ms", "fr"],
   defaultLocale: "en",
 });
 
@@ -83,5 +83,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/:locale(en|th|vi|zh|ms)?/:path*", "/doctor/:path*"],
+  matcher: ["/", "/:locale(en|th|vi|zh|ms|fr)?/:path*", "/doctor/:path*"],
 };

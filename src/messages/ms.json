@@ -13,6 +13,7 @@
     "_thai": "Thai",
     "_china": "China",
     "_malaysia": "Melayu",
+    "_french": "Perancis",
     "_login_button": "Log masuk",
     "_my_cart": "Troli saya",
     "_categories": "Kategori",
@@ -603,7 +604,7 @@
 
   "shop_sidebar": {
     "_comment": "Komen:: Ini adalah bar sisi kedai",
-    "_dashboard": "Papan pemuka",
+    "_dashboard": "Laman Utama",
     "_product": "Produk",
     "_all_product": "Semua produk",
     "_apply_new_product": "Mohon produk baru",
@@ -615,7 +616,7 @@
     "_withdraw_history": "Sejarah pengeluaran",
     "_notification": "Pemberitahuan",
     "_contact_us": "Hubungi kami",
-    "_member_only": "Hanya untuk ahli",
+    "_member_only": "Akses VIP",
     "_apply_VIP_product": "Mohon produk VIP"
   },
 
@@ -728,7 +729,7 @@
   },
 
   "contact_page": {
-    "_dashboard": "Papan pemuka",
+    "_dashboard": "Laman Utama",
     "_contact_us": "Hubungi kami",
     "_description": "Hubungi pasukan khidmat pelanggan kami untuk mendapatkan bantuan mengenai sebarang masalah."
   },
@@ -785,8 +786,8 @@
   },
 
   "member_page": {
-    "_dashboard": "Papan Pemuka",
-    "_member_only": "Hanya untuk Ahli",
+    "_dashboard": "Laman Utama",
+    "_member_only": "Akses VIP",
     "_vip_level": "Tahap VIP",
     "_vip_level1": "1. Naik taraf VIP1: Jumlah deposit terkumpul di kedai I adalah 15,000 USDT, ganjaran adalah 1,500 USDT, titik keuntungan meningkat kepada 25%, trafik harian boleh mencapai 3,000-5,000 orang, fungsi kedai VIP boleh dibuka! Dan stesen antarabangsa tetap boleh dibuka",
     "_vip_level2": "2. Naik taraf VIP2: Deposit terkumpul di kedai sebanyak 30,000 USDT dan terima ganjaran 3,000 USDT, titik keuntungan meningkat kepada 30%, trafik harian boleh mencapai 5,000-8,000 orang, fungsi pos perniagaan VIP boleh diaktifkan, dan stesen perkhidmatan antarabangsa boleh dibuka!",
