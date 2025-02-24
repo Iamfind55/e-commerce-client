@@ -82,6 +82,13 @@ export const MUTATION_UPDATE_SHOP_PROFILE = gql`
           logo
           cover
         }
+        id_card_info {
+          id_card_image_back
+          id_card_image_front
+          id_card_number
+          id_card_image
+        }
+        store_name
         status
         shop_vip
       }

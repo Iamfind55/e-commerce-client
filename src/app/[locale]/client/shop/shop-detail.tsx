@@ -38,15 +38,29 @@ interface CloudinaryResponse {
 export default function ShopDetails() {
   const dispatch = useDispatch();
   const t = useTranslations("shop_management");
+  const s = useTranslations("shop_sign_up");
   const { errorMessage, successMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
 
   const [file, setFile] = React.useState<File | null>(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [cover, setCover] = React.useState<File | null>(null);
+  const [cardFront, setCardFront] = React.useState<File | null>(null);
+  const [cardBack, setCardBack] = React.useState<File | null>(null);
+  const [cardPeople, setCardPeople] = React.useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview, setPreview] = React.useState<string | null>(null);
   const [preview1, setPreview1] = React.useState<string | null>(null);
+  const [previewCardFront, setPreviewCardFront] = React.useState<string | null>(
+    null
+  );
+  const [previewCardBack, setPreviewCardBack] = React.useState<string | null>(
+    null
+  );
+  const [previewCardPeople, setPreviewCardPeople] = React.useState<
+    string | null
+  >(null);
+
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const [errorMessages1, setErrorMessages1] = React.useState<string | null>(
     null
@@ -64,6 +78,13 @@ export default function ShopDetails() {
       logo: "",
       cover: "",
     },
+    id_card_info: {
+      id_card_number: "",
+      id_card_image_front: "",
+      id_card_image_back: "",
+      id_card_image: "",
+    },
+    store_name: "",
     payment_method: [],
   });
   const [records, setRecords] = React.useState<IShopSocial[]>([]);
@@ -128,6 +149,33 @@ export default function ShopDetails() {
     }
   };
 
+  const handleChangeCardFront = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile2 = e.target.files?.[0];
+    if (selectedFile2) {
+      setErrorMessages(null);
+      setCardFront(selectedFile2);
+      setPreviewCardFront(URL.createObjectURL(selectedFile2)); // Generate preview URL
+    }
+  };
+
+  const handleChangeCardPeople = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile4 = e.target.files?.[0];
+    if (selectedFile4) {
+      setErrorMessages(null);
+      setCardPeople(selectedFile4);
+      setPreviewCardPeople(URL.createObjectURL(selectedFile4)); // Generate preview URL
+    }
+  };
+
+  const handleChangeCardBack = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile3 = e.target.files?.[0];
+    if (selectedFile3) {
+      setErrorMessages(null);
+      setCardBack(selectedFile3);
+      setPreviewCardBack(URL.createObjectURL(selectedFile3)); // Generate preview URL
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCurrentRecord((prev) => ({ ...prev, [name]: value }));
@@ -186,6 +234,10 @@ export default function ShopDetails() {
     try {
       let shopLogo: CloudinaryResponse = {};
       let shopCover: CloudinaryResponse = {};
+      let shopCardFront: CloudinaryResponse = {};
+      let shopCardBack: CloudinaryResponse = {};
+      let shopCardPeople: CloudinaryResponse = {};
+
       if (file) {
         const _formData = new FormData();
         _formData.append("file", file);
@@ -222,14 +274,66 @@ export default function ShopDetails() {
         shopCover = (await response.json()) as CloudinaryResponse; // Type assertion
       }
 
-      console.log("Cover", shopCover.secure_url);
-      console.log("Profile", shopLogo.secure_url);
+      if (cardFront) {
+        const _formData = new FormData();
+        _formData.append("file", cardFront);
+        _formData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+        );
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+          {
+            method: "POST",
+            body: _formData,
+          }
+        );
+        shopCardFront = (await response.json()) as CloudinaryResponse; // Type assertion
+      }
+
+      if (cardBack) {
+        const _formData = new FormData();
+        _formData.append("file", cardBack);
+        _formData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+        );
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+          {
+            method: "POST",
+            body: _formData,
+          }
+        );
+        shopCardBack = (await response.json()) as CloudinaryResponse; // Type assertion
+      }
+
+      if (cardPeople) {
+        const _formData = new FormData();
+        _formData.append("file", cardPeople);
+        _formData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UPLOAD_PRESET || ""
+        );
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_CLOUDINARY_URL || "",
+          {
+            method: "POST",
+            body: _formData,
+          }
+        );
+        shopCardPeople = (await response.json()) as CloudinaryResponse; // Type assertion
+      }
 
       const { data } = await updateShopInfo({
         variables: {
           data: {
             fullname: shopData.fullname,
             username: shopData.username,
+            store_name: shopData.store_name,
             ...(shopData.password && { password: shopData.password }),
             email: shopData.email,
             phone_number: shopData.phone_number,
@@ -237,6 +341,17 @@ export default function ShopDetails() {
             image: {
               cover: shopCover.secure_url || shopData.image?.cover,
               logo: shopLogo.secure_url || shopData.image?.logo,
+            },
+            id_card_info: {
+              id_card_image_front:
+                shopCardFront.secure_url ||
+                shopData.id_card_info?.id_card_image_front,
+              id_card_image_back:
+                shopCardBack.secure_url ||
+                shopData.id_card_info?.id_card_image_back,
+              id_card_image:
+                shopCardPeople.secure_url ||
+                shopData.id_card_info?.id_card_image,
             },
           },
         },
@@ -248,18 +363,26 @@ export default function ShopDetails() {
           duration: 3000,
         });
         const res = data.updateShopInformation.data;
+
         dispatch(
           login({
             fullname: res.fullname,
             username: res.username,
             email: res.email,
+            phone_number: res.phone_number,
             dob: res.dob,
             remark: res.remark,
             image: {
               logo: res.image.logo,
               cover: res.image.cover,
             },
+            id_card_info: {
+              id_card_image_back: res.id_card_info.id_card_image_back,
+              id_card_image_front: res.id_card_info.id_card_image_front,
+              id_card_image: res.id_card_info.id_card_image,
+            },
             status: res.status,
+            store_name: res.store_name,
             shop_vip: res.shop_vip ?? false,
           })
         );
@@ -313,8 +436,15 @@ export default function ShopDetails() {
           logo: null,
           cover: null,
         },
+        id_card_info: user.id_card_info || {
+          id_card_image_back: null,
+          id_card_image_front: null,
+          id_card_number: null,
+          id_card_image: null,
+        },
         payment_method: user.payment_method || [],
         status: user.status || null,
+        store_name: user.store_name || null,
         shop_vip: user.shop_vip || null,
         created_at: user.created_at || null,
       });
@@ -343,19 +473,19 @@ export default function ShopDetails() {
   return (
     <>
       <div className="w-full flex items-start justify-center gap-2 sm:flex-row flex-col">
-        <div className="w-full rounded bg-white p-4 shadow-md">
+        <div className="w-full rounded p-4 shadow-md">
           <form
             className="w-full py-2 flex items-start justify-start flex-col gap-4"
             onSubmit={handleSubmitForm}
           >
-            <div className="w-full flex items-start justify-start flex-col gap-4">
+            <div className="w-full flex items-start justify-start flex-col gap-6">
               <div className="w-full border-b py-1">
                 <p className="text-sm text-gray-500">{t("_title")}:</p>
               </div>
 
-              <div className="w-full flex items-start justify-start gap-6 my-4">
-                <div className="w-2/4 flex items-start justify-start gap-4">
-                  <div>
+              <div className="w-full flex items-start justify-start gap-4">
+                <div className="w-2/4 flex items-start justify-start gap-6 p-2 rounded bg-white">
+                  <div className="w-2/4 flex items-center justify-center flex-col gap-4">
                     {preview ? (
                       <Image
                         src={preview}
@@ -381,85 +511,36 @@ export default function ShopDetails() {
                         className="max-w-full h-auto border rounded"
                       />
                     )}
-                  </div>
-                  <div className="flex items-start justify-start flex-col gap-2">
-                    <label className="block text-gray-500 text-xs">
-                      {t("_upload_logo")}
-                    </label>
-                    <input
-                      type="file"
-                      accept=".jpg,.jpeg,.png"
-                      id="file-upload"
-                      onChange={handleFileChange}
-                      className="block w-full hidden"
-                    />
-                    {errorMessages && (
-                      <p className="text-red-500 text-xs">{errorMessages}</p>
-                    )}
-                    <div className="flex items-start justify-start gap-4">
-                      <label
-                        htmlFor="file-upload"
-                        className="text-xs border p-2 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
-                      >
-                        {t("_select_new")}
+                    <div className="flex items-center justify-center flex-col gap-2">
+                      <label className="block text-gray-500 text-xs">
+                        {t("_upload_logo")}
                       </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-2/4 flex items-start justify-center flex-col gap-2">
-                  <div className="flex items-center justify-start gap-6">
-                    <label className="block text-gray-500 text-sm">
-                      {t("_upload_cover")}
-                    </label>
-                    <input
-                      type="file"
-                      accept=".jpg,.jpeg,.png"
-                      id="cover-upload"
-                      onChange={handleChangeCover}
-                      className="block w-full hidden"
-                    />
-                    {errorMessages1 && (
-                      <p className="text-red-500 text-xs">{errorMessages1}</p>
-                    )}
-                    <div className="flex items-start justify-start gap-4 border rounded py-1 px-4 cursor-pointer">
-                      <label
-                        htmlFor="cover-upload"
-                        className="text-xs text-gray-500 rounded flex items-center justify-center cursor-pointer"
-                      >
-                        {t("_select_new")}
-                      </label>
-                    </div>
-                  </div>
-                  {shopData?.image?.cover ? (
-                    <div className="w-full">
-                      {preview1 ? (
-                        <Image
-                          src={preview1}
-                          width={600}
-                          height={400}
-                          alt="Image preview"
-                          className="w-full h-32 object-cover border rounded"
-                        />
-                      ) : shopData?.image?.cover ? (
-                        <Image
-                          src={shopData?.image?.cover}
-                          width={600}
-                          height={400}
-                          alt="Image preview"
-                          className="w-full h-32 object-cover border rounded"
-                        />
-                      ) : (
-                        <Image
-                          src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
-                          width={600}
-                          height={400}
-                          alt="Image preview"
-                          className="w-full h-32 object-cover border rounded"
-                        />
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        id="file-upload"
+                        onChange={handleFileChange}
+                        className="block w-full hidden"
+                      />
+                      {errorMessages && (
+                        <p className="text-red-500 text-xs">{errorMessages}</p>
                       )}
+                      <div className="flex items-start justify-start gap-4">
+                        <label
+                          htmlFor="file-upload"
+                          className="text-xs border px-2 py-1 rounded flex items-center justify-center cursor-pointer bg-neon_pink"
+                        >
+                          <PlusIcon />
+                          {t("_select_new")}
+                        </label>
+                      </div>
                     </div>
-                  ) : (
-                    <div className="w-full flex items-center justify-center py-4 rounded-md flex-col gap-3  border border-dotted border-gray-500">
+                  </div>
+                  <div className="w-2/4 flex items-start justify-center flex-col gap-2">
+                    <div className="flex items-center justify-start gap-6">
+                      <label className="block text-gray-500 text-sm">
+                        {t("_upload_cover")}
+                      </label>
                       <input
                         type="file"
                         accept=".jpg,.jpeg,.png"
@@ -467,334 +548,533 @@ export default function ShopDetails() {
                         onChange={handleChangeCover}
                         className="block w-full hidden"
                       />
-                      {errorMessages && (
-                        <p className="text-red-500 text-xs">{errorMessages}</p>
+                      {errorMessages1 && (
+                        <p className="text-red-500 text-xs">{errorMessages1}</p>
                       )}
-                      <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
-                        <label
-                          htmlFor="cover-upload"
-                          className="text-sm rounded flex items-center justify-center cursor-pointer"
-                        >
-                          <PlusIcon className="text-gray-500" />
-                        </label>
+                      <label
+                        htmlFor="cover-upload"
+                        className="text-xs text-gray-500 hover:text-neon_pink rounded flex items-center justify-center cursor-pointer border border-dotted border-gray-200 px-2 py-0.5"
+                      >
+                        <PlusIcon />
+                        New
+                      </label>
+                    </div>
+                    {shopData?.image?.cover ? (
+                      <div className="w-full">
+                        {preview1 ? (
+                          <Image
+                            src={preview1}
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : shopData?.image?.cover ? (
+                          <Image
+                            src={shopData?.image?.cover}
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : (
+                          <Image
+                            src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        )}
                       </div>
+                    ) : (
+                      <div className="w-full flex items-center justify-center py-4 rounded-md flex-col gap-3  border border-dotted border-gray-500">
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png"
+                          id="cover-upload"
+                          onChange={handleChangeCover}
+                          className="block w-full hidden"
+                        />
+                        {errorMessages && (
+                          <p className="text-red-500 text-xs">
+                            {errorMessages}
+                          </p>
+                        )}
+                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                          <label
+                            htmlFor="cover-upload"
+                            className="text-sm rounded flex items-center justify-center cursor-pointer"
+                          >
+                            <PlusIcon className="text-gray-500" />
+                          </label>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="w-2/4 bg-white rounded p-4">
+                  <div className="w-full flex items-start justify-between flex-col gap-2">
+                    <div className="w-full flex items-center justify-between">
+                      <label className="block text-gray-500 text-xs">
+                        Upload a photo of yourself holding your ID card:
+                      </label>
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        id="card-people-upload"
+                        onChange={handleChangeCardPeople}
+                        className="block w-full hidden"
+                      />
+                      {errorMessages1 && (
+                        <p className="text-red-500 text-xs">{errorMessages1}</p>
+                      )}
+                      <label
+                        htmlFor="card-people-upload"
+                        className="text-xs text-gray-500 hover:text-neon_pink rounded flex items-center justify-center cursor-pointer border border-dotted border-gray-200 px-2 py-0.5"
+                      >
+                        <PlusIcon />
+                        New
+                      </label>
+                    </div>
+                    {shopData?.id_card_info?.id_card_image ||
+                    previewCardPeople ? (
+                      <div className="w-full">
+                        {previewCardPeople ? (
+                          <Image
+                            src={previewCardPeople}
+                            width={600}
+                            height={600}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : shopData?.id_card_info?.id_card_image ? (
+                          <Image
+                            src={shopData?.id_card_info?.id_card_image}
+                            width={600}
+                            height={600}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : (
+                          <Image
+                            src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
+                            width={600}
+                            height={600}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <div className="w-full flex items-center justify-center py-4 rounded-md flex-col gap-3  border border-dotted border-gray-500">
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png"
+                          id="card-people-upload"
+                          onChange={handleChangeCardPeople}
+                          className="block w-full hidden"
+                        />
+                        {errorMessages && (
+                          <p className="text-red-500 text-xs">
+                            {errorMessages}
+                          </p>
+                        )}
+                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                          <label
+                            htmlFor="card-people-upload"
+                            className="text-sm rounded flex items-center justify-center cursor-pointer"
+                          >
+                            <PlusIcon className="text-gray-500" />
+                          </label>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="w-full flex items-start jusitfy-start gap-4">
+                <div className="w-2/4 bg-white p-4 rounded-md">
+                  <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
+                    <Textfield
+                      placeholder={t("_shop_name_placeholder")}
+                      title={t("_shop_name")}
+                      name="fullname"
+                      id="fullname"
+                      type="text"
+                      required
+                      value={shopData.store_name || ""}
+                      onChange={(e) =>
+                        setShopData({
+                          ...shopData,
+                          store_name: e.target.value,
+                        })
+                      }
+                    />
+                    <Textfield
+                      placeholder={s("_full_name_placeholder")}
+                      title={s("_full_name")}
+                      name="fullname"
+                      id="fullname"
+                      type="text"
+                      required
+                      value={shopData.fullname || ""}
+                      onChange={(e) =>
+                        setShopData({
+                          ...shopData,
+                          fullname: e.target.value,
+                        })
+                      }
+                    />
+                    <Textfield
+                      placeholder={t("_username_placeholder")}
+                      title={t("_username")}
+                      name="username"
+                      id="username"
+                      type="text"
+                      required
+                      value={shopData.username || ""}
+                      onChange={(e) =>
+                        setShopData({
+                          ...shopData,
+                          username: e.target.value,
+                        })
+                      }
+                    />
+                    <Textfield
+                      placeholder={t("_phone_number_placeholder")}
+                      title={t("_phone_number")}
+                      name="phone_number"
+                      id="phone_number"
+                      type="text"
+                      required
+                      value={shopData.phone_number || ""}
+                      onChange={(e) =>
+                        setShopData({
+                          ...shopData,
+                          phone_number: e.target.value,
+                        })
+                      }
+                    />
+                    <Textfield
+                      placeholder={t("_email_placeholder")}
+                      title={t("_email")}
+                      name="email"
+                      id="email"
+                      type="text"
+                      required
+                      value={shopData.email || ""}
+                      onChange={(e) =>
+                        setShopData({
+                          ...shopData,
+                          email: e.target.value,
+                        })
+                      }
+                    />
+                    <Password
+                      title={t("_password")}
+                      name="password"
+                      id="password"
+                      required
+                      value={shopData.password || "************"}
+                      onChange={(e) =>
+                        setShopData({
+                          ...shopData,
+                          password: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <Textfield
+                    title="VIP status"
+                    name="status"
+                    id="status"
+                    type="text"
+                    value={"VIP " + shopData.shop_vip || ""}
+                    readOnly
+                    // className="bg-gray-200"
+                  />
+                  <Textfield
+                    placeholder={t("_remark_placeholder")}
+                    title="Address"
+                    name="remark"
+                    id="remark"
+                    type="text"
+                    multiline
+                    rows={2}
+                    required
+                    value={shopData.remark || ""}
+                    onChange={(e) =>
+                      setShopData({
+                        ...shopData,
+                        remark: e.target.value,
+                      })
+                    }
+                  />
+                  <Textfield
+                    placeholder={t("_remark_placeholder")}
+                    title={t("_remark")}
+                    name="remark"
+                    id="remark"
+                    type="text"
+                    multiline
+                    rows={2}
+                    value={shopData.remark || ""}
+                    onChange={(e) =>
+                      setShopData({
+                        ...shopData,
+                        remark: e.target.value,
+                      })
+                    }
+                  />
+                  <div className="w-full border-b py-1 mt-4">
+                    <p className="text-xs text-gray-500 font-bold">
+                      {t("_social_media_detail")}:
+                    </p>
+                  </div>
+                  <div className="w-full flex item-start justify-start gap-2 my-4">
+                    <div className="w-full flex item-start justify-start gap-2">
+                      <Textfield
+                        placeholder={t("_name_placeholder")}
+                        title={t("_name")}
+                        name="name"
+                        id="name"
+                        type="text"
+                        value={currentRecord.name}
+                        onChange={handleInputChange}
+                      />
+                      <Textfield
+                        placeholder={t("_link_placeholder")}
+                        title={t("_link")}
+                        name="link"
+                        id="link"
+                        type="text"
+                        value={currentRecord.link}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="text-1/5 flex items-center justify-start">
+                      <IconButton
+                        className="rounded bg-neon_blue border text-white text-xs mt-4"
+                        title={t("_add_button")}
+                        icon={<PlusIcon size={18} className="text-pink" />}
+                        isFront={true}
+                        type="button"
+                        onClick={handleAddRecord}
+                      />
+                    </div>
+                  </div>
+
+                  {records.length > 0 && (
+                    <div className="w-full text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
+                      <p className="text-xs text-gray-500">
+                        {t("_social_media_detail")}:
+                      </p>
+                      {records.map((record, index) => (
+                        <div
+                          key={index}
+                          className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
+                        >
+                          <div className="flex gap-4">
+                            <span className="text-xs">
+                              {index + 1}. {record.name}
+                            </span>
+                            <span className="text-xs">{record.link}</span>
+                          </div>
+                          <TrashIcon
+                            size={18}
+                            className="text-gray-500 hover:text-neon_pink cursor-pointer"
+                            onClick={() => handleDeleteRecord(index)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {socials.length > 0 && (
+                    <div className="w-full text-gray-500 py-2 rounded flex items-start justify-start gap-2 flex-col">
+                      {socials.map((social, index) => (
+                        <div
+                          key={index}
+                          className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
+                        >
+                          <div className="flex gap-4">
+                            <span className="text-xs">
+                              {index + 1}. {social.name}
+                            </span>
+                            <span className="text-xs">{social.link}</span>
+                          </div>
+                          <TrashIcon
+                            size={18}
+                            className="text-gray-500 hover:text-neon_pink cursor-pointer"
+                            onClick={() => {
+                              handleOpenDeleteModal();
+                              setSocialId(social.id ?? "");
+                            }}
+                          />
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
-              </div>
-              <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
-                <Textfield
-                  placeholder={t("_shop_name_placeholder")}
-                  title={t("_shop_name")}
-                  name="fullname"
-                  id="fullname"
-                  type="text"
-                  required
-                  value={shopData.fullname || ""}
-                  onChange={(e) =>
-                    setShopData({
-                      ...shopData,
-                      fullname: e.target.value,
-                    })
-                  }
-                />
-                <Textfield
-                  placeholder={t("_username_placeholder")}
-                  title={t("_username")}
-                  name="username"
-                  id="username"
-                  type="text"
-                  required
-                  value={shopData.username || ""}
-                  onChange={(e) =>
-                    setShopData({
-                      ...shopData,
-                      username: e.target.value,
-                    })
-                  }
-                />
-                <Textfield
-                  placeholder={t("_phone_number_placeholder")}
-                  title={t("_phone_number")}
-                  name="phone_number"
-                  id="phone_number"
-                  type="text"
-                  required
-                  value={shopData.phone_number || ""}
-                  onChange={(e) =>
-                    setShopData({
-                      ...shopData,
-                      phone_number: e.target.value,
-                    })
-                  }
-                />
-                <Textfield
-                  placeholder={t("_email_placeholder")}
-                  title={t("_email")}
-                  name="email"
-                  id="email"
-                  type="text"
-                  required
-                  value={shopData.email || ""}
-                  onChange={(e) =>
-                    setShopData({
-                      ...shopData,
-                      email: e.target.value,
-                    })
-                  }
-                />
-                <Password
-                  title={t("_password")}
-                  name="password"
-                  id="password"
-                  required
-                  value={shopData.password || "************"}
-                  onChange={(e) =>
-                    setShopData({
-                      ...shopData,
-                      password: e.target.value,
-                    })
-                  }
-                />
-                <Textfield
-                  title={t("_status")}
-                  name="status"
-                  id="status"
-                  type="text"
-                  required
-                  readOnly
-                />
-              </div>
-              <Textfield
-                placeholder={t("_remark_placeholder")}
-                title={t("_remark")}
-                name="remark"
-                id="remark"
-                type="text"
-                multiline
-                rows={2}
-                required
-                value={shopData.remark || ""}
-                onChange={(e) =>
-                  setShopData({
-                    ...shopData,
-                    remark: e.target.value,
-                  })
-                }
-              />
-
-              {/* <div className="w-full border-b py-1">
-              <p className="text-sm text-gray-500">Set default language:</p>
-            </div>
-            <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded sm:flex">
-              <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
-                <div className="flex items-center ps-3">
-                  <input
-                    id="english-language"
-                    type="radio"
-                    value=""
-                    name="list-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-2"
-                  />
-                  <label
-                    htmlFor="english-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
-                  >
-                    <Image
-                      src={EnglishFlag}
-                      alt="english"
-                      height={20}
-                      width={20}
-                    />
-                    English
-                  </label>
-                </div>
-              </li>
-              <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
-                <div className="flex items-center ps-3">
-                  <input
-                    id="thai-language"
-                    type="radio"
-                    value=""
-                    name="list-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
-                  />
-                  <label
-                    htmlFor="thai-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
-                  >
-                    <Image
-                      src={ThaiFlag}
-                      alt="english"
-                      height={20}
-                      width={20}
-                    />
-                    Thai
-                  </label>
-                </div>
-              </li>
-              <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
-                <div className="flex items-center ps-3">
-                  <input
-                    id="vietnam-language"
-                    type="radio"
-                    value=""
-                    name="list-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-2"
-                  />
-                  <label
-                    htmlFor="vietnam-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
-                  >
-                    <Image
-                      src={VietnamFlag}
-                      alt="vietnam"
-                      height={20}
-                      width={20}
-                    />
-                    Vietnam
-                  </label>
-                </div>
-              </li>
-              <li className="w-full">
-                <div className="flex items-center ps-3">
-                  <input
-                    id="chines-language"
-                    type="radio"
-                    value=""
-                    name="list-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-2"
-                  />
-                  <label
-                    htmlFor="chines-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
-                  >
-                    <Image
-                      src={ChinesFlag}
-                      alt="chines"
-                      height={20}
-                      width={20}
-                    />
-                    Chines
-                  </label>
-                </div>
-              </li>
-              <li className="w-full">
-                <div className="flex items-center ps-3">
-                  <input
-                    id="malaysia-language"
-                    type="radio"
-                    value=""
-                    name="list-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-2"
-                  />
-                  <label
-                    htmlFor="malaysia-language"
-                    className="w-full py-3 ms-2 text-xs text-gray-500 flex items-center justify-start gap-2"
-                  >
-                    <Image
-                      src={MalaysiaFlag}
-                      alt="chines"
-                      height={20}
-                      width={20}
-                    />
-                    Malaysia
-                  </label>
-                </div>
-              </li>
-            </ul> */}
-
-              <div className="w-full border-b py-1">
-                <p className="text-sm text-gray-500">
-                  {t("_social_media_detail")}:
-                </p>
-              </div>
-              <div className="w-full flex item-start justify-start gap-2">
-                <div className="w-4/5 flex item-start justify-start gap-2">
-                  <Textfield
-                    placeholder={t("_name_placeholder")}
-                    title={t("_name")}
-                    name="name"
-                    id="name"
-                    type="text"
-                    value={currentRecord.name}
-                    onChange={handleInputChange}
-                  />
-                  <Textfield
-                    placeholder={t("_link_placeholder")}
-                    title={t("_link")}
-                    name="link"
-                    id="link"
-                    type="text"
-                    value={currentRecord.link}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="text-1/5 flex items-center justify-start">
-                  <IconButton
-                    className="rounded bg-neon_blue border text-white text-xs mt-4"
-                    title={t("_add_button")}
-                    icon={<PlusIcon size={18} className="text-pink" />}
-                    isFront={true}
-                    type="button"
-                    onClick={handleAddRecord}
-                  />
-                </div>
-              </div>
-
-              {records.length > 0 && (
-                <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
-                  <p className="text-xs text-gray-500">
-                    {t("_social_media_detail")}:
-                  </p>
-                  {records.map((record, index) => (
-                    <div
-                      key={index}
-                      className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
-                    >
-                      <div className="flex gap-4">
-                        <span className="text-xs">
-                          {index + 1}. {record.name}
-                        </span>
-                        <span className="text-xs">{record.link}</span>
-                      </div>
-                      <TrashIcon
-                        size={18}
-                        className="text-gray-500 hover:text-neon_pink cursor-pointer"
-                        onClick={() => handleDeleteRecord(index)}
+                <div className="w-2/4 flex items-start justify-start flex-col gap-6 bg-white rounded p-2">
+                  <div className="w-full flex items-start justify-center flex-col gap-4">
+                    <div className="w-full flex items-center justify-between gap-2">
+                      <label className="block text-gray-500 text-xs">
+                        Front of Identify card:
+                      </label>
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        id="card-front-upload"
+                        onChange={handleChangeCardFront}
+                        className="block w-full hidden"
                       />
+                      {errorMessages1 && (
+                        <p className="text-red-500 text-xs">{errorMessages1}</p>
+                      )}
+                      <label
+                        htmlFor="card-front-upload"
+                        className="text-xs text-gray-500 hover:text-neon_pink rounded flex items-center justify-center cursor-pointer border border-dotted border-gray-200 px-2 py-0.5"
+                      >
+                        <PlusIcon />
+                        New
+                      </label>
                     </div>
-                  ))}
-                </div>
-              )}
-              {socials.length > 0 && (
-                <div className="w-4/5 text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
-                  <p className="text-xs text-gray-500">
-                    {t("_social_media_detail")}:
-                  </p>
-                  {socials.map((social, index) => (
-                    <div
-                      key={index}
-                      className=" w-full p-2 rounded flex items-center justify-between gap-4 border"
-                    >
-                      <div className="flex gap-4">
-                        <span className="text-xs">
-                          {index + 1}. {social.name}
-                        </span>
-                        <span className="text-xs">{social.link}</span>
+                    {shopData?.id_card_info?.id_card_image_front ||
+                    previewCardFront ? (
+                      <div className="w-full">
+                        {previewCardFront ? (
+                          <Image
+                            src={previewCardFront}
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : shopData?.id_card_info?.id_card_image_front ? (
+                          <Image
+                            src={shopData?.id_card_info?.id_card_image_front}
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : (
+                          <Image
+                            src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        )}
                       </div>
-                      <TrashIcon
-                        size={18}
-                        className="text-gray-500 hover:text-neon_pink cursor-pointer"
-                        onClick={() => {
-                          handleOpenDeleteModal();
-                          setSocialId(social.id ?? "");
-                        }}
+                    ) : (
+                      <div className="w-full flex items-center justify-center py-4 rounded-md flex-col gap-3  border border-dotted border-gray-500">
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png"
+                          id="card-front-upload"
+                          onChange={handleChangeCardFront}
+                          className="block w-full hidden"
+                        />
+                        {errorMessages && (
+                          <p className="text-red-500 text-xs">
+                            {errorMessages}
+                          </p>
+                        )}
+                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                          <label
+                            htmlFor="card-front-upload"
+                            className="text-sm rounded flex items-center justify-center cursor-pointer"
+                          >
+                            <PlusIcon className="text-gray-500" />
+                          </label>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="w-full flex items-start justify-center flex-col gap-2">
+                    <div className="w-full flex items-center justify-between gap-2">
+                      <label className="block text-gray-500 text-xs">
+                        Back of Identify card:
+                      </label>
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        id="card-back-upload"
+                        onChange={handleChangeCardBack}
+                        className="block w-full hidden"
                       />
+                      {errorMessages1 && (
+                        <p className="text-red-500 text-xs">{errorMessages1}</p>
+                      )}
+                      <label
+                        htmlFor="card-back-upload"
+                        className="text-xs text-gray-500 hover:text-neon_pink rounded flex items-center justify-center cursor-pointer border border-dotted border-gray-200 px-2 py-0.5"
+                      >
+                        <PlusIcon />
+                        New
+                      </label>
                     </div>
-                  ))}
+                    {shopData?.id_card_info?.id_card_image_back ||
+                    previewCardBack ? (
+                      <div className="w-full">
+                        {previewCardBack ? (
+                          <Image
+                            src={previewCardBack}
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : shopData?.id_card_info?.id_card_image_back ? (
+                          <Image
+                            src={shopData?.id_card_info?.id_card_image_back}
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        ) : (
+                          <Image
+                            src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
+                            width={600}
+                            height={400}
+                            alt="Image preview"
+                            className="w-full h-32 object-cover border rounded"
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <div className="w-full flex items-center justify-center py-4 rounded-md flex-col gap-3  border border-dotted border-gray-500">
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png"
+                          id="card-back-upload"
+                          onChange={handleChangeCardBack}
+                          className="block w-full hidden"
+                        />
+                        {errorMessages && (
+                          <p className="text-red-500 text-xs">
+                            {errorMessages}
+                          </p>
+                        )}
+                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                          <label
+                            htmlFor="card-back-upload"
+                            className="text-sm rounded flex items-center justify-center cursor-pointer"
+                          >
+                            <PlusIcon className="text-gray-500" />
+                          </label>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="flex items-center justify-start gap-4 mt-4">
@@ -806,7 +1086,7 @@ export default function ShopDetails() {
                 type="button"
               />
               <IconButton
-                className={`rounded p-2 text-xs bg-neon_blue text-white`}
+                className={`rounded p-2 text-xs bg-neon_pink text-white`}
                 title={isLoading ? t("_saving_button") : t("_save_button")}
                 icon={isLoading ? <Loading /> : ""}
                 isFront={true}

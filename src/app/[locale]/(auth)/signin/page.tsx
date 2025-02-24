@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@apollo/client";
 
 // components
-import { AppleIcon, FacebookIcon, GoogleIcon, NextIcon } from "@/icons/page";
+import { NextIcon } from "@/icons/page";
 import Password from "@/components/passwordTextField";
 import GlobalSlider from "../../(pages)/home/slider";
 import IconButton from "@/components/iconButton";
@@ -72,6 +72,7 @@ export default function Login() {
           duration: 3000,
         });
         const res = data.shopLogin.data;
+
         dispatch(
           login({
             id: res.data.id || "",
@@ -85,6 +86,14 @@ export default function Login() {
               logo: res.data.image?.logo || "",
               cover: res.data.image?.cover || "",
             },
+            id_card_info: {
+              id_card_number: res.data.id_card_info.id_card_number || "",
+              id_card_image_front:
+                res.data.id_card_info.id_card_image_front || "",
+              id_card_image_back:
+                res.data.id_card_info.id_card_image_back || "",
+              id_card_image: res.data.id_card_info.id_card_image || "",
+            },
             payment_method:
               res?.data?.payment_method?.map((method: any) => ({
                 id: method.id || "",
@@ -94,6 +103,7 @@ export default function Login() {
                 bank_account_number: method.bank_account_number || "",
               })) || [],
             status: res.data.status || "",
+            store_name: res.data.store_name || "",
             shop_vip: res.data.shop_vip ?? false, // Fallbacks to `false` if `shop_vip` is null/undefined
             created_at: res.data.created_at || "",
           })

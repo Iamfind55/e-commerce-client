@@ -46,6 +46,13 @@ export const MUTATION_SHOP_SIGN_IN = gql`
           created_by
           created_at
           updated_at
+          store_name
+          id_card_info {
+            id_card_number
+            id_card_image_front
+            id_card_image_back
+            id_card_image
+          }
         }
       }
       error {

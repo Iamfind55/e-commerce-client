@@ -6,6 +6,7 @@ export const initialState = {
     email: "",
     dob: "",
     remark: "",
+    phone_number: "",
     image: {
       logo: "",
       cover: "",
@@ -17,6 +18,13 @@ export const initialState = {
       bank_account_name: "",
       bank_account_number: "",
     },
+    id_card_info: {
+      id_card_number: "",
+      id_card_image_front: "",
+      id_card_image_back: "",
+      id_card_image: "",
+    },
+    store_name: "",
     status: "",
     shop_vip: false,
     created_at: "",

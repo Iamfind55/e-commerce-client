@@ -3,6 +3,13 @@ export interface IImage {
   cover: string | null;
 }
 
+export interface ICardImages {
+  id_card_number: "";
+  id_card_image_front: "";
+  id_card_image_back: "";
+  id_card_image: "";
+}
+
 export interface IPaymentMethod {
   id: string | null;
   bank_name: string | null;
@@ -21,7 +28,9 @@ export interface IUserData {
   dob?: string | null;
   remark?: string | null;
   image?: IImage;
+  id_card_info?: ICardImages;
   payment_method?: IPaymentMethod[];
+  store_name?: string | null;
   status?: string | null;
   shop_vip?: number | null;
   created_at?: string | null;

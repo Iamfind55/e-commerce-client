@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 
 const createApolloClient = () => {
   const httpLink = new HttpLink({
-    // uri: "https://klyjbmqt8c.execute-api.ap-southeast-1.amazonaws.com/graphql",
     uri: "https://api.tiktokshop.online/graphql",
   });
 
