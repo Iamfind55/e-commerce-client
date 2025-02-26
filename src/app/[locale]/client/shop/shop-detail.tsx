@@ -37,10 +37,13 @@ interface CloudinaryResponse {
 
 export default function ShopDetails() {
   const dispatch = useDispatch();
-  const t = useTranslations("shop_management");
+  const m = useTranslations("myCartPage");
   const s = useTranslations("shop_sign_up");
+  const t = useTranslations("shop_management");
   const { errorMessage, successMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
+
+  console.log(user);
 
   const [file, setFile] = React.useState<File | null>(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -74,6 +77,7 @@ export default function ShopDetails() {
     phone_number: "",
     dob: "",
     remark: "",
+    shop_address: "",
     image: {
       logo: "",
       cover: "",
@@ -212,7 +216,7 @@ export default function ShopDetails() {
         });
         if (data.deleteShopSocial.success) {
           refetch();
-          errorMessage({
+          successMessage({
             message: "Delete shop social successful!",
             duration: 3000,
           });
@@ -338,6 +342,7 @@ export default function ShopDetails() {
             email: shopData.email,
             phone_number: shopData.phone_number,
             remark: shopData.remark,
+            shop_address: shopData.shop_address,
             image: {
               cover: shopCover.secure_url || shopData.image?.cover,
               logo: shopLogo.secure_url || shopData.image?.logo,
@@ -366,12 +371,14 @@ export default function ShopDetails() {
 
         dispatch(
           login({
+            id: res.id,
             fullname: res.fullname,
             username: res.username,
             email: res.email,
             phone_number: res.phone_number,
             dob: res.dob,
             remark: res.remark,
+            shop_address: res.shop_address,
             image: {
               logo: res.image.logo,
               cover: res.image.cover,
@@ -432,6 +439,7 @@ export default function ShopDetails() {
         phone_number: user.phone_number || null,
         dob: user.dob || null,
         remark: user.remark || null,
+        shop_address: user.shop_address || null,
         image: user.image || {
           logo: null,
           cover: null,
@@ -796,19 +804,19 @@ export default function ShopDetails() {
                     // className="bg-gray-200"
                   />
                   <Textfield
-                    placeholder={t("_remark_placeholder")}
-                    title="Address"
-                    name="remark"
-                    id="remark"
+                    placeholder={m("_address_placeholder")}
+                    title={m("_address")}
+                    name="shop_address"
+                    id="shop_address"
                     type="text"
                     multiline
                     rows={2}
                     required
-                    value={shopData.remark || ""}
+                    value={shopData.shop_address || ""}
                     onChange={(e) =>
                       setShopData({
                         ...shopData,
-                        remark: e.target.value,
+                        shop_address: e.target.value,
                       })
                     }
                   />
@@ -866,7 +874,7 @@ export default function ShopDetails() {
                     </div>
                   </div>
 
-                  {records.length > 0 && (
+                  {records?.length > 0 && (
                     <div className="w-full text-gray-500 p-2 rounded flex items-start justify-start gap-2 flex-col">
                       <p className="text-xs text-gray-500">
                         {t("_social_media_detail")}:
@@ -892,7 +900,7 @@ export default function ShopDetails() {
                     </div>
                   )}
 
-                  {socials.length > 0 && (
+                  {socials?.length > 0 && (
                     <div className="w-full text-gray-500 py-2 rounded flex items-start justify-start gap-2 flex-col">
                       {socials.map((social, index) => (
                         <div

@@ -27,6 +27,7 @@ export interface IUserData {
   phone_number: string | null;
   dob?: string | null;
   remark?: string | null;
+  shop_address?: string | null;
   image?: IImage;
   id_card_info?: ICardImages;
   payment_method?: IPaymentMethod[];

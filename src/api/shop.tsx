@@ -78,6 +78,7 @@ export const MUTATION_UPDATE_SHOP_PROFILE = gql`
         email
         dob
         remark
+        shop_address
         image {
           logo
           cover

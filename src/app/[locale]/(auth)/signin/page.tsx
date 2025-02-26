@@ -82,6 +82,7 @@ export default function Login() {
             email: res.data.email || "",
             dob: res.data.dob || "",
             remark: res.data.remark || "",
+            shop_address: res.data.shop_address || "",
             image: {
               logo: res.data.image?.logo || "",
               cover: res.data.image?.cover || "",

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 export default function ContactUs() {
   const t = useTranslations("contact_page");
+  const h = useTranslations("homePage");
   return (
     <>
       <Breadcrumb
@@ -14,7 +15,7 @@ export default function ContactUs() {
         ]}
       />
       <a
-        href="https://t.me/Telegram"
+        href="https://t.me/Tiktokshop24h_online"
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center flex-col gap-3 rounded py-6 text-gray-500 mt-6 cursor-pointer"
@@ -31,9 +32,9 @@ export default function ContactUs() {
         </div>
       </a>
       <div className="flex items-center justify-center flex-col gap-3 text-gray-500 cursor-pointer">
-        <div className="w-2/5 bg-white text-center p-4 rounded">
+        <div className="w-auto sm:w-2/5 bg-white text-center p-4 rounded">
           <p className="text-sm text-gray-500">
-            Email:&nbsp;
+            {h("_email")}:&nbsp;
             <Link
               href="mailto:info@tiktokshop.online"
               className="underline hover:text-neon_pink"

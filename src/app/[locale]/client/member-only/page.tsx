@@ -36,7 +36,7 @@ export default function MemberOnly() {
         ]}
       />
       <div className="bg-white w-full h-auto rounded-sm flex items-start justify-start flex-col mt-4 text-gray-500">
-        <div className="w-full flex items-start justify-start flex-col gap-6 my-6 px-6">
+        <div className="w-full flex items-start justify-start flex-col gap-6 my-6 px-2 sm:px-6">
           <div className="w-full">
             <div className="w-full flex items-center justify-center">
               <h1 className="text-xl text-gray-800">{t("_vip_level")}</h1>

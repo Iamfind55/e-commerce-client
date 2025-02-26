@@ -48,14 +48,14 @@ export default function ShopWallet() {
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
 
   const [rechargeData, setRechargeData] = React.useState<IRecharge>({
-    amout_recharged: 1,
+    amount_recharged: 1,
     coin_type: "",
     account_number: "",
     image: "",
   });
   const [withdrawData, setWithdrawData] = React.useState<IWithdraw>({
     account_number: "",
-    amout_withdraw: 1,
+    amount_withdraw: 1,
     coin_type: "",
   });
   const [shopRecharge] = useMutation(MUTATION_SHOP_RECHARGE);
@@ -68,27 +68,31 @@ export default function ShopWallet() {
   const handleIncreaseQuantity = () => {
     setRechargeData((prev) => ({
       ...prev,
-      amout_recharged: prev.amout_recharged + 1,
+      amount_recharged: prev.amount_recharged + 1,
     }));
   };
 
   const handleDecreaseQuantity = () => {
-    if (rechargeData.amout_recharged > 0) {
+    if (rechargeData.amount_recharged > 0) {
       setRechargeData((prev) => ({
         ...prev,
-        amout_recharged: prev.amout_recharged - 1,
+        amount_recharged: prev.amount_recharged - 1,
       }));
     }
   };
 
   const handleIncreaseWithdrawQuantity = () => {
-    setWithdrawQuantity((prevQuantity) => prevQuantity + 1);
+    setWithdrawData((prev) => ({
+      ...prev,
+      amount_withdraw: prev.amount_withdraw + 1,
+    }));
   };
 
   const handleDecreaseWithdrawQuantity = () => {
-    setWithdrawQuantity((prevQuantity) =>
-      prevQuantity > 1 ? prevQuantity - 1 : 1
-    );
+    setWithdrawData((prev) => ({
+      ...prev,
+      amount_withdraw: prev.amount_withdraw - 1,
+    }));
   };
 
   const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +189,7 @@ export default function ShopWallet() {
       const res = await shopRecharge({
         variables: {
           data: {
-            amount_recharged: rechargeData.amout_recharged,
+            amount_recharged: rechargeData.amount_recharged,
             coin_type: rechargeData.coin_type,
             account_number: rechargeData.account_number,
             image: data.secure_url || "",
@@ -195,7 +199,7 @@ export default function ShopWallet() {
 
       if (res?.data?.shopRechargeBalance.success) {
         setRechargeData({
-          amout_recharged: 1,
+          amount_recharged: 1,
           coin_type: "",
           account_number: "",
           image: "",
@@ -231,16 +235,16 @@ export default function ShopWallet() {
       const res = await shopWithdraw({
         variables: {
           data: {
-            amount_recharged: rechargeData.amout_recharged,
-            coin_type: rechargeData.coin_type,
-            account_number: rechargeData.account_number,
+            amount_withdraw: withdrawData.amount_withdraw,
+            coin_type: withdrawData.coin_type,
+            account_number: withdrawData.account_number,
           },
         },
       });
 
       if (res?.data?.shopWithdrawBalance.success) {
         setWithdrawData({
-          amout_withdraw: 1,
+          amount_withdraw: 1,
           coin_type: "",
           account_number: "",
         });
@@ -379,11 +383,11 @@ export default function ShopWallet() {
                     type="number"
                     min="0"
                     className="text-sm w-full text-center border-none focus:outline-none"
-                    value={rechargeData.amout_recharged}
+                    value={rechargeData.amount_recharged}
                     onChange={(e) =>
                       setRechargeData((prev) => ({
                         ...prev,
-                        amout_recharged: Number(e.target.value) || 0,
+                        amount_recharged: Number(e.target.value) || 0,
                       }))
                     }
                   />
@@ -592,6 +596,7 @@ export default function ShopWallet() {
                   <button
                     className="rounded-full bg-gray-300 text-white cursor-pointer"
                     onClick={handleDecreaseWithdrawQuantity}
+                    type="button"
                   >
                     <MinusIcon size={16} />
                   </button>
@@ -599,17 +604,18 @@ export default function ShopWallet() {
                     type="number"
                     min="0"
                     className="text-sm w-full text-center border-none focus:outline-none"
-                    value={withdrawData.amout_withdraw}
+                    value={withdrawData.amount_withdraw}
                     onChange={(e) =>
                       setWithdrawData((prev) => ({
                         ...prev,
-                        amout_withdraw: Number(e.target.value) || 0,
+                        amount_withdraw: Number(e.target.value) || 0,
                       }))
                     }
                   />
                   <button
                     className="rounded-full bg-gray-300 text-white cursor-pointer"
                     onClick={handleIncreaseWithdrawQuantity}
+                    type="button"
                   >
                     <PlusIcon size={16} />
                   </button>
@@ -656,9 +662,13 @@ export default function ShopWallet() {
             </div>
 
             <div className="w-full flex items-center justify-between px-3">
-              <p>
-                {withdrawData.coin_type.toUpperCase()} / {withdrawQuantity}
-              </p>
+              {withdrawData.coin_type && (
+                <p>
+                  {withdrawData.coin_type.toUpperCase()} /{" "}
+                  {withdrawData?.amount_withdraw}
+                </p>
+              )}
+
               <IconButton
                 className="rounded bg-neon_pink text-white p-2 w-auto mt-4 text-sm"
                 type="submit"

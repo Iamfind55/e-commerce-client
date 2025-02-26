@@ -42,7 +42,7 @@ export default function RechargeHistory() {
       />
       <div className="w-full bg-white mt-2 rounded flex items-end justify-end flex-col gap-2 text-gray-500 p-1 sm:p-4">
         <div className="w-full flex flex-col sm:flex-row items-start justify-between gap-2">
-          <div className="w-full flex items-start justify-start gap-2">
+          <div className="w-full flex items-start sm:justify-start justify-between gap-2">
             <div>
               <Select
                 name="number"

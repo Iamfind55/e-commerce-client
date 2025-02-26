@@ -30,6 +30,7 @@ export const MUTATION_SHOP_SIGN_IN = gql`
           phone_number
           dob
           remark
+          shop_address
           image {
             logo
             cover

@@ -25,6 +25,7 @@ export const initialState = {
       id_card_image: "",
     },
     store_name: "",
+    shop_address: "",
     status: "",
     shop_vip: false,
     created_at: "",
