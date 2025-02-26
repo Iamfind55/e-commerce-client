@@ -48,7 +48,7 @@ export default function CustomerWallet() {
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const [transactionId, setTransactionId] = React.useState<string | null>(null);
   const [rechargeData, setRechargeData] = React.useState<IRecharge>({
-    amout_recharged: 1,
+    amount_recharged: 1,
     coin_type: "",
     account_number: "",
     image: "",
@@ -67,15 +67,15 @@ export default function CustomerWallet() {
   const handleIncreaseQuantity = () => {
     setRechargeData((prev) => ({
       ...prev,
-      amout_recharged: prev.amout_recharged + 1,
+      amount_recharged: prev.amount_recharged + 1,
     }));
   };
 
   const handleDecreaseQuantity = () => {
-    if (rechargeData.amout_recharged > 0) {
+    if (rechargeData.amount_recharged > 0) {
       setRechargeData((prev) => ({
         ...prev,
-        amout_recharged: prev.amout_recharged - 1,
+        amount_recharged: prev.amount_recharged - 1,
       }));
     }
   };
@@ -163,7 +163,7 @@ export default function CustomerWallet() {
       const res = await customerRecharge({
         variables: {
           data: {
-            amount_recharged: rechargeData.amout_recharged,
+            amount_recharged: rechargeData.amount_recharged,
             coin_type: rechargeData.coin_type,
             account_number: rechargeData.account_number,
             image: data.secure_url || "",
@@ -193,7 +193,7 @@ export default function CustomerWallet() {
     } finally {
       setIsLoading(false);
       setRechargeData({
-        amout_recharged: 1,
+        amount_recharged: 1,
         coin_type: "",
         account_number: "",
         image: "",
@@ -340,11 +340,11 @@ export default function CustomerWallet() {
                     type="number"
                     min="0"
                     className="text-sm w-full text-center border-none focus:outline-none"
-                    value={rechargeData.amout_recharged}
+                    value={rechargeData.amount_recharged}
                     onChange={(e) =>
                       setRechargeData((prev) => ({
                         ...prev,
-                        amout_recharged: Number(e.target.value) || 0,
+                        amount_recharged: Number(e.target.value) || 0,
                       }))
                     }
                   />
