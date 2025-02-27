@@ -65,6 +65,7 @@ import { TbHexagonNumber5Filled } from "react-icons/tb";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { RxDashboard } from "react-icons/rx";
 import { HiOutlineNewspaper } from "react-icons/hi2";
+import { FaRegCopy } from "react-icons/fa6";
 
 interface IconProps {
   size?: number;
@@ -73,6 +74,9 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const CopyIcon = (props: IconProps) => {
+  return <FaRegCopy {...props} />;
+};
 export const NewsIcon = (props: IconProps) => {
   return <HiOutlineNewspaper {...props} />;
 };
