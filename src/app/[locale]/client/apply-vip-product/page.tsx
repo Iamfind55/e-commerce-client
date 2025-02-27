@@ -25,9 +25,13 @@ export default function ApplyVIPProduct() {
   const filter = useFilter();
   const c = useTranslations("contact_page");
   const t = useTranslations("apply_vip_product");
+  const m = useTranslations("myCartPage");
+  const g = useTranslations("global");
   const { successMessage, errorMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
   const fetchProduct = useFetchProducts({ filter: filter.data });
+
+  console.log(user);
 
   const [activeVIP, setActiveVIP] = React.useState<number>(1);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -92,15 +96,28 @@ export default function ApplyVIPProduct() {
       let success = true;
       let errorMessageText = "";
 
+      // responses.forEach((res) => {
+      //   if (res?.data?.createShopProduct?.success === false) {
+      //     const error = res?.data?.createShopProduct?.error;
+      // if (error?.code === "402") {
+      //   errorMessageText += `${error.message} `;
+      // } else {
+      //       success = false;
+      //     }
+      //   }
+      // });
+
       responses.forEach((res) => {
         if (res?.data?.createShopProduct?.success === false) {
           const error = res?.data?.createShopProduct?.error;
-          if (error?.code === "402") {
-            // If the product is already applied, show a custom message
+
+          // Always add the error message
+          if (error?.message) {
             errorMessageText += `${error.message} `;
-          } else {
-            success = false;
           }
+
+          // Track failure
+          success = false;
         }
       });
 
@@ -125,61 +142,6 @@ export default function ApplyVIPProduct() {
       setIsLoading(false);
     }
   };
-
-  // const handleApployProduct = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const promises = selectedProducts.map((product) =>
-  //       apployShopVIPProduct({
-  //         variables: {
-  //           data: {
-  //             status: "ACTIVE",
-  //             shop_id: user?.id,
-  //             quantity: product.quantity,
-  //             product_id: product.id,
-  //           },
-  //         },
-  //       })
-  //     );
-
-  //     const responses = await Promise.all(promises);
-  //     let success = true;
-  //     let errorMessageText = "";
-
-  //     // Loop through the responses
-  //     for (const res of responses) {
-  //       if (res?.data?.createShopProduct?.success === false) {
-  //         const error = res?.data?.createShopProduct?.error;
-  //         if (error?.code === "402") {
-  //           errorMessageText += `${error.message} `;
-  //         } else {
-  //           success = false;
-  //           break;
-  //         }
-  //       }
-  //     }
-
-  //     if (success && !errorMessageText) {
-  //       successMessage({
-  //         message: "Products applied successfully",
-  //         duration: 3000,
-  //       });
-  //       setSelectedProducts([]);
-  //     } else {
-  //       errorMessage({
-  //         message: errorMessageText || "Some products failed to apply.",
-  //         duration: 3000,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     errorMessage({
-  //       message: "Unexpected error happened! Try again later",
-  //       duration: 3000,
-  //     });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   return (
     <>
@@ -226,7 +188,7 @@ export default function ApplyVIPProduct() {
               </p>
               <div className="flex items-start justify-start gap-2">
                 <p className="text-sm">
-                  ({fetchProduct?.total ?? 0}&nbsp;items)
+                  ({fetchProduct?.total ?? 0}&nbsp;{m("_items")})
                 </p>
               </div>
             </div>
@@ -248,7 +210,7 @@ export default function ApplyVIPProduct() {
               </div>
               <IconButton
                 type="button"
-                title="Apply now"
+                title={g("_apply_button")}
                 icon={isLoading ? <Loading /> : ""}
                 isFront={true}
                 className={`rounded bg-neon_pink p-2 w-auto text-white text-xs ${

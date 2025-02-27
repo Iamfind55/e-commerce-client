@@ -878,6 +878,12 @@
     "_new_pass_btn": "设置新密码"
   },
 
+  "notification_page": {
+    "_tile": "所有通知列表",
+    "_read": "已读",
+    "_unread": "未读"
+  },
+
   "global": {
     "_apply_button": "立即申请",
     "_edit_button": "编辑",

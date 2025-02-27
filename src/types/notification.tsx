@@ -13,6 +13,7 @@ export interface INotificationData {
   description: string;
   data: JSON;
   is_read: boolean;
+  // order_no?: string;
   notification_type: string;
   reference_id: string;
   status: string;

@@ -878,6 +878,12 @@
     "_new_pass_btn": "ĐẶT MẬT KHẨU MỚI"
   },
 
+  "notification_page": {
+    "_tile": "Danh sách tất cả thông báo",
+    "_read": "Đã đọc",
+    "_unread": "Chưa đọc"
+  },
+
   "global": {
     "_apply_button": "Nộp đơn ngay",
     "_edit_button": "Chỉnh sửa",

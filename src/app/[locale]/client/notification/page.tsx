@@ -14,9 +14,13 @@ import Breadcrumb from "@/components/breadCrumb";
 import useFetchNotifications from "./hooks/useFetch";
 import NotificationCard from "@/components/notificationCard";
 import { notification_type_status, page_limits } from "@/utils/option";
+import { useTranslations } from "next-intl";
 
 export default function Notifications() {
   const filter = useFilter();
+  const m = useTranslations("my_wallet");
+  const o = useTranslations("order_page");
+  const p = useTranslations("purchase_history");
   const fetchShopNotifications = useFetchNotifications({ filter: filter.data });
 
   return (
@@ -29,11 +33,11 @@ export default function Notifications() {
       />
       <div className="my-2 flex items-start justify-start flex-col gap-2 bg-white p-4 rounded">
         <div className="w-full flex flex-col sm:flex-row items-start justify-between gap-2">
-          <div className="w-1/2 flex items-start justify-start gap-2">
+          <div className="w-full sm:w-1/2 flex items-start justify-start gap-2">
             <div className="w-full sm:w-auto flex items-start justify-start gap-2 mt-2 sm:mt-0">
               <Select
                 name="stock"
-                title="Show"
+                title={p("_show")}
                 option={page_limits}
                 className="h-8"
                 onChange={(e) => {
@@ -47,7 +51,7 @@ export default function Notifications() {
             <div className="w-full sm:w-auto flex items-start justify-start gap-2 mt-2 sm:mt-0">
               <Select
                 name="status"
-                title="Notification type"
+                title={m("_select_type")}
                 option={notification_type_status}
                 className="h-8"
                 onChange={(e) => {
@@ -60,28 +64,10 @@ export default function Notifications() {
             </div>
           </div>
 
-          <div className="w-1/2 flex flex-col sm:flex-row mt-2 sm:mt-0 items-end justify-start gap-2">
-            <div className="relative w-full border rounded">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <SearchIcon size={16} className="text-neon_pink" />
-              </div>
-              <input
-                required
-                type="text"
-                id="search"
-                placeholder="Search...."
-                onChange={(e) => {
-                  filter.dispatch({
-                    type: filter.ACTION_TYPE.ORDER_NO,
-                    payload: e.target.value,
-                  });
-                }}
-                className="h-8 bg-white text-gray-500 text-xs rounded ps-10 p-2 focus:outline-none focus:ring-1"
-              />
-            </div>
+          <div className="w-full sm:w-1/2 flex mt-2 sm:mt-0 items-end justify-start gap-2">
             <DatePicker
               name="start_date"
-              title="Start date"
+              title={o("_start_date")}
               className="h-8"
               value={filter.state.createdAtBetween.startDate ?? ""}
               onChange={(e) => {
@@ -93,7 +79,7 @@ export default function Notifications() {
             />
             <DatePicker
               name="end_date"
-              title="End date"
+              title={o("_end_date")}
               className="h-8"
               value={filter.state.createdAtBetween.endDate ?? ""}
               onChange={(e) => {

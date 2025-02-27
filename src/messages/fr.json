@@ -716,6 +716,12 @@
     "_new_pass_btn": "DÉFINIR LE NOUVEAU MOT DE PASSE"
   },
 
+  "notification_page": {
+    "_tile": "Liste de toutes les notifications",
+    "_read": "Lu",
+    "_unread": "Non lu"
+  },
+
   "global": {
     "_apply_button": "Postuler maintenant",
     "_edit_button": "Modifier",

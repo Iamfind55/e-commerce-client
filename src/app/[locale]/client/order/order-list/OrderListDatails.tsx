@@ -98,7 +98,6 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
 
   return (
     <>
-      <h1>Hello order list</h1>
       <div className="flex flex-col sm:flex-row items-start justify-between gap-6">
         <div className="w-full sm:w-2/5 flex items-start justify-start gap-2 mt-2 sm:mt-0">
           <div className="w-1/2">

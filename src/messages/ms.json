@@ -878,6 +878,12 @@
     "_new_pass_btn": "TETAPKAN KATA LALUAN BAHARU"
   },
 
+  "notification_page": {
+    "_tile": "Senarai semua pemberitahuan",
+    "_read": "Dibaca",
+    "_unread": "Belum dibaca"
+  },
+
   "global": {
     "_apply_button": "Mohon sekarang",
     "_edit_button": "Edit",

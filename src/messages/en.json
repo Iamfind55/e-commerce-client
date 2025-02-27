@@ -877,6 +877,12 @@
     "_confirm_password_placeholder": "Confirm password....",
     "_new_pass_btn": "SET NEW PASSWORD"
   },
+  
+  "notification_page": {
+    "_tile": "List of all notifications",
+    "_read": "Read",
+    "_unread": "Unread"
+  },
 
   "global": {
     "_apply_button": "Apply now",

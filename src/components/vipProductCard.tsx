@@ -15,6 +15,7 @@ import {
   VIP2Icon,
   VIP3Icon,
   VIP4Icon,
+  VIP5Icon,
 } from "@/icons/page";
 
 // icons and untils
@@ -115,18 +116,30 @@ export default function VIPProductCard({
           {/* Checkbox - Top-Right */}
           <div className="absolute top-0 right-0">
             {product_vip === 1 ? (
-              <div className="flex items-center justify-center gap-1 text-white bg-neon_pink py-1 px-4 rounded-tr-xl rounded-bl-xl">
-                <p className="text-xs">VIP</p>{" "}
+              <div className="flex items-center justify-center gap-1 text-white bg-gray-500 py-1 px-4 rounded-tr-xl rounded-bl-xl">
+                <p className="text-xs">VIP</p>
                 <VIP1Icon size={16} className="text-white" />
               </div>
             ) : product_vip === 2 ? (
-              <VIP2Icon size={16} className="text-green-500" />
+              <div className="flex items-center justify-center gap-1 text-white bg-emerald-500 py-1 px-4 rounded-tr-xl rounded-bl-xl">
+                <p className="text-xs">VIP</p>
+                <VIP2Icon size={16} className="text-white" />
+              </div>
             ) : product_vip === 3 ? (
-              <VIP3Icon size={16} className="text-neon_blue" />
+              <div className="flex items-center justify-center gap-1 text-white bg-teal-500 py-1 px-4 rounded-tr-xl rounded-bl-xl">
+                <p className="text-xs">VIP</p>
+                <VIP3Icon size={16} className="text-white" />
+              </div>
             ) : product_vip === 4 ? (
-              <VIP4Icon size={16} className="" />
+              <div className="flex items-center justify-center gap-1 text-white bg-purple-500 py-1 px-4 rounded-tr-xl rounded-bl-xl">
+                <p className="text-xs">VIP</p>
+                <VIP4Icon size={16} className="text-white" />
+              </div>
             ) : (
-              <VIP1Icon size={16} className="text-neon_pink" />
+              <div className="flex items-center justify-center gap-1 text-white bg-pink-500 py-1 px-4 rounded-tr-xl rounded-bl-xl">
+                <p className="text-xs">VIP</p>
+                <VIP5Icon size={16} className="text-white" />
+              </div>
             )}
           </div>
 

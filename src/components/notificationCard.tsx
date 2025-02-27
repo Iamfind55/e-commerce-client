@@ -9,9 +9,13 @@ import { formatDate } from "@/utils/dateFormat";
 import { INotificationData } from "@/types/notification";
 import { MUTATION_SHOP_UPDATE_NOTIFICATIONS } from "@/api/notification";
 import { CancelIcon, FillCircleIcon, MessageSettingIcon } from "@/icons/page";
+import { useTranslations } from "next-intl";
 
 export default function NotificationCard(props: INotificationData) {
   const router = useRouter();
+  const g = useTranslations("global");
+  const t = useTranslations("purchase_history");
+  const n = useTranslations("notification_page");
   const { errorMessage } = useToast();
   const [notiId, setNotiId] = React.useState<string>("");
   const [openModal, setOpenModal] = React.useState<boolean>(false);
@@ -24,6 +28,7 @@ export default function NotificationCard(props: INotificationData) {
   );
 
   const handleUpdateNotification = async () => {
+    console.log(notiId);
     if (!notiId) {
       return;
     }
@@ -48,6 +53,12 @@ export default function NotificationCard(props: INotificationData) {
     }
   };
 
+  React.useEffect(() => {
+    if (notiId) {
+      handleUpdateNotification();
+    }
+  }, [notiId]);
+
   return (
     <>
       <div
@@ -62,7 +73,13 @@ export default function NotificationCard(props: INotificationData) {
               size={10}
               className={props?.is_read ? "text-gray-400" : "text-green-500"}
             />
-            {props?.is_read ? "Read" : "Unread"}
+            {props?.is_read ? n("_read") : n("_unread")}
+          </p>
+        </div>
+        <div className="pl-2">
+          <p className="text-xs text-gray-500 flex items-center justify-center">
+            {/* {t("_order_no")}:{props?.order_no} */}
+            {t("_order_no")}: &nbsp;12345678
           </p>
         </div>
         <div className="pl-2">
@@ -106,12 +123,17 @@ export default function NotificationCard(props: INotificationData) {
             <h4 className="text-gray-500 text-md">ID: {props?.reference_id}</h4>
             <CancelIcon
               size={22}
-              onClick={() => handleOpenModal()}
+              onClick={() => {
+                handleOpenModal();
+                router.refresh();
+              }}
               className="text-gray-500 border rounded cursor-pointer hover:shadow-md"
             />
           </div>
           <div className="w-full flex items-center justify-start gap-2 text-sm">
-            <p>Created at: {formatDate(props?.created_at)}</p>
+            <p>
+              {t("_created_at")}: {formatDate(props?.created_at)}
+            </p>
           </div>
           <div className="w-full flex items-center justify-start gap-2 text-sm">
             <MessageSettingIcon size={16} />
@@ -134,7 +156,7 @@ export default function NotificationCard(props: INotificationData) {
         </div>
         <div className="w-full flex items-center justify-end gap-4 mt-4">
           <IconButton
-            title="Close"
+            title={g("_close_button")}
             type="button"
             onClick={() => {
               handleOpenModal();
