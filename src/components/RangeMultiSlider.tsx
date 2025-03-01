@@ -5,7 +5,7 @@ interface RangePropType {
   onChange: (min: number, max: number) => void;
 }
 const RangeMultiSlider = ({ onChange }: RangePropType) => {
-  const min = 10;
+  const min = 1;
   const max = 100000;
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);

@@ -29,6 +29,7 @@ import {
   MUTATION_SHOP_CONFIRM_ORDER,
   QUERY_SHOP_ORDER_DETAILS,
 } from "@/api/order";
+import EmptyPage from "@/components/emptyPage";
 
 export default function ShopOrderListDetails() {
   const params = useParams();
@@ -149,11 +150,15 @@ export default function ShopOrderListDetails() {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 sm:mx-0 mx-2">
-            {data?.shopGetOrderDetails?.data?.map((val, index) => (
-              <OrderCardComponent {...val} key={index + 1} />
-            ))}
-          </div>
+          {data?.shopGetOrderDetails?.total ?? 0 > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 sm:mx-0 mx-2">
+              {data?.shopGetOrderDetails?.data?.map((val, index) => (
+                <OrderCardComponent {...val} key={index + 1} />
+              ))}
+            </div>
+          ) : (
+            <EmptyPage />
+          )}
         </div>
       )}
 

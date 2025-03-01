@@ -209,7 +209,7 @@ export default function MyCartDetails({ tab, setTab }: PropsDetails) {
           </div>
         ))}
         <div className="w-full flex items-start justify-between gap-4 pr-4">
-          <p className="text-sm text-gray-500">{t("_sub_total")}:</p>
+          <p className="text-sm text-gray-500">{t("_total")}:</p>
           <p className="text-md">${subTotal.toFixed(2)}</p>
         </div>
       </div>

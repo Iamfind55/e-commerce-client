@@ -283,7 +283,7 @@ export default function ProductDetails() {
           </div>
 
           <div className="w-full sm:w-1/4 order-1 sm:order-2 rounded bg-white">
-            <div className="w-full flex items-start justify-between flex-col p-2">
+            {/* <div className="w-full flex items-start justify-between flex-col p-2">
               <div className="w-full flex items-start justify-between border-b py-4">
                 <p className="text-xs">{t("_seller")}</p>
                 <AwardIcon className="text-neon_pink" size={24} />
@@ -297,7 +297,7 @@ export default function ProductDetails() {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="w-full flex items-start justify-start gap-2 flex-col p-2">
               <h1 className="w-full border-b pb-2">
                 {s("_best_selling_product")}:

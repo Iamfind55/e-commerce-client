@@ -19,12 +19,14 @@ import { addToCart } from "@/redux/slice/cartSlice";
 import { useTranslations } from "next-intl";
 
 export default function ProductCard(props: ProductData) {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
   const token = Cookies?.get("auth_token");
   const s = useTranslations("shop_page");
   const p = useTranslations("product_detail");
 
+  console.log(props?.cover_image);
+  
   const handleAddToCart = () => {
     if (!token) {
       router.push("/cus-signin");
@@ -50,7 +52,7 @@ export default function ProductCard(props: ProductData) {
             props.cover_image ||
             "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
           }
-          alt={props.name?.name_en || ""}
+          alt="product"
           width={500}
           height={300}
           quality={100}

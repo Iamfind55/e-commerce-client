@@ -355,14 +355,14 @@ export default function ShippingInformation({ tab, setTab }: PropsDetails) {
   return (
     <>
       <div className="w-full flex items-start justify-start flex-col gap-2">
-        <div className="bg-white w-full flex items-start justify-start flex-col gap-4 mt-4 p-4 rounded">
+        <div className="bg-white w-full flex items-start justify-start flex-col gap-4 mt-4 p-2 sm:p-4 rounded">
           <div className="w-full grid grid-cols-1 gap-4 lg:grid-cols-2">
             {addressesData?.getCustomerAddresses?.data?.map((row) => (
               <div
                 key={row.id}
                 className={`relative border rounded ${
                   row.is_used && "border-neon_pink bg-red-100"
-                } p-4 h-62 flex items-start justify-center flex-col gap-1 text-gray-400 cursor-pointer`}
+                } p-2 sm:p-4 h-62 flex items-start justify-center flex-col gap-1 text-gray-400 cursor-pointer`}
                 onClick={() => handleSetDefaultAddress(row.id)}
               >
                 <div className="absolute top-2 right-2 text-gray-500 hover:text-black">
@@ -473,9 +473,11 @@ export default function ShippingInformation({ tab, setTab }: PropsDetails) {
         </div>
       </div>
 
-      <div className={`w-full flex items-start justify-between px-4`}>
+      <div
+        className={`w-full flex items-start justify-between sm:justify-end px-4 gap-4`}
+      >
         <IconButton
-          className="rounded text-gray-500 p-2 w-auto mt-4 text-xs italic border border-gray-500"
+          className="rounded text-gray-500 p-2 w-auto mt-4 text-xs italic border border-gray-200"
           icon={<BackIcon />}
           isFront={true}
           type="button"

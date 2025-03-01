@@ -91,7 +91,9 @@ export default function DeliveryDetails({ tab, setTab }: PropsDetails) {
         </div>
       </div>
 
-      <div className={`w-full flex items-start justify-between px-4`}>
+      <div
+        className={`w-full flex items-start justify-between sm:justify-end px-4 gap-4`}
+      >
         <IconButton
           className="rounded text-gray-500 p-2 w-auto mt-4 text-xs italic border border-gray-200"
           icon={<BackIcon />}

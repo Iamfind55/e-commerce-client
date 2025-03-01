@@ -184,7 +184,7 @@ export default function Category() {
                 <p className="text-gray-500 text-sm">Loading...</p>
               </div>
             ) : (
-              <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
+              <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
                 {fetchProducts?.data?.map((product: ProductData) => (
                   <ProductCard
                     key={product.id}

@@ -125,7 +125,7 @@ export default function PaymentDetails({ tab, setTab }: PaymentDetailsProps) {
               className="rounded text-white p-2 bg-neon_pink w-auto mt-4 text-xs"
             />
           </form>
-          <div className="flex items-start justify-start text-xs gap-2 pl-4">
+          <div className="flex items-center justify-center text-xs gap-2 pl-4">
             {t("_i_agree")}
             <Link href="/terms-condition" className="text-neon_pink underline ">
               {h("_terms_conditions")},

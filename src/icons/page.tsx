@@ -66,6 +66,7 @@ import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { RxDashboard } from "react-icons/rx";
 import { HiOutlineNewspaper } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa6";
+import { TbBellRinging } from "react-icons/tb";
 
 interface IconProps {
   size?: number;
@@ -74,6 +75,9 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const SubscriptionIcon = (props: IconProps) => {
+  return <TbBellRinging {...props} />;
+};
 export const CopyIcon = (props: IconProps) => {
   return <FaRegCopy {...props} />;
 };

@@ -1,12 +1,41 @@
-import IconButton from "@/components/iconButton";
-import Textfield from "@/components/textField";
-import { NotiIcon } from "@/icons/page";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { useToast } from "@/utils/toast";
+import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from "react";
+
+// icons, utils, hooks
+import Textfield from "@/components/textField";
+import IconButton from "@/components/iconButton";
+import { NotiIcon, SubscriptionIcon } from "@/icons/page";
 
 export default function Footer() {
   const t = useTranslations("homePage");
+  const g = useTranslations("global");
+  const { successMessage } = useToast();
+  const [email, setEmail] = useState<string>("");
+  const [isSubscription, setIsSubscription] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedEmail = localStorage.getItem("subscription");
+      if (storedEmail) {
+        setIsSubscription(true);
+      }
+    }
+  }, []);
+
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isSubscription) {
+      localStorage.setItem("subscription", JSON.stringify(email));
+      setIsSubscription(true);
+      successMessage({ message: "Subscription successful!", duration: 3000 });
+    }
+  };
+
   return (
     <>
       <div className="bg-second_black">
@@ -17,15 +46,14 @@ export default function Footer() {
                 <Image
                   className="rounded-full"
                   src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740281086/logo2_dwqmfv.png"
-                  alt=""
+                  alt="Logo"
                   width={250}
                   height={200}
                 />
               </Link>
               <p className="text-sm text-white">{t("_footer_title")}</p>
-
               <p className="text-sm text-white">
-                Email:&nbsp;
+                {g("_email")}:&nbsp;
                 <Link
                   href="mailto:info@tiktokshop.online"
                   className="underline hover:text-neon_pink"
@@ -34,6 +62,7 @@ export default function Footer() {
                 </Link>
               </p>
             </div>
+
             <div className="mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
               <h1 className="text-white text-sm font-bold">{t("_details")}:</h1>
               <Link
@@ -61,36 +90,56 @@ export default function Footer() {
                 {t("_privacy_policy")}
               </Link>
             </div>
-            <div className="mb-4 mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4">
+
+            <form
+              onSubmit={handleSubmitForm}
+              className="mb-4 pl-0 sm:pl-4 flex items-start justify-start flex-col gap-4"
+            >
               <h1 className="text-white text-sm font-bold">
                 {t("_subscribe")}
               </h1>
               <Textfield
-                name="email"
-                placeholder={t("_email_placeholder")}
-                id="email"
-                title={t("_email")}
                 required
+                id="email"
+                name="email"
+                value={email}
+                type="email"
+                title={t("_email")}
+                placeholder={t("_email_placeholder")}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isSubscription} // Disable input if already subscribed
               />
               <div>
                 <IconButton
-                  className="text-xs rounded bg-base text-white p-2 bg-neon_pink"
-                  icon={<NotiIcon size={18} />}
-                  title="Subscribe"
+                  className={`text-xs rounded text-white p-2 ${
+                    isSubscription
+                      ? "bg-gray-500 cursor-not-allowed"
+                      : "bg-neon_pink"
+                  }`}
+                  icon={
+                    isSubscription ? (
+                      <SubscriptionIcon size={18} />
+                    ) : (
+                      <NotiIcon size={18} />
+                    )
+                  }
+                  title={isSubscription ? "Subscribed" : "Subscribe"}
+                  type="submit"
+                  disabled={isSubscription}
                 />
               </div>
               <p className="text-white text-xs">
                 {t("_subscribe_description")}
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
       <div className="w-full text-white bg-black">
         <div className="container mx-auto flex flex-col sm:flex-row gap-3 items-center justify-center p-4">
           <p className="text-white text-xs">
-            © Tiktokshop <strong className="text-white text-bold">2015</strong>|
-            All Rights Reserved
+            © Tiktokshop <strong className="text-white text-bold">2015</strong>{" "}
+            | All Rights Reserved
           </p>
         </div>
       </div>

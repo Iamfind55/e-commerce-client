@@ -230,7 +230,7 @@ export default function Category() {
                 <p className="text-gray-500 text-sm">Loading...</p>
               </div>
             ) : fetchAllProducts.total ?? 0 > 0 ? (
-              <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-5">
+              <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
                 {fetchAllProducts?.data?.map((product: ProductData) => (
                   <ProductCard
                     key={product.id}
