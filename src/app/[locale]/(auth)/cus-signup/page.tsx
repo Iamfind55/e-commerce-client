@@ -121,12 +121,16 @@ export default function CustomerRegister() {
     <>
       <div
         style={{
-          background: "linear-gradient(to right, #E5E7EB 50%, #ffffff 50%)",
+          background: "linear-gradient(to right, #ffffff 50%)",
         }}
         className="h-screen bg-bg_color flex items-center justify-center"
       >
-        <div className="rounded text-gray-500 w-11/12 sm:w-2/4 bg-white flex items-center justify-center flex-col gap-2 py-6 shadow-md border">
-          <CircleUser size={32} className="hidden sm:block" />
+        <div className="rounded text-gray-500 w-11/12 sm:w-2/4 bg-white flex items-center justify-center flex-col gap-2 py-6 shadow-md">
+          <CircleUser
+            size={32}
+            className="hidden sm:block cursor-pointer"
+            onClick={() => router.push("/")}
+          />
           <div className="flex items-center justify-start sm:justify-center flex-col">
             <p className="hidden sm:block text-lg">{t("_shop_welcome")}</p>
             <p className="text-sm">{t("_create_account")}</p>
@@ -203,13 +207,6 @@ export default function CustomerRegister() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <IconButton
-              className="rounded text-white p-2 bg-neon_pink w-full mt-4 text-xs"
-              icon={isLoading ? "" : <NextIcon size={22} />}
-              isFront={isLoading ? true : false}
-              title={isLoading ? m("_submiting_button") : s("_sign_up")}
-              type="submit"
-            />
             <div className="flex items-center justify-center gap-4 mt-2 sm:mt-4">
               <p className="text-b_text text-sm italic">
                 {s("_already_have_account")}
@@ -221,6 +218,13 @@ export default function CustomerRegister() {
                 {s("_sign_in_button")}
               </Link>
             </div>
+            <IconButton
+              className="rounded text-white p-2 bg-neon_pink w-full mt-4 text-xs"
+              icon={isLoading ? "" : <NextIcon size={22} />}
+              isFront={isLoading ? true : false}
+              title={isLoading ? m("_submiting_button") : s("_sign_up")}
+              type="submit"
+            />
           </form>
         </div>
       </div>

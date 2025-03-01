@@ -105,12 +105,16 @@ export default function CustomerLogin() {
     <>
       <div
         style={{
-          background: "linear-gradient(to bottom, #E5E7EB 50%, #ffffff 50%)",
+          background: "linear-gradient(to right, #ffffff 50%)",
         }}
-        className="h-screen flex items-center justify-center"
+        className="h-screen bg-bg_color flex items-center justify-center"
       >
         <div className="rounded text-gray-500 w-11/12 sm:w-2/5 bg-white flex items-center justify-center flex-col gap-2 py-6 shadow-md">
-          <CircleUser size={32} />
+          <CircleUser
+            size={32}
+            onClick={() => router.push("/")}
+            className="cursor-pointer"
+          />
           <div className="flex items-center justify-center flex-col">
             <p className="text-lg">{t("_welcome")}</p>
             <p className="text-sm">{t("_welcome_des")}</p>

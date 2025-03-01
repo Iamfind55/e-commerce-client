@@ -5,6 +5,8 @@ import { useEffect } from "react";
 const DevToolsRedirect = () => {
   useEffect(() => {
     const detectDevTools = () => {
+      if (window.innerWidth < 768) return; // Ignore mobile users
+
       const threshold = 160;
 
       const checkDevTools = () => {
