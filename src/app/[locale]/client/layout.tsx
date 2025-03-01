@@ -453,52 +453,11 @@ export default function RootLayout({
                   </div>
                 </div>
               </DropdownComponent>
-              <DropdownComponent
-                className="w-44"
-                head={
-                  <NotiIcon size={22} className="text-white cursor-pointer" />
-                }
-              >
-                <div id="dropdownDivider">
-                  <ul
-                    className="py-2 text-sm text-gray-700"
-                    aria-labelledby="dropdownDividerButton"
-                  >
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Dashboard
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Settings
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Earnings
-                      </Link>
-                    </li>
-                  </ul>
-                  <div className="py-2">
-                    <Link
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Separated link
-                    </Link>
-                  </div>
-                </div>
-              </DropdownComponent>
+              <NotiIcon
+                size={22}
+                className="text-white cursor-pointer"
+                onClick={() => router.push("/client/notification")}
+              />
               <LogoutIcon
                 size={18}
                 className="text-neon_pink cursor-pointer"

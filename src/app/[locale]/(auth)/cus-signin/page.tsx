@@ -105,13 +105,11 @@ export default function CustomerLogin() {
     <>
       <div
         style={{
-          backgroundImage: `url("https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860065/background-image_gam233.png")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background: "linear-gradient(to bottom, #E5E7EB 50%, #ffffff 50%)",
         }}
-        className="h-screen bg-bg_color flex items-center justify-center"
+        className="h-screen flex items-center justify-center"
       >
-        <div className="rounded text-gray-500 w-11/12 sm:w-2/5 bg-white flex items-center justify-center flex-col gap-2 py-6">
+        <div className="rounded text-gray-500 w-11/12 sm:w-2/5 bg-white flex items-center justify-center flex-col gap-2 py-6 shadow-md">
           <CircleUser size={32} />
           <div className="flex items-center justify-center flex-col">
             <p className="text-lg">{t("_welcome")}</p>

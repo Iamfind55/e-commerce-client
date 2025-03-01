@@ -121,13 +121,11 @@ export default function CustomerRegister() {
     <>
       <div
         style={{
-          backgroundImage: `url("https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860065/background-image_gam233.png")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background: "linear-gradient(to right, #E5E7EB 50%, #ffffff 50%)",
         }}
         className="h-screen bg-bg_color flex items-center justify-center"
       >
-        <div className="rounded text-gray-500 w-11/12 sm:w-2/4 bg-white flex items-center justify-center flex-col gap-2 py-6">
+        <div className="rounded text-gray-500 w-11/12 sm:w-2/4 bg-white flex items-center justify-center flex-col gap-2 py-6 shadow-md border">
           <CircleUser size={32} className="hidden sm:block" />
           <div className="flex items-center justify-start sm:justify-center flex-col">
             <p className="hidden sm:block text-lg">{t("_shop_welcome")}</p>
