@@ -111,17 +111,9 @@ export default function ShopDetails() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     const maxSizeInBytes = 800 * 1024; // 800KB in bytes
 
     if (selectedFile) {
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setErrorMessages("Only JPG, JPEG, and PNG files are allowed.");
-        setFile(null);
-        setPreview(null);
-        return;
-      }
-
       if (selectedFile.size > maxSizeInBytes) {
         setErrorMessages("File size exceeds 800KB.");
         setFile(null);
@@ -137,16 +129,7 @@ export default function ShopDetails() {
 
   const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile1 = e.target.files?.[0];
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-
     if (selectedFile1) {
-      if (!allowedTypes.includes(selectedFile1.type)) {
-        setErrorMessages1("Only JPG, JPEG, and PNG files are allowed.");
-        setCover(null);
-        setPreview1(null);
-        return;
-      }
-
       setErrorMessages(null);
       setCover(selectedFile1);
       setPreview1(URL.createObjectURL(selectedFile1)); // Generate preview URL

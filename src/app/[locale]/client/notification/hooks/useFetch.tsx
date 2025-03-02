@@ -16,17 +16,6 @@ const useFetchNotifications = ({ filter }: { filter: IFilter }) => {
   } = filter;
   const numericLimit = Number(limit);
 
-  console.log(
-    "Filters:",
-    notification_type,
-    keyword,
-    status,
-    order_no,
-    limit,
-    page,
-    createdAtBetween
-  );
-
   const [shopGetNotifications, { data, refetch }] =
     useLazyQuery<GetShopNotificationResponse>(QUERY_SHOP_NOTIFICATIONS, {
       fetchPolicy: "no-cache",
