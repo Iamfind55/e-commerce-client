@@ -3,9 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import { QRCodeCanvas } from "qrcode.react";
+import { useTranslations } from "next-intl";
 
 // icons and utils
 import {
+  CheckCircleIcon,
+  CopyIcon,
+  DepositIcon,
   LinkIcon,
   LockIcon,
   MinusIcon,
@@ -28,7 +32,6 @@ import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
 import WalletCard from "@/components/walletCard";
 import TransactionHistory from "./transaction-history/TransactionHistory";
-import { useTranslations } from "next-intl";
 
 interface CloudinaryResponse {
   secure_url?: string;
@@ -39,17 +42,19 @@ export default function CustomerWallet() {
   const i = useTranslations("instrument_panel");
   const { errorMessage, successMessage } = useToast();
   const [qrcode, setQrcode] = React.useState<string>("");
-  const [fetchNew, setFetchNew] = React.useState<boolean>(false);
   const [cover, setCover] = React.useState<File | null>(null);
+  const [fetchNew, setFetchNew] = React.useState<boolean>(false);
+  const [isCopied, setIsCopied] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
   const [isOpenQRModal, setIsOpenQRModal] = React.useState<boolean>(false);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const [transactionId, setTransactionId] = React.useState<string | null>(null);
+
   const [rechargeData, setRechargeData] = React.useState<IRecharge>({
     amount_recharged: 1,
-    coin_type: "",
+    coin_type: "ERC20",
     account_number: "",
     image: "",
   });
@@ -198,6 +203,37 @@ export default function CustomerWallet() {
         account_number: "",
         image: "",
       });
+    }
+  };
+
+  const getAddress = () => {
+    switch (rechargeData?.coin_type) {
+      case "ERC20":
+        return "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2";
+      case "TRC20":
+        return "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f";
+      case "BTC":
+        return "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3";
+      default:
+        return "";
+    }
+  };
+
+  // Function to copy text
+  const handleCopy = async () => {
+    const address = getAddress();
+    if (!address) return;
+
+    try {
+      await navigator.clipboard.writeText(address);
+      setIsCopied(true);
+      successMessage({
+        message: `${"Copy " + rechargeData?.coin_type + " address successful"}`,
+        duration: 3000,
+      });
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -431,24 +467,33 @@ export default function CustomerWallet() {
                 <p className="text-xs mt-4">{t("_account_address")}:</p>
                 <div className="w-full flex items-start justify-between">
                   <p className="text-xs font-medium">
-                    TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw
+                    {rechargeData?.coin_type === "ERC20"
+                      ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
+                      : rechargeData?.coin_type === "TRC20"
+                      ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                      : rechargeData?.coin_type === "BTC"
+                      ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                      : ""}
                   </p>
                   <div className="flex items-start justify-start gap-4">
-                    <LinkIcon
-                      size={16}
-                      className="text-gray-500 cursor-pointer"
-                      onClick={() =>
-                        setTransactionId("TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw")
-                      }
-                    />
-                    <QRcodeIcon
-                      size={16}
-                      className="text-gray-500 cursor-pointer"
-                      onClick={() => {
-                        handleOpenQRModal();
-                        setQrcode("TJaqEGnAWkaZY2yqYy33U8Rvwy82nUpSsw");
-                      }}
-                    />
+                    {!isCopied ? (
+                      <CopyIcon
+                        size={16}
+                        className="text-gray-500 cursor-pointer"
+                        onClick={() => {
+                          handleCopy();
+                          setIsCopied(!isCopied);
+                        }}
+                      />
+                    ) : (
+                      <CheckCircleIcon
+                        size={20}
+                        className="text-green-500 cursor-pointer "
+                        onClick={() => {
+                          setIsCopied(!isCopied);
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -460,7 +505,7 @@ export default function CustomerWallet() {
                 title={
                   isLoading ? t("_submiting_button") : t("_recharge_button")
                 }
-                icon={isLoading ? <Loading /> : <WithdrawIcon size={18} />}
+                icon={isLoading ? <Loading /> : <DepositIcon size={18} />}
                 isFront={true}
                 type="submit"
               />

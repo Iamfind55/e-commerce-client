@@ -37,11 +37,10 @@ export default function ShopWallet() {
   const m = useTranslations("my_wallet");
   const { errorMessage, successMessage } = useToast();
   const [cover, setCover] = React.useState<File | null>(null);
+  const [isCopied, setIsCopied] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview1, setPreview1] = React.useState<string | null>(null);
-  const [isCopied, setIsCopied] = React.useState<boolean>(false);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
-
   const [rechargeData, setRechargeData] = React.useState<IRecharge>({
     amount_recharged: 1,
     coin_type: "ERC20",
@@ -53,6 +52,7 @@ export default function ShopWallet() {
     amount_withdraw: 1,
     coin_type: "",
   });
+
   const [shopRecharge] = useMutation(MUTATION_SHOP_RECHARGE);
   const [shopWithdraw] = useMutation(MUTATION_SHOP_WITHDRAW);
   const [getShopWallet, { data, refetch }] =

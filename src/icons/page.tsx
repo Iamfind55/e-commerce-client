@@ -67,6 +67,7 @@ import { RxDashboard } from "react-icons/rx";
 import { HiOutlineNewspaper } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa6";
 import { TbBellRinging } from "react-icons/tb";
+import { PiHandWithdraw } from "react-icons/pi";
 
 interface IconProps {
   size?: number;
@@ -178,7 +179,7 @@ export const PreviousLinkIcon = (props: IconProps) => {
   return <GrFormPreviousLink {...props} />;
 };
 export const WithdrawIcon = (props: IconProps) => {
-  return <FaMoneyBillTransfer {...props} />;
+  return <PiHandWithdraw {...props} />;
 };
 export const DepositIcon = (props: IconProps) => {
   return <GiReceiveMoney {...props} />;
