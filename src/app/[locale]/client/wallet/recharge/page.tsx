@@ -164,13 +164,7 @@ export default function RechargeHistory() {
                   <td className="pl-2 py-4">${val.amount.toFixed(2)}</td>
                   <td>{val.coin_type} Conversion rate : $1.00</td>
                   <td>
-                    <StatusBadge
-                      status={
-                        val.transaction_status === "PENDING"
-                          ? "pending"
-                          : "completed"
-                      }
-                    />
+                    <StatusBadge status={val.transaction_status} />
                   </td>
                   <td>{formatDate(val.created_at)}</td>
                 </tr>

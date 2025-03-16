@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { QRCodeCanvas } from "qrcode.react";
 import { useTranslations } from "next-intl";
 
 // icons and utils
@@ -10,11 +9,9 @@ import {
   CheckCircleIcon,
   CopyIcon,
   DepositIcon,
-  LinkIcon,
   LockIcon,
   MinusIcon,
   PlusIcon,
-  QRcodeIcon,
   TrashIcon,
   WithdrawIcon,
 } from "@/icons/page";
@@ -32,6 +29,8 @@ import Breadcrumb from "@/components/breadCrumb";
 import IconButton from "@/components/iconButton";
 import WalletCard from "@/components/walletCard";
 import TransactionHistory from "./transaction-history/TransactionHistory";
+import Select from "@/components/select";
+import { coin_type } from "@/utils/option";
 
 interface CloudinaryResponse {
   secure_url?: string;
@@ -41,16 +40,13 @@ export default function CustomerWallet() {
   const t = useTranslations("my_wallet");
   const i = useTranslations("instrument_panel");
   const { errorMessage, successMessage } = useToast();
-  const [qrcode, setQrcode] = React.useState<string>("");
   const [cover, setCover] = React.useState<File | null>(null);
   const [fetchNew, setFetchNew] = React.useState<boolean>(false);
   const [isCopied, setIsCopied] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
-  const [isOpenQRModal, setIsOpenQRModal] = React.useState<boolean>(false);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
-  const [transactionId, setTransactionId] = React.useState<string | null>(null);
 
   const [rechargeData, setRechargeData] = React.useState<IRecharge>({
     amount_recharged: 1,
@@ -65,47 +61,25 @@ export default function CustomerWallet() {
     setIsOpenModal(!isOpenModal);
   };
 
-  const handleOpenQRModal = () => {
-    setIsOpenQRModal(!isOpenQRModal);
-  };
-
   const handleIncreaseQuantity = () => {
     setRechargeData((prev) => ({
       ...prev,
-      amount_recharged: prev.amount_recharged + 1,
+      amount_recharged: prev.amount_recharged ?? 0 + 1,
     }));
   };
 
   const handleDecreaseQuantity = () => {
-    if (rechargeData.amount_recharged > 0) {
+    if (rechargeData.amount_recharged ?? 0 > 0) {
       setRechargeData((prev) => ({
         ...prev,
-        amount_recharged: prev.amount_recharged - 1,
+        amount_recharged: prev.amount_recharged ?? 0 - 1,
       }));
     }
   };
 
   const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile1 = e.target.files?.[0];
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-    const maxSizeInBytes = 1024 * 1024;
-
     if (selectedFile1) {
-      if (!allowedTypes.includes(selectedFile1.type)) {
-        setErrorMessages("Only JPG, JPEG, and PNG files are allowed.");
-        setCover(null);
-        setPreview1(null);
-        return;
-      }
-
-      if (selectedFile1.size > maxSizeInBytes) {
-        setErrorMessages("File size exceeds 1MB.");
-        setCover(null);
-        setPreview1(null);
-        return;
-      }
-
-      setErrorMessages(null);
       setCover(selectedFile1);
       setPreview1(URL.createObjectURL(selectedFile1)); // Generate preview URL
     }
@@ -128,24 +102,28 @@ export default function CustomerWallet() {
 
     return [
       {
-        title: t("_frozen_balance"),
-        amount: `${totalFrozenBalance}`,
-        percent: 3,
-        icon: <LockIcon size={38} className="text-neon_pink" />,
-      },
-      {
         title: t("_total_balance"),
         amount: `${totalBalance}`,
         percent: 12,
         icon: <WithdrawIcon size={38} className="text-green-500" />,
+      },
+      {
+        title: t("_frozen_balance"),
+        amount: `${totalFrozenBalance}`,
+        percent: 3,
+        icon: <LockIcon size={38} className="text-neon_pink" />,
       },
     ];
   }, [data]);
 
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (!cover) {
+      setErrorMessages("Please upload a voucher");
+      return;
+    }
     try {
+      setIsLoading(true);
       let data: CloudinaryResponse = {};
       if (cover) {
         const _formData = new FormData();
@@ -291,10 +269,22 @@ export default function CustomerWallet() {
           >
             <p className="text-md font-medium">{t("_top_up_title")}:</p>
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
-              <div className="flex items-start justify-start gap-2 py-2">
+              <div className="flex items-center justify-center gap-2 py-2">
                 <p className="text-sm">{t("_select_type")}:</p>
                 <div className="flex items-start justify-start gap-4">
-                  <div className="flex items-center mb-4">
+                  <Select
+                    name="coin_type"
+                    title=""
+                    option={coin_type}
+                    value={rechargeData.coin_type}
+                    onChange={(e) =>
+                      setRechargeData((prev) => ({
+                        ...prev,
+                        coin_type: e.target.value,
+                      }))
+                    }
+                  />
+                  {/* <div className="flex items-center mb-4">
                     <input
                       id="erc20-coin"
                       type="radio"
@@ -359,7 +349,7 @@ export default function CustomerWallet() {
                     >
                       BTC
                     </label>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="w-full flex items-center justify-between gap-4">
@@ -376,14 +366,26 @@ export default function CustomerWallet() {
                     type="number"
                     min="0"
                     className="text-sm w-full text-center border-none focus:outline-none"
-                    value={rechargeData.amount_recharged}
-                    onChange={(e) =>
+                    value={rechargeData.amount_recharged ?? ""}
+                    onFocus={(e) => {
+                      if (rechargeData.amount_recharged === 1) {
+                        setRechargeData((prev) => ({
+                          ...prev,
+                          amount_recharged: null,
+                        }));
+                      }
+                    }}
+                    onChange={(e) => {
+                      const inputValue = e.target.value.replace(/^0+/, ""); // Remove leading zeros
                       setRechargeData((prev) => ({
                         ...prev,
-                        amount_recharged: Number(e.target.value) || 0,
-                      }))
-                    }
+                        amount_recharged: inputValue
+                          ? Number(inputValue)
+                          : null,
+                      }));
+                    }}
                   />
+
                   <button
                     className="rounded-full bg-gray-300 text-white cursor-pointer"
                     onClick={handleIncreaseQuantity}
@@ -452,6 +454,14 @@ export default function CustomerWallet() {
                     <TrashIcon size={18} />
                   </button>
                 </div>
+                {errorMessages && (
+                  <div
+                    className="w-full py-1 px-4 mb-4 text-xs text-red-500 rounded border border-red-500"
+                    role="alert"
+                  >
+                    <span className="font-medium">Error!</span> {errorMessages}!
+                  </div>
+                )}
               </div>
             </div>
 
@@ -511,16 +521,6 @@ export default function CustomerWallet() {
               />
             </div>
           </form>
-        </div>
-      </MyModal>
-
-      <MyModal
-        isOpen={isOpenQRModal}
-        onClose={handleOpenQRModal}
-        className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/5 md:inset-0 h-auto shadow"
-      >
-        <div className="w-full h-[50vh] flex items-center justify-center">
-          <QRCodeCanvas value={qrcode} size={250} />
         </div>
       </MyModal>
     </>

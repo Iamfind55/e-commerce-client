@@ -1,7 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { useLazyQuery, useMutation } from "@apollo/client";
 
 // components
 import Textfield from "@/components/textField";
@@ -10,6 +12,7 @@ import IconButton from "@/components/iconButton";
 import WalletCard from "@/components/walletCard";
 
 // icons and utils
+import { useToast } from "@/utils/toast";
 import {
   CheckCircleIcon,
   CopyIcon,
@@ -22,11 +25,10 @@ import {
   WithdrawIcon,
 } from "@/icons/page";
 import { GetShopWalletResponse, IRecharge, IWithdraw } from "@/types/wallet";
-import { useToast } from "@/utils/toast";
-import { useLazyQuery, useMutation } from "@apollo/client";
 import { MUTATION_SHOP_RECHARGE, MUTATION_SHOP_WITHDRAW } from "@/api/recharge";
 import { QUERY_SHOP_WALLET } from "@/api/wallet";
-import { useTranslations } from "next-intl";
+import Select from "@/components/select";
+import { coin_type } from "@/utils/option";
 
 interface CloudinaryResponse {
   secure_url?: string;
@@ -39,6 +41,7 @@ export default function ShopWallet() {
   const [cover, setCover] = React.useState<File | null>(null);
   const [isCopied, setIsCopied] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading1, setIsLoading1] = React.useState<boolean>(false);
   const [preview1, setPreview1] = React.useState<string | null>(null);
   const [errorMessages, setErrorMessages] = React.useState<string | null>(null);
   const [rechargeData, setRechargeData] = React.useState<IRecharge>({
@@ -50,7 +53,7 @@ export default function ShopWallet() {
   const [withdrawData, setWithdrawData] = React.useState<IWithdraw>({
     account_number: "",
     amount_withdraw: 1,
-    coin_type: "",
+    coin_type: "ERC20",
   });
 
   const [shopRecharge] = useMutation(MUTATION_SHOP_RECHARGE);
@@ -63,15 +66,15 @@ export default function ShopWallet() {
   const handleIncreaseQuantity = () => {
     setRechargeData((prev) => ({
       ...prev,
-      amount_recharged: prev.amount_recharged + 1,
+      amount_recharged: prev.amount_recharged ?? 0 + 1,
     }));
   };
 
   const handleDecreaseQuantity = () => {
-    if (rechargeData.amount_recharged > 0) {
+    if (rechargeData.amount_recharged ?? 0 > 0) {
       setRechargeData((prev) => ({
         ...prev,
-        amount_recharged: prev.amount_recharged - 1,
+        amount_recharged: prev.amount_recharged ?? 0 - 1,
       }));
     }
   };
@@ -79,29 +82,21 @@ export default function ShopWallet() {
   const handleIncreaseWithdrawQuantity = () => {
     setWithdrawData((prev) => ({
       ...prev,
-      amount_withdraw: prev.amount_withdraw + 1,
+      amount_withdraw: prev.amount_withdraw ?? 0 + 1,
     }));
   };
 
   const handleDecreaseWithdrawQuantity = () => {
     setWithdrawData((prev) => ({
       ...prev,
-      amount_withdraw: prev.amount_withdraw - 1,
+      amount_withdraw: prev.amount_withdraw ?? 0 - 1,
     }));
   };
 
   const handleChangeCover = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile1 = e.target.files?.[0];
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
 
     if (selectedFile1) {
-      if (!allowedTypes.includes(selectedFile1.type)) {
-        setErrorMessages("Only JPG, JPEG, and PNG files are allowed.");
-        setCover(null);
-        setPreview1(null);
-        return;
-      }
-
       setErrorMessages(null);
       setCover(selectedFile1);
       setPreview1(URL.createObjectURL(selectedFile1)); // Generate preview URL
@@ -156,8 +151,13 @@ export default function ShopWallet() {
 
   const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (!cover) {
+      setErrorMessages("Please upload a voucher");
+      return;
+    }
+
     try {
+      setIsLoading(true);
       let data: CloudinaryResponse = {};
       if (cover) {
         const _formData = new FormData();
@@ -195,6 +195,8 @@ export default function ShopWallet() {
           account_number: "",
           image: "",
         });
+        setCover(null);
+        setPreview1(null);
 
         successMessage({
           message: "Recharge successfull!",
@@ -220,7 +222,7 @@ export default function ShopWallet() {
 
   const handleWithdraw = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading1(true);
 
     try {
       const res = await shopWithdraw({
@@ -258,7 +260,7 @@ export default function ShopWallet() {
         duration: 3000,
       });
     } finally {
-      setIsLoading(false);
+      setIsLoading1(false);
     }
   };
 
@@ -302,7 +304,7 @@ export default function ShopWallet() {
         ]}
       />
       <div className="mt-2 rounded flex items-start justify-start flex-col gap-2 py-4 text-gray-500">
-        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {reportItems.map((item, index) => (
             <WalletCard
               key={index + 1}
@@ -320,75 +322,21 @@ export default function ShopWallet() {
           >
             <p className="text-md font-medium">{m("_top_up_title")}:</p>
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
-              <div className="flex items-start justify-start gap-2 py-2">
+              <div className="flex items-center justify-center gap-2 py-2">
                 <p className="text-sm">{m("_select_type")}:</p>
                 <div className="flex items-start justify-start gap-4">
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="erc20-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="ERC20"
-                      onChange={(e) =>
-                        setRechargeData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={rechargeData.coin_type === "ERC20"}
-                    />
-                    <label
-                      htmlFor="erc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      ERC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="trc20-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="TRC20"
-                      onChange={(e) =>
-                        setRechargeData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={rechargeData.coin_type === "TRC20"}
-                    />
-                    <label
-                      htmlFor="trc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      TRC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="btc-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="BTC"
-                      onChange={(e) =>
-                        setRechargeData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={rechargeData.coin_type === "BTC"}
-                    />
-                    <label
-                      htmlFor="btc-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      BTC
-                    </label>
-                  </div>
+                  <Select
+                    name="coin_type"
+                    title=""
+                    option={coin_type}
+                    value={rechargeData.coin_type}
+                    onChange={(e) =>
+                      setRechargeData((prev) => ({
+                        ...prev,
+                        coin_type: e.target.value,
+                      }))
+                    }
+                  />
                 </div>
               </div>
               <div className="w-full flex items-start justify-between gap-4">
@@ -405,14 +353,26 @@ export default function ShopWallet() {
                     type="number"
                     min="0"
                     className="text-sm w-full text-center border-none focus:outline-none"
-                    value={rechargeData.amount_recharged}
-                    onChange={(e) =>
+                    value={rechargeData.amount_recharged ?? ""}
+                    onFocus={(e) => {
+                      if (rechargeData.amount_recharged === 1) {
+                        setRechargeData((prev) => ({
+                          ...prev,
+                          amount_recharged: null,
+                        }));
+                      }
+                    }}
+                    onChange={(e) => {
+                      const inputValue = e.target.value.replace(/^0+/, ""); // Remove leading zeros
                       setRechargeData((prev) => ({
                         ...prev,
-                        amount_recharged: Number(e.target.value) || 0,
-                      }))
-                    }
+                        amount_recharged: inputValue
+                          ? Number(inputValue)
+                          : null,
+                      }));
+                    }}
                   />
+
                   <button
                     className="rounded-full bg-gray-300 text-white cursor-pointer"
                     type="button"
@@ -483,7 +443,12 @@ export default function ShopWallet() {
                   </button>
                 </div>
                 {errorMessages && (
-                  <p className="text-red-500 text-xs">{errorMessages}</p>
+                  <div
+                    className="w-full py-1 px-4 mb-4 text-xs text-red-500 rounded border border-red-500"
+                    role="alert"
+                  >
+                    <span className="font-medium">Error!</span> {errorMessages}!
+                  </div>
                 )}
               </div>
             </div>
@@ -495,7 +460,7 @@ export default function ShopWallet() {
               <div className="w-full">
                 <div className="flex items-start justify-between">
                   <p className="text-xs">{m("_amount_conversion_rate")}:</p>
-                  <p className="text-black text-sm">1.00</p>
+                  <p className="text-black text-sm">$1.00</p>
                 </div>
                 <p className="text-xs mt-4">
                   {rechargeData?.coin_type} Network address:
@@ -536,7 +501,7 @@ export default function ShopWallet() {
 
             <div className="w-full">
               <IconButton
-                className="rounded bg-neon_blue text-white p-2 w-auto mt-4 text-sm"
+                className="rounded bg-green-500 text-white p-2 w-auto mt-2 text-sm"
                 type="submit"
                 title={
                   isLoading ? m("_submiting_button") : m("_recharge_button")
@@ -552,75 +517,21 @@ export default function ShopWallet() {
             <p className="text-md font-medium">{t("_withdraw_title")}:</p>
 
             <div className="w-full rounded-md border-gray-200 flex items-start justify-start flex-col gap-2 py-2 px-2">
-              <div className="flex items-start justify-start gap-2 py-2">
+              <div className="flex items-center justify-center gap-2 py-2">
                 <p className="text-sm">{m("_select_type")}:</p>
                 <div className="flex items-start justify-start gap-4">
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="w-erc20-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="ERC20"
-                      onChange={(e) =>
-                        setWithdrawData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={withdrawData.coin_type === "ERC20"}
-                    />
-                    <label
-                      htmlFor="w-erc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      ERC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="w-trc20-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="TRC20"
-                      onChange={(e) =>
-                        setWithdrawData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={withdrawData.coin_type === "TRC20"}
-                    />
-                    <label
-                      htmlFor="w-trc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      TRC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="w-btc-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="BTC"
-                      onChange={(e) =>
-                        setWithdrawData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={withdrawData.coin_type === "BTC"}
-                    />
-                    <label
-                      htmlFor="w-btc-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      BTC
-                    </label>
-                  </div>
+                  <Select
+                    name="coin_type"
+                    title=""
+                    option={coin_type}
+                    value={withdrawData.coin_type}
+                    onChange={(e) =>
+                      setWithdrawData((prev) => ({
+                        ...prev,
+                        coin_type: e.target.value,
+                      }))
+                    }
+                  />
                 </div>
               </div>
               <div className="w-full flex items-start justify-between gap-4">
@@ -633,18 +544,29 @@ export default function ShopWallet() {
                   >
                     <MinusIcon size={16} />
                   </button>
+
                   <input
                     type="number"
                     min="0"
                     className="text-sm w-full text-center border-none focus:outline-none"
-                    value={withdrawData.amount_withdraw}
-                    onChange={(e) =>
+                    value={withdrawData.amount_withdraw ?? ""}
+                    onFocus={(e) => {
+                      if (withdrawData.amount_withdraw === 1) {
+                        setWithdrawData((prev) => ({
+                          ...prev,
+                          amount_withdraw: null,
+                        }));
+                      }
+                    }}
+                    onChange={(e) => {
+                      const inputValue = e.target.value.replace(/^0+/, "");
                       setWithdrawData((prev) => ({
                         ...prev,
-                        amount_withdraw: Number(e.target.value) || 0,
-                      }))
-                    }
+                        amount_withdraw: inputValue ? Number(inputValue) : null,
+                      }));
+                    }}
                   />
+
                   <button
                     className="rounded-full bg-gray-300 text-white cursor-pointer"
                     onClick={handleIncreaseWithdrawQuantity}
@@ -706,7 +628,7 @@ export default function ShopWallet() {
                 className="rounded bg-neon_pink text-white p-2 w-auto mt-4 text-sm"
                 type="submit"
                 title={
-                  isLoading ? m("_submiting_button") : t("_apply_withdraw")
+                  isLoading1 ? m("_submiting_button") : t("_apply_withdraw")
                 }
               />
             </div>

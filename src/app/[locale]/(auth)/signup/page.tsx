@@ -99,10 +99,13 @@ export default function SignUp() {
   return (
     <div className="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gradient-to-t from-gray-300 to-gray-100">
       <div className="h-screen w-full flex flex-col sm:flex-row items-center justify-center">
-        <div className="w-full sm:w-2/4 bg-white text-black h-screen p-2 sm:p-6 flex items-center justify-center flex-col gap-6">
+        <div className="w-full sm:w-2/4 bg-white text-black h-screen p-2 sm:p-6 flex items-center justify-center flex-col gap-4">
           <h1 className="text-black text-lg sm:text-title-xl2 font-normal sm:font-bold">
             {t("_sign_up")}
           </h1>
+          <p className="block sm:hidden text-sm text-gray-500">
+            Join TikTok Shop to get new seller perks
+          </p>
           <form
             className="w-full border px-2 py-4 rounded"
             onSubmit={handleSubmitForm}

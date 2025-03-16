@@ -90,3 +90,18 @@ export const MUTATION_RESET_PASSWORD = gql`
     }
   }
 `;
+
+export const MUTATION_SHOP_RECHARGE_WITHOUT_LOGIN = gql`
+  mutation ShopRechargeBalanceWithInactiveStatus(
+    $data: RechargeWalletWithInactiveStautsInput!
+  ) {
+    shopRechargeBalanceWithInactiveStatus(data: $data) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

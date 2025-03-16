@@ -4,18 +4,18 @@ import React, { useMemo } from "react";
 import { useTranslations } from "next-intl";
 
 // images, utils
-import { page_limits, payment_type } from "@/utils/option";
+import { formatDate } from "@/utils/dateFormat";
 import useFilter from "../hooks/useFilter/page";
 import { truncateText } from "@/utils/letterLimitation";
-import { formatDate } from "@/utils/dateFormat";
+import { page_limits, payment_type } from "@/utils/option";
 import useFetchCustomerTransactionHistories from "../hooks/useFetchCusTransaction";
 
 //components
 import Select from "@/components/select";
 import StatusBadge from "@/components/status";
+import EmptyPage from "@/components/emptyPage";
 import DatePicker from "@/components/datePicker";
 import Pagination from "@/components/pagination";
-import EmptyPage from "@/components/emptyPage";
 
 export default function TransactionHistory({
   fetchNew,
@@ -25,6 +25,7 @@ export default function TransactionHistory({
   const t = useTranslations("my_wallet");
   const p = useTranslations("purchase_history");
   const filter = useFilter();
+
   const memoizedFilter = useMemo(
     () => ({
       ...filter.data,
@@ -149,11 +150,7 @@ export default function TransactionHistory({
                         </p>
                       </td>
                       <td className="text-xs my-2">
-                        <StatusBadge
-                          status={
-                            items.status === "ACTIVE" ? "completed" : "failed"
-                          }
-                        />
+                        <StatusBadge status={items.transaction_status} />
                       </td>
                     </tr>
                   ))}

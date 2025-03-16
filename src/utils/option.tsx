@@ -14,6 +14,12 @@ export const product_status: any = [
 //   { label: "Un shelf", value: "UN_SHELF" },
 // ];
 
+export const coin_type: any = [
+  { label: "ERC20", value: "ERC20" },
+  { label: "TRC20", value: "TRC20" },
+  { label: "BTC", value: "BTC" },
+];
+
 export const payment_type: any = [
   { label: "All", value: "" },
   { label: "Recharge", value: "RECHARGE" },

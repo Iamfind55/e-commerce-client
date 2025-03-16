@@ -85,7 +85,7 @@ export default async function RootLayout({
       <DynamicApolloClientWrapper>
         <html lang={locale}>
           <body className="bg-dark font-sans">
-            <DevToolsRedirect />
+            {/* <DevToolsRedirect /> */}
             <div className="justify-center text-white h-screen">
               <ReduxProvider>{children}</ReduxProvider>
             </div>

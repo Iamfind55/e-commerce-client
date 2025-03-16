@@ -89,13 +89,21 @@ export default function Navbar() {
             >
               <MenuIcon size={20} className="text-white" />
             </button>
-            <Link href="/">
+            <Link href="/" className="hidden sm:block">
               <Image
                 className="rounded-full"
                 src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740281086/logo2_dwqmfv.png"
                 alt=""
                 width={250}
                 height={200}
+              />
+            </Link>
+            <Link href="/" className="block sm:hidden">
+              <Image
+                src="https://res.cloudinary.com/dvh8zf1nm/image/upload/v1740281085/logo_r6v6do.png"
+                alt=""
+                width={80}
+                height={60}
               />
             </Link>
           </div>
@@ -299,9 +307,15 @@ export default function Navbar() {
                 &nbsp;{t("_my_cart")}
               </Link>
             </div>
-            <div className="block lg:hidden cursor-pointer">
+            {/* <div className="block lg:hidden cursor-pointer">
               <SearchIcon size={24} className="text-white" />
-            </div>
+            </div> */}
+            <Link
+              href="/signup"
+              className="block sm:hidden text-xs cursor-pointer rounded py-0 px-2 border border-white"
+            >
+              {t("_be_seller")}
+            </Link>
           </div>
         </div>
       </div>

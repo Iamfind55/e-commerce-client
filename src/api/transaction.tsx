@@ -24,6 +24,7 @@ export const QUERY_CUSTOMER_TRANSACTION_HISTORIES = gql`
         status
         created_at
         customer_id
+        transaction_status
         payment_slip
       }
       error {

@@ -7,6 +7,8 @@ interface StatusBadgeProps {
 const useStatus = {
   NO_PICKUP: "NO_PICKUP",
   PROCESSING: "PROCESSING",
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
   CANCELLED: "CANCELLED",
   NOT_DELIVERY: "NOT_DELIVERY",
   PACKING: "PACKING",
@@ -18,9 +20,9 @@ const useStatus = {
   FAILED: "FAILED",
   LOCKED: "locked",
   BLOCKED: "blocked",
-  PENDING: "pending",
-  APPROVED: "approved",
-  REGECTED: "rejected",
+  // PENDING: "pending",
+  // APPROVED: "approved",
+  REJECTED: "REJECTED",
   COMPLETED: "COMPLETED",
   CancelD: "canceled",
   CANCELED: "cancelled",
@@ -79,7 +81,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
           className: "bg-red-100 text-red-800",
           weight: "bg-red-500",
         };
-      case useStatus.REGECTED:
+      case useStatus.REJECTED:
         return {
           className: "bg-red-100 text-red-800",
           weight: "bg-red-500",
@@ -100,6 +102,11 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
           weight: "bg-yellow-600",
         };
       case useStatus.PROCESSING:
+        return {
+          className: "bg-yellow-200 text-yellow-600",
+          weight: "bg-yellow-600",
+        };
+      case useStatus.PENDING:
         return {
           className: "bg-yellow-200 text-yellow-600",
           weight: "bg-yellow-600",

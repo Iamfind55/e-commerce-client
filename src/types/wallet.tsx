@@ -34,7 +34,7 @@ export interface GetShopWalletResponse {
 }
 
 export interface IRecharge {
-  amount_recharged: number;
+  amount_recharged: number | null;
   coin_type: string;
   account_number: string;
   image: string;
@@ -44,5 +44,5 @@ export interface IWithdraw {
   image?: string;
   coin_type: string;
   account_number: string;
-  amount_withdraw: number;
+  amount_withdraw: number | null;
 }
