@@ -6,7 +6,12 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import OrderListDetail from "./order-list/OrderListDatails";
 import Breadcrumb from "@/components/breadCrumb";
-import { CancelIcon, CheckCircleIcon } from "@/icons/page";
+import {
+  CancelIcon,
+  CheckCircleIcon,
+  DeliveryIcon,
+  PackingIcon,
+} from "@/icons/page";
 
 export default function OrderManagement() {
   const t = useTranslations("order_page");
@@ -67,10 +72,11 @@ export default function OrderManagement() {
                   }`}
                 >
                   <p className="text-xs hidden sm:block">
-                    {t("_processed_order")}
+                    {/* {t("_processed_order")} */}
+                    Packing
                   </p>
                   <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
-                    <CheckCircleIcon size={16} className="text-green-500" />
+                    <PackingIcon size={16} className="text-green-500" />
                     {t("_order")}
                   </p>
                 </div>
@@ -88,10 +94,11 @@ export default function OrderManagement() {
                   }`}
                 >
                   <p className="text-xs hidden sm:block">
-                    {t("_canceled_order")}
+                    {/* {t("_processed_order")} */}
+                    Shipping
                   </p>
                   <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
-                    <CancelIcon size={16} className="text-red-500" />
+                    <DeliveryIcon size={16} className="text-green-500" />
                     {t("_order")}
                   </p>
                 </div>
@@ -106,6 +113,27 @@ export default function OrderManagement() {
                 <div
                   className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
                     tab === 5 && "text-neon_pink"
+                  }`}
+                >
+                  <p className="text-xs hidden sm:block">
+                    {t("_canceled_order")}
+                  </p>
+                  <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
+                    <CancelIcon size={16} className="text-red-500" />
+                    {t("_order")}
+                  </p>
+                </div>
+              </button>
+            </li>
+
+            <li className="me-2" role="presentation">
+              <button
+                className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
+                onClick={() => setTab(6)}
+              >
+                <div
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
+                    tab === 6 && "text-neon_pink"
                   }`}
                 >
                   <p className="text-xs hidden sm:block">
@@ -126,9 +154,10 @@ export default function OrderManagement() {
             <div className="w-full">
               {tab === 1 && <OrderListDetail status="" />}
               {tab === 2 && <OrderListDetail status="NO_PICKUP" />}
-              {tab === 3 && <OrderListDetail status="PROCESSING" />}
-              {tab === 4 && <OrderListDetail status="CANCELLED" />}
-              {tab === 5 && <OrderListDetail status="SUCCESS" />}
+              {tab === 3 && <OrderListDetail status="PACKING" />}
+              {tab === 4 && <OrderListDetail status="SHIPPING" />}
+              {tab === 5 && <OrderListDetail status="CANCELLED" />}
+              {tab === 6 && <OrderListDetail status="SUCCESS" />}
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@ export default function VIPProductCard({
   quantity,
   product_vip,
   selectedProducts,
+  shopProductStatus,
   handleCheckboxChange,
 }: VIPProductCardProps) {
   const t = useTranslations("shop_product_list");
@@ -103,6 +104,8 @@ export default function VIPProductCard({
               selectedIds.length >= 1
                 ? "opacity-100"
                 : "opacity-0 group-hover:opacity-100"
+            } ${
+              shopProductStatus === "ON_SHELF" ? "hidden" : "block"
             } transition-opacity duration-200`}
           >
             <input
@@ -183,13 +186,19 @@ export default function VIPProductCard({
                 <p className="font-bold text-md text-black">${price}</p>
               </div>
               <button
-                className="w-full sm:w-auto text-gray-500 border border-gray-200 flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none"
+                className={`w-full sm:w-auto ${
+                  shopProductStatus === "ON_SHELF"
+                    ? "text-neon_pink bg-gray-200 border border-neon_pink"
+                    : "text-gray-500 border border-gray-200"
+                }  flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none`}
                 onClick={() => {
                   setProductId(id);
                   handleOpenModal();
                 }}
               >
-                {t("_view")}
+                {shopProductStatus === "ON_SHELF"
+                  ? "Already on shelf"
+                  : t("_view")}
               </button>
             </div>
           </div>

@@ -31,7 +31,7 @@ export default function ApplyVIPProduct() {
   const { user } = useSelector((state: any) => state.auth);
   const fetchProduct = useFetchProducts({ filter: filter.data });
 
-  console.log(user);
+  console.log(fetchProduct);
 
   const [activeVIP, setActiveVIP] = React.useState<number>(1);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -68,15 +68,17 @@ export default function ApplyVIPProduct() {
       setSelectedProducts([]);
     } else {
       setSelectedProducts(
-        fetchProduct.data.map((product) => ({
-          id: product.id,
-          quantity: product.quantity ?? 0, // Ensure quantity is available in your API response
-        }))
+        fetchProduct.data
+          .filter((product) => product.shopProductStatus !== "ON_SHELF") // Exclude "ON_SHELF" products
+          .map((product) => ({
+            id: product.id,
+            quantity: product.quantity ?? 0,
+          }))
       );
     }
   };
 
-  const handleApployProduct = async () => {
+  const handleApplyProduct = async () => {
     setIsLoading(true);
     try {
       const promises = selectedProducts.map((product) =>
@@ -95,17 +97,6 @@ export default function ApplyVIPProduct() {
       const responses = await Promise.all(promises);
       let success = true;
       let errorMessageText = "";
-
-      // responses.forEach((res) => {
-      //   if (res?.data?.createShopProduct?.success === false) {
-      //     const error = res?.data?.createShopProduct?.error;
-      // if (error?.code === "402") {
-      //   errorMessageText += `${error.message} `;
-      // } else {
-      //       success = false;
-      //     }
-      //   }
-      // });
 
       responses.forEach((res) => {
         if (res?.data?.createShopProduct?.success === false) {
@@ -216,7 +207,7 @@ export default function ApplyVIPProduct() {
                 className={`rounded bg-neon_pink p-2 w-auto text-white text-xs ${
                   selectedProducts.length >= 1 ? "block" : "hidden"
                 }`}
-                onClick={handleApployProduct}
+                onClick={handleApplyProduct}
               />
             </div>
           </div>

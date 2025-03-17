@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 
 // apollo
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_CATEGORIES_HEADER } from "@/api/category";
 
 // components
+import EmptyPage from "@/components/emptyPage";
 import Breadcrumb from "@/components/breadCrumb";
 import Pagination from "@/components/pagination";
 
@@ -15,8 +17,6 @@ import ProductCard2 from "@/components/productCard2";
 import { ArrowDownIcon, NextIcon } from "@/icons/page";
 import useFilter from "@/app/[locale]/(pages)/product/hooks/useFilter/page";
 import useFetchProducts from "@/app/[locale]/(pages)/product/hooks/useFetchProduct";
-import { useTranslations } from "next-intl";
-import EmptyPage from "@/components/emptyPage";
 
 export default function ApplyProduct() {
   const t = useTranslations("shop_product_list");

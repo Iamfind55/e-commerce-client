@@ -39,6 +39,7 @@ export const QUERY_PRODUCTS = gql`
         product_top
         product_vip
         created_at
+        shopProductStatus
       }
       error {
         message

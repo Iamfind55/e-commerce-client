@@ -173,13 +173,20 @@ export default function ProductCard2(props: ProductData) {
                 {t("_show_button")}
               </button>
               <button
-                className="w-full sm:w-auto bg-neon_pink text-white flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none"
+                className={`w-full sm:w-auto  ${
+                  props.shopProductStatus === "ON_SHELF"
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "text-white bg-neon_pink"
+                }  flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none`}
+                disabled={props.shopProductStatus === "ON_SHELF"}
                 onClick={() => {
                   setProductId(props.id);
                   handleOpenShelfModal();
                 }}
               >
-                {t("_up_shelf")}
+                {props.shopProductStatus === "ON_SHELF"
+                  ? "Already shelf"
+                  : t("_up_shelf")}
               </button>
             </div>
           </div>

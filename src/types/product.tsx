@@ -27,6 +27,7 @@ export interface ProductData {
   product_top?: boolean | null;
   product_vip?: number | null;
   created_at?: string | null;
+  shopProductStatus?: string | null;
 }
 
 export interface GetProductsResponse {

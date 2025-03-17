@@ -68,6 +68,7 @@ import { HiOutlineNewspaper } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa6";
 import { TbBellRinging } from "react-icons/tb";
 import { PiHandWithdraw } from "react-icons/pi";
+import { GiBoxUnpacking } from "react-icons/gi";
 
 interface IconProps {
   size?: number;
@@ -76,6 +77,9 @@ interface IconProps {
   onClick?: () => void;
 }
 
+export const PackingIcon = (props: IconProps) => {
+  return <GiBoxUnpacking {...props} />;
+};
 export const SubscriptionIcon = (props: IconProps) => {
   return <TbBellRinging {...props} />;
 };
