@@ -37,8 +37,6 @@ export default function Shop() {
     });
   }, [getShop]);
 
-  console.log(id);
-
   return (
     <>
       <div

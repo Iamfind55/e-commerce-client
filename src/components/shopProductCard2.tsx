@@ -29,7 +29,7 @@ export default function ShopProductCard2(props: ShopProductData) {
     } else {
       dispatch(
         addToCart({
-          id: props?.productData.id,
+          id: props?.id,
           name: props?.productData.name.name_en,
           price: props.productData.price,
           quantity: 1,

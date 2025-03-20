@@ -43,10 +43,13 @@ export default function PurchaseHistoryDetails() {
         <Breadcrumb
           items={[
             { label: i("_customer"), value: "/customer" },
-            { label: t("_purchase_history"), value: "/purchase-history" },
+            {
+              label: t("_purchase_history"),
+              value: "/customer/purchase-history",
+            },
             {
               label: t("_purchase_history_detail"),
-              value: "/purchase-history/id",
+              value: "/customer/purchase-history/id",
             },
           ]}
         />

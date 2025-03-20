@@ -174,10 +174,12 @@ export default function CustomerWallet() {
         duration: 3000,
       });
     } finally {
+      setCover(null);
+      setPreview1(null);
       setIsLoading(false);
       setRechargeData({
         amount_recharged: 1,
-        coin_type: "",
+        coin_type: "ERC20",
         account_number: "",
         image: "",
       });
@@ -284,72 +286,6 @@ export default function CustomerWallet() {
                       }))
                     }
                   />
-                  {/* <div className="flex items-center mb-4">
-                    <input
-                      id="erc20-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="ERC20"
-                      onChange={(e) =>
-                        setRechargeData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={rechargeData.coin_type === "ERC20"}
-                    />
-                    <label
-                      htmlFor="erc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      ERC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="trc20-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="TRC20"
-                      onChange={(e) =>
-                        setRechargeData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={rechargeData.coin_type === "TRC20"}
-                    />
-                    <label
-                      htmlFor="trc20-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      TRC20
-                    </label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input
-                      id="btc-coin"
-                      type="radio"
-                      name="rechargeAccount"
-                      className="w-3 h-3 text-gray-500 bg-gray-100 border-gray-300"
-                      value="BTC"
-                      onChange={(e) =>
-                        setRechargeData((prev) => ({
-                          ...prev,
-                          coin_type: e.target.value,
-                        }))
-                      }
-                      checked={rechargeData.coin_type === "BTC"}
-                    />
-                    <label
-                      htmlFor="btc-coin"
-                      className="ms-2 text-xs font-medium text-gray-500 cursor-pointer"
-                    >
-                      BTC
-                    </label>
-                  </div> */}
                 </div>
               </div>
               <div className="w-full flex items-center justify-between gap-4">

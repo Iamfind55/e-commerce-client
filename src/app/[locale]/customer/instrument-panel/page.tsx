@@ -48,6 +48,8 @@ export type ReportItem = {
 export default function InstrumentPanel() {
   const t = useTranslations("myCartPage");
   const g = useTranslations("global");
+  const c = useTranslations("customer_auth");
+  const o = useTranslations("order_page");
   const i = useTranslations("instrument_panel");
   const { customer } = useSelector((state: any) => state.customerAuth);
   const { errorMessage, successMessage } = useToast();
@@ -281,6 +283,23 @@ export default function InstrumentPanel() {
     } finally {
       setIsLoading(false);
       setIsOpenModal(false);
+      setFormData({
+        id: "",
+        country: {
+          country: "",
+        },
+        state: {
+          state: "",
+        },
+        city: {
+          city: "",
+        },
+        address: "",
+        postal_code: "",
+        email: "",
+        phone_number: "",
+        is_used: false,
+      });
     }
   };
 
@@ -346,22 +365,22 @@ export default function InstrumentPanel() {
 
   const reportItems: ReportItem[] = [
     {
-      title: i("_product"),
+      title: o("_order"),
       amount:
         orderResults?.FAILED?.customerGetOrderDashboard?.data?.total_order,
-      detail: i("_in_your_shipping_cart"),
+      detail: "Failed orders",
     },
     {
-      title: i("_product"),
+      title: o("_order"),
       amount:
         orderResults?.CANCELLED?.customerGetOrderDashboard?.data?.total_order,
-      detail: i("_in_your_order"),
+      detail: o("_canceled_order"),
     },
     {
-      title: i("_product"),
+      title: o("_order"),
       amount:
         orderResults?.SUCCESS?.customerGetOrderDashboard?.data?.total_order,
-      detail: i("_your_order"),
+      detail: o("_success_order"),
     },
   ];
 
@@ -371,7 +390,10 @@ export default function InstrumentPanel() {
         <Breadcrumb
           items={[
             { label: i("_customer"), value: "/customer" },
-            { label: i("_instrument_panel"), value: "/instrucment-panel" },
+            {
+              label: i("_instrument_panel"),
+              value: "/customer/instrucment-panel",
+            },
           ]}
         />
         <div className="w-full flex items-start justify-between gap-4 mt-4">

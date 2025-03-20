@@ -70,18 +70,21 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
           duration: 3000,
         });
         handleOpenDeliveryModal();
-
         fetchShopOrders.refetch();
+        setSelectRow(null);
       } else {
         errorMessage({
-          message: res?.data?.shopConfirmOrder?.error?.details,
+          message: res?.data?.shopConfirmOrder?.error?.message,
           duration: 3000,
         });
       }
     } catch (error) {
+      errorMessage({
+        message: "Sorry. Unexpected error happen!",
+        duration: 3000,
+      });
     } finally {
       setIsLoading(false);
-      setSelectRow(null);
     }
   };
 

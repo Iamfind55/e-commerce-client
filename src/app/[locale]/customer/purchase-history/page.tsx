@@ -244,19 +244,7 @@ export default function PurchaseHistory() {
                         {order.delivery_type}
                       </td>
                       <td className="text-xs text-center">
-                        <StatusBadge
-                          status={
-                            order.order_status === "SUCCESS"
-                              ? "success"
-                              : order.order_status === "FAILED"
-                              ? "failed"
-                              : order.order_status === "PROCESSING"
-                              ? "pending"
-                              : order.order_status === "CANCELLED"
-                              ? "cancelled"
-                              : "No pick-up"
-                          }
-                        />
+                        <StatusBadge status={order.order_status} />
                       </td>
                       <td className="text-xs text-center">
                         {formatDateTimeToDate(order.created_at)}

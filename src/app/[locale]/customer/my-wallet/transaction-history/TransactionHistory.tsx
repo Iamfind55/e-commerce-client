@@ -206,7 +206,7 @@ export default function TransactionHistory({
                           &nbsp;&nbsp;{formatDate(val.created_at)}
                         </p>
                       </div>
-                      <StatusBadge status={val?.status} />
+                      <StatusBadge status={val?.transaction_status} />
                     </div>
                   </div>
                 </div>

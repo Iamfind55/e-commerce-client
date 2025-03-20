@@ -8,6 +8,8 @@ const useFetchShopOrders = ({ filter }: { filter: IFilter }) => {
   const { order_status, order_no, limit, page, createdAtBetween } = filter;
   const numericLimit = Number(limit);
 
+  // console.log("Order status:", order_status);
+
   const [shopGetOrders, { data, refetch }] = useLazyQuery<GetShopOrderResponse>(
     QUERY_SHOP_ORDER,
     {
