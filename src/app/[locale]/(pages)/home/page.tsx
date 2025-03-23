@@ -136,21 +136,22 @@ export default function Home() {
             <p className="text-second_black text-sm sm:text-md">
               {t("_categories")}:
             </p>
-            <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
+            <div className="w-full grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
               {categoryData?.getCategories?.data.map((image) => (
                 <Link
                   href={`/category/${image.id}?name=${image.name?.name_en}`}
                   key={image.id}
+                  className="h-[35vh]"
                 >
                   <Image
-                    className="w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
+                    className="shadow-md w-full h-full rounded cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:rounded-md"
                     src={
                       image.image ??
                       "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
                     }
                     alt={image.name?.name_en ?? "default"}
                     width={200}
-                    height={600}
+                    height={400}
                   />
                 </Link>
               ))}

@@ -249,3 +249,16 @@ export const QUERY_SHOP_SINGLE_PRODUCT = gql`
     }
   }
 `;
+
+export const MUTATION_REQUEST_VIP = gql`
+  mutation ShopRequestVIP($data: ShopRequestVIPInput!) {
+    shopRequestVIP(data: $data) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;
