@@ -149,7 +149,7 @@ export default function MemberOnly() {
                 Apply for VIP
               </h2>
               <p className="text-gray-500 mt-2 text-sm">
-                If you're interested in becoming a VIP member, click the button
+                If you are interested in becoming a VIP member, click the button
                 below and follow the steps to complete your application.
               </p>
               <IconButton
@@ -185,7 +185,7 @@ export default function MemberOnly() {
       >
         <div className="flex items-center justify-center flex-col rounded bg-white w-full py-2 px-4 gap-2">
           <h4 className="text-gray-500 text-md mb-3 font-bold">
-            "Apply for VIP member"
+            Apply for VIP member
           </h4>
           <form
             className="w-full flex items-start justify-start flex-col gap-2"
