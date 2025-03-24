@@ -40,7 +40,8 @@ export default function ThumbnailSwiper({ images }: ThumbnailSwiperProps) {
         {images.map((image, index) => (
           <SwiperSlide key={index}>
             <img
-              src={"https://227_cdn.pionexprocoin.cc" + image}
+              // src={"https://227_cdn.pionexprocoin.cc" + image}
+              src={image}
               alt={`Product Image ${index + 1}`}
             />
           </SwiperSlide>
@@ -59,7 +60,11 @@ export default function ThumbnailSwiper({ images }: ThumbnailSwiperProps) {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <img src={"https://227_cdn.pionexprocoin.cc" + image} alt={image} />
+            <img
+              // src={"https://227_cdn.pionexprocoin.cc" + image}
+              src={image}
+              alt={image}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

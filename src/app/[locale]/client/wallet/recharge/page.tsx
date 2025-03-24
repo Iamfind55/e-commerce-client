@@ -17,6 +17,7 @@ import TransactionCard from "@/components/trasactionCard";
 import useFilterTransaction from "../hooks/useFilterRecharge";
 import useFetchShopTransactions from "../hooks/useFetchRecharge";
 import { useTranslations } from "next-intl";
+import EmptyPage from "@/components/emptyPage";
 
 export default function RechargeHistory() {
   const t = useTranslations("shop_recharge");
@@ -186,41 +187,47 @@ export default function RechargeHistory() {
             />
           </div>
         </div>
-        <div className="w-full mt-4 block sm:hidden">
-          {fetchShopTransactions?.data?.map((val, index) => (
-            <div
-              key={val.id + index}
-              className="w-full flex items-start jusitfy-start gap-4 flex-col my-2"
-            >
-              <TransactionCard
-                date={formatDate(val.created_at)}
-                status={val.status}
-                title={val.coin_type + "Conversion rate : $1.00"}
-                amount={val.amount.toFixed(2)}
-                receive_amount={val.amount.toFixed(2)}
-                image={
-                  val.payment_slip
-                    ? val.payment_slip
-                    : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1739113550/default-bill_aaljeo.png"
-                }
+        {fetchShopTransactions?.total ?? 0 > 0 ? (
+          <div className="w-full mt-4 block sm:hidden">
+            {fetchShopTransactions?.data?.map((val, index) => (
+              <div
+                key={val.id + index}
+                className="w-full flex items-start jusitfy-start gap-4 flex-col my-2"
+              >
+                <TransactionCard
+                  date={formatDate(val.created_at)}
+                  status={val.transaction_status}
+                  title={val.coin_type + "Conversion rate : $1.00"}
+                  amount={val.amount.toFixed(2)}
+                  receive_amount={val.amount.toFixed(2)}
+                  image={
+                    val.payment_slip
+                      ? val.payment_slip
+                      : "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1739113550/default-bill_aaljeo.png"
+                  }
+                />
+              </div>
+            ))}
+            <div className="flex items-start justify-center py-2 gap-4">
+              <Pagination
+                filter={filter.data}
+                totalPage={Math.ceil(
+                  (fetchShopTransactions.total ?? 0) / filter.data.limit
+                )}
+                onPageChange={(e) => {
+                  filter.dispatch({
+                    type: filter.ACTION_TYPE.PAGE,
+                    payload: e,
+                  });
+                }}
               />
             </div>
-          ))}
-          <div className="flex items-start justify-center py-2 gap-4">
-            <Pagination
-              filter={filter.data}
-              totalPage={Math.ceil(
-                (fetchShopTransactions.total ?? 0) / filter.data.limit
-              )}
-              onPageChange={(e) => {
-                filter.dispatch({
-                  type: filter.ACTION_TYPE.PAGE,
-                  payload: e,
-                });
-              }}
-            />
           </div>
-        </div>
+        ) : (
+          <div className="w-full mt-4 block sm:hidden">
+            <EmptyPage />
+          </div>
+        )}
       </div>
     </>
   );

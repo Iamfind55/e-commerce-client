@@ -29,6 +29,7 @@ import { MUTATION_SHOP_RECHARGE, MUTATION_SHOP_WITHDRAW } from "@/api/recharge";
 import { QUERY_SHOP_WALLET } from "@/api/wallet";
 import Select from "@/components/select";
 import { coin_type } from "@/utils/option";
+import { truncateText } from "@/utils/letterLimitation";
 
 interface CloudinaryResponse {
   secure_url?: string;
@@ -304,7 +305,7 @@ export default function ShopWallet() {
         ]}
       />
       <div className="mt-2 rounded flex items-start justify-start flex-col gap-2 py-4 text-gray-500">
-        <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <div className="w-full grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
           {reportItems.map((item, index) => (
             <WalletCard
               key={index + 1}
@@ -317,7 +318,7 @@ export default function ShopWallet() {
 
         <div className="mt-6 w-full flex flex-col sm:flex-row items-start justify-between gap-4">
           <form
-            className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-4 p-4"
+            className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-4 p-2 sm:p-4"
             onSubmit={handleSubmitForm}
           >
             <p className="text-md font-medium">{m("_top_up_title")}:</p>
@@ -466,7 +467,7 @@ export default function ShopWallet() {
                   {rechargeData?.coin_type} Network address:
                 </p>
                 <div className="w-full flex items-start justify-between">
-                  <p className="text-xs font-medium">
+                  <p className="hidden sm:block text-xs font-medium">
                     {rechargeData?.coin_type === "ERC20"
                       ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
                       : rechargeData?.coin_type === "TRC20"
@@ -474,6 +475,18 @@ export default function ShopWallet() {
                       : rechargeData?.coin_type === "BTC"
                       ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
                       : ""}
+                  </p>
+                  <p className="block sm:hidden text-xs font-medium">
+                    {truncateText(
+                      rechargeData?.coin_type === "ERC20"
+                        ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
+                        : rechargeData?.coin_type === "TRC20"
+                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                        : rechargeData?.coin_type === "BTC"
+                        ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                        : "",
+                      35
+                    )}
                   </p>
                   <div className="flex items-start justify-start gap-4">
                     {!isCopied ? (
@@ -512,7 +525,7 @@ export default function ShopWallet() {
 
           <form
             onSubmit={handleWithdraw}
-            className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-2 p-4"
+            className="bg-white rounded w-full sm:w-1/2 flex items-start justify-start flex-col gap-2 p-2 sm:p-4"
           >
             <p className="text-md font-medium">{t("_withdraw_title")}:</p>
 

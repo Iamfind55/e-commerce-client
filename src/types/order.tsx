@@ -45,6 +45,8 @@ export interface ProductName {
 export interface IOrderDetailData {
   id: string;
   order_no: string;
+  payment_status: string;
+  order_status: string;
   product_name: string;
   product_cover_image: string;
   sku: string;
@@ -54,8 +56,6 @@ export interface IOrderDetailData {
   product_id: string;
   order_id: string;
   status: string;
-  payment_status: string;
-  order_status: string;
   delivery_type: string;
   customer_id: string;
   created_at: string;

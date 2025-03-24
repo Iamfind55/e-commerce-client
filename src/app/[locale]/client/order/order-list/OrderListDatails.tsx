@@ -24,6 +24,8 @@ import useFetchShopOrders from "../hooks/useFetch";
 import { GetShopWalletResponse } from "@/types/wallet";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { MUTATION_SHOP_CONFIRM_ORDER } from "@/api/order";
+import OrderCardComponent from "@/components/orderCard";
+import OrderCardComponent1 from "@/components/orderCard2";
 
 interface OrderListDetailProps {
   status?: string; // Make it optional to avoid type errors
@@ -117,9 +119,27 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
               }}
             />
           </div>
+          <div className="block sm:hidden relative w-full border rounded mt-4 pt-1">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <SearchIcon size={16} className="text-neon_pink" />
+            </div>
+            <input
+              required
+              type="text"
+              id="search"
+              placeholder={t("_search")}
+              onChange={(e) => {
+                filter.dispatch({
+                  type: filter.ACTION_TYPE.ORDER_NO,
+                  payload: e.target.value,
+                });
+              }}
+              className="h-8 bg-white text-gray-500 text-xs rounded ps-10 p-2 focus:outline-none focus:ring-1"
+            />
+          </div>
         </div>
-        <div className="w-full sm:w-3/5 flex flex-col sm:flex-row mt-2 sm:mt-0 items-end justify-start gap-2">
-          <div className="relative w-full border rounded">
+        <div className="w-full sm:w-3/5 flex mt-1 sm:mt-0 items-end justify-start gap-2">
+          <div className="hidden sm:block relative w-full border rounded">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <SearchIcon size={16} className="text-neon_pink" />
             </div>
@@ -257,6 +277,17 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
                 ))}
               </tbody>
             </table>
+          ) : (
+            <EmptyPage />
+          )}
+        </div>
+        <div className="block sm:hidden">
+          {fetchShopOrders.total ?? 0 > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:mx-0">
+              {fetchShopOrders?.data?.map((val, index) => (
+                <OrderCardComponent1 {...val} key={index + 1} />
+              ))}
+            </div>
           ) : (
             <EmptyPage />
           )}

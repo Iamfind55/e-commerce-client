@@ -653,8 +653,8 @@
 
   "wallet_management": {
     "_comment": "Comment:: This is for Wallet management page",
-    "_wallet_balance": "Wallet balance",
-    "_recharged": "Recharged",
+    "_wallet_balance": "Total balance",
+    "_recharged": "Deposit",
     "_withdrawal": "Withdrawal",
     "_frozen_balance": "Pending balance",
     "_withdrawal_balance": "Withdrawal balance",
@@ -841,7 +841,7 @@
     "_order_list": "Order list",
     "_order_list_detail": "Order list detail",
     "_order_list_title": "List of all products on order",
-    "_immediate_delivery": "Immediate delivery"
+    "_immediate_delivery": "Delivery"
   },
 
   "order_card": {
@@ -877,7 +877,7 @@
     "_confirm_password_placeholder": "Confirm password....",
     "_new_pass_btn": "SET NEW PASSWORD"
   },
-  
+
   "notification_page": {
     "_tile": "List of all notifications",
     "_read": "Read",

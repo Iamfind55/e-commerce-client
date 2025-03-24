@@ -43,8 +43,6 @@ export default function ShopDetails() {
   const { errorMessage, successMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
 
-  console.log(user);
-
   const [file, setFile] = React.useState<File | null>(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [cover, setCover] = React.useState<File | null>(null);
@@ -88,6 +86,7 @@ export default function ShopDetails() {
       id_card_image_back: "",
       id_card_image: "",
     },
+    shop_vip: 0,
     store_name: "",
     payment_method: [],
   });
@@ -373,7 +372,7 @@ export default function ShopDetails() {
             },
             status: res.status,
             store_name: res.store_name,
-            shop_vip: res.shop_vip ?? false,
+            shop_vip: res.shop_vip,
           })
         );
 
@@ -464,7 +463,7 @@ export default function ShopDetails() {
   return (
     <>
       <div className="w-full flex items-start justify-center gap-2 sm:flex-row flex-col">
-        <div className="w-full rounded p-4 shadow-md">
+        <div className="bg-white w-full rounded p-1 sm:p-4 shadow-md">
           <form
             className="w-full py-2 flex items-start justify-start flex-col gap-4"
             onSubmit={handleSubmitForm}
@@ -474,9 +473,9 @@ export default function ShopDetails() {
                 <p className="text-sm text-gray-500">{t("_title")}:</p>
               </div>
 
-              <div className="w-full flex items-start justify-start gap-4">
-                <div className="w-2/4 flex items-start justify-start gap-6 p-2 rounded bg-white">
-                  <div className="w-2/4 flex items-center justify-center flex-col gap-4">
+              <div className="w-full flex flex-col md:flex-row items-start justify-start gap-4">
+                <div className="w-full sm:w-2/4 flex flex-col md:flex-row items-start justify-start gap-6 p-2 rounded bg-white">
+                  <div className="w-full sm:w-2/4 flex items-center justify-center flex-col gap-4">
                     {preview ? (
                       <Image
                         src={preview}
@@ -527,7 +526,7 @@ export default function ShopDetails() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-2/4 flex items-start justify-center flex-col gap-2">
+                  <div className="w-full sm:w-2/4 flex items-start justify-center flex-col gap-2">
                     <div className="flex items-center justify-start gap-6">
                       <label className="block text-gray-500 text-sm">
                         {t("_upload_cover")}
@@ -550,7 +549,7 @@ export default function ShopDetails() {
                         New
                       </label>
                     </div>
-                    {shopData?.image?.cover ? (
+                    {shopData?.image?.cover || preview1 ? (
                       <div className="w-full">
                         {preview1 ? (
                           <Image
@@ -592,12 +591,12 @@ export default function ShopDetails() {
                             {errorMessages}
                           </p>
                         )}
-                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                        <div className="flex items-start justify-start gap-4 rounded p-4 cursor-pointer">
                           <label
                             htmlFor="cover-upload"
                             className="text-sm rounded flex items-center justify-center cursor-pointer"
                           >
-                            <PlusIcon className="text-gray-500" />
+                            {/* <PlusIcon className="text-gray-500" /> */}
                           </label>
                         </div>
                       </div>
@@ -605,7 +604,7 @@ export default function ShopDetails() {
                   </div>
                 </div>
 
-                <div className="w-2/4 bg-white rounded p-4">
+                <div className="w-full sm:w-2/4 bg-white rounded p-4">
                   <div className="w-full flex items-start justify-between flex-col gap-2">
                     <div className="w-full flex items-center justify-between">
                       <label className="block text-gray-500 text-xs">
@@ -672,12 +671,12 @@ export default function ShopDetails() {
                             {errorMessages}
                           </p>
                         )}
-                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                        <div className="flex items-start justify-start gap-4 rounded p-4 cursor-pointer">
                           <label
                             htmlFor="card-people-upload"
                             className="text-sm rounded flex items-center justify-center cursor-pointer"
                           >
-                            <PlusIcon className="text-gray-500" />
+                            {/* <PlusIcon className="text-gray-500" /> */}
                           </label>
                         </div>
                       </div>
@@ -685,8 +684,9 @@ export default function ShopDetails() {
                   </div>
                 </div>
               </div>
-              <div className="w-full flex items-start jusitfy-start gap-4">
-                <div className="w-2/4 bg-white p-4 rounded-md">
+
+              <div className="w-full flex flex-col-reverse md:flex-row items-start justify-start gap-4">
+                <div className="w-full sm:w-2/4 bg-white p-4 rounded-md">
                   <div className="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
                     <Textfield
                       placeholder={t("_shop_name_placeholder")}
@@ -909,7 +909,7 @@ export default function ShopDetails() {
                     </div>
                   )}
                 </div>
-                <div className="w-2/4 flex items-start justify-start flex-col gap-6 bg-white rounded p-2">
+                <div className="w-full sm:w-2/4 flex items-start justify-start flex-col gap-6 bg-white rounded p-2">
                   <div className="w-full flex items-start justify-center flex-col gap-4">
                     <div className="w-full flex items-center justify-between gap-2">
                       <label className="block text-gray-500 text-xs">
@@ -976,12 +976,12 @@ export default function ShopDetails() {
                             {errorMessages}
                           </p>
                         )}
-                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                        <div className="flex items-start justify-start gap-4 rounded p-4 cursor-pointer">
                           <label
                             htmlFor="card-front-upload"
                             className="text-sm rounded flex items-center justify-center cursor-pointer"
                           >
-                            <PlusIcon className="text-gray-500" />
+                            {/* <PlusIcon className="text-gray-500" /> */}
                           </label>
                         </div>
                       </div>
@@ -1053,12 +1053,12 @@ export default function ShopDetails() {
                             {errorMessages}
                           </p>
                         )}
-                        <div className="flex items-start justify-start gap-4 border rounded p-4 cursor-pointer">
+                        <div className="flex items-start justify-start gap-4 rounded p-4 cursor-pointer">
                           <label
                             htmlFor="card-back-upload"
                             className="text-sm rounded flex items-center justify-center cursor-pointer"
                           >
-                            <PlusIcon className="text-gray-500" />
+                            {/* <PlusIcon className="text-gray-500" /> */}
                           </label>
                         </div>
                       </div>
@@ -1068,7 +1068,7 @@ export default function ShopDetails() {
               </div>
             </div>
 
-            <div className="flex items-center justify-start gap-4 mt-4">
+            <div className="flex items-center justify-start gap-4 mt-0 sm:mt-4">
               <IconButton
                 className="rounded text-neon_pink p-2 border bg-white text-xs"
                 title={t("_back_button")}

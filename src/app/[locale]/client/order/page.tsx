@@ -28,7 +28,7 @@ export default function OrderManagement() {
       />
       <div className="my-2 flex items-end justify-between gap-2 bg-white py-2 px-4">
         <div className="w-full">
-          <ul className="flex flex-wrap items-start justify-between sm:justify-start text-sm font-medium text-center gap-0 sm:gap-4 border-b pb-1">
+          <ul className="flex items-start text-sm font-medium text-center gap-4 border-b pb-1 overflow-x-auto whitespace-nowrap">
             <li className="me-2" role="presentation">
               <button
                 className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${
@@ -71,13 +71,11 @@ export default function OrderManagement() {
                     tab === 3 && "text-neon_pink"
                   }`}
                 >
-                  <p className="text-xs hidden sm:block">
-                    {t("_processed_order")}
-                  </p>
-                  <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
+                  <p className="text-xs">{t("_processed_order")}</p>
+                  {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
                     <DeliveryIcon size={16} className="text-green-500" />
                     {t("_order")}
-                  </p>
+                  </p> */}
                 </div>
               </button>
             </li>
@@ -92,14 +90,14 @@ export default function OrderManagement() {
                     tab === 4 && "text-neon_pink"
                   }`}
                 >
-                  <p className="text-xs hidden sm:block">
+                  <p className="text-xs">
                     {/* {t("_processed_order")} */}
-                    Packing
+                    Packing orders
                   </p>
-                  <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
+                  {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
                     <PackingIcon size={16} className="text-green-500" />
                     {t("_order")}
-                  </p>
+                  </p> */}
                 </div>
               </button>
             </li>
@@ -114,14 +112,14 @@ export default function OrderManagement() {
                     tab === 5 && "text-neon_pink"
                   }`}
                 >
-                  <p className="text-xs hidden sm:block">
+                  <p className="text-xs">
                     {/* {t("_processed_order")} */}
-                    Shipping
+                    Shipping orders
                   </p>
-                  <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
+                  {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
                     <DeliveryIcon size={16} className="text-green-500" />
                     {t("_order")}
-                  </p>
+                  </p> */}
                 </div>
               </button>
             </li>
@@ -136,13 +134,11 @@ export default function OrderManagement() {
                     tab === 6 && "text-neon_pink"
                   }`}
                 >
-                  <p className="text-xs hidden sm:block">
-                    {t("_canceled_order")}
-                  </p>
-                  <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
+                  <p className="text-xs">{t("_canceled_order")}</p>
+                  {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
                     <CancelIcon size={16} className="text-red-500" />
                     {t("_order")}
-                  </p>
+                  </p> */}
                 </div>
               </button>
             </li>
@@ -157,13 +153,11 @@ export default function OrderManagement() {
                     tab === 7 && "text-neon_pink"
                   }`}
                 >
-                  <p className="text-xs hidden sm:block">
-                    {t("_success_order")}
-                  </p>
-                  <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
+                  <p className="text-xs">{t("_success_order")}</p>
+                  {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
                     <CheckCircleIcon size={16} className="text-green-500" />
                     {t("_order")}
-                  </p>
+                  </p> */}
                 </div>
               </button>
             </li>

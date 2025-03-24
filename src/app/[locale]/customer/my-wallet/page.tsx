@@ -31,6 +31,7 @@ import WalletCard from "@/components/walletCard";
 import TransactionHistory from "./transaction-history/TransactionHistory";
 import Select from "@/components/select";
 import { coin_type } from "@/utils/option";
+import { truncateText } from "@/utils/letterLimitation";
 
 interface CloudinaryResponse {
   secure_url?: string;
@@ -412,7 +413,7 @@ export default function CustomerWallet() {
                 </div>
                 <p className="text-xs mt-4">{t("_account_address")}:</p>
                 <div className="w-full flex items-start justify-between">
-                  <p className="text-xs font-medium">
+                  {/* <p className="text-xs font-medium">
                     {rechargeData?.coin_type === "ERC20"
                       ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
                       : rechargeData?.coin_type === "TRC20"
@@ -420,6 +421,27 @@ export default function CustomerWallet() {
                       : rechargeData?.coin_type === "BTC"
                       ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
                       : ""}
+                  </p> */}
+                  <p className="hidden sm:block text-xs font-medium">
+                    {rechargeData?.coin_type === "ERC20"
+                      ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
+                      : rechargeData?.coin_type === "TRC20"
+                      ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                      : rechargeData?.coin_type === "BTC"
+                      ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                      : ""}
+                  </p>
+                  <p className="block sm:hidden text-xs font-medium">
+                    {truncateText(
+                      rechargeData?.coin_type === "ERC20"
+                        ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
+                        : rechargeData?.coin_type === "TRC20"
+                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                        : rechargeData?.coin_type === "BTC"
+                        ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                        : "",
+                      35
+                    )}
                   </p>
                   <div className="flex items-start justify-start gap-4">
                     {!isCopied ? (

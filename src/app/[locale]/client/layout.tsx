@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import React, { ReactNode } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
 import { logout } from "@/redux/slice/authSlice";
 import { Link as NavigateLink, usePathname } from "@/navigation";
@@ -32,6 +32,7 @@ import {
 import "../globals.css";
 import DropdownComponent from "@/components/dropdown";
 import ShopDrawer from "@/components/shopDrawer";
+import RatingStar from "@/components/vipStar";
 
 type MenuItem = {
   icon: ReactNode;
@@ -49,6 +50,7 @@ export default function RootLayout({
   const pathname = usePathname();
   const dispatch = useDispatch();
   const nextPathname = useNextPathName();
+  const { user } = useSelector((state: any) => state.auth);
 
   const t = useTranslations("homePage");
   const s = useTranslations("shop_sidebar");
@@ -309,7 +311,8 @@ export default function RootLayout({
                 />
               </div>
             </div>
-            <div className="w-1/2 flex items-center justify-end gap-3">
+            <div className="w-full sm:w-1/2 flex items-center justify-end gap-3">
+              <RatingStar star={user.shop_vip} maxStar={5} />
               <DropdownComponent
                 className="w-56 cursor-pointer"
                 head={

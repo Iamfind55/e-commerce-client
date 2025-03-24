@@ -151,7 +151,7 @@ export default function ShopOrderListDetails() {
             </div>
           </div>
           {data?.shopGetOrderDetails?.total ?? 0 > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 sm:mx-0 mx-2">
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-2 sm:mx-0 mx-2">
               {data?.shopGetOrderDetails?.data?.map((val, index) => (
                 <OrderCardComponent {...val} key={index + 1} />
               ))}

@@ -205,7 +205,7 @@ export default function Login() {
               })) || [],
             status: res.data.status || "",
             store_name: res.data.store_name || "",
-            shop_vip: res.data.shop_vip ?? false, // Fallbacks to `false` if `shop_vip` is null/undefined
+            shop_vip: res.data.shop_vip || 0, // Fallbacks to `false` if `shop_vip` is null/undefined
             created_at: res.data.created_at || "",
           })
         );

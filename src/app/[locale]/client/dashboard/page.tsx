@@ -10,7 +10,6 @@ import {
   CartCancelIcon,
   CartIcon,
   CartPlusIcon,
-  CreditCardIcon,
   DepositIcon,
   DollarIcon,
   EmailIcon,
