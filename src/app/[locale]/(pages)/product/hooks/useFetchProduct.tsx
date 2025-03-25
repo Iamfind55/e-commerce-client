@@ -35,7 +35,6 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
     }
   );
 
-  console.log("ABD:", priceBetweenArray);
   const fetchProducts = () => {
     getProducts({
       variables: {

@@ -22,16 +22,7 @@ import { GetProductResponse, ProductData } from "@/types/product";
 import { useToast } from "@/utils/toast";
 import Loading from "./loading";
 
-interface ProductCardProps extends ProductData {
-  isSelected: boolean;
-  onSelect: (productId: string) => void;
-}
-
-export default function ProductCard2({
-  isSelected,
-  onSelect,
-  ...props
-}: ProductCardProps) {
+export default function ProductCard2(props: ProductData) {
   const t = useTranslations("shop_product_list");
   const { successMessage, errorMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
@@ -132,34 +123,22 @@ export default function ProductCard2({
 
   return (
     <>
-      <div className="relative w-auto cursor-pointer flex flex-col select-none gap-2 rounded border hover:shadow-lg transition-all duration-300 p-3">
-        {/* Checkbox for selection */}
-        <div className="absolute top-2 right-2 z-10">
-          <input
-            type="checkbox"
-            className="w-4 h-4 cursor-pointer accent-neon_pink border border-gray-200"
-            checked={isSelected}
-            onChange={() => onSelect(props.id)}
-          />
-        </div>
-
-        {/* Product Image */}
+      <div className="cursor-pointer flex items-start justify-start flex-col select-none gap-2 w-auto rounded border hover:shadow-lg transition-all duration-300 relative">
         <div className="w-full bg-white rounded">
-          <div className="w-full h-[150px] flex items-center justify-center">
+          <div className="w-full h-[150px] object-cover flex items-center justify-center">
             <Image
               className="rounded object-cover"
               src={
-                props.cover_image ||
-                "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                !props.cover_image
+                  ? "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                  : props?.cover_image
               }
               alt=""
               width={120}
               height={120}
             />
           </div>
-
-          {/* Product Details */}
-          <div className="p-3 flex flex-col gap-1">
+          <div className="p-3 flex items-start justify-start flex-col gap-1">
             <div className="w-full flex items-center justify-center gap-2">
               <i className="text-xs sm:text-md text-second_black font-normal sm:font-bold tracking-tight">
                 {truncateText(`${props?.name.name_en}`, 20)}
@@ -168,26 +147,24 @@ export default function ProductCard2({
             <p className="text-gray-500 font-normal text-xs">
               {truncateText(stripHtml(props?.description?.name_en ?? ""), 60)}
             </p>
-            <p className="flex items-center text-xs text-gray-500">
+            <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
               &nbsp; {t("_in_stock")} / {props?.quantity}.
             </p>
-            <p className="flex items-center text-xs text-gray-500">
+            <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
               &nbsp;{t("_can_apply_product")}.
             </p>
-            <p className="flex items-center text-xs text-gray-500">
+            <p className="flex items-center justify-start text-xs text-gray-500">
               <CheckCircleIcon size={16} className="text-green-500" />
               &nbsp; {t("_active")}.
             </p>
-
-            {/* Action Buttons */}
-            <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2 mt-2">
+            <div className="w-full flex flex-col sm:flex-row md:flex-row items-center justify-between gap-2 mt-2">
               <div className="absolute top-0 left-0 bg-gray-800 text-white text-xs px-2 py-1 rounded-br-lg">
                 ${props?.price}
               </div>
               <button
-                className="w-full sm:w-auto bg-gray-500 text-white px-4 py-1 text-xs rounded"
+                className="w-full sm:w-auto bg-gray-500 text-white flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none"
                 onClick={() => {
                   setProductId(props.id);
                   handleOpenModal();
@@ -196,11 +173,11 @@ export default function ProductCard2({
                 {t("_show_button")}
               </button>
               <button
-                className={`w-full sm:w-auto ${
+                className={`w-full sm:w-auto  ${
                   props.shopProductStatus === "ON_SHELF"
                     ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                     : "text-white bg-neon_pink"
-                } px-4 py-1 text-xs rounded`}
+                }  flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none`}
                 disabled={props.shopProductStatus === "ON_SHELF"}
                 onClick={() => {
                   setProductId(props.id);

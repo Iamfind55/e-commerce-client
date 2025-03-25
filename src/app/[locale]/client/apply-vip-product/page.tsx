@@ -30,9 +30,7 @@ export default function ApplyVIPProduct() {
   const { successMessage, errorMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
   const fetchProduct = useFetchProducts({ filter: filter.data });
-
-  console.log(fetchProduct);
-
+  
   const [activeVIP, setActiveVIP] = React.useState<number>(1);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedProducts, setSelectedProducts] = React.useState<

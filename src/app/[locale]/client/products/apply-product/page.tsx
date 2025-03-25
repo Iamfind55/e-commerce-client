@@ -17,17 +17,34 @@ import ProductCard2 from "@/components/productCard2";
 import { ArrowDownIcon, NextIcon } from "@/icons/page";
 import useFilter from "@/app/[locale]/(pages)/product/hooks/useFilter/page";
 import useFetchProducts from "@/app/[locale]/(pages)/product/hooks/useFetchProduct";
+import IconButton from "@/components/iconButton";
+import Loading from "@/components/loading";
 
 export default function ApplyProduct() {
+  const g = useTranslations("global");
   const t = useTranslations("shop_product_list");
+  const a = useTranslations("apply_vip_product");
   const filter = useFilter();
   const [openMenus, setOpenMenus] = React.useState<string[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [checkedId, setCheckedId] = React.useState<string | null>(null);
   const [checkedCategories, setCheckedCategories] = React.useState<string[]>(
     []
   );
 
   const fetchShopProduct = useFetchProducts({ filter: filter.data });
+
+  const [selectedProducts, setSelectedProducts] = React.useState<string[]>([]);
+
+  // Function to handle checkbox selection
+  const handleSelectProduct = (productId: string) => {
+    setSelectedProducts((prevSelected) => {
+      if (prevSelected.includes(productId)) {
+        return prevSelected.filter((id) => id !== productId); // Remove if already selected
+      }
+      return [...prevSelected, productId]; // Add if not selected
+    });
+  };
 
   const toggleMenu = (menu: string) => {
     setOpenMenus((prev) =>
@@ -116,12 +133,9 @@ export default function ApplyProduct() {
       );
     });
 
-  const [getCategories, { data, error }] = useLazyQuery(
-    QUERY_CATEGORIES_HEADER,
-    {
-      fetchPolicy: "no-cache",
-    }
-  );
+  const [getCategories, { data }] = useLazyQuery(QUERY_CATEGORIES_HEADER, {
+    fetchPolicy: "no-cache",
+  });
 
   React.useEffect(() => {
     getCategories({
@@ -141,6 +155,32 @@ export default function ApplyProduct() {
     }
   }, [checkedId]);
 
+  // Check if all products are selected
+  const allSelected =
+    fetchShopProduct?.data &&
+    fetchShopProduct.data.length > 0 &&
+    selectedProducts.length === fetchShopProduct.data.length;
+
+  const handleSelectAll = () => {
+    console.log("AABB:", allSelected);
+    if (!fetchShopProduct?.data) return;
+
+    // Filter out products that are not on shelf
+    const onShelfProductIds = fetchShopProduct.data
+      .filter((product) => product.shopProductStatus !== "ON_SHELF")
+      .map((product) => product.id);
+
+    if (allSelected) {
+      setSelectedProducts([]);
+    } else {
+      setSelectedProducts(onShelfProductIds);
+    }
+  };
+
+  const handleApplyProduct = async () => {
+    console.log(selectedProducts);
+  };
+
   return (
     <>
       <Breadcrumb
@@ -156,13 +196,47 @@ export default function ApplyProduct() {
             {renderMenu(data?.getCategories?.data || [])}
           </div>
         </div>
-        <p className="text-gray-500 text-xs mt-4">
-          {t("_list_founded_product")}:
-        </p>
+        <div className="w-full flex items-center justify-between mt-2">
+          <p className="w-1/2 text-gray-500 text-xs mt-4">
+            {t("_list_founded_product")}:
+          </p>
+          <div className="w-full flex items-center sm:justify-end justify-between gap-4">
+            <div className="flex items-center">
+              <input
+                checked={!!allSelected}
+                onChange={handleSelectAll}
+                id="checked-checkbox"
+                type="checkbox"
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-200 rounded-sm focus:ring-neon_pink"
+              />
+              <label
+                htmlFor="checked-checkbox"
+                className="ms-2 text-sm font-medium text-gray-800 cursor-pointer"
+              >
+                {a("_select_all")}
+              </label>
+            </div>
+            <IconButton
+              type="button"
+              title={g("_apply_button")}
+              icon={isLoading ? <Loading /> : ""}
+              isFront={true}
+              className={`rounded bg-neon_pink p-2 w-auto text-white text-xs ${
+                selectedProducts.length >= 1 ? "block" : "hidden"
+              }`}
+              onClick={handleApplyProduct}
+            />
+          </div>
+        </div>
         {fetchShopProduct?.total ?? 0 > 0 ? (
           <div className="w-full h-auto grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-5">
             {fetchShopProduct?.data?.map((product) => (
-              <ProductCard2 key={product.id} {...product} />
+              <ProductCard2
+                key={product.id}
+                {...product}
+                isSelected={selectedProducts.includes(product.id)}
+                onSelect={() => handleSelectProduct(product.id)}
+              />
             ))}
           </div>
         ) : (
