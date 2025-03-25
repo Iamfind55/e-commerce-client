@@ -39,8 +39,7 @@ jobs:
             cd ${{ env.DEPLOY_PATH }}
             git fetch
             git checkout main
-            git pull
-            npm run install
+            git pull origin main
             npm run build
             docker compose up -d --build
           EOF
