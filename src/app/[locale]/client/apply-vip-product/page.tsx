@@ -30,7 +30,7 @@ export default function ApplyVIPProduct() {
   const { successMessage, errorMessage } = useToast();
   const { user } = useSelector((state: any) => state.auth);
   const fetchProduct = useFetchProducts({ filter: filter.data });
-  
+
   const [activeVIP, setActiveVIP] = React.useState<number>(1);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [selectedProducts, setSelectedProducts] = React.useState<
@@ -116,6 +116,7 @@ export default function ApplyVIPProduct() {
           duration: 3000,
         });
         setSelectedProducts([]);
+        fetchProduct.refetch()
       } else {
         errorMessage({
           message: errorMessageText || "Some products failed to apply.",
@@ -149,11 +150,10 @@ export default function ApplyVIPProduct() {
             {[1, 2, 3, 4, 5].map((vip) => (
               <div
                 key={vip}
-                className={`w-full h-12 rounded ${
-                  activeVIP === vip
-                    ? "bg-neon_pink text-white"
-                    : "bg-gray-500 text-white"
-                } flex items-center justify-center flex-col cursor-pointer`}
+                className={`w-full h-12 rounded ${activeVIP === vip
+                  ? "bg-neon_pink text-white"
+                  : "bg-gray-500 text-white"
+                  } flex items-center justify-center flex-col cursor-pointer`}
                 onClick={() => {
                   setActiveVIP(vip);
                   filter.dispatch({
@@ -168,12 +168,22 @@ export default function ApplyVIPProduct() {
             ))}
           </div>
         </div>
+        <div className="w-full flex items-center justify-end">
+          <IconButton
+            type="button"
+            title={"APPLY ALL VIP-" + "" + activeVIP}
+            icon={isLoading ? <Loading /> : ""}
+            isFront={true}
+            className={`rounded bg-green-500 p-2 w-auto text-white text-xs`}
+            onClick={handleApplyProduct}
+          />
+        </div>
         <div className="w-full">
           <div className="w-full text-gray-500 flex flex-col sm:flex-col md:flex-row lg:flex-row items-start justify-between gap-2 my-4">
             <div className="w-full flex items-start sm:justify-start justify-between gap-2">
               <p className="text-gray-500 text-sm">
                 {t("_founded_prdduct")}&nbsp;
-                <span className="text-neon_pink">{`VIP-0${activeVIP}:`}</span>
+                <span className="text-neon_pink">{`VIP-${activeVIP}:`}</span>
               </p>
               <div className="flex items-start justify-start gap-2">
                 <p className="text-sm">
@@ -182,7 +192,7 @@ export default function ApplyVIPProduct() {
               </div>
             </div>
             <div className="w-full flex items-center sm:justify-end justify-between gap-4">
-              <div className="flex items-center">
+              <div className={`flex items-center ${selectedProducts.length >= 1 ? "hidden" : "block"}`}>
                 <input
                   checked={!!allSelected}
                   onChange={handleSelectAll}
@@ -199,12 +209,20 @@ export default function ApplyVIPProduct() {
               </div>
               <IconButton
                 type="button"
+                title="Cancel"
+                icon={isLoading ? <Loading /> : ""}
+                isFront={true}
+                className={`rounded bg-gray-500 p-2 w-auto text-white text-xs ${selectedProducts.length >= 1 ? "block" : "hidden"
+                  }`}
+                onClick={() => setSelectedProducts([])}
+              />
+              <IconButton
+                type="button"
                 title={g("_apply_button")}
                 icon={isLoading ? <Loading /> : ""}
                 isFront={true}
-                className={`rounded bg-neon_pink p-2 w-auto text-white text-xs ${
-                  selectedProducts.length >= 1 ? "block" : "hidden"
-                }`}
+                className={`rounded bg-neon_pink p-2 w-auto text-white text-xs ${selectedProducts.length >= 1 ? "block" : "hidden"
+                  }`}
                 onClick={handleApplyProduct}
               />
             </div>

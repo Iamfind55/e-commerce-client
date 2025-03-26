@@ -100,13 +100,11 @@ export default function VIPProductCard({
         <div className="w-full bg-white rounded relative group">
           {/* Checkbox - Top-Left */}
           <div
-            className={`absolute top-1 left-2 group ${
-              selectedIds.length >= 1
+            className={`absolute top-1 left-2 group ${selectedIds.length >= 1
                 ? "opacity-100"
                 : "opacity-0 group-hover:opacity-100"
-            } ${
-              shopProductStatus === "ON_SHELF" ? "hidden" : "block"
-            } transition-opacity duration-200`}
+              } ${shopProductStatus === "ON_SHELF" ? "hidden" : "block"
+              } transition-opacity duration-200`}
           >
             <input
               type="checkbox"
@@ -186,11 +184,10 @@ export default function VIPProductCard({
                 <p className="font-bold text-md text-black">${price}</p>
               </div>
               <button
-                className={`w-full sm:w-auto ${
-                  shopProductStatus === "ON_SHELF"
+                className={`w-full sm:w-auto ${shopProductStatus === "ON_SHELF"
                     ? "text-neon_pink bg-gray-200 border border-neon_pink"
                     : "text-gray-500 border border-gray-200"
-                }  flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none`}
+                  }  flex items-center justify-center px-4 py-1 text-xs text-center rounded focus:outline-none`}
                 onClick={() => {
                   setProductId(id);
                   handleOpenModal();

@@ -10,6 +10,7 @@ import {
   CancelIcon,
   CheckCircleIcon,
   DeliveryIcon,
+  NextIcon,
   PackingIcon,
 } from "@/icons/page";
 
@@ -28,48 +29,44 @@ export default function OrderManagement() {
       />
       <div className="my-2 flex items-end justify-between gap-2 bg-white py-2 px-4">
         <div className="w-full">
-          <ul className="flex items-start text-sm font-medium text-center gap-4 border-b pb-1 overflow-x-auto whitespace-nowrap">
-            <li className="me-2" role="presentation">
+          <ul className="flex items-start text-sm font-medium text-center gap-4 border-b pb-1 overflow-x-auto whitespace-nowrap py-2">
+            <li className="me-2 border-r px-2" role="presentation">
               <button
-                className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${
-                  tab === 2 ? "text-base text-sm" : ""
-                }`}
+                className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2 ${tab === 2 ? "text-base text-sm" : ""
+                  }`}
                 onClick={() => setTab(2)}
               >
                 <div
-                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                    tab === 2 && "text-neon_pink"
-                  }`}
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${tab === 2 && "text-neon_pink"
+                    }`}
                 >
                   <p className="text-xs">{t("_no_pick_up")}</p>
                 </div>
               </button>
             </li>
 
-            <li className="me-2" role="presentation">
+            <li className="me-2 border-r pr-2" role="presentation">
               <button
                 className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 onClick={() => setTab(1)}
               >
                 <div
-                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                    tab === 1 && "text-neon_pink"
-                  }`}
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${tab === 1 && "text-neon_pink"
+                    }`}
                 >
                   <p className="text-xs">{t("_all")}</p>
                 </div>
               </button>
             </li>
 
-            <li className="me-2" role="presentation">
+            <li className="me-2 border-r pr-2" role="presentation">
               <button
                 className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 onClick={() => setTab(3)}
               >
                 <div
-                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                    tab === 3 && "text-neon_pink"
-                  }`}
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${tab === 3 && "text-neon_pink"
+                    }`}
                 >
                   <p className="text-xs">{t("_processed_order")}</p>
                   {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
@@ -80,15 +77,14 @@ export default function OrderManagement() {
               </button>
             </li>
 
-            <li className="me-2" role="presentation">
+            <li className="me-2 border-r pr-2" role="presentation">
               <button
                 className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 onClick={() => setTab(4)}
               >
                 <div
-                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                    tab === 4 && "text-neon_pink"
-                  }`}
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${tab === 4 && "text-neon_pink"
+                    }`}
                 >
                   <p className="text-xs">
                     {/* {t("_processed_order")} */}
@@ -102,15 +98,14 @@ export default function OrderManagement() {
               </button>
             </li>
 
-            <li className="me-2" role="presentation">
+            <li className="me-2 border-r pr-2" role="presentation">
               <button
                 className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 onClick={() => setTab(5)}
               >
                 <div
-                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                    tab === 5 && "text-neon_pink"
-                  }`}
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${tab === 5 && "text-neon_pink"
+                    }`}
                 >
                   <p className="text-xs">
                     {/* {t("_processed_order")} */}
@@ -124,15 +119,14 @@ export default function OrderManagement() {
               </button>
             </li>
 
-            <li className="me-2" role="presentation">
+            <li className="me-2 border-r pr-2" role="presentation">
               <button
                 className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 onClick={() => setTab(6)}
               >
                 <div
-                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                    tab === 6 && "text-neon_pink"
-                  }`}
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${tab === 6 && "text-neon_pink"
+                    }`}
                 >
                   <p className="text-xs">{t("_canceled_order")}</p>
                   {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">
@@ -143,15 +137,14 @@ export default function OrderManagement() {
               </button>
             </li>
 
-            <li className="me-2" role="presentation">
+            <li className="me-2 border-r pr-2" role="presentation">
               <button
                 className={`inline-block p-0 sm:p-3 rounded-t-lg flex items-start justify-start gap-2`}
                 onClick={() => setTab(7)}
               >
                 <div
-                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${
-                    tab === 7 && "text-neon_pink"
-                  }`}
+                  className={`flex items-center justify-start gap-1 flex-col text-gray-500 ${tab === 7 && "text-neon_pink"
+                    }`}
                 >
                   <p className="text-xs">{t("_success_order")}</p>
                   {/* <p className="text-xs block sm:hidden flex items-center justify-center gap-1">

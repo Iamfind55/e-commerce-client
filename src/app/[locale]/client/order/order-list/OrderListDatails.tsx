@@ -255,11 +255,10 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
                       />
                       <DeliveryIcon
                         size={18}
-                        className={`${
-                          order.order_status === "NO_PICKUP"
-                            ? "cursor-pointer hover:text-red-500"
-                            : "cursor-not-allowed opacity-50"
-                        }`}
+                        className={`${order.order_status === "NO_PICKUP"
+                          ? "cursor-pointer hover:text-red-500"
+                          : "cursor-not-allowed opacity-50"
+                          }`}
                         onClick={() => {
                           if (order.order_status === "NO_PICKUP") {
                             setSelectRow(order);
@@ -317,7 +316,7 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
         <div className="flex items-start justify-start flex-col gap-4 rounded bg-white w-full p-4">
           <h4 className="text-gray-500 text-md mb-2">
             {(data?.getShopWallet?.data?.total_balance ?? 0) >
-            (selectRow?.total_price ?? 0)
+              (selectRow?.total_price ?? 0)
               ? t("_modal_title1")
               : t("_modal_title2")}
           </h4>
@@ -349,14 +348,14 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
             <IconButton
               title={
                 (data?.getShopWallet?.data?.total_balance ?? 0) >
-                (selectRow?.total_price ?? 0)
+                  (selectRow?.total_price ?? 0)
                   ? t("_close_button")
                   : t("_recharge_button")
               }
               type="button"
               onClick={() =>
                 (data?.getShopWallet?.data?.total_balance ?? 0) >
-                (selectRow?.total_price ?? 0)
+                  (selectRow?.total_price ?? 0)
                   ? handleOpenDeliveryModal()
                   : handleNavigate()
               }

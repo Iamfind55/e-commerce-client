@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 
 // apollo
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { QUERY_CATEGORIES_HEADER } from "@/api/category";
 
 // components
@@ -19,30 +19,70 @@ import useFilter from "@/app/[locale]/(pages)/product/hooks/useFilter/page";
 import useFetchProducts from "@/app/[locale]/(pages)/product/hooks/useFetchProduct";
 import IconButton from "@/components/iconButton";
 import Loading from "@/components/loading";
+import { useSelector } from "react-redux";
+import { ProductName } from "@/types/product";
+import { MUTATION_CREATE_MANY_SHOP_PRODUCT } from "@/api/product";
+import { useToast } from "@/utils/toast";
+
+// Type definitions
+type ProductType = {
+  id: string;
+  quantity?: number | null;
+  shopId?: string;
+  shopProductStatus?: string | null;
+  name: ProductName;
+  images?: string[];
+  cover_image: string;
+};
+
+type SelectedProduct = {
+  product_id: string;
+  quantity: number;
+  shop_id: string;
+};
 
 export default function ApplyProduct() {
+  const filter = useFilter();
   const g = useTranslations("global");
   const t = useTranslations("shop_product_list");
   const a = useTranslations("apply_vip_product");
-  const filter = useFilter();
+  const { successMessage, errorMessage } = useToast();
+  const { user } = useSelector((state: any) => state.auth);
+
   const [openMenus, setOpenMenus] = React.useState<string[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [checkedId, setCheckedId] = React.useState<string | null>(null);
-  const [checkedCategories, setCheckedCategories] = React.useState<string[]>(
-    []
-  );
+  const [checkedCategories, setCheckedCategories] = React.useState<string[]>([]);
 
+  const [createShopProduct] = useMutation(MUTATION_CREATE_MANY_SHOP_PRODUCT);
   const fetchShopProduct = useFetchProducts({ filter: filter.data });
 
-  const [selectedProducts, setSelectedProducts] = React.useState<string[]>([]);
+  const [selectedProducts, setSelectedProducts] = React.useState<SelectedProduct[]>([]);
 
-  // Function to handle checkbox selection
-  const handleSelectProduct = (productId: string) => {
+  const handleSelectProduct = (product: ProductType) => {
     setSelectedProducts((prevSelected) => {
-      if (prevSelected.includes(productId)) {
-        return prevSelected.filter((id) => id !== productId); // Remove if already selected
+      const existingProductIndex = prevSelected.findIndex(
+        (item) => item.product_id === product.id
+      );
+
+      if (existingProductIndex !== -1) {
+        return prevSelected.filter(
+          (item) => item.product_id !== product.id
+        );
       }
-      return [...prevSelected, productId]; // Add if not selected
+
+      // Ensure quantity is a number, defaulting to 0 if undefined or null
+      const quantity = product.quantity ?? 0;
+
+      // Add new product with guaranteed number quantity
+      return [
+        ...prevSelected,
+        {
+          product_id: product.id,
+          quantity: Number(quantity), // Explicitly convert to number
+          shop_id: user?.id ?? '' // Use user's ID or empty string as fallback
+        }
+      ];
     });
   };
 
@@ -91,11 +131,10 @@ export default function ApplyProduct() {
   ) =>
     items?.map((item, index) => {
       const isMenuOpen = openMenus.includes(item.name.name_en);
-      const isChecked = checkedCategories.includes(item.id); // Check if this category is in the checked state
+      const isChecked = checkedCategories.includes(item.id);
 
       return (
         <div key={`${level}-${index}`} className="w-full">
-          {/* Parent Menu */}
           <div
             onClick={() =>
               item.subcategories?.length && toggleMenu(item.name.name_en)
@@ -107,7 +146,7 @@ export default function ApplyProduct() {
                 type="checkbox"
                 className="checkbox"
                 checked={isChecked}
-                onChange={() => toggleCheckbox(item.id, parentId)} // Pass parentId for subcategories
+                onChange={() => toggleCheckbox(item.id, parentId)}
               />
               <span>{item.name.name_en}</span>
             </div>
@@ -126,7 +165,6 @@ export default function ApplyProduct() {
             isMenuOpen && (
               <div className={`ml-${10 + level * 5} ml-6`}>
                 {renderMenu(item.subcategories, level + 1, item.id)}{" "}
-                {/* Pass parentId to subcategories */}
               </div>
             )}
         </div>
@@ -162,23 +200,49 @@ export default function ApplyProduct() {
     selectedProducts.length === fetchShopProduct.data.length;
 
   const handleSelectAll = () => {
-    console.log("AABB:", allSelected);
     if (!fetchShopProduct?.data) return;
 
-    // Filter out products that are not on shelf
-    const onShelfProductIds = fetchShopProduct.data
-      .filter((product) => product.shopProductStatus !== "ON_SHELF")
-      .map((product) => product.id);
-
+    // If all products are currently selected, unselect all
     if (allSelected) {
       setSelectedProducts([]);
     } else {
-      setSelectedProducts(onShelfProductIds);
+      // Select all products except those with ON_SHELF status
+      const selectableProducts = fetchShopProduct.data
+        .filter((product) => product.shopProductStatus !== "ON_SHELF")
+        .map((product) => ({
+          product_id: product.id,
+          quantity: 0,
+          shop_id: user?.id ?? ''
+        }));
+
+      setSelectedProducts(selectableProducts);
     }
   };
 
-  const handleApplyProduct = async () => {
-    console.log(selectedProducts);
+  const handleApplyAllProducts = async () => {
+    try {
+      const res = await createShopProduct({
+        variables: {
+          data: selectedProducts
+        }
+      })
+      if (res?.data?.createManyShopProducts?.success) {
+        successMessage({
+          message: "Product applied successfully",
+          duration: 3000,
+        });
+        fetchShopProduct.refetch();
+      } else {
+        errorMessage({
+          message: res?.data?.createManyShopProducts?.error?.message,
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      errorMessage({ message: "Unexpected error happen!", duration: 3000 })
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -201,7 +265,7 @@ export default function ApplyProduct() {
             {t("_list_founded_product")}:
           </p>
           <div className="w-full flex items-center sm:justify-end justify-between gap-4">
-            <div className="flex items-center">
+            <div className={`flex items-center ${selectedProducts.length >= 1 ? "hidden" : "block"}`}>
               <input
                 checked={!!allSelected}
                 onChange={handleSelectAll}
@@ -218,13 +282,20 @@ export default function ApplyProduct() {
             </div>
             <IconButton
               type="button"
+              title="Cancel"
+              icon={isLoading ? <Loading /> : ""}
+              isFront={true}
+              className={`rounded bg-gray-500 p-2 w-auto text-white text-xs ${selectedProducts.length >= 1 ? "block" : "hidden"
+                }`}
+              onClick={() => setSelectedProducts([])}
+            />
+            <IconButton
+              type="button"
               title={g("_apply_button")}
               icon={isLoading ? <Loading /> : ""}
               isFront={true}
-              className={`rounded bg-neon_pink p-2 w-auto text-white text-xs ${
-                selectedProducts.length >= 1 ? "block" : "hidden"
-              }`}
-              onClick={handleApplyProduct}
+              className={`rounded bg-neon_pink p-2 w-auto text-white text-xs ${selectedProducts.length >= 1 ? "block" : "hidden"}`}
+              onClick={handleApplyAllProducts}
             />
           </div>
         </div>
@@ -234,8 +305,18 @@ export default function ApplyProduct() {
               <ProductCard2
                 key={product.id}
                 {...product}
-                isSelected={selectedProducts.includes(product.id)}
-                onSelect={() => handleSelectProduct(product.id)}
+                isSelected={
+                  selectedProducts.some(
+                    (selectedProduct) => selectedProduct.product_id === product.id
+                  )
+                }
+                onSelect={() => handleSelectProduct({
+                  ...product,
+                  id: product.id,
+                  quantity: product.quantity,
+                  shopId: user.id
+                })}
+                refetch={() => fetchShopProduct.refetch()}
               />
             ))}
           </div>

@@ -66,6 +66,7 @@ export default function ShopDetails() {
   const [errorMessages1, setErrorMessages1] = React.useState<string | null>(
     null
   );
+
   const [shopData, setShopData] = React.useState<IUserData>({
     id: "",
     fullname: "",
@@ -90,6 +91,7 @@ export default function ShopDetails() {
     store_name: "",
     payment_method: [],
   });
+  
   const [records, setRecords] = React.useState<IShopSocial[]>([]);
   const [socials, setSocials] = React.useState<IShopSocial[]>([]);
   const [socialId, setSocialId] = React.useState<string>("");

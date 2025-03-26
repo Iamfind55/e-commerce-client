@@ -10,7 +10,7 @@ type Action =
 // Initial state
 const initialState: IFilter = {
   page: 1,
-  limit: 15,
+  limit: 50,
   product_vip: 1,
   createdAtBetween: {
     startDate: null,

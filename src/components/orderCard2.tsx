@@ -130,7 +130,7 @@ export default function OrderCardComponent1(props: IOrderData) {
               </span>
             </p>
           </div>
-          <div className="flex items-start justify-start gap-4">
+          <div className="w-full flex items-center justify-end gap-4">
             <CloseEyeIcon
               size={18}
               className="cursor-pointer hover:text-red-500"
@@ -138,11 +138,10 @@ export default function OrderCardComponent1(props: IOrderData) {
             />
             <DeliveryIcon
               size={18}
-              className={`${
-                props.order_status === "NO_PICKUP"
+              className={`${props.order_status === "NO_PICKUP"
                   ? "cursor-pointer hover:text-red-500"
                   : "cursor-not-allowed opacity-50"
-              }`}
+                }`}
               onClick={() => {
                 if (props.order_status === "NO_PICKUP") {
                   setSelectRow(props);
@@ -167,7 +166,7 @@ export default function OrderCardComponent1(props: IOrderData) {
         <div className="flex items-start justify-start flex-col gap-4 rounded bg-white w-full p-4">
           <h4 className="text-gray-500 text-md mb-2">
             {(data?.getShopWallet?.data?.total_balance ?? 0) >
-            (selectRow?.total_price ?? 0)
+              (selectRow?.total_price ?? 0)
               ? o("_modal_title1")
               : o("_modal_title2")}
           </h4>
@@ -199,14 +198,14 @@ export default function OrderCardComponent1(props: IOrderData) {
             <IconButton
               title={
                 (data?.getShopWallet?.data?.total_balance ?? 0) >
-                (selectRow?.total_price ?? 0)
+                  (selectRow?.total_price ?? 0)
                   ? o("_close_button")
                   : o("_recharge_button")
               }
               type="button"
               onClick={() =>
                 (data?.getShopWallet?.data?.total_balance ?? 0) >
-                (selectRow?.total_price ?? 0)
+                  (selectRow?.total_price ?? 0)
                   ? handleOpenDeliveryModal()
                   : handleNavigate()
               }

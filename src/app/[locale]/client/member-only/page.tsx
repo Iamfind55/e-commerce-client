@@ -128,10 +128,10 @@ export default function MemberOnly() {
         ]}
       />
       <div className="bg-white w-full h-auto rounded-sm flex items-start justify-start flex-col mt-4 text-gray-500">
-        <div className="w-full flex items-start justify-start flex-col gap-6 my-6 px-2 sm:px-6">
+        <div className="w-full flex items-start justify-start flex-col gap-6 my-6 px-0 sm:px-6">
           <div className="w-full">
             <div className="w-full flex items-center justify-center">
-              <h1 className="text-xl text-gray-800">{t("_vip_level")}</h1>
+              <h1 className="text-md sm:text-xl text-gray-800">{t("_vip_level")}</h1>
             </div>
             <br />
             <div className="bg-gray-100 p-4 w-full rounded flex items-start justify-start flex-col gap-4">
@@ -145,7 +145,7 @@ export default function MemberOnly() {
 
           <div className="w-full flex justify-center items-center bg-gray-100 p-4">
             <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full text-center">
-              <h2 className="text-xl font-semibold text-gray-500">
+              <h2 className="text-sm sm:text-xl font-semibold text-gray-500">
                 Apply for VIP
               </h2>
               <p className="text-gray-500 mt-2 text-sm">
@@ -164,7 +164,7 @@ export default function MemberOnly() {
           </div>
 
           <div className="w-full rounded-md p-4 shadow-md border-t border-gray-100 mt-6">
-            <h1 className="w-full flex items-center justify-center text-xl text-gray-800">
+            <h1 className="w-full flex items-center justify-center text-md sm:text-xl text-gray-800">
               {t("_faq_title")}
             </h1>
             <br />
@@ -184,7 +184,7 @@ export default function MemberOnly() {
         className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/5 md:inset-0 h-auto shadow"
       >
         <div className="flex items-center justify-center flex-col rounded bg-white w-full py-2 px-4 gap-2">
-          <h4 className="text-gray-500 text-md mb-3 font-bold">
+          <h4 className="text-gray-500 text-sm sm:text-md mb-3 font-bold">
             Apply for VIP member
           </h4>
           <form

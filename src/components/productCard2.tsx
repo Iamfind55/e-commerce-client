@@ -24,12 +24,14 @@ import Loading from "./loading";
 
 interface ProductCardProps extends ProductData {
   isSelected: boolean;
-  onSelect: (productId: string) => void;
+  onSelect: (productId: string, quantity: number) => void;
+  refetch: () => void;
 }
 
 export default function ProductCard2({
   isSelected,
   onSelect,
+  refetch,
   ...props
 }: ProductCardProps) {
   const t = useTranslations("shop_product_list");
@@ -80,8 +82,8 @@ export default function ProductCard2({
   });
 
   const handleApployProduct = async (productId: string, quantity: number) => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const res = await createShopProduct({
         variables: {
           data: {
@@ -99,6 +101,7 @@ export default function ProductCard2({
           message: "Product applied successfully",
           duration: 3000,
         });
+        refetch();
       } else {
         errorMessage({
           message: res?.data?.createShopProduct?.error?.message,
@@ -106,6 +109,7 @@ export default function ProductCard2({
         });
       }
     } catch (error) {
+      errorMessage({ message: "Unexpected error happen!", duration: 3000 })
     } finally {
       setIsLoading(false);
     }
@@ -134,12 +138,12 @@ export default function ProductCard2({
     <>
       <div className="relative w-auto cursor-pointer flex flex-col select-none gap-2 rounded border hover:shadow-lg transition-all duration-300 p-3">
         {/* Checkbox for selection */}
-        <div className="absolute top-2 right-2 z-10">
+        <div className={`absolute top-2 right-2 z-10 ${props?.shopProductStatus === "ON_SHELF" ? "hidden" : "block"}`}>
           <input
             type="checkbox"
             className="w-4 h-4 cursor-pointer accent-neon_pink border border-gray-200"
             checked={isSelected}
-            onChange={() => onSelect(props.id)}
+            onChange={() => onSelect(props.id, props.quantity ?? 1)}
           />
         </div>
 
@@ -149,8 +153,8 @@ export default function ProductCard2({
             <Image
               className="rounded object-cover"
               src={
-                props.cover_image ||
-                "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860062/category01_kdftfe.png"
+                props.cover_image !== "null" ? props.cover_image :
+                  "https://res.cloudinary.com/dvh8zf1nm/image/upload/v1738860057/default-image_uwedsh.webp"
               }
               alt=""
               width={120}
@@ -196,11 +200,10 @@ export default function ProductCard2({
                 {t("_show_button")}
               </button>
               <button
-                className={`w-full sm:w-auto ${
-                  props.shopProductStatus === "ON_SHELF"
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "text-white bg-neon_pink"
-                } px-4 py-1 text-xs rounded`}
+                className={`w-full sm:w-auto ${props.shopProductStatus === "ON_SHELF"
+                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  : "text-white bg-neon_pink"
+                  } px-4 py-1 text-xs rounded`}
                 disabled={props.shopProductStatus === "ON_SHELF"}
                 onClick={() => {
                   setProductId(props.id);

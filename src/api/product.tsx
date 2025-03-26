@@ -171,3 +171,16 @@ export const MUTATION_CREATE_SHOP_PRODUCT = gql`
     }
   }
 `;
+
+export const MUTATION_CREATE_MANY_SHOP_PRODUCT = gql`
+  mutation CreateManyShopProducts($data: [CreateShopProductInput!]!) {
+    createManyShopProducts(data: $data) {
+      success
+      error {
+        message
+        code
+        details
+      }
+    }
+  }
+`;

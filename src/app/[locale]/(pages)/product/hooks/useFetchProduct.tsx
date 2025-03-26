@@ -28,7 +28,7 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
     }
   );
 
-  const [getProducts, { data, loading }] = useLazyQuery<GetProductsResponse>(
+  const [getProducts, { data, refetch, loading }] = useLazyQuery<GetProductsResponse>(
     QUERY_PRODUCTS,
     {
       fetchPolicy: "no-cache",
@@ -60,6 +60,7 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
     getProducts,
     fetchProducts,
     loading,
+    refetch,
     data: data?.getProducts?.data?.map((product, index) => ({
       ...product,
       no: index + 1,

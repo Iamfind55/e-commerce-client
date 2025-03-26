@@ -36,7 +36,7 @@ export default function Accordion({ items }: AccordionProps) {
               aria-expanded={activeIndex === index}
               aria-controls={`accordion-collapse-body-${index + 1}`}
             >
-              <span className="text-second_black">{item.title}</span>
+              <span className="text-second_black text-sm">{item.title}</span>
               {activeIndex === index ? (
                 <ArrowDownIcon size={18} className="text-second_black" />
               ) : (
