@@ -54,6 +54,7 @@ export default function ApplyProduct() {
   const [checkedId, setCheckedId] = React.useState<string | null>(null);
   const [checkedCategories, setCheckedCategories] = React.useState<string[]>([]);
 
+
   const [createShopProduct] = useMutation(MUTATION_CREATE_MANY_SHOP_PRODUCT);
   const fetchShopProduct = useFetchProducts({ filter: filter.data });
 
@@ -70,17 +71,13 @@ export default function ApplyProduct() {
           (item) => item.product_id !== product.id
         );
       }
-
-      // Ensure quantity is a number, defaulting to 0 if undefined or null
       const quantity = product.quantity ?? 0;
-
-      // Add new product with guaranteed number quantity
       return [
         ...prevSelected,
         {
           product_id: product.id,
-          quantity: Number(quantity), // Explicitly convert to number
-          shop_id: user?.id ?? '' // Use user's ID or empty string as fallback
+          quantity: Number(quantity),
+          shop_id: user?.id ?? ''
         }
       ];
     });
@@ -94,34 +91,70 @@ export default function ApplyProduct() {
     );
   };
 
-  const toggleCheckbox = (
-    categoryId: string,
-    parentId: string | null = null
-  ) => {
-    setCheckedId(categoryId);
+  const findParentCategory = (category: Category): Category | null => {
+    if (!data?.getCategories?.data) return null;
+
+    // Recursive search through all categories to find the parent
+    const findParent = (categories: Category[]): Category | null => {
+      for (const cat of categories) {
+        if (cat.subcategories?.some(subcat => subcat.id === category.id)) {
+          return cat;
+        }
+        if (cat.subcategories) {
+          const parentInSubcategories = findParent(cat.subcategories);
+          if (parentInSubcategories) return parentInSubcategories;
+        }
+      }
+      return null;
+    };
+
+    return findParent(data.getCategories.data);
+  };
+
+
+  const toggleCheckbox = (category: Category) => {
     setCheckedCategories((prev) => {
-      // If checking a subcategory, ensure the parent is also checked
-      if (parentId && !prev.includes(parentId)) {
-        return [...prev, parentId, categoryId]; // Check both parent and subcategory
+      let newChecked = [...prev];
+      const isCurrentlyChecked = newChecked.includes(category.id);
+      if (isCurrentlyChecked) {
+        const descendants = findAllDescendantIds(category);
+        newChecked = newChecked.filter(id => id !== category.id && !descendants.includes(id));
+      } else {
+        let currentParent = findParentCategory(category);
+        let parentsToRemove: string[] = [];
+
+        while (currentParent) {
+          console.log(`🔺 Parent Found: ${currentParent.id}`);
+          parentsToRemove.push(currentParent.id);
+          currentParent = findParentCategory(currentParent);
+        }
+
+        newChecked = newChecked.filter(id => !parentsToRemove.includes(id));
+        newChecked.push(category.id);
       }
-
-      // If unchecking a subcategory, make sure the parent remains checked (if it's not unchecked)
-      if (!parentId) {
-        return prev.includes(categoryId)
-          ? prev.filter((id) => id !== categoryId) // Uncheck the current category
-          : [...prev, categoryId]; // Check the current category
-      }
-
-      // If unchecking a parent category, only remove it (don't affect subcategories)
-      return prev.includes(categoryId)
-        ? prev.filter((id) => id !== categoryId)
-        : [...prev, categoryId];
+      console.log("🎯 Final Checked Categories:", newChecked);
+      // filter.dispatch({
+      //   type: filter.ACTION_TYPE.BRAND_ID,
+      //   payload: newChecked,
+      // });
+      return newChecked;
     });
+  };
 
-    filter.dispatch({
-      type: filter.ACTION_TYPE.CATEGORY_ID,
-      payload: categoryId,
-    });
+  const findAllDescendantIds = (category: Category): string[] => {
+    const descendantIds: string[] = [];
+
+    const collectDescendants = (cats?: Category[]) => {
+      cats?.forEach(cat => {
+        descendantIds.push(cat.id);
+        if (cat.subcategories) {
+          collectDescendants(cat.subcategories);
+        }
+      });
+    };
+
+    collectDescendants(category.subcategories);
+    return descendantIds;
   };
 
   const renderMenu = (
@@ -132,6 +165,10 @@ export default function ApplyProduct() {
     items?.map((item, index) => {
       const isMenuOpen = openMenus.includes(item.name.name_en);
       const isChecked = checkedCategories.includes(item.id);
+      const isPartiallyChecked =
+        item.subcategories?.some(subcat =>
+          checkedCategories.includes(subcat.id)
+        ) && !isChecked;
 
       return (
         <div key={`${level}-${index}`} className="w-full">
@@ -146,7 +183,12 @@ export default function ApplyProduct() {
                 type="checkbox"
                 className="checkbox"
                 checked={isChecked}
-                onChange={() => toggleCheckbox(item.id, parentId)}
+                ref={(input) => {
+                  if (input) {
+                    input.indeterminate = isPartiallyChecked ? true : false;
+                  }
+                }}
+                onChange={() => toggleCheckbox(item)}
               />
               <span>{item.name.name_en}</span>
             </div>
@@ -170,6 +212,7 @@ export default function ApplyProduct() {
         </div>
       );
     });
+
 
   const [getCategories, { data }] = useLazyQuery(QUERY_CATEGORIES_HEADER, {
     fetchPolicy: "no-cache",
@@ -201,12 +244,9 @@ export default function ApplyProduct() {
 
   const handleSelectAll = () => {
     if (!fetchShopProduct?.data) return;
-
-    // If all products are currently selected, unselect all
     if (allSelected) {
       setSelectedProducts([]);
     } else {
-      // Select all products except those with ON_SHELF status
       const selectableProducts = fetchShopProduct.data
         .filter((product) => product.shopProductStatus !== "ON_SHELF")
         .map((product) => ({

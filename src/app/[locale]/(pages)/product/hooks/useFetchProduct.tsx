@@ -11,6 +11,8 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
   const { limit, page, price_between, category_id, brand_id, price_sort } =
     filter;
 
+  // console.log(category_id)
+
   // Convert price_between to a string format if needed
   const modified = price_between
     ? `[${price_between.join(",")}]`

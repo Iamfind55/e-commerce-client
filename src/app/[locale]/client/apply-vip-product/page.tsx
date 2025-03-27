@@ -17,7 +17,7 @@ import EmptyPage from "@/components/emptyPage";
 import IconButton from "@/components/iconButton";
 import VIPProductCard from "@/components/vipProductCard";
 
-import { MUTATION_CREATE_SHOP_PRODUCT } from "@/api/product";
+import { MUTATION_CREATE_SHOP_PRODUCT, MUTATION_CREATE_SHOP_PRODUCT_BY_VIP_LEVEL } from "@/api/product";
 import Loading from "@/components/loading";
 import { useTranslations } from "next-intl";
 
@@ -38,6 +38,7 @@ export default function ApplyVIPProduct() {
   >([]);
 
   const [apployShopVIPProduct] = useMutation(MUTATION_CREATE_SHOP_PRODUCT);
+  const [applyShopVIPProductWithVIPLevel] = useMutation(MUTATION_CREATE_SHOP_PRODUCT_BY_VIP_LEVEL);
 
   // Handle individual product selection
   const handleCheckboxChange = (productId: string, quantity: number) => {
@@ -77,8 +78,8 @@ export default function ApplyVIPProduct() {
   };
 
   const handleApplyProduct = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const promises = selectedProducts.map((product) =>
         apployShopVIPProduct({
           variables: {
@@ -133,6 +134,36 @@ export default function ApplyVIPProduct() {
     }
   };
 
+  const handleApplyProductWithVipLevel = async () => {
+    try {
+      setIsLoading(true);
+      const res = await applyShopVIPProductWithVIPLevel({
+        variables: {
+          "data": {
+            "vip": activeVIP
+          }
+        }
+      });
+
+      if (res?.data?.createShopProductsWithVIPLevel.success) {
+        successMessage({
+          message: "Products applied successfully",
+          duration: 3000,
+        });
+        fetchProduct.refetch();
+      } else {
+        errorMessage({ message: res?.data?.createShopProductsWithVIPLevel.error.message, duration: 3000 });
+      }
+    } catch (error) {
+      errorMessage({
+        message: "Unexpected error happened! Try again later",
+        duration: 3000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <>
       <Breadcrumb
@@ -175,7 +206,7 @@ export default function ApplyVIPProduct() {
             icon={isLoading ? <Loading /> : ""}
             isFront={true}
             className={`rounded bg-green-500 p-2 w-auto text-white text-xs`}
-            onClick={handleApplyProduct}
+            onClick={() => handleApplyProductWithVipLevel()}
           />
         </div>
         <div className="w-full">

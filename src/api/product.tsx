@@ -184,3 +184,18 @@ export const MUTATION_CREATE_MANY_SHOP_PRODUCT = gql`
     }
   }
 `;
+
+export const MUTATION_CREATE_SHOP_PRODUCT_BY_VIP_LEVEL = gql`
+  mutation CreateShopProductsWithVIPLevel(
+    $data: CreateShopProductsWithVIPLevelInput!
+  ) {
+    createShopProductsWithVIPLevel(data: $data) {
+      error {
+        message
+        code
+        details
+      }
+      success
+    }
+  }
+`;

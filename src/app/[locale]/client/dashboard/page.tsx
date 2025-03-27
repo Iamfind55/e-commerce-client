@@ -50,7 +50,7 @@ export default function DashboardPage() {
     },
     {
       title: "Unread Messages",
-      amount: `$${data?.shopGetUnreadMessageDashboard?.data?.total || "0"}`,
+      amount: `${data?.shopGetUnreadMessageDashboard?.data?.total || "0"}`,
       percent: Number(data?.shopGetUnreadMessageDashboard?.data?.increase) || 0,
       icon: <EmailIcon size={18} className="text-white" />,
     },
