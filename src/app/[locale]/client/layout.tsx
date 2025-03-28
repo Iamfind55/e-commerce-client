@@ -38,7 +38,7 @@ type MenuItem = {
   icon: ReactNode;
   menu: string;
   route: string;
-  children?: MenuItem[]; // Optional child menus
+  children?: MenuItem[];
 };
 
 export default function RootLayout({
