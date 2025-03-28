@@ -19,7 +19,7 @@ export interface ProductData {
   spu?: string | null;
   total_star?: number | null;
   total_comment?: number | null;
-  category_ids?: string[] | null;
+  category_ids?: string[] | null | undefined;
   categories?: Category[] | null;
   brand_id?: string | null;
   status?: string | null;
@@ -90,6 +90,7 @@ export interface IFilter {
   keyword?: string | null;
   brand_id?: string | null;
   category_id?: string | null;
+  category_ids?: string[] | null | undefined;
   product_vip?: number | null;
   product_top?: boolean | null;
   notification_type?: string | null;

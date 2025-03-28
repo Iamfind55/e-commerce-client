@@ -9,6 +9,7 @@ type Action =
   | { type: "keyword"; payload: string | null }
   | { type: "brand_id"; payload: string | null }
   | { type: "category_id"; payload: string | null }
+  | { type: "category_ids"; payload: string[] | null | undefined }
   | { type: "product_vip"; payload: number | null }
   | { type: "product_top"; payload: boolean | null }
   | { type: "price_between"; payload: [number, number] | null }
@@ -24,6 +25,7 @@ const initialState: IFilter = {
   keyword: null,
   brand_id: null,
   category_id: null,
+  category_ids: null,
   product_vip: null,
   product_top: null,
   price_between: null,
@@ -40,6 +42,7 @@ const ACTION_TYPE = {
   PAGE: "page",
   BRAND_ID: "brand_id",
   CATEGORY_ID: "category_id",
+  CATEGORY_IDS: "category_ids",
   PRODUCT_VIP: "product_vip",
   PRODUCT_TOP: "product_top",
   PRICE_BETWEEN: "price_between",
@@ -61,16 +64,16 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           startDate: action.payload,
           ...(endDate.isValid() &&
             moment(action.payload).isAfter(endDate) && {
-              endDate: action.payload,
-            }),
+            endDate: action.payload,
+          }),
           ...(!action.payload && {
             endDate: null,
           }),
         },
         ...(action.payload &&
           state.createdAtBetween.endDate && {
-            page: 1,
-          }),
+          page: 1,
+        }),
       };
 
     case ACTION_TYPE.CREATED_AT_END_DATE:
@@ -81,16 +84,16 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           endDate: action.payload,
           ...(startDate.isValid() &&
             startDate.isAfter(action.payload) && {
-              startDate: action.payload,
-            }),
+            startDate: action.payload,
+          }),
           ...(!startDate.isValid() && {
             startDate: action.payload,
           }),
         },
         ...(action.payload &&
           state.createdAtBetween.startDate && {
-            page: 1,
-          }),
+          page: 1,
+        }),
       };
 
     case ACTION_TYPE.STATUS:
@@ -104,6 +107,13 @@ const reducer = (state: IFilter, action: Action): IFilter => {
 
     case ACTION_TYPE.CATEGORY_ID:
       return { ...state, category_id: action.payload || null, page: 1 };
+
+    case ACTION_TYPE.CATEGORY_IDS:
+      return {
+        ...state,
+        category_ids: action.payload?.length ? action.payload : null,
+        page: 1
+      };
 
     case ACTION_TYPE.PRODUCT_VIP:
       return { ...state, product_vip: action.payload || null, page: 1 };

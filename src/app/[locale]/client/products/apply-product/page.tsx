@@ -124,7 +124,6 @@ export default function ApplyProduct() {
         let parentsToRemove: string[] = [];
 
         while (currentParent) {
-          console.log(`🔺 Parent Found: ${currentParent.id}`);
           parentsToRemove.push(currentParent.id);
           currentParent = findParentCategory(currentParent);
         }
@@ -132,11 +131,10 @@ export default function ApplyProduct() {
         newChecked = newChecked.filter(id => !parentsToRemove.includes(id));
         newChecked.push(category.id);
       }
-      console.log("🎯 Final Checked Categories:", newChecked);
-      // filter.dispatch({
-      //   type: filter.ACTION_TYPE.BRAND_ID,
-      //   payload: newChecked,
-      // });
+      filter.dispatch({
+        type: filter.ACTION_TYPE.CATEGORY_IDS,
+        payload: newChecked,
+      });
       return newChecked;
     });
   };
@@ -261,6 +259,7 @@ export default function ApplyProduct() {
 
   const handleApplyAllProducts = async () => {
     try {
+      setIsLoading(true);
       const res = await createShopProduct({
         variables: {
           data: selectedProducts
@@ -272,6 +271,7 @@ export default function ApplyProduct() {
           duration: 3000,
         });
         fetchShopProduct.refetch();
+        setSelectedProducts([]);
       } else {
         errorMessage({
           message: res?.data?.createManyShopProducts?.error?.message,

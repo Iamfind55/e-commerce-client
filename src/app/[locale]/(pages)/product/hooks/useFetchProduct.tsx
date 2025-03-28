@@ -8,10 +8,10 @@ import { QUERY_PRODUCTS } from "@/api/product";
 import { GetProductsResponse, IFilter } from "@/types/product";
 
 const useFetchProducts = ({ filter }: { filter: IFilter }) => {
-  const { limit, page, price_between, category_id, brand_id, price_sort } =
+  const { limit, page, price_between, category_id, brand_id, price_sort, category_ids } =
     filter;
 
-  // console.log(category_id)
+  console.log(category_ids)
 
   // Convert price_between to a string format if needed
   const modified = price_between
@@ -48,6 +48,7 @@ const useFetchProducts = ({ filter }: { filter: IFilter }) => {
           ...(price_between && { price_between: priceBetweenArray }),
           ...(brand_id && { brand_id: brand_id }),
           ...(category_id && { category_id: category_id }),
+          ...(category_ids && { category_ids: category_ids }),
         },
         sortedBy: price_sort,
       },
