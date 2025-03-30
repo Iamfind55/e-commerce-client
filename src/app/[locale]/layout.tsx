@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { ReduxProvider } from "@/redux/provider";
 import { NextIntlClientProvider } from "next-intl";
 import DevToolsRedirect from "@/components/devtoolDetector";
+import GlobalNotification from "@/components/notification";
 
 export const metadata: Metadata = {
   title: "TiktokShop - The Ultimate Online Shopping Destination",
@@ -87,7 +88,12 @@ export default async function RootLayout({
           <body className="bg-dark font-sans">
             {/* <DevToolsRedirect /> */}
             <div className="justify-center text-white h-screen">
-              <ReduxProvider>{children}</ReduxProvider>
+              <ReduxProvider>
+                <div className="justify-center text-white h-screen">
+                  {children}
+                </div>
+                <GlobalNotification />
+              </ReduxProvider>
             </div>
             <ToastContainer
               position="top-right"
@@ -101,6 +107,7 @@ export default async function RootLayout({
               pauseOnHover
               theme="light"
             />
+            {/* <GlobalNotification /> */}
           </body>
         </html>
       </DynamicApolloClientWrapper>

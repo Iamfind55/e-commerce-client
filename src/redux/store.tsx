@@ -9,6 +9,7 @@ import { Authslice } from "./slice/authSlice";
 import counterReducer from "./slice/counterSlice";
 import shippingReducer from "./slice/shippingSlice";
 import customerAuthReducer from "./slice/customerAuthSlice";
+import notificationReducer from "./slice/notificationSlice"
 
 const persistConfig = {
   key: "root",
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   customerAuth: customerAuthReducer,
   shipping: shippingReducer,
+  notification: notificationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

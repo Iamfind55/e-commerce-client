@@ -35,6 +35,7 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
   const filter = useFilter();
   const router = useRouter();
   const t = useTranslations("order_page");
+  const w = useTranslations("wallet_management");
   const { successMessage, errorMessage } = useToast();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [openDeliveryModel, setOpenDeliveryModel] =
@@ -261,6 +262,7 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
                           }`}
                         onClick={() => {
                           if (order.order_status === "NO_PICKUP") {
+                            console.log("Row:", order);
                             setSelectRow(order);
                             handleOpenDeliveryModal();
                           } else {
@@ -333,9 +335,9 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
             </span>
           </p>
           <p className="text-sm text-gray-500">
-            {t("_modal_wallet_balance")}: &nbsp;
+            {w("_withdrawal_balance")}: &nbsp;
             <span className="text-black">
-              ${data?.getShopWallet?.data?.total_balance.toFixed(2)}
+              ${data?.getShopWallet?.data?.total_withdraw_able_balance.toFixed(2)}
             </span>
           </p>
           <p className="text-sm text-gray-500">

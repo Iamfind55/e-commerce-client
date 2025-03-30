@@ -11,7 +11,7 @@ type Action =
 
 // Initial state
 const initialState: IShopFilter = {
-  limit: 10,
+  limit: 50,
   page: 1,
   status: null,
   keyword: null,

@@ -13,7 +13,7 @@ type Action =
 
 // Initial state
 const initialState: IFilter = {
-  limit: 10,
+  limit: 50,
   order_no: null,
   order_status: null,
   page: 1,
@@ -45,16 +45,16 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           startDate: action.payload,
           ...(endDate.isValid() &&
             moment(action.payload).isAfter(endDate) && {
-              endDate: action.payload,
-            }),
+            endDate: action.payload,
+          }),
           ...(!action.payload && {
             endDate: null,
           }),
         },
         ...(action.payload &&
           state.createdAtBetween.endDate && {
-            page: 1,
-          }),
+          page: 1,
+        }),
       };
 
     case ACTION_TYPE.CREATED_AT_END_DATE:
@@ -65,16 +65,16 @@ const reducer = (state: IFilter, action: Action): IFilter => {
           endDate: action.payload,
           ...(startDate.isValid() &&
             startDate.isAfter(action.payload) && {
-              startDate: action.payload,
-            }),
+            startDate: action.payload,
+          }),
           ...(!startDate.isValid() && {
             startDate: action.payload,
           }),
         },
         ...(action.payload &&
           state.createdAtBetween.startDate && {
-            page: 1,
-          }),
+          page: 1,
+        }),
       };
 
     case ACTION_TYPE.LIMIT:

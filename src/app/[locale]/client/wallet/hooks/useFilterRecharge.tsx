@@ -14,7 +14,7 @@ type Action =
 // Initial state
 const initialState: ITransactionFilter = {
   page: 1,
-  limit: 10,
+  limit: 50,
   identifier: null,
   coin_type: null,
   createdAtBetween: {

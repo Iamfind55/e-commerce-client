@@ -18,6 +18,8 @@ import {
 import { QUERY_SHOP_DASHBOARDS } from "@/api/dashboard";
 import { useLazyQuery } from "@apollo/client";
 import { formatStringAndNumber } from "@/utils/formatNumber";
+import { useDispatch } from "react-redux";
+import { showNotification } from "@/redux/slice/notificationSlice";
 
 type ReportItem = {
   title: string;
@@ -27,6 +29,7 @@ type ReportItem = {
 };
 
 export default function DashboardPage() {
+  const dispatch = useDispatch();
   const [getDashboards, { data }] = useLazyQuery(QUERY_SHOP_DASHBOARDS, {
     fetchPolicy: "cache-and-network",
   });
@@ -109,6 +112,9 @@ export default function DashboardPage() {
     },
   ];
 
+  const handleClick = () => {
+    dispatch(showNotification("🔔 New message received!"));
+  };
   return (
     <div className="text-b_text flex items-start justify-start flex-col gap-4">
       <Breadcrumb items={[{ label: "Dashboard", value: "/client" }]} />
@@ -124,6 +130,13 @@ export default function DashboardPage() {
             />
           ))}
         </div>
+
+        {/* <button
+          onClick={handleClick}
+          className="px-4 py-2 bg-green-600 text-white rounded-md"
+        >
+          Show Notification
+        </button> */}
       </div>
     </div>
   );
