@@ -51,14 +51,14 @@ export default function ShopCard(props: ShopData) {
           <p className="text-xs text-gray-500">
             {truncateText(
               props?.remark ??
-                "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
+              "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
               100
             )}
           </p>
           <div className="flex items-center justify-center flex-col gap-2">
-            <p className="text-xs text-gray-500">
+            {/* <p className="text-xs text-gray-500">
               {t("_shop_since")} {formatDate(props?.created_at ?? "")}
-            </p>
+            </p> */}
             <div className="my-2 f-full flex flex-col items-center justify-center">
               <div className="flex flex-col gap-2 w-full">
                 <IconButton

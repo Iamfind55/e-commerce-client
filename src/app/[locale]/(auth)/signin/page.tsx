@@ -205,7 +205,7 @@ export default function Login() {
               })) || [],
             status: res.data.status || "",
             store_name: res.data.store_name || "",
-            shop_vip: res.data.shop_vip || 0, // Fallbacks to `false` if `shop_vip` is null/undefined
+            shop_vip: res.data.shop_vip || 0,
             created_at: res.data.created_at || "",
           })
         );
@@ -400,7 +400,7 @@ export default function Login() {
 
       <MyModal
         isOpen={isOpenModal}
-        onClose={() => {}}
+        onClose={() => { }}
         className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/4 md:inset-0 h-auto shadow"
       >
         <div className="w-full rounded bg-white w-full text-gray-500">
@@ -560,10 +560,10 @@ export default function Login() {
                       {rechargeData?.coin_type === "ERC20"
                         ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
                         : rechargeData?.coin_type === "TRC20"
-                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
-                        : rechargeData?.coin_type === "BTC"
-                        ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
-                        : ""}
+                          ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                          : rechargeData?.coin_type === "BTC"
+                            ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                            : ""}
                     </p>
                     <div className="flex items-start justify-start gap-4">
                       {!isCopied ? (

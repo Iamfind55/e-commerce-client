@@ -27,7 +27,7 @@ export const initialState = {
     store_name: "",
     shop_address: "",
     status: "",
-    shop_vip: false,
+    shop_vip: 0,
     created_at: "",
   },
 };

@@ -91,7 +91,7 @@ export default function ShopDetails() {
     store_name: "",
     payment_method: [],
   });
-  
+
   const [records, setRecords] = React.useState<IShopSocial[]>([]);
   const [socials, setSocials] = React.useState<IShopSocial[]>([]);
   const [socialId, setSocialId] = React.useState<string>("");
@@ -437,7 +437,7 @@ export default function ShopDetails() {
         payment_method: user.payment_method || [],
         status: user.status || null,
         store_name: user.store_name || null,
-        shop_vip: user.shop_vip || null,
+        shop_vip: user.shop_vip,
         created_at: user.created_at || null,
       });
     }
@@ -631,7 +631,7 @@ export default function ShopDetails() {
                       </label>
                     </div>
                     {shopData?.id_card_info?.id_card_image ||
-                    previewCardPeople ? (
+                      previewCardPeople ? (
                       <div className="w-full">
                         {previewCardPeople ? (
                           <Image
@@ -780,13 +780,13 @@ export default function ShopDetails() {
                     />
                   </div>
                   <Textfield
-                    title="VIP status"
+                    title={`VIP status`}
                     name="status"
                     id="status"
                     type="text"
-                    value={"VIP " + shopData.shop_vip || ""}
+                    value={shopData.shop_vip === 0 ? "Your are VIP!" : "VIP " + shopData.shop_vip}
                     readOnly
-                    // className="bg-gray-200"
+                  // className="bg-gray-200"
                   />
                   <Textfield
                     placeholder={m("_address_placeholder")}
@@ -936,7 +936,7 @@ export default function ShopDetails() {
                       </label>
                     </div>
                     {shopData?.id_card_info?.id_card_image_front ||
-                    previewCardFront ? (
+                      previewCardFront ? (
                       <div className="w-full">
                         {previewCardFront ? (
                           <Image
@@ -1013,7 +1013,7 @@ export default function ShopDetails() {
                       </label>
                     </div>
                     {shopData?.id_card_info?.id_card_image_back ||
-                    previewCardBack ? (
+                      previewCardBack ? (
                       <div className="w-full">
                         {previewCardBack ? (
                           <Image
