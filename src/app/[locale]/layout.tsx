@@ -107,7 +107,6 @@ export default async function RootLayout({
               pauseOnHover
               theme="light"
             />
-            {/* <GlobalNotification /> */}
           </body>
         </html>
       </DynamicApolloClientWrapper>

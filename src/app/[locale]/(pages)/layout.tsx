@@ -1,6 +1,7 @@
 "use client";
 
 import "../globals.css";
+import Cookies from "js-cookie";
 import { ReactNode } from "react";
 import Header from "../components/header/page";
 import Footer from "../components/footer/page";
@@ -18,6 +19,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const token = Cookies?.get("auth_token");
   const pathname = usePathname();
   const mobileMenuItems: MenuItem[] = [
     {
@@ -37,8 +39,8 @@ export default function RootLayout({
     },
     {
       icon: <CircleUser size={18} />,
-      menu: "My account",
-      route: "/customer",
+      menu: token ? "My account" : "Login",
+      route: token ? "/customer" : "/cus-signin",
     },
   ];
 
@@ -59,9 +61,8 @@ export default function RootLayout({
                 <Link
                   href={item?.route}
                   key={item?.route}
-                  className={`flex flex-col items-center cursor-pointer ${
-                    isActive ? activeClassName : inactiveClassName
-                  }`}
+                  className={`flex flex-col items-center cursor-pointer ${isActive ? activeClassName : inactiveClassName
+                    }`}
                 >
                   {item?.icon}
                   <p className="text-xs">{item?.menu}</p>

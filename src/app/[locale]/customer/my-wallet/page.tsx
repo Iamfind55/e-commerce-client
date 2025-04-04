@@ -263,7 +263,7 @@ export default function CustomerWallet() {
       <MyModal
         isOpen={isOpenModal}
         onClose={handleOpenModal}
-        className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/4 md:inset-0 h-auto shadow"
+        className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-11/12 sm:w-2/4 md:inset-0 h-auto shadow"
       >
         <div className="w-full rounded bg-white w-full">
           <form
@@ -426,20 +426,20 @@ export default function CustomerWallet() {
                     {rechargeData?.coin_type === "ERC20"
                       ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
                       : rechargeData?.coin_type === "TRC20"
-                      ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
-                      : rechargeData?.coin_type === "BTC"
-                      ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
-                      : ""}
+                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                        : rechargeData?.coin_type === "BTC"
+                          ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                          : ""}
                   </p>
                   <p className="block sm:hidden text-xs font-medium">
                     {truncateText(
                       rechargeData?.coin_type === "ERC20"
                         ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
                         : rechargeData?.coin_type === "TRC20"
-                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
-                        : rechargeData?.coin_type === "BTC"
-                        ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
-                        : "",
+                          ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                          : rechargeData?.coin_type === "BTC"
+                            ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                            : "",
                       35
                     )}
                   </p>

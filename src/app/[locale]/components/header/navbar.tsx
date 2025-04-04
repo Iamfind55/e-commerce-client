@@ -5,7 +5,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { IoLogInOutline } from "react-icons/io5";
-import { Link, usePathname } from "@/navigation";
+import { Link, usePathname, useRouter } from "@/navigation";
 
 // components
 import {
@@ -13,6 +13,7 @@ import {
   CartIcon,
   CircleUser,
   LanguageIcon,
+  LogoutIcon,
   MenuIcon,
   ProductIcon,
   SearchIcon,
@@ -22,10 +23,13 @@ import Drawer from "@/components/drawer";
 import DropdownComponent from "@/components/dropdown";
 
 // images
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { logout } from "@/redux/slice/authSlice";
 
 export default function Navbar() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const t = useTranslations("homePage");
   const token = Cookies?.get("auth_token");
@@ -64,14 +68,19 @@ export default function Navbar() {
     };
   }, [originalOffset]);
 
+  const handleLogout = async () => {
+    Cookies?.remove("auth_token");
+    dispatch(logout());
+    router.push("/cus-signin");
+  };
+
   return (
     <>
       <div
-        className={`bg-second_black ${
-          isSticky
-            ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
-            : "mx-auto px-4 z-50"
-        } flex items-center justify-between bg-second_black p-4`}
+        className={`bg-second_black ${isSticky
+          ? "fixed top-0 left-0 right-0 mx-auto px-4 z-49"
+          : "mx-auto px-4 z-50"
+          } flex items-center justify-between bg-second_black p-4`}
         style={
           isSticky
             ? { position: "fixed", zIndex: 49 }
@@ -316,6 +325,12 @@ export default function Navbar() {
             >
               {t("_be_seller")}
             </Link>
+
+            <LogoutIcon
+              size={18}
+              className="block sm:hidden text-neon_pink cursor-pointer"
+              onClick={handleLogout}
+            />
           </div>
         </div>
       </div>

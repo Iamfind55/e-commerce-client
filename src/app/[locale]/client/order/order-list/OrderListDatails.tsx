@@ -24,8 +24,10 @@ import useFetchShopOrders from "../hooks/useFetch";
 import { GetShopWalletResponse } from "@/types/wallet";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { MUTATION_SHOP_CONFIRM_ORDER } from "@/api/order";
-import OrderCardComponent from "@/components/orderCard";
+// import OrderCardComponent from "@/components/orderCard";
 import OrderCardComponent1 from "@/components/orderCard2";
+import { removeOrderAmount } from "@/redux/slice/amountSlice";
+import { useDispatch } from "react-redux";
 
 interface OrderListDetailProps {
   status?: string; // Make it optional to avoid type errors
@@ -34,6 +36,7 @@ interface OrderListDetailProps {
 const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
   const filter = useFilter();
   const router = useRouter();
+  const dispatch = useDispatch();
   const t = useTranslations("order_page");
   const w = useTranslations("wallet_management");
   const { successMessage, errorMessage } = useToast();
@@ -49,6 +52,9 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
       fetchPolicy: "no-cache",
     }
   );
+
+  console.log("Products:", fetchShopOrders);
+
   const [shopConfirmOrder] = useMutation(MUTATION_SHOP_CONFIRM_ORDER);
 
   const handleOpenDeliveryModal = () => {
@@ -60,8 +66,8 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
   };
 
   const handlePurchaseAndShipping = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const res = await shopConfirmOrder({
         variables: {
           shopConfirmOrderId: selectRow?.id,
@@ -75,6 +81,7 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
         handleOpenDeliveryModal();
         fetchShopOrders.refetch();
         setSelectRow(null);
+        dispatch(removeOrderAmount(1));
       } else {
         errorMessage({
           message: res?.data?.shopConfirmOrder?.error?.message,
@@ -343,7 +350,10 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
           <p className="text-sm text-gray-500">
             {t("_modal_total_price")}: &nbsp;
             <span className="text-black">
-              ${selectRow?.total_price.toFixed(2)}
+              {/* ${selectRow?.total_price.toFixed(2)} */}
+              {/* ${(selectRow?.total_price - selectRow?.total_price * 0.2).toFixed(2)} */}
+              ${((selectRow?.total_price ?? 0) * 0.8).toFixed(2)}
+
             </span>
           </p>
           <div className="w-full flex items-center justify-end gap-4">

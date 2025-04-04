@@ -62,9 +62,8 @@ export default function NotificationCard(props: INotificationData) {
   return (
     <>
       <div
-        className={`${
-          props?.is_read ? "bg-gray-100" : "bg-green-50"
-        } w-full border py-2 px-4 rounded-md flex items-start justify-start flex-col select-none gap-2 hover:cursor-pointer group hover:shadow transition-all duration-300 relative`}
+        className={`${props?.is_read ? "bg-gray-100" : "bg-green-50"
+          } w-full border py-2 px-4 rounded-md flex items-start justify-start flex-col select-none gap-2 hover:cursor-pointer group hover:shadow transition-all duration-300 relative`}
       >
         <div className="p-2 w-full flex items-center justify-between">
           <p className="text-sm text-gray-500">{props?.title}</p>
@@ -78,8 +77,7 @@ export default function NotificationCard(props: INotificationData) {
         </div>
         <div className="pl-2">
           <p className="text-xs text-gray-500 flex items-center justify-center">
-            {/* {t("_order_no")}:{props?.order_no} */}
-            {t("_order_no")}: &nbsp;12345678
+            {t("_order_no")}:{props?.id}
           </p>
         </div>
         <div className="pl-2">
@@ -144,9 +142,8 @@ export default function NotificationCard(props: INotificationData) {
               {Object.entries(props?.data).map(([key, value], index) => (
                 <li
                   key={key}
-                  className={`rounded text-xs gap-2 p-2 ${
-                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                  }`}
+                  className={`rounded text-xs gap-2 p-2 ${index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                    }`}
                 >
                   <strong>{key}</strong>: {String(value)}
                 </li>

@@ -471,20 +471,20 @@ export default function ShopWallet() {
                     {rechargeData?.coin_type === "ERC20"
                       ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
                       : rechargeData?.coin_type === "TRC20"
-                      ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
-                      : rechargeData?.coin_type === "BTC"
-                      ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
-                      : ""}
+                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                        : rechargeData?.coin_type === "BTC"
+                          ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                          : ""}
                   </p>
                   <p className="block sm:hidden text-xs font-medium">
                     {truncateText(
                       rechargeData?.coin_type === "ERC20"
                         ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
                         : rechargeData?.coin_type === "TRC20"
-                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
-                        : rechargeData?.coin_type === "BTC"
-                        ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
-                        : "",
+                          ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                          : rechargeData?.coin_type === "BTC"
+                            ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                            : "",
                       35
                     )}
                   </p>
