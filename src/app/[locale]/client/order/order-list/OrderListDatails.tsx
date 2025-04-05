@@ -53,7 +53,7 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
     }
   );
 
-  console.log("Products:", fetchShopOrders);
+  // console.log("Products:", fetchShopOrders);
 
   const [shopConfirmOrder] = useMutation(MUTATION_SHOP_CONFIRM_ORDER);
 

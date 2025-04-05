@@ -35,7 +35,7 @@ import ShopDrawer from "@/components/shopDrawer";
 import RatingStar from "@/components/vipStar";
 import { showNotification } from "@/redux/slice/notificationSlice";
 import { useLazyQuery, useSubscription } from "@apollo/client";
-import { QUERY_COUNT_NEW_TRANSACTION, QUERY_COUNT_NO_PICK_UP_ORDER, SUBSCRIPTION_ORDER, TRANSACTION_SUBSCRIPTION } from "@/api/subscription";
+import { QUERY_COUNT_NO_PICK_UP_ORDER, SUBSCRIPTION_ORDER, SUBSCRIPTION_UPDATE_ORDER } from "@/api/subscription";
 import { useToast } from "@/utils/toast";
 import { RootState } from "@/redux/store";
 import { addOrderAmount, addTransactionAmount } from "@/redux/slice/amountSlice";
@@ -58,11 +58,18 @@ export default function RootLayout({
   const { errorMessage } = useToast();
   const nextPathname = useNextPathName();
   const { user } = useSelector((state: any) => state.auth);
-  const { data: transactionData, error: transactionError } = useSubscription(TRANSACTION_SUBSCRIPTION);
-  const { data: orderData, error: orderError } = useSubscription(SUBSCRIPTION_ORDER);
+
+  const { data: orderData, error: orderError } = useSubscription(SUBSCRIPTION_ORDER, {
+    variables: { shopId: user.id },
+  });
+  const { data: updateOrderData, error: updateOrderError } = useSubscription(SUBSCRIPTION_UPDATE_ORDER, {
+    variables: { shopId: user.id },
+  });
+
   const { orderAmount } = useSelector(
     (state: RootState) => state.amounts
   );
+
   const t = useTranslations("homePage");
   const s = useTranslations("shop_sidebar");
   const locale = nextPathname.split("/")[1];
@@ -166,30 +173,11 @@ export default function RootLayout({
     router.push("/signin");
   };
 
-  const [queryCountTrans] = useLazyQuery(QUERY_COUNT_NEW_TRANSACTION, {
-    fetchPolicy: "cache-and-network",
-  });
-
   const [queryCountNopickUpOrder] = useLazyQuery(QUERY_COUNT_NO_PICK_UP_ORDER, {
     fetchPolicy: "cache-and-network",
   });
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await queryCountTrans();
-        const totalTransactions = result?.data?.countNewTransaction?.total || 0;
-
-        if (totalTransactions > 0) {
-          dispatch(addTransactionAmount(totalTransactions));
-        }
-      } catch (error) {
-        console.error("Error fetching transaction data:", error);
-      }
-    };
-    fetchData();
-  }, [transactionData, dispatch]);
-
+  // Featch no pickup order
   React.useEffect(() => {
     const fetchOrderData = async () => {
       try {
@@ -209,11 +197,12 @@ export default function RootLayout({
     fetchOrderData();
   }, [orderData, dispatch]);
 
+  // New Order subscription
   React.useEffect(() => {
     if (orderData) {
       dispatch(showNotification(orderData?.subscribeNewOrder?.notification_type));
     }
-    if (transactionError) {
+    if (orderError) {
       errorMessage({
         message: "Order socket error!",
         duration: 2000,
@@ -221,17 +210,18 @@ export default function RootLayout({
     }
   }, [orderData, orderError]);
 
+  // Update order subscription
   React.useEffect(() => {
-    if (transactionData) {
-      dispatch(showNotification(transactionData?.transactionSubscribe?.notification_type));
+    if (updateOrderData) {
+      dispatch(showNotification("Order delivery successfully!"));
     }
-    if (transactionError) {
+    if (updateOrderError) {
       errorMessage({
-        message: "Transaction socket error!",
+        message: "Order socket error!",
         duration: 2000,
       });
     }
-  }, [transactionData, transactionError]);
+  }, [updateOrderData, updateOrderError]);
 
   return (
     <div className="h-screen overflow-hidden">
