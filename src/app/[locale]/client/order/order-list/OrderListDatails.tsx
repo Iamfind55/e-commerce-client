@@ -343,7 +343,8 @@ const OrderListDetail: React.FC<OrderListDetailProps> = ({ status = "" }) => {
           <p className="text-sm text-gray-500">
             {t("_modal_total_price")}: &nbsp;
             <span className="text-black">
-              ${selectRow?.total_price.toFixed(2)}
+              {/* ${selectRow?.total_price.toFixed(2)} */}
+              ${((selectRow?.total_price ?? 0) * 0.8).toFixed(2)}
             </span>
           </p>
           <div className="w-full flex items-center justify-end gap-4">
