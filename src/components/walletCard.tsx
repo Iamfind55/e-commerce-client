@@ -17,7 +17,7 @@ export default function WalletCard(props: cardProps) {
         </div>
         <div className="flex items-start justify-start flex-col gap-2">
           <p className="text-sm font-medium text-gray-500">{props?.title}</p>
-          <h3 className="text-md font-medium text-gray-500">
+          <h3 className="text-md font-bold text-black">
             ${formatNumber(parseFloat(props?.amount ?? "0"))}
           </h3>
         </div>

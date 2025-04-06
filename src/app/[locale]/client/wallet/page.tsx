@@ -279,22 +279,61 @@ export default function ShopWallet() {
   };
 
   // Function to copy text
+  // const handleCopy = async () => {
+  //   const address = getAddress();
+  //   if (!address) return;
+
+  //   try {
+  //     await navigator.clipboard.writeText(address);
+  //     setIsCopied(true);
+  //     successMessage({
+  //       message: `${"Copy " + rechargeData?.coin_type + " address successful"}`,
+  //       duration: 3000,
+  //     });
+  //     setTimeout(() => setIsCopied(false), 2000);
+  //   } catch (err) {
+  //     console.error("Failed to copy:", err);
+  //   }
+  // };
+
   const handleCopy = async () => {
     const address = getAddress();
     if (!address) return;
 
     try {
-      await navigator.clipboard.writeText(address);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(address);
+      } else {
+        // Fallback for older browsers
+        const textarea = document.createElement("textarea");
+        textarea.value = address;
+        textarea.style.position = "fixed"; // Prevent scrolling to bottom
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        if (!successful) throw new Error("Fallback copy command failed");
+      }
+
       setIsCopied(true);
       successMessage({
-        message: `${"Copy " + rechargeData?.coin_type + " address successful"}`,
+        message: `Copy ${rechargeData?.coin_type} address successful`,
         duration: 3000,
       });
       setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
+      setIsCopied(false);
+      errorMessage({
+        message: "Copy failed. Please copy manually.",
+        duration: 3000,
+      });
     }
   };
+
 
   return (
     <>
