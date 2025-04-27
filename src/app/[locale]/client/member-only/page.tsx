@@ -181,7 +181,7 @@ export default function MemberOnly() {
       <MyModal
         isOpen={isOpenModal}
         onClose={handleOpenModal}
-        className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-2/5 md:inset-0 h-auto shadow"
+        className="border fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-11/12 sm:w-2/5 md:inset-0 h-auto shadow"
       >
         <div className="flex items-center justify-center flex-col rounded bg-white w-full py-2 px-4 gap-2">
           <h4 className="text-gray-500 text-sm sm:text-md mb-3 font-bold">
