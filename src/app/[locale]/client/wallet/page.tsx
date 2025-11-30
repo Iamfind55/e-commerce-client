@@ -268,11 +268,11 @@ export default function ShopWallet() {
   const getAddress = () => {
     switch (rechargeData?.coin_type) {
       case "ERC20":
-        return "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2";
+        return "0x64595371ef111e9991c10A9C92262d13FF7C4BbA";
       case "TRC20":
-        return "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f";
+        return "TUmVmsJGN58H5ntcvqrx5SdV8hUiRQMP5D";
       case "BTC":
-        return "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3";
+        return "bc1p62l8tycjh7f2e5zrn06hkmy7mj9acme0sg75p5thcc3gltwqr6msy0m9nn";
       default:
         return "";
     }
@@ -508,21 +508,21 @@ export default function ShopWallet() {
                 <div className="w-full flex items-start justify-between">
                   <p className="hidden sm:block text-xs font-medium">
                     {rechargeData?.coin_type === "ERC20"
-                      ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
+                      ? "0x64595371ef111e9991c10A9C92262d13FF7C4BbA"
                       : rechargeData?.coin_type === "TRC20"
-                        ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                        ? "TUmVmsJGN58H5ntcvqrx5SdV8hUiRQMP5D"
                         : rechargeData?.coin_type === "BTC"
-                          ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                          ? "bc1p62l8tycjh7f2e5zrn06hkmy7mj9acme0sg75p5thcc3gltwqr6msy0m9nn"
                           : ""}
                   </p>
                   <p className="block sm:hidden text-xs font-medium">
                     {truncateText(
                       rechargeData?.coin_type === "ERC20"
-                        ? "0x5D3AdaFa5a041DF8f02323efc7f0ACDF090CB2E2"
+                        ? "0x64595371ef111e9991c10A9C92262d13FF7C4BbA"
                         : rechargeData?.coin_type === "TRC20"
-                          ? "TVFMxHrpyMt8xoBXuX7a36xdSkvsmvvn4f"
+                          ? "TUmVmsJGN58H5ntcvqrx5SdV8hUiRQMP5D"
                           : rechargeData?.coin_type === "BTC"
-                            ? "bc1pvzt44umfkdc7ceyxpj9jq2sahcthpp9v237usuusf9y63q4l6g2spmwev3"
+                            ? "bc1p62l8tycjh7f2e5zrn06hkmy7mj9acme0sg75p5thcc3gltwqr6msy0m9nn"
                             : "",
                       35
                     )}
